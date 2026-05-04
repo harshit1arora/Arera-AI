@@ -1,0 +1,55 @@
+import { useNavigate } from "react-router-dom";
+import { FadeUp } from "./arera/FadeUp";
+
+const CTASection = () => {
+  const navigate = useNavigate();
+
+  return (
+    <section className="bg-[#0A0A0F] py-[100px] relative overflow-hidden">
+      {/* Radial Glow */}
+      <div 
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background: 'radial-gradient(ellipse 60% 50% at 50% 50%, rgba(249,115,22,0.06) 0%, transparent 70%)'
+        }}
+      ></div>
+
+      <div className="container mx-auto px-6 text-center relative z-10">
+        <FadeUp>
+          <h2 className="font-['DM_Sans'] font-bold text-[56px] text-[#F0F0F0] mb-5 leading-[1.1]">
+            Run a real underwriting decision.<br />
+            Right now. No signup.
+          </h2>
+          <p className="font-['DM_Sans'] font-normal text-[18px] leading-[1.6] text-[#888899] max-w-[440px] mx-auto mb-9">
+            Open the sandbox, pick a borrower persona, hit analyze. See exactly what a lender sees. Takes 90 seconds.
+          </p>
+        </FadeUp>
+
+        <FadeUp delay={0.1}>
+          <div className="flex flex-wrap justify-center gap-[14px]">
+            <button 
+              onClick={() => navigate('/playground')}
+              className="bg-[#F97316] text-white font-['DM_Sans'] font-bold text-[15px] px-[32px] py-[15px] rounded-[6px] hover:brightness-[1.08] transition-all"
+            >
+              Open Sandbox →
+            </button>
+            <button 
+              onClick={() => navigate('/api-reference')}
+              className="bg-transparent border border-[rgba(255,255,255,0.18)] text-[#F0F0F0] font-['DM_Sans'] font-semibold text-[15px] px-[32px] py-[15px] rounded-[6px] hover:bg-[rgba(255,255,255,0.04)] transition-all"
+            >
+              Read API Docs
+            </button>
+          </div>
+        </FadeUp>
+
+        <FadeUp delay={0.2}>
+          <p className="mt-8 font-['DM_Sans'] font-normal text-[12px] text-[#444455]">
+            Sandbox decisions use simulated data. Production API available for pilot partners.
+          </p>
+        </FadeUp>
+      </div>
+    </section>
+  );
+};
+
+export default CTASection;
