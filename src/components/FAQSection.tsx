@@ -29,14 +29,14 @@ const faqs = [
 ];
 
 const FAQSection = () => (
-  <section id="faq" className="py-24 bg-[#0A0A0F] relative overflow-hidden border-t border-[rgba(255,255,255,0.08)]">
+  <section id="faq" className="py-24 bg-background relative overflow-hidden border-t border-border">
     <div className="container mx-auto px-6 relative z-10">
       <div className="text-center mb-16">
-        <span className="text-[11px] font-semibold tracking-[0.15em] uppercase text-[#F97316] mb-3 block">FAQ</span>
-        <h2 className="text-[46px] font-['DM_Sans'] font-bold text-[#F0F0F0] mb-4">
+        <span className="text-[11px] font-semibold tracking-[0.15em] uppercase text-foreground mb-3 block">FAQ</span>
+        <h2 className="text-[46px] font-['DM_Sans'] font-bold text-foreground mb-4">
           Got questions?
         </h2>
-        <p className="text-[#888899] max-w-xl mx-auto text-[17px]">
+        <p className="text-muted-foreground max-w-xl mx-auto text-[17px]">
           Everything you need to know about the infrastructure and compliance.
         </p>
       </div>
@@ -47,12 +47,12 @@ const FAQSection = () => (
             <AccordionItem 
               key={index} 
               value={`item-${index}`} 
-              className="border border-[rgba(255,255,255,0.08)] rounded-xl px-6 bg-[#111118] hover:border-[rgba(255,255,255,0.18)] transition-all"
+              className="border border-border rounded-xl px-6 bg-surface hover:border-border transition-all"
             >
-              <AccordionTrigger className="text-left font-['DM_Sans'] font-semibold text-[#F0F0F0] hover:no-underline py-6">
+              <AccordionTrigger className="text-left font-['DM_Sans'] font-semibold text-foreground hover:no-underline py-6">
                 {faq.question}
               </AccordionTrigger>
-              <AccordionContent className="text-[#888899] font-['DM_Sans'] text-[15px] leading-relaxed pb-6">
+              <AccordionContent className="text-muted-foreground font-['DM_Sans'] text-[15px] leading-relaxed pb-6">
                 {faq.answer}
               </AccordionContent>
             </AccordionItem>

@@ -79,16 +79,16 @@ export default function Integrations() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.1 }}
-            className={`glass-panel border p-6 rounded-[2rem] relative overflow-hidden transition-all duration-300 ${integration.status === 'connected' ? 'bg-primary/5 border-primary/20' : 'bg-black/40 border-white/5 opacity-70'}`}
+            className={`glass-panel border p-6 rounded-[2rem] relative overflow-hidden transition-all duration-300 ${integration.status === 'connected' ? 'bg-primary/5 border-primary/20' : 'bg-background/40 border-white/5 opacity-70'}`}
           >
             <div className="flex items-start justify-between mb-8">
-              <div className={`p-3 rounded-2xl ${integration.status === 'connected' ? 'bg-primary/20 text-primary' : 'bg-white/10 text-muted-foreground'}`}>
+              <div className={`p-3 rounded-2xl ${integration.status === 'connected' ? 'bg-primary/20 text-primary' : 'bg-foreground/10 text-muted-foreground'}`}>
                 {integration.type === "Bureau" ? <Database size={24} /> : integration.type === "Identity" ? <Fingerprint size={24} /> : integration.type === "Fraud" ? <Shield size={24} /> : <Server size={24} />}
               </div>
               
               <button 
                 onClick={() => toggleStatus(integration.id)}
-                className={`p-2 rounded-full border transition-all shadow-md ${integration.status === 'connected' ? 'bg-green-500/20 border-green-500/40 text-green-400 hover:bg-green-500/30' : 'bg-white/5 border-white/10 text-muted-foreground hover:text-white'}`}
+                className={`p-2 rounded-full border transition-all shadow-md ${integration.status === 'connected' ? 'bg-green-500/20 border-green-500/40 text-green-400 hover:bg-green-500/30' : 'bg-foreground/5 border-border text-muted-foreground hover:text-foreground'}`}
               >
                 <Power size={16} />
               </button>

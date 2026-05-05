@@ -1,0 +1,180 @@
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
+import { AnalysisResult } from './mock-engine';
+
+export async function generateAnalysisPDF(result: AnalysisResult) {
+  const doc = new jsPDF({
+    orientation: 'portrait',
+    unit: 'mm',
+    format: 'a4',
+  });
+
+  const pageWidth = doc.getPageWidth();
+  const pageHeight = doc.getPageHeight();
+  let yPosition = 20;
+
+  // Header with logo and company info
+  doc.setFontSize(24);
+  doc.setTextColor(249, 115, 22); // Primary orange color
+  doc.text('ARERA', 20, yPosition);
+
+  doc.setFontSize(10);
+  doc.setTextColor(100, 100, 100);
+  doc.text('Underwriting Infrastructure for Indian NBFCs', 20, yPosition + 8);
+
+  // Divider line
+  doc.setDrawColor(220, 220, 220);
+  doc.line(20, yPosition + 12, pageWidth - 20, yPosition + 12);
+
+  yPosition += 20;
+
+  // Title
+  doc.setFontSize(18);
+  doc.setTextColor(0, 0, 0);
+  doc.text('Underwriting Analysis Report', 20, yPosition);
+
+  yPosition += 12;
+
+  // Decision banner
+  const decisionColors = {
+    APPROVE: { bg: [0, 255, 148], text: 'APPROVED' },
+    REJECT: { bg: [255, 68, 68], text: 'REJECTED' },
+    REVIEW: { bg: [245, 158, 11], text: 'REVIEW REQUIRED' },
+  };
+
+  const decision = decisionColors[result.decision];
+  doc.setFillColor(...decision.bg);
+  doc.rect(20, yPosition, pageWidth - 40, 18, 'F');
+
+  doc.setFontSize(16);
+  doc.setTextColor(0, 0, 0);
+  doc.text(decision.text, 25, yPosition + 12);
+
+  // Credit limit on the right if approved/review
+  if ((result.decision === 'APPROVE' || result.decision === 'REVIEW') && result.credit_limit > 0) {
+    doc.setFontSize(11);
+    doc.setTextColor(100, 100, 100);
+    const creditText = `Credit Limit: ₹${result.credit_limit.toLocaleString('en-IN')}`;
+    const creditWidth = doc.getTextWidth(creditText);
+    doc.text(creditText, pageWidth - 25 - creditWidth, yPosition + 12);
+  }
+
+  yPosition += 25;
+
+  // Key metrics
+  doc.setFontSize(10);
+  doc.setTextColor(100, 100, 100);
+  doc.text(`Risk Score: ${result.risk_score} | Confidence: ${(result.confidence * 100).toFixed(0)}%`, 20, yPosition);
+  doc.text(`Processing Time: ${result.processing_time_ms}ms`, 20, yPosition + 6);
+  doc.text(`Audit ID: ${result.audit_id}`, 20, yPosition + 12);
+  doc.text(`Generated: ${new Date().toLocaleString('en-IN')}`, 20, yPosition + 18);
+
+  yPosition += 28;
+
+  // Decision Factors
+  if (result.reasons && result.reasons.length > 0) {
+    doc.setFontSize(12);
+    doc.setTextColor(0, 0, 0);
+    doc.text('Decision Factors', 20, yPosition);
+
+    yPosition += 8;
+
+    doc.setFontSize(9);
+    result.reasons.forEach((reason) => {
+      doc.setTextColor(0, 0, 0);
+      doc.text(`${reason.label}`, 20, yPosition);
+
+      doc.setTextColor(100, 100, 100);
+      doc.text(`Weight: ${(reason.weight * 100).toFixed(0)}%`, 20, yPosition + 4);
+      doc.text(reason.detail, 20, yPosition + 8, { maxWidth: pageWidth - 40 });
+
+      yPosition += 14;
+
+      if (yPosition > pageHeight - 30) {
+        doc.addPage();
+        yPosition = 20;
+      }
+    });
+
+    yPosition += 5;
+  }
+
+  // Rules Evaluated
+  if (result.rules_fired && result.rules_fired.length > 0) {
+    if (yPosition > pageHeight - 40) {
+      doc.addPage();
+      yPosition = 20;
+    }
+
+    doc.setFontSize(12);
+    doc.setTextColor(0, 0, 0);
+    doc.text('Rules Evaluated', 20, yPosition);
+
+    const triggered = result.rules_fired.filter(r => !r.skipped).length;
+    doc.setFontSize(9);
+    doc.setTextColor(100, 100, 100);
+    doc.text(`${triggered}/${result.rules_fired.length} triggered`, 20, yPosition + 6);
+
+    yPosition += 12;
+
+    doc.setFontSize(8);
+    result.rules_fired.slice(0, 10).forEach((rule) => {
+      const status = rule.skipped ? '—' : rule.result ? '✓' : '✗';
+      const statusColor = rule.skipped ? [180, 180, 180] : rule.result ? [0, 255, 148] : [255, 68, 68];
+
+      doc.setTextColor(...statusColor);
+      doc.text(status, 20, yPosition);
+
+      doc.setTextColor(100, 100, 100);
+      doc.text(`${rule.id}: ${rule.name}`, 25, yPosition);
+      doc.text(`${rule.condition}`, 25, yPosition + 3, { maxWidth: pageWidth - 50 });
+
+      yPosition += 7;
+
+      if (yPosition > pageHeight - 20) {
+        doc.addPage();
+        yPosition = 20;
+      }
+    });
+  }
+
+  // Error section if present
+  if (result.error) {
+    if (yPosition > pageHeight - 40) {
+      doc.addPage();
+      yPosition = 20;
+    }
+
+    doc.setFillColor(255, 68, 68);
+    doc.setDrawColor(255, 68, 68);
+    doc.rect(20, yPosition, pageWidth - 40, 2, 'F');
+
+    yPosition += 8;
+
+    doc.setFontSize(11);
+    doc.setTextColor(255, 68, 68);
+    doc.text(`${result.error.code} — ${result.error.message}`, 20, yPosition);
+
+    yPosition += 6;
+
+    doc.setFontSize(9);
+    doc.setTextColor(100, 100, 100);
+    doc.text(result.error.detail, 20, yPosition, { maxWidth: pageWidth - 40 });
+  }
+
+  // Footer
+  doc.setFontSize(8);
+  doc.setTextColor(180, 180, 180);
+  doc.text(
+    `This report was automatically generated by Arera AI. For verification and audit trails, visit your console.`,
+    20,
+    pageHeight - 15
+  );
+
+  // Generate filename
+  const timestamp = new Date().toISOString().split('T')[0];
+  const filename = `Arera_Analysis_${timestamp}_${result.audit_id.slice(-6)}.pdf`;
+
+  // Save PDF
+  doc.save(filename);
+}

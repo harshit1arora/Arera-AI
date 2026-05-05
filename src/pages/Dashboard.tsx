@@ -116,7 +116,7 @@ export default function Dashboard() {
       <main className="container mx-auto px-6 pt-32 pb-20 relative z-10">
         
           <div className="overflow-x-auto pb-2 custom-scrollbar">
-            <div className="flex items-center gap-1 bg-white/5 p-1 rounded-2xl border border-white/5 w-max mb-12 backdrop-blur-md">
+            <div className="flex items-center gap-1 bg-foreground/5 p-1 rounded-2xl border border-white/5 w-max mb-12 backdrop-blur-md">
               {[
                 { id: "queue", label: "Queue", icon: LayoutDashboard },
                 { id: "sentinel", label: "Sentinel EWS", icon: ShieldCheck },
@@ -131,8 +131,8 @@ export default function Dashboard() {
                   onClick={() => setActiveTab(tab.id as any)}
                   className={`flex items-center gap-2 px-6 py-2.5 rounded-xl text-sm font-medium transition-all ${
                     activeTab === tab.id 
-                      ? "bg-white/10 text-foreground shadow-lg border border-white/10" 
-                      : "text-muted-foreground hover:text-foreground hover:bg-white/5"
+                      ? "bg-foreground/10 text-foreground shadow-lg border border-border" 
+                      : "text-muted-foreground hover:text-foreground hover:bg-foreground/5"
                   }`}
                 >
                   <tab.icon size={16} className={activeTab === tab.id ? "text-primary" : ""} />
@@ -188,14 +188,14 @@ export default function Dashboard() {
                 </div>
 
                 {/* Data Table */}
-                <div className="tour-queue glass-panel bg-black/40 border border-white/10 rounded-3xl overflow-hidden shadow-2xl">
-                  <div className="p-4 border-b border-border/40 bg-white/5 flex items-center justify-between">
+                <div className="tour-queue glass-panel bg-background/40 border border-border rounded-3xl overflow-hidden shadow-2xl">
+                  <div className="p-4 border-b border-border/40 bg-foreground/5 flex items-center justify-between">
                     <div className="tour-search relative w-72">
                       <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={16} />
                       <input 
                         type="text" 
                         placeholder="Search applicants by ID or Name..." 
-                        className="w-full bg-black/20 border border-white/10 rounded-xl pl-10 pr-4 py-2 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-primary/50"
+                        className="w-full bg-background/20 border border-border rounded-xl pl-10 pr-4 py-2 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-primary/50"
                       />
                     </div>
                   </div>
@@ -203,7 +203,7 @@ export default function Dashboard() {
                   <div className="overflow-x-auto">
                     <table className="w-full text-left border-collapse">
                       <thead>
-                        <tr className="border-b border-white/5 bg-white/5 text-[10px] uppercase tracking-widest text-muted-foreground font-bold">
+                        <tr className="border-b border-white/5 bg-foreground/5 text-[10px] uppercase tracking-widest text-muted-foreground font-bold">
                           <th className="p-5">Applicant Profile</th>
                           <th className="p-5">Requested</th>
                           <th className="p-5 text-center">Risk Vector Score</th>
@@ -220,7 +220,7 @@ export default function Dashboard() {
                              </td>
                            </tr>
                         ) : applications.map((app) => (
-                          <tr key={app.id} className="hover:bg-white/5 transition-colors group cursor-default">
+                          <tr key={app.id} className="hover:bg-foreground/5 transition-colors group cursor-default">
                             <td className="p-5">
                               <div className="flex items-center gap-4">
                                 <div className="w-10 h-10 rounded-2xl bg-secondary border border-white/5 flex items-center justify-center font-bold text-sm text-foreground shadow-inner">
@@ -240,7 +240,7 @@ export default function Dashboard() {
                             <td className="p-5">
                               {app.aiScore ? (
                                 <div className="flex flex-col items-center gap-1.5">
-                                   <div className="w-full bg-white/5 rounded-full h-1 overflow-hidden">
+                                   <div className="w-full bg-foreground/5 rounded-full h-1 overflow-hidden">
                                       <div 
                                         className={`h-full rounded-full transition-all duration-1000 ${app.aiScore >= 700 ? 'bg-green-400' : app.aiScore >= 600 ? 'bg-yellow-400' : 'bg-red-400'}`}
                                         style={{ width: `${(app.aiScore / 850) * 100}%` }}
@@ -265,7 +265,7 @@ export default function Dashboard() {
                             <td className="p-5 text-right">
                               <button 
                                  onClick={() => setSelectedApp(app)}
-                                 className="inline-flex items-center gap-1.5 text-[10px] font-bold px-4 py-2 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all uppercase tracking-widest text-foreground active:scale-95"
+                                 className="inline-flex items-center gap-1.5 text-[10px] font-bold px-4 py-2 rounded-xl border border-border bg-foreground/5 hover:bg-foreground/10 transition-all uppercase tracking-widest text-foreground active:scale-95"
                               >
                                 Review <ChevronRight size={12} className="group-hover:translate-x-0.5 transition-transform" />
                               </button>
@@ -297,16 +297,16 @@ export default function Dashboard() {
                initial={{ opacity: 0 }} 
                animate={{ opacity: 1 }} 
                exit={{ opacity: 0 }} 
-               className="absolute inset-0 bg-black/90 backdrop-blur-md"
+               className="absolute inset-0 bg-background/90 backdrop-blur-md"
                onClick={() => setSelectedApp(null)}
             />
             <motion.div 
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="relative w-full max-w-3xl bg-[#0a0a0c] border border-white/10 rounded-[2rem] shadow-2xl z-10 overflow-hidden"
+              className="relative w-full max-w-3xl bg-background border border-border rounded-[2rem] shadow-2xl z-10 overflow-hidden"
             >
-              <div className="p-6 border-b border-white/5 flex items-center justify-between bg-white/5 backdrop-blur-3xl">
+              <div className="p-6 border-b border-white/5 flex items-center justify-between bg-foreground/5 backdrop-blur-3xl">
                 <div className="flex items-center gap-3">
                   <div className="p-2 bg-primary/10 rounded-xl">
                     <ShieldCheck size={20} className="text-primary" />
@@ -316,7 +316,7 @@ export default function Dashboard() {
                     <p className="text-[10px] text-muted-foreground uppercase tracking-[0.2em] font-bold">System Identification Sequence</p>
                   </div>
                 </div>
-                <button onClick={() => setSelectedApp(null)} className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-white/5 transition-colors"><X size={20}/></button>
+                <button onClick={() => setSelectedApp(null)} className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-foreground/5 transition-colors"><X size={20}/></button>
               </div>
               
               <div className="p-8 space-y-10">
@@ -329,7 +329,7 @@ export default function Dashboard() {
                          <h2 className="text-3xl font-display font-bold mb-1">{selectedApp.applicantName}</h2>
                          <div className="flex items-center gap-3">
                            <span className="text-xs text-muted-foreground flex items-center gap-1 font-mono"><User size={12}/> Verified Identity</span>
-                           <span className="w-1 h-1 bg-white/10 rounded-full" />
+                           <span className="w-1 h-1 bg-foreground/10 rounded-full" />
                            <span className="text-xs text-muted-foreground flex items-center gap-1 font-mono"><FileText size={12}/> PAN: ••••••{selectedApp.id.slice(-4)}</span>
                          </div>
                        </div>
@@ -343,11 +343,11 @@ export default function Dashboard() {
                  {/* Arera AI Block */}
                  <div className="relative group">
                     <div className="absolute -inset-0.5 hero-gradient rounded-3xl blur opacity-20 group-hover:opacity-40 transition-opacity" />
-                    <div className="relative rounded-3xl border border-white/10 bg-[#0f0f12] p-8 overflow-hidden">
+                    <div className="relative rounded-3xl border border-border bg-background p-8 overflow-hidden">
                        <div className="flex items-center gap-3 mb-6">
                           <Sparkles size={20} className="text-primary animate-pulse" />
                           <h4 className="font-mono text-sm text-primary font-bold tracking-widest uppercase">Explainable AI (XAI) Vectors</h4>
-                          <div className="ml-auto flex items-center gap-2 font-mono bg-black/50 px-3 py-1 rounded-lg text-sm border border-white/10">
+                          <div className="ml-auto flex items-center gap-2 font-mono bg-background/50 px-3 py-1 rounded-lg text-sm border border-border">
                             <span className="text-muted-foreground">Confidence:</span>
                             <span className="text-foreground font-bold">98.4%</span>
                           </div>
@@ -355,7 +355,7 @@ export default function Dashboard() {
                        
                        {selectedApp.aiReasoning ? (
                          <div className="space-y-6">
-                            <p className="text-base text-foreground/90 leading-relaxed font-mono bg-white/5 p-4 rounded-xl border border-white/5">
+                            <p className="text-base text-foreground/90 leading-relaxed font-mono bg-foreground/5 p-4 rounded-xl border border-white/5">
                               {selectedApp.aiReasoning}
                             </p>
                             
@@ -369,9 +369,9 @@ export default function Dashboard() {
                                ].map(signal => (
                                   <div key={signal.label} className="grid grid-cols-[120px_1fr_40px] items-center gap-4 text-xs font-mono">
                                     <div className="text-right text-muted-foreground">{signal.label}</div>
-                                    <div className="h-2 bg-white/5 rounded-full relative">
+                                    <div className="h-2 bg-foreground/5 rounded-full relative">
                                        <div className={`absolute top-0 bottom-0 rounded-full ${signal.color}`} style={{ width: signal.length, right: signal.weight < 0 ? '50%' : 'auto', left: signal.weight > 0 ? '50%' : 'auto' }} />
-                                       <div className="absolute top-0 bottom-0 left-1/2 w-0.5 bg-white/20" />
+                                       <div className="absolute top-0 bottom-0 left-1/2 w-0.5 bg-foreground/20" />
                                     </div>
                                     <div className="text-right font-bold">{signal.weight > 0 ? '+' : ''}{signal.weight}</div>
                                   </div>
@@ -380,7 +380,7 @@ export default function Dashboard() {
 
                             <div className="flex gap-3 pt-4 border-t border-white/5 overflow-x-auto pb-2">
                                {["KYC_PASSED", "FRAUD_SCAN_CLEAN", "BUREAU_HIT_STABLE", "GEO_MATCH"].map(tag => (
-                                 <span key={tag} className="px-3 py-1 bg-white/5 border border-white/10 rounded-lg text-[9px] font-mono text-muted-foreground tracking-widest uppercase">{tag}</span>
+                                 <span key={tag} className="px-3 py-1 bg-foreground/5 border border-border rounded-lg text-[9px] font-mono text-muted-foreground tracking-widest uppercase">{tag}</span>
                                ))}
                             </div>
                          </div>
@@ -394,22 +394,22 @@ export default function Dashboard() {
                  </div>
 
                  <div className="grid grid-cols-3 gap-6">
-                    <div className="bg-white/5 rounded-2xl p-5 border border-white/5 group hover:border-white/20 transition-all">
+                    <div className="bg-foreground/5 rounded-2xl p-5 border border-white/5 group hover:border-border transition-all">
                       <div className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest mb-2">Annual Income</div>
                       <div className="text-xl font-display font-bold">₹{selectedApp.annualIncome.toLocaleString()}</div>
                     </div>
-                    <div className="bg-white/5 rounded-2xl p-5 border border-white/5 group hover:border-white/20 transition-all">
+                    <div className="bg-foreground/5 rounded-2xl p-5 border border-white/5 group hover:border-border transition-all">
                       <div className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest mb-2">Requested</div>
                       <div className="text-xl font-display font-bold">₹{selectedApp.loanAmount.toLocaleString()}</div>
                     </div>
-                    <div className="bg-white/5 rounded-2xl p-5 border border-white/5 group hover:border-white/20 transition-all">
+                    <div className="bg-foreground/5 rounded-2xl p-5 border border-white/5 group hover:border-border transition-all">
                       <div className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest mb-2">Liability Pool</div>
                       <div className="text-xl font-display font-bold text-red-500">₹{selectedApp.creditDebt.toLocaleString()}</div>
                     </div>
                  </div>
 
                  {selectedApp.status === "Manual Review" && (
-                   <div className="pt-6 border-t border-white/10 flex gap-4">
+                   <div className="pt-6 border-t border-border flex gap-4">
                      <button
                        onClick={() => {
                          updateApplicationStatus(selectedApp.id!, "Approved");

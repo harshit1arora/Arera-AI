@@ -57,7 +57,7 @@ export default function Sentinel() {
           <div className="px-4 py-2 bg-green-500/10 border border-green-500/20 rounded-xl text-[10px] font-black text-green-500 flex items-center gap-2 uppercase tracking-widest">
             <Activity size={14} className="animate-pulse" /> Data In Sync
           </div>
-          <button className="px-4 py-2 glass-panel border border-white/10 rounded-xl text-xs font-bold flex items-center gap-2 hover:bg-white/5 transition-all">
+          <button className="px-4 py-2 glass-panel border border-border rounded-xl text-xs font-bold flex items-center gap-2 hover:bg-foreground/5 transition-all">
             <Download size={14} /> Export CRILC Master
           </button>
         </div>
@@ -119,7 +119,7 @@ export default function Sentinel() {
               { label: "Predicted NPAs", value: "2", color: "text-yellow-500", desc: "Next 90-day Forecast" },
               { label: "Compliance Rate", value: "100%", color: "text-green-500", desc: "RBI Return Status" },
             ].map((stat, i) => (
-              <div key={i} className="bg-black/40 border border-white/5 p-4 rounded-2xl flex flex-col justify-center">
+              <div key={i} className="bg-background/40 border border-white/5 p-4 rounded-2xl flex flex-col justify-center">
                 <div className="text-[10px] font-bold text-muted-foreground mb-1 uppercase">{stat.label}</div>
                 <div className={`text-2xl font-display font-bold ${stat.color}`}>{stat.value}</div>
                 <div className="text-[10px] text-muted-foreground mt-2">{stat.desc}</div>
@@ -130,7 +130,7 @@ export default function Sentinel() {
       </div>
 
       {/* Main Table / List */}
-      <div className="glass-panel bg-black/40 border border-white/10 rounded-[2.5rem] overflow-hidden shadow-2xl">
+      <div className="glass-panel bg-background/40 border border-border rounded-[2.5rem] overflow-hidden shadow-2xl">
         <div className="p-6 border-b border-white/5 flex items-center justify-between gap-4">
           <div className="relative flex-1 max-w-md">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground" size={18} />
@@ -139,19 +139,19 @@ export default function Sentinel() {
               placeholder="Filter portolio by name, GSTIN, or ID..." 
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full bg-white/5 border border-white/10 rounded-2xl pl-12 pr-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 transition-all font-medium"
+              className="w-full bg-foreground/5 border border-border rounded-2xl pl-12 pr-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 transition-all font-medium"
             />
           </div>
           <div className="flex gap-2">
-            <button className="p-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl text-muted-foreground transition-colors"><Filter size={18}/></button>
-            <button className="p-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl text-muted-foreground transition-colors"><Bell size={18}/></button>
+            <button className="p-3 bg-foreground/5 hover:bg-foreground/10 border border-border rounded-xl text-muted-foreground transition-colors"><Filter size={18}/></button>
+            <button className="p-3 bg-foreground/5 hover:bg-foreground/10 border border-border rounded-xl text-muted-foreground transition-colors"><Bell size={18}/></button>
           </div>
         </div>
 
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="bg-white/5 border-b border-white/5">
+              <tr className="bg-foreground/5 border-b border-white/5">
                 <th className="p-6 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Borrower Identity</th>
                 <th className="p-6 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Exposure</th>
                 <th className="p-6 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Sentinel Score</th>
@@ -169,7 +169,7 @@ export default function Sentinel() {
                   </td>
                 </tr>
               ) : filteredBorrowers.map((b) => (
-                <tr key={b.id} className="hover:bg-white/5 transition-all group">
+                <tr key={b.id} className="hover:bg-foreground/5 transition-all group">
                   <td className="p-6">
                     <div className="flex items-center gap-4">
                       <div className={`w-12 h-12 rounded-2xl bg-secondary border flex items-center justify-center font-bold text-lg shadow-lg ${b.riskCategory === 'Red' ? 'border-red-500/30 text-red-400' : 'border-white/5 text-foreground'}`}>
@@ -186,7 +186,7 @@ export default function Sentinel() {
                   <td className="p-6 font-display font-medium text-foreground">₹{(b.loanAmount / 100000).toFixed(1)}L</td>
                   <td className="p-6">
                     <div className="flex items-center gap-3">
-                      <div className="w-32 bg-white/5 h-1.5 rounded-full overflow-hidden">
+                      <div className="w-32 bg-foreground/5 h-1.5 rounded-full overflow-hidden">
                         <div 
                           className={`h-full rounded-full transition-all duration-1000 ${b.currentScore >= 700 ? 'bg-green-500' : b.currentScore >= 500 ? 'bg-yellow-500' : 'bg-red-500'}`}
                           style={{ width: `${(b.currentScore / 900) * 100}%` }}
@@ -224,7 +224,7 @@ export default function Sentinel() {
                   <td className="p-6 text-right">
                     <button 
                       onClick={() => setSelectedBorrower(b)}
-                      className="px-6 py-2.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl text-[10px] font-black uppercase tracking-widest text-foreground transition-all flex items-center gap-2 ml-auto hover:gap-3"
+                      className="px-6 py-2.5 bg-foreground/5 hover:bg-foreground/10 border border-border rounded-xl text-[10px] font-black uppercase tracking-widest text-foreground transition-all flex items-center gap-2 ml-auto hover:gap-3"
                     >
                       SURVEILLANCE <ChevronRight size={14} />
                     </button>
@@ -247,16 +247,16 @@ export default function Sentinel() {
           <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
             <motion.div 
                initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-               className="absolute inset-0 bg-black/95 backdrop-blur-2xl"
+               className="absolute inset-0 bg-background/95 backdrop-blur-2xl"
                onClick={() => setSelectedBorrower(null)}
             />
             <motion.div 
               initial={{ opacity: 0, scale: 0.9, y: 30 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.9, y: 30 }}
-              className="relative w-full max-w-5xl bg-[#0a0a0c] border border-white/10 rounded-[3rem] shadow-3xl overflow-hidden max-h-[90vh] overflow-y-auto custom-scrollbar"
+              className="relative w-full max-w-5xl bg-background border border-border rounded-[3rem] shadow-3xl overflow-hidden max-h-[90vh] overflow-y-auto custom-scrollbar"
             >
-              <div className="p-8 border-b border-white/5 flex items-center justify-between sticky top-0 bg-[#0a0a0c]/80 backdrop-blur-xl z-20">
+              <div className="p-8 border-b border-white/5 flex items-center justify-between sticky top-0 bg-background/80 backdrop-blur-xl z-20">
                 <div className="flex items-center gap-4">
                   <div className={`p-3 rounded-2xl ${selectedBorrower.riskCategory === 'Red' ? 'bg-red-500/20 text-red-500' : 'bg-primary/10 text-primary'}`}>
                     <ShieldAlert size={24} />
@@ -266,14 +266,14 @@ export default function Sentinel() {
                     <div className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Sentinel Pulse ID: {selectedBorrower.id?.slice(-12)}</div>
                   </div>
                 </div>
-                <button onClick={() => setSelectedBorrower(null)} className="w-12 h-12 flex items-center justify-center rounded-full hover:bg-white/5 transition-colors border border-white/5">
+                <button onClick={() => setSelectedBorrower(null)} className="w-12 h-12 flex items-center justify-center rounded-full hover:bg-foreground/5 transition-colors border border-white/5">
                    <AlertTriangle size={20} className="text-muted-foreground" />
                 </button>
               </div>
 
               <div className="p-8 space-y-10">
                 {/* Score Chart */}
-                <div className="bg-black/60 border border-white/5 p-8 rounded-[2.5rem]">
+                <div className="bg-background/60 border border-white/5 p-8 rounded-[2.5rem]">
                   <div className="flex items-center justify-between mb-8">
                      <div>
                         <h4 className="text-sm font-bold mb-1">Health Trajectory</h4>
@@ -328,8 +328,8 @@ export default function Sentinel() {
                         { label: "Bureau Sync", value: selectedBorrower.signals.bureauScore, icon: PieChart, sub: "Experian Hunter" },
                         { label: "GST Status", value: "Compliant", icon: CheckCircle, sub: "Auto-verified" },
                       ].map((sig, i) => (
-                        <div key={i} className="bg-white/5 border border-white/10 p-5 rounded-3xl flex flex-col items-center text-center">
-                           <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center mb-3">
+                        <div key={i} className="bg-foreground/5 border border-border p-5 rounded-3xl flex flex-col items-center text-center">
+                           <div className="w-10 h-10 rounded-full bg-foreground/5 flex items-center justify-center mb-3">
                               <sig.icon size={18} className="text-primary" />
                            </div>
                            <div className="text-[10px] font-bold text-muted-foreground uppercase mb-1">{sig.label}</div>
@@ -351,7 +351,7 @@ export default function Sentinel() {
                            <div className={`absolute left-[-5px] top-1 w-2.5 h-2.5 rounded-full ${h.category === 'Red' ? 'bg-red-500' : h.category === 'Amber' ? 'bg-yellow-500' : 'bg-green-500'}`} />
                            <div className="flex justify-between items-start mb-1">
                               <span className="text-[10px] font-black text-foreground uppercase">{new Date(h.date).toLocaleDateString()}</span>
-                              <span className={`text-[9px] font-bold px-2 py-0.5 rounded ${h.category === 'Red' ? 'bg-red-500/10 text-red-500' : 'bg-white/5 text-muted-foreground'}`}>SCORE: {h.score}</span>
+                              <span className={`text-[9px] font-bold px-2 py-0.5 rounded ${h.category === 'Red' ? 'bg-red-500/10 text-red-500' : 'bg-foreground/5 text-muted-foreground'}`}>SCORE: {h.score}</span>
                            </div>
                            <p className="text-xs text-muted-foreground italic leading-relaxed">{h.reason}</p>
                         </div>

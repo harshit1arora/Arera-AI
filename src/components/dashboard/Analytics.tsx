@@ -47,7 +47,7 @@ export default function Analytics() {
             const load = toast.loading("Syncing with data clusters...");
             refetch().then(() => toast.dismiss(load));
           }}
-          className="flex items-center gap-2 px-4 py-2 border border-white/10 bg-white/5 rounded-xl text-xs font-bold text-muted-foreground hover:text-foreground transition-all"
+          className="flex items-center gap-2 px-4 py-2 border border-border bg-foreground/5 rounded-xl text-xs font-bold text-muted-foreground hover:text-foreground transition-all"
         >
           <RefreshCcw size={14} /> Refresh
         </button>
@@ -56,13 +56,13 @@ export default function Analytics() {
       <div className="grid lg:grid-cols-3 gap-6">
         
         {/* Real Volume Graph */}
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="lg:col-span-2 glass-panel border p-8 rounded-[2rem] bg-black/40 flex flex-col justify-between min-h-[300px]">
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="lg:col-span-2 glass-panel border p-8 rounded-[2rem] bg-background/40 flex flex-col justify-between min-h-[300px]">
           <div className="flex items-center justify-between mb-8">
             <h3 className="font-bold text-lg">Application Volume (Last 6 Months)</h3>
             <div className="flex gap-4">
                <div className="flex items-center gap-2">
-                 <span className="w-2 h-2 rounded-full bg-white/20" />
-                 <span className="text-[10px] uppercase font-bold text-muted-foreground tracking-widest text-white/50">Attempts</span>
+                 <span className="w-2 h-2 rounded-full bg-foreground/20" />
+                 <span className="text-[10px] uppercase font-bold text-muted-foreground tracking-widest text-foreground/50">Attempts</span>
                </div>
                <div className="flex items-center gap-2">
                  <span className="w-2 h-2 rounded-full bg-primary" />
@@ -78,11 +78,11 @@ export default function Analytics() {
                </div>
              ) : volume30Days.map((v: any, i: number) => (
                 <div key={i} className="flex-1 flex flex-col items-center h-full group">
-                   <div className="flex-1 w-full bg-white/5 rounded-t-lg relative flex flex-col justify-end overflow-hidden">
+                   <div className="flex-1 w-full bg-foreground/5 rounded-t-lg relative flex flex-col justify-end overflow-hidden">
                       <motion.div 
                         initial={{ height: 0 }}
                         animate={{ height: `${(v.applications / Math.max(...volume30Days.map((x:any)=>x.applications), 1)) * 100}%` }}
-                        className="w-full bg-white/10 absolute bottom-0"
+                        className="w-full bg-foreground/10 absolute bottom-0"
                       />
                       <motion.div 
                         initial={{ height: 0 }}
@@ -101,7 +101,7 @@ export default function Analytics() {
            <div className="absolute top-0 right-0 p-6 opacity-10"><AlertCircle size={64}/></div>
            <div className="text-[10px] font-black tracking-widest uppercase text-red-500 mb-2 font-mono">EWS Signal: Red Ratio</div>
            <div className="text-7xl font-display font-black text-foreground mb-4">{npaRatio}<span className="text-3xl">%</span></div>
-           <div className="flex items-center justify-center gap-2 text-[10px] text-white font-bold bg-white/10 w-max mx-auto px-4 py-1.5 rounded-full uppercase tracking-widest">
+           <div className="flex items-center justify-center gap-2 text-[10px] text-foreground font-bold bg-foreground/10 w-max mx-auto px-4 py-1.5 rounded-full uppercase tracking-widest">
              Real-time Portfolio Stress
            </div>
            <p className="text-xs text-muted-foreground mt-8 leading-relaxed font-mono">
@@ -119,7 +119,7 @@ export default function Analytics() {
                    <span className="text-muted-foreground">Range: {r.range}</span>
                    <span className="text-foreground">{r.count} Cases</span>
                  </div>
-                 <div className="w-full h-1.5 bg-black/40 rounded-full overflow-hidden">
+                 <div className="w-full h-1.5 bg-background/40 rounded-full overflow-hidden">
                     <motion.div 
                       initial={{ width: 0 }}
                       animate={{ width: `${(r.count / Math.max(...riskDistribution.map((x:any)=>x.count), 1)) * 100}%` }}
@@ -138,7 +138,7 @@ export default function Analytics() {
              <div className="text-5xl font-display font-black text-foreground">₹{(totalDisbursalYtd / 10000000).toFixed(2)} Cr</div>
              <div className="flex items-center gap-3 mt-4 text-[10px] font-bold text-muted-foreground uppercase tracking-widest">
                 <span className="text-green-400">Approval Rate: {healthMetrics.approvalRate.toFixed(1)}%</span>
-                <span className="w-1 h-1 bg-white/20 rounded-full" />
+                <span className="w-1 h-1 bg-foreground/20 rounded-full" />
                 <span>Avg Decision: {healthMetrics.avgDecisionTimeMs > 0 ? `${(healthMetrics.avgDecisionTimeMs / 1000).toFixed(1)}s` : 'N/A'}</span>
              </div>
            </div>

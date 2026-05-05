@@ -104,7 +104,7 @@ export default function AuditLogs() {
                 <tr 
                   key={log.id} 
                   onClick={() => setSelectedAuditId(log.id)}
-                  className="hover:bg-white/5 transition-colors group cursor-pointer"
+                  className="hover:bg-foreground/5 transition-colors group cursor-pointer"
                 >
                   <td className="py-4 px-4 font-bold text-foreground opacity-80 group-hover:text-primary transition-colors">{log.id?.substring(0, 12)}</td>
                   <td className="py-4 px-4 text-muted-foreground">{new Date(log.timestamp).toLocaleString()}</td>

@@ -1,13 +1,16 @@
 import { motion } from "framer-motion";
 
 const logos = [
-  { name: "HDFC Bank", color: "text-blue-800 dark:text-blue-500" },
-  { name: "Bajaj Finserv", color: "text-cyan-700 dark:text-cyan-400" },
   { name: "ICICI Bank", color: "text-orange-600 dark:text-orange-500" },
-  { name: "Muthoot Finance", color: "text-red-700 dark:text-red-500" },
-  { name: "Paytm", color: "text-sky-500 dark:text-sky-400" },
-  { name: "LendingKart", color: "text-green-600 dark:text-green-500" },
-  { name: "KreditBee", color: "text-yellow-600 dark:text-yellow-500" },
+  { name: "HDFC Bank", color: "text-blue-800 dark:text-blue-500" },
+  { name: "Muthoot Fincorp", color: "text-yellow-600 dark:text-yellow-500" },
+  { name: "Tata Capital", color: "text-blue-600 dark:text-blue-400" },
+  { name: "Bajaj Finserv", color: "text-cyan-700 dark:text-cyan-400" },
+  { name: "Kotak Mahindra", color: "text-red-700 dark:text-red-500" },
+  { name: "Axis Bank", color: "text-blue-700 dark:text-blue-400" },
+  { name: "SBI Cards", color: "text-blue-500 dark:text-blue-300" },
+  { name: "L&T Finance", color: "text-orange-700 dark:text-orange-400" },
+  { name: "Aditya Birla", color: "text-purple-700 dark:text-purple-400" },
 ];
 
 const LogoTickerSection = () => (

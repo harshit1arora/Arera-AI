@@ -102,15 +102,15 @@ export default function DeveloperPortal() {
 
             <div className="space-y-3">
               {keys.length === 0 ? (
-                <div className="p-12 text-center border border-dashed border-white/10 rounded-2xl opacity-50">
+                <div className="p-12 text-center border border-dashed border-border rounded-2xl opacity-50">
                   <Lock size={24} className="mx-auto mb-2" />
                   <p className="text-xs">No active keys. Generate one to get started.</p>
                 </div>
               ) : (
                 keys.map((k) => (
-                  <div key={k.id} className="group p-4 bg-black/40 border border-white/5 hover:border-white/10 rounded-2xl transition-all flex items-center justify-between">
+                  <div key={k.id} className="group p-4 bg-background/40 border border-white/5 hover:border-border rounded-2xl transition-all flex items-center justify-between">
                     <div className="flex items-center gap-4">
-                      <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-primary">
+                      <div className="w-10 h-10 rounded-xl bg-foreground/5 flex items-center justify-center text-primary">
                         <Key size={18} />
                       </div>
                       <div>
@@ -170,7 +170,7 @@ export default function DeveloperPortal() {
                   type="text" 
                   value={webhookUrl}
                   onChange={(e) => setWebhookUrl(e.target.value)}
-                  className="flex-1 bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-primary/50 transition-all"
+                  className="flex-1 bg-background/40 border border-border rounded-xl px-4 py-3 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-primary/50 transition-all"
                   placeholder="https://your-api.com/webhooks/arera"
                 />
                 <button 
@@ -189,7 +189,7 @@ export default function DeveloperPortal() {
                       toast.error(err.message || "Failed to commit webhook.");
                     }
                   }}
-                  className="px-6 py-3 bg-white/5 hover:bg-white/10 border border-white/5 rounded-xl text-xs font-bold transition-all active:scale-95"
+                  className="px-6 py-3 bg-foreground/5 hover:bg-foreground/10 border border-white/5 rounded-xl text-xs font-bold transition-all active:scale-95"
                 >
                   Save Endpoint
                 </button>
@@ -238,7 +238,7 @@ export default function DeveloperPortal() {
               <h3 className="font-bold text-sm">Integration Snippet</h3>
             </div>
             
-            <div className="bg-black/60 rounded-2xl p-4 font-mono text-[10px] leading-relaxed border border-white/5 overflow-x-auto custom-scrollbar">
+            <div className="bg-background/60 rounded-2xl p-4 font-mono text-[10px] leading-relaxed border border-white/5 overflow-x-auto custom-scrollbar">
               <div className="text-blue-400"># Install SDK</div>
               <div className="text-foreground">npm install @arera/sdk</div>
               <div className="text-blue-400 mt-3"># Execute Underwriting</div>
@@ -278,14 +278,14 @@ export default function DeveloperPortal() {
           <div className="fixed inset-0 z-[200] flex items-center justify-center p-4">
             <motion.div 
                initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-               className="absolute inset-0 bg-black/90 backdrop-blur-xl"
+               className="absolute inset-0 bg-background/90 backdrop-blur-xl"
                onClick={() => setNewKeyData(null)}
             />
             <motion.div 
               initial={{ opacity: 0, scale: 0.9, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.9, y: 20 }}
-              className="relative w-full max-w-lg bg-[#0a0a0c] border border-white/10 rounded-[2.5rem] shadow-3xl overflow-hidden p-8 text-center"
+              className="relative w-full max-w-lg bg-background border border-border rounded-[2.5rem] shadow-3xl overflow-hidden p-8 text-center"
             >
               <div className="w-16 h-16 bg-green-500/10 rounded-full flex items-center justify-center mx-auto mb-6 text-green-400 border border-green-500/20">
                 <Shield size={32} />
@@ -296,7 +296,7 @@ export default function DeveloperPortal() {
                 Copy this key now. It is <span className="text-red-400 font-bold">hashed and stored securely</span> — you will never see it again.
               </p>
 
-              <div className="p-4 bg-white/5 border border-white/10 rounded-2xl flex items-center gap-4 mb-8">
+              <div className="p-4 bg-foreground/5 border border-border rounded-2xl flex items-center gap-4 mb-8">
                 <code className="text-sm font-mono text-primary flex-1 break-all text-left">
                   {newKeyData.key}
                 </code>
@@ -310,7 +310,7 @@ export default function DeveloperPortal() {
 
               <button 
                 onClick={() => setNewKeyData(null)}
-                className="w-full py-4 bg-white/5 hover:bg-white/10 rounded-2xl text-sm font-bold border border-white/10 transition-all hover:scale-[1.02] active:scale-[0.98]"
+                className="w-full py-4 bg-foreground/5 hover:bg-foreground/10 rounded-2xl text-sm font-bold border border-border transition-all hover:scale-[1.02] active:scale-[0.98]"
               >
                 I've stored this key safely
               </button>

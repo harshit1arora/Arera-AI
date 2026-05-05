@@ -28,16 +28,16 @@ const HowItWorksSection = () => {
   ];
 
   return (
-    <section id="infra" className="bg-[#111118] border-y border-[rgba(255,255,255,0.08)] py-[100px]">
+    <section id="infra" className="bg-surface border-y border-border py-[100px]">
       <div className="container mx-auto px-6 text-center">
         <FadeUp>
           {/* Section label */}
-          <div className="font-['DM_Sans'] font-semibold text-[11px] tracking-[0.15em] text-[#F97316] uppercase mb-3">
+          <div className="font-['DM_Sans'] font-semibold text-[11px] tracking-[0.15em] text-foreground uppercase mb-3">
             THE SOLUTION
           </div>
 
           {/* Headline */}
-          <h2 className="font-['DM_Sans'] font-bold text-[46px] text-[#F0F0F0] mb-[60px]">
+          <h2 className="font-['DM_Sans'] font-bold text-[46px] text-foreground mb-[60px]">
             From bank statement to decision in 3 steps.
           </h2>
         </FadeUp>
@@ -45,28 +45,28 @@ const HowItWorksSection = () => {
         {/* Steps Horizontal Row */}
         <div className="relative flex flex-col md:flex-row justify-between gap-12 md:gap-6">
           {/* Connecting line */}
-          <div className="hidden md:block absolute top-[28px] left-[16.66%] right-[16.66%] h-[1px] bg-[rgba(255,255,255,0.08)] z-0"></div>
+          <div className="hidden md:block absolute top-[28px] left-[16.66%] right-[16.66%] h-[1px] bg-border z-0"></div>
 
           {steps.map((step, idx) => (
             <FadeUp key={step.id} delay={idx * 0.15}>
               <div className="relative z-10 flex-1 flex flex-col items-center h-full">
                 {/* Step circle */}
-                <div className="w-[56px] h-[56px] rounded-full bg-[#16161F] border border-[rgba(255,255,255,0.12)] font-['JetBrains_Mono'] font-bold text-[20px] text-[#F97316] flex items-center justify-center mb-[16px]">
+                <div className="w-[56px] h-[56px] rounded-full bg-muted border border-border font-['JetBrains_Mono'] font-bold text-[20px] text-foreground flex items-center justify-center mb-[16px]">
                   {step.id}
                 </div>
 
                 {/* Step title */}
-                <h3 className="font-['DM_Sans'] font-semibold text-[16px] text-[#F0F0F0] mb-[8px]">
+                <h3 className="font-['DM_Sans'] font-semibold text-[16px] text-foreground mb-[8px]">
                   {step.title}
                 </h3>
 
                 {/* Step body */}
-                <p className="font-['DM_Sans'] font-normal text-[14px] leading-[1.6] text-[#888899] mb-[14px] max-w-[280px]">
+                <p className="font-['DM_Sans'] font-normal text-[14px] leading-[1.6] text-muted-foreground mb-[14px] max-w-[280px]">
                   {step.body}
                 </p>
 
                 {/* Code snippet or checklist */}
-                <div className="w-full bg-[#16161F] border border-[rgba(255,255,255,0.08)] rounded-[4px] p-[12px] text-left mt-auto">
+                <div className="w-full bg-muted border border-border rounded-[4px] p-[12px] text-left mt-auto">
                   {step.snippet ? (
                     <pre className="font-['JetBrains_Mono'] text-[12px] text-[#00FF94] whitespace-pre-wrap leading-relaxed">
                       {step.snippet}
@@ -75,13 +75,13 @@ const HowItWorksSection = () => {
                     <div className="space-y-1">
                       {step.checklist?.map((item, i) => (
                         <div key={i} className="font-['JetBrains_Mono'] text-[11px] flex items-center gap-2">
-                          <span className={item.checked ? "text-[#00FF94]" : "text-[#444455]"}>
+                          <span className={item.checked ? "text-[#00FF94]" : "text-muted-foreground"}>
                             {item.checked ? "✓" : "—"}
                           </span>
-                          <span className={item.checked ? "text-[#F0F0F0]" : "text-[#444455]"}>
+                          <span className={item.checked ? "text-foreground" : "text-muted-foreground"}>
                             {item.label}
                           </span>
-                          {!item.checked && <span className="text-[#444455] italic">(skipped)</span>}
+                          {!item.checked && <span className="text-muted-foreground italic">(skipped)</span>}
                         </div>
                       ))}
                     </div>

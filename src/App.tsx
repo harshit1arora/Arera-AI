@@ -13,6 +13,7 @@ import KycEngine from "./pages/KycEngine.tsx";
 import CreditScoring from "./pages/CreditScoring.tsx";
 import RulesEngine from "./pages/RulesEngine.tsx";
 import ApiDocs from "./pages/ApiDocs.tsx";
+import ApiReference from "./pages/ApiReference.tsx";
 import About from "./pages/About.tsx";
 import Careers from "./pages/Careers.tsx";
 import Blog from "./pages/Blog.tsx";
@@ -50,6 +51,7 @@ const App = () => (
             <Route path="/credit-scoring" element={<CreditScoring />} />
             <Route path="/rules-engine" element={<RulesEngine />} />
             <Route path="/api-docs" element={<ApiDocs />} />
+            <Route path="/api-reference" element={<ApiReference />} />
             <Route path="/about" element={<About />} />
             <Route path="/careers" element={<Careers />} />
             <Route path="/blog" element={<Blog />} />

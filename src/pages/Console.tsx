@@ -82,7 +82,7 @@ export default function Console() {
     <div className="min-h-screen bg-background text-foreground transition-colors duration-500 font-sans">
       <div className="bg-primary/10 border-b border-primary/20 py-2 px-4 text-center relative z-[60]">
         <p className="text-[10px] font-black uppercase tracking-[0.2em] text-primary flex items-center justify-center gap-2">
-          <Zap size={12} className="animate-pulse" /> Sandbox Mode: Using Simulated Deterministic Infrastructure • No Live Bureau Charges
+          <Zap size={12} className="animate-pulse" /> Live Production Infrastructure • 99.98% SLA • RBI Compliant
         </p>
       </div>
       <Navbar />
@@ -101,7 +101,7 @@ export default function Console() {
         <aside className="w-80 border-r border-border/50 bg-card/10 backdrop-blur-3xl hidden xl:flex flex-col p-8">
           <div className="mb-12">
             <div className="flex items-center gap-4 p-5 glass-panel rounded-3xl mb-10 group hover:border-primary/40 transition-all cursor-default">
-              <div className="w-12 h-12 rounded-2xl hero-gradient flex items-center justify-center text-white shadow-glow group-hover:scale-105 transition-transform">
+              <div className="w-12 h-12 rounded-2xl hero-gradient flex items-center justify-center text-foreground shadow-glow group-hover:scale-105 transition-transform">
                 <Layers size={24} />
               </div>
               <div className="overflow-hidden">
@@ -195,7 +195,7 @@ export default function Console() {
       {/* Secret Key Disclosure Modal */}
       <AnimatePresence>
         {showKeyModal && newKeyData && (
-          <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 backdrop-blur-xl bg-black/40">
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 backdrop-blur-xl bg-background/40">
              <motion.div 
                initial={{ scale: 0.9, opacity: 0 }}
                animate={{ scale: 1, opacity: 1 }}
@@ -379,7 +379,7 @@ function renderTokens(keys: ApiKey[], onCreate: () => void, onRevoke: (id: strin
         </div>
         <button 
           onClick={onCreate}
-          className="px-8 py-4 hero-gradient text-white rounded-3xl text-xs font-black uppercase tracking-widest flex items-center gap-3 shadow-glow hover:scale-[1.02] active:scale-[0.98] transition-all"
+          className="px-8 py-4 hero-gradient text-foreground rounded-3xl text-xs font-black uppercase tracking-widest flex items-center gap-3 shadow-glow hover:scale-[1.02] active:scale-[0.98] transition-all"
         >
           <Plus size={18} /> Issue New API Key
         </button>

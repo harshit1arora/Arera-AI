@@ -1,16 +1,16 @@
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { 
-  Terminal, Code, Key, Webhook, FileJson, 
-  ChevronRight, Copy, Check, Shield, AlertCircle, 
+import {
+  Terminal, Code, Key, Webhook, FileJson,
+  ChevronRight, Copy, Check, Shield, AlertCircle,
   Clock, Zap, Globe, Lock
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 type Language = 'curl' | 'nodejs' | 'python';
 
-const ApiDocs = () => {
+const ApiReference = () => {
   const [activeLang, setActiveLang] = useState<Language>('nodejs');
   const [copied, setCopied] = useState(false);
 
@@ -55,7 +55,7 @@ print(analysis.decision) # 'APPROVE'`
   return (
     <div className="min-h-screen bg-background text-foreground font-sans">
       <Navbar />
-      
+
       <div className="pt-16 flex min-h-screen">
         {/* Sidebar */}
         <aside className="w-64 border-r border-white/5 hidden xl:block p-8 sticky top-16 h-[calc(100vh-4rem)] overflow-y-auto">
@@ -120,7 +120,7 @@ print(analysis.decision) # 'APPROVE'`
               <p className="text-muted-foreground mb-8">
                 The core endpoint for Arera. Submit an applicant's ID and bank statement to receive a deterministic underwriting decision in &lt;2 seconds.
               </p>
-              
+
               <div className="space-y-8">
                 <div>
                   <h4 className="text-[10px] font-black uppercase tracking-widest text-foreground/40 mb-4">Request Parameters</h4>
@@ -140,6 +140,21 @@ print(analysis.decision) # 'APPROVE'`
                     ))}
                   </div>
                 </div>
+              </div>
+            </section>
+
+            <section id="webhooks" className="mb-24 scroll-mt-24">
+              <h2 className="text-2xl font-black mb-6 flex items-center gap-3">
+                <Webhook className="text-primary" /> Webhooks
+              </h2>
+              <p className="text-muted-foreground mb-8">
+                Webhooks allow you to build event-driven systems. Arera sends real-time notifications when analysis completes or errors occur.
+              </p>
+              <div className="bg-blue-500/10 border border-blue-500/20 p-4 rounded-xl flex gap-4 items-start">
+                <FileJson size={18} className="text-blue-400 mt-0.5 flex-shrink-0" />
+                <p className="text-xs text-blue-100 leading-relaxed">
+                  <strong>Event Types:</strong> analysis.completed, analysis.failed, rate_limit.exceeded
+                </p>
               </div>
             </section>
 
@@ -188,7 +203,7 @@ print(analysis.decision) # 'APPROVE'`
                     </button>
                   ))}
                 </div>
-                <button 
+                <button
                   onClick={() => copyToClipboard(codeSnippets[activeLang])}
                   className="p-2 text-foreground/40 hover:text-foreground transition-colors"
                 >
@@ -224,4 +239,4 @@ print(analysis.decision) # 'APPROVE'`
   );
 };
 
-export default ApiDocs;
+export default ApiReference;

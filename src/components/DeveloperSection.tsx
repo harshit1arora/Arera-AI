@@ -85,20 +85,20 @@ print(result.audit_id)       # arera_...`,
   };
 
   return (
-    <section className="bg-[#111118] border-t border-[rgba(255,255,255,0.08)] py-[100px] overflow-hidden">
+    <section className="bg-surface border-t border-border py-[100px] overflow-hidden">
       <div className="container mx-auto px-6">
         <div className="flex flex-col lg:flex-row gap-16">
           
           {/* Left Column (42%) */}
           <div className="w-full lg:w-[42%]">
             <FadeUp>
-              <div className="font-['DM_Sans'] font-semibold text-[11px] tracking-[0.15em] text-[#F97316] uppercase mb-3">
+              <div className="font-['DM_Sans'] font-semibold text-[11px] tracking-[0.15em] text-foreground uppercase mb-3">
                 BUILT FOR DEVELOPERS
               </div>
-              <h2 className="font-['DM_Sans'] font-bold text-[46px] text-[#F0F0F0] mb-4 leading-[1.1]">
+              <h2 className="font-['DM_Sans'] font-bold text-[46px] text-foreground mb-4 leading-[1.1]">
                 Ship underwriting in days, not months.
               </h2>
-              <p className="font-['DM_Sans'] font-normal text-[17px] leading-[1.6] text-[#888899]">
+              <p className="font-['DM_Sans'] font-normal text-[17px] leading-[1.6] text-muted-foreground">
                 API-first architecture. Three lines of code to integrate. No sales call required.
               </p>
             </FadeUp>
@@ -109,7 +109,7 @@ print(result.audit_id)       # arera_...`,
                 {featurePills.map((pill) => (
                   <div 
                     key={pill}
-                    className="bg-[#16161F] border border-[rgba(255,255,255,0.08)] text-[#888899] px-4 py-[9px] rounded-[6px] font-['DM_Sans'] text-[13px] hover:border-[rgba(249,115,22,0.4)] hover:text-[#F97316] transition-all duration-150 cursor-default"
+                    className="bg-muted border border-border text-muted-foreground px-4 py-[9px] rounded-[6px] font-['DM_Sans'] text-[13px] hover:border-border hover:text-foreground transition-all duration-150 cursor-default"
                   >
                     {pill}
                   </div>
@@ -122,12 +122,12 @@ print(result.audit_id)       # arera_...`,
               {features.map((f, i) => (
                 <FadeUp key={i} delay={0.2 + i * 0.1}>
                   <div className="flex gap-3 mb-4">
-                    <div className="w-8 h-8 bg-[rgba(249,115,22,0.08)] border border-[rgba(249,115,22,0.15)] rounded-[6px] flex items-center justify-center shrink-0">
-                      <f.icon size={14} className="text-[#F97316]" />
+                    <div className="w-8 h-8 bg-[rgba(249,115,22,0.08)] border border-border rounded-[6px] flex items-center justify-center shrink-0">
+                      <f.icon size={14} className="text-foreground" />
                     </div>
                     <div>
-                      <h4 className="font-['DM_Sans'] font-semibold text-[14px] text-[#F0F0F0]">{f.title}</h4>
-                      <p className="font-['DM_Sans'] text-[13px] text-[#888899]">{f.desc}</p>
+                      <h4 className="font-['DM_Sans'] font-semibold text-[14px] text-foreground">{f.title}</h4>
+                      <p className="font-['DM_Sans'] text-[13px] text-muted-foreground">{f.desc}</p>
                     </div>
                   </div>
                 </FadeUp>
@@ -138,7 +138,7 @@ print(result.audit_id)       # arera_...`,
           {/* Right Column (58%) */}
           <div className="w-full lg:w-[58%]">
             <FadeUp delay={0.1}>
-              <div className="flex border-b border-[rgba(255,255,255,0.08)]">
+              <div className="flex border-b border-border">
                 {[
                   { id: 'node', label: 'Node.js' },
                   { id: 'python', label: 'Python' },
@@ -149,16 +149,16 @@ print(result.audit_id)       # arera_...`,
                     onClick={() => setActiveTab(tab.id)}
                     className={`px-5 py-[10px] font-['DM_Sans'] text-[13px] transition-all ${
                       activeTab === tab.id 
-                        ? 'text-[#F0F0F0] font-semibold border-b-2 border-[#F97316]' 
-                        : 'text-[#888899] font-normal hover:text-[#F0F0F0]'
+                        ? 'text-foreground font-semibold border-b-2 border-[#F97316]' 
+                        : 'text-muted-foreground font-normal hover:text-foreground'
                     }`}
                   >
                     {tab.label}
                   </button>
                 ))}
               </div>
-              <div className="bg-[#080810] border border-[rgba(255,255,255,0.08)] border-top-0 rounded-b-[8px] p-6 overflow-x-auto min-h-[400px]">
-                <pre className="font-['JetBrains_Mono'] text-[13px] leading-[1.75] text-[#F0F0F0]">
+              <div className="bg-background border border-border border-top-0 rounded-b-[8px] p-6 overflow-x-auto min-h-[400px]">
+                <pre className="font-['JetBrains_Mono'] text-[13px] leading-[1.75] text-foreground">
                   {highlightCode(codeBlocks[activeTab])}
                 </pre>
               </div>

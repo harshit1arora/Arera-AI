@@ -32,17 +32,17 @@ export default function AaConsentModal({ isOpen, onClose, onConsentSuccess }: Aa
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="absolute inset-0 bg-black/80 backdrop-blur-sm"
+            className="absolute inset-0 bg-background/80 backdrop-blur-sm"
             onClick={onClose}
           />
           <motion.div
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            className="relative w-full max-w-lg bg-[#0a0a0c] border border-white/10 rounded-[2rem] shadow-2xl z-10 overflow-hidden"
+            className="relative w-full max-w-lg bg-background border border-border rounded-[2rem] shadow-2xl z-10 overflow-hidden"
           >
             {/* Header */}
-            <div className="p-6 border-b border-white/5 flex items-center justify-between bg-white/5">
+            <div className="p-6 border-b border-white/5 flex items-center justify-between bg-foreground/5">
               <div className="flex items-center gap-3">
                 <div className="p-2 bg-primary/10 rounded-xl">
                   <ShieldCheck size={20} className="text-primary" />
@@ -54,7 +54,7 @@ export default function AaConsentModal({ isOpen, onClose, onConsentSuccess }: Aa
               </div>
               <button 
                 onClick={onClose} 
-                className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-white/5 transition-colors"
+                className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-foreground/5 transition-colors"
                 disabled={loading}
               >
                 <X size={18} />
@@ -67,7 +67,7 @@ export default function AaConsentModal({ isOpen, onClose, onConsentSuccess }: Aa
                 <div className="space-y-6">
                   <div className="flex items-center gap-4 text-sm text-foreground/80 mb-8">
                     <Database className="text-muted-foreground" size={24} />
-                    <div className="flex-1 h-px bg-white/10 relative">
+                    <div className="flex-1 h-px bg-foreground/10 relative">
                        <motion.div 
                          animate={{ x: ["0%", "100%"] }} 
                          transition={{ repeat: Infinity, duration: 2, ease: "linear" }}
@@ -81,7 +81,7 @@ export default function AaConsentModal({ isOpen, onClose, onConsentSuccess }: Aa
                     You are enabling a real-time data pipe to RBI-regulated Account Aggregators (AAs). Arera AI operates as an authorized FIU node.
                   </p>
                   
-                  <div className="bg-white/5 border border-white/10 p-4 rounded-2xl space-y-3">
+                  <div className="bg-foreground/5 border border-border p-4 rounded-2xl space-y-3">
                     <h4 className="text-xs font-bold uppercase tracking-widest text-primary mb-2">Data Scopes Requested</h4>
                     {[
                       "Deposit Accounts (6 Months History)",
@@ -97,14 +97,14 @@ export default function AaConsentModal({ isOpen, onClose, onConsentSuccess }: Aa
 
                   <button 
                     onClick={() => setStep(2)}
-                    className="w-full py-4 mt-4 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl font-bold uppercase tracking-widest text-xs transition-colors"
+                    className="w-full py-4 mt-4 bg-foreground/5 hover:bg-foreground/10 border border-border rounded-xl font-bold uppercase tracking-widest text-xs transition-colors"
                   >
                     Review Legal Mandate
                   </button>
                 </div>
               ) : (
                 <div className="space-y-6">
-                  <div className="h-40 overflow-y-auto custom-scrollbar bg-black/40 p-4 rounded-xl border border-white/5 text-[10px] text-muted-foreground font-mono leading-relaxed">
+                  <div className="h-40 overflow-y-auto custom-scrollbar bg-background/40 p-4 rounded-xl border border-white/5 text-[10px] text-muted-foreground font-mono leading-relaxed">
                     <p className="mb-2">1. DATA MINIMIZATION: Arera AI engine will only extract transactional risk vectors. Raw strings are scrubbed instantly.</p>
                     <p className="mb-2">2. REVOCATION: The user holds irrevocable rights to pause the pipeline via their Sahamati app interfaces.</p>
                     <p className="mb-2">3. PURPOSE: Primary risk alignment. Data will strictly NOT be used for marketing cross-sells.</p>
@@ -115,7 +115,7 @@ export default function AaConsentModal({ isOpen, onClose, onConsentSuccess }: Aa
                     <button 
                       onClick={onClose}
                       disabled={loading}
-                      className="flex-1 py-4 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl font-bold uppercase tracking-widest text-xs transition-colors disabled:opacity-50"
+                      className="flex-1 py-4 bg-foreground/5 hover:bg-foreground/10 border border-border rounded-xl font-bold uppercase tracking-widest text-xs transition-colors disabled:opacity-50"
                     >
                       Decline
                     </button>

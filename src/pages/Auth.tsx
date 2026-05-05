@@ -89,11 +89,11 @@ export default function Auth() {
         <div className="mb-6 flex justify-between items-center px-2">
            <button 
              onClick={() => isResetPassword ? setIsResetPassword(false) : navigate("/")}
-             className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 hover:text-primary transition-colors cursor-pointer"
+             className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground hover:text-primary transition-colors cursor-pointer"
            >
               <ArrowLeft size={12} /> {isResetPassword ? "Gate" : "Back"}
            </button>
-           <div className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 opacity-50">
+           <div className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground opacity-50">
               Arera Console v1.0
            </div>
         </div>
@@ -118,16 +118,16 @@ export default function Auth() {
                   animate={{ height: 'auto', opacity: 1 }}
                   exit={{ height: 0, opacity: 0 }}
                 >
-                  <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1 mb-1.5 block">Full Name</label>
+                  <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest ml-1 mb-1.5 block">Full Name</label>
                   <div className="relative group">
-                    <User size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-300 group-focus-within:text-primary transition-colors" />
+                    <User size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground group-focus-within:text-primary transition-colors" />
                     <input
                       required
                       type="text"
                       value={fullName}
                       onChange={(e) => setFullName(e.target.value)}
                       placeholder="IDENTIFIER"
-                      className="w-full h-11 pl-11 pr-4 rounded-xl border border-gray-100 bg-gray-50/20 focus:bg-white focus:ring-[3px] focus:ring-primary/5 focus:border-primary transition-all outline-none font-bold text-[11px] placeholder:text-gray-300"
+                      className="w-full h-11 pl-11 pr-4 rounded-xl border border-gray-100 bg-gray-50/20 focus:bg-white focus:ring-[3px] focus:ring-primary/5 focus:border-primary transition-all outline-none font-bold text-[11px] placeholder:text-muted-foreground"
                     />
                   </div>
                 </motion.div>
@@ -135,16 +135,16 @@ export default function Auth() {
             </AnimatePresence>
 
             <div>
-              <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1 mb-1.5 block">Account Email</label>
+              <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest ml-1 mb-1.5 block">Account Email</label>
               <div className="relative group">
-                <Mail size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-300 group-focus-within:text-primary transition-colors" />
+                <Mail size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground group-focus-within:text-primary transition-colors" />
                 <input
                   required
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="NAME@DOMAIN.COM"
-                  className="w-full h-11 pl-11 pr-4 rounded-xl border border-gray-100 bg-gray-50/20 focus:bg-white focus:ring-[3px] focus:ring-primary/5 focus:border-primary transition-all outline-none font-bold text-[11px] placeholder:text-gray-300"
+                  className="w-full h-11 pl-11 pr-4 rounded-xl border border-gray-100 bg-gray-50/20 focus:bg-white focus:ring-[3px] focus:ring-primary/5 focus:border-primary transition-all outline-none font-bold text-[11px] placeholder:text-muted-foreground"
                 />
               </div>
             </div>
@@ -158,7 +158,7 @@ export default function Auth() {
                   className="space-y-4 overflow-hidden"
                 >
                   <div className="flex items-center justify-between ml-1 mb-1.5">
-                    <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest block">Password</label>
+                    <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest block">Password</label>
                     <button 
                       type="button"
                       onClick={() => setIsResetPassword(true)}
@@ -168,14 +168,14 @@ export default function Auth() {
                     </button>
                   </div>
                   <div className="relative group">
-                    <Lock size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-300 group-focus-within:text-primary transition-colors" />
+                    <Lock size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground group-focus-within:text-primary transition-colors" />
                     <input
                       required={!isResetPassword}
                       type="password"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       placeholder="••••••••••"
-                      className="w-full h-11 pl-11 pr-4 rounded-xl border border-gray-100 bg-gray-50/20 focus:bg-white focus:ring-[3px] focus:ring-primary/5 focus:border-primary transition-all outline-none font-bold text-[11px] placeholder:text-gray-300"
+                      className="w-full h-11 pl-11 pr-4 rounded-xl border border-gray-100 bg-gray-50/20 focus:bg-white focus:ring-[3px] focus:ring-primary/5 focus:border-primary transition-all outline-none font-bold text-[11px] placeholder:text-muted-foreground"
                     />
                   </div>
                 </motion.div>
@@ -185,9 +185,9 @@ export default function Auth() {
             <button 
               type="submit"
               disabled={isLoading}
-              className="w-full h-12 rounded-xl hero-gradient text-white font-black uppercase text-[10px] tracking-[0.2em] shadow-[0_8px_20px_-4px_rgba(240,75,40,0.2)] hover:shadow-[0_8px_25px_-2px_rgba(240,75,40,0.3)] active:scale-[0.98] transition-all flex items-center justify-center gap-2 mt-2 disabled:opacity-50"
+              className="w-full h-12 rounded-xl hero-gradient text-foreground font-black uppercase text-[10px] tracking-[0.2em] shadow-[0_8px_20px_-4px_rgba(240,75,40,0.2)] hover:shadow-[0_8px_25px_-2px_rgba(240,75,40,0.3)] active:scale-[0.98] transition-all flex items-center justify-center gap-2 mt-2 disabled:opacity-50"
             >
-              {isLoading ? <Loader2 className="animate-spin w-4 h-4 text-white" /> : (isResetPassword ? "Transmit Recovery" : isLogin ? "Authenticate" : "Create ID")}
+              {isLoading ? <Loader2 className="animate-spin w-4 h-4 text-foreground" /> : (isResetPassword ? "Transmit Recovery" : isLogin ? "Authenticate" : "Create ID")}
             </button>
           </form>
 
@@ -195,18 +195,18 @@ export default function Auth() {
             <>
               <div className="relative flex items-center py-6">
                 <div className="flex-grow border-t border-gray-50"></div>
-                <span className="flex-shrink-0 mx-4 text-[9px] font-black text-gray-200 uppercase tracking-[0.3em]">Quick Sync</span>
+                <span className="flex-shrink-0 mx-4 text-[9px] font-black text-foreground uppercase tracking-[0.3em]">Quick Sync</span>
                 <div className="flex-grow border-t border-gray-50"></div>
               </div>
 
               <div className="grid grid-cols-2 gap-3 mb-8">
                  <button onClick={handleGoogleSignIn} className="flex items-center justify-center gap-2 h-11 bg-white border border-gray-100 rounded-xl hover:bg-gray-50 transition-all active:scale-[0.98]">
                     <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" className="w-4 h-4" alt=""/>
-                    <span className="text-[10px] font-black text-gray-500 uppercase tracking-widest">Google</span>
+                    <span className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Google</span>
                  </button>
                  <button onClick={handleGithubSignIn} className="flex items-center justify-center gap-2 h-11 bg-white border border-gray-100 rounded-xl hover:bg-gray-50 transition-all active:scale-[0.98]">
                     <svg className="w-4 h-4 text-gray-900" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.572C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
-                    <span className="text-[10px] font-black text-gray-500 uppercase tracking-widest">GitHub</span>
+                    <span className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">GitHub</span>
                  </button>
               </div>
 
@@ -222,7 +222,7 @@ export default function Auth() {
             <div className="mt-8 text-center">
               <button 
                 onClick={() => setIsResetPassword(false)}
-                className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] hover:text-primary transition-colors cursor-pointer"
+                className="text-[10px] font-black text-muted-foreground uppercase tracking-[0.2em] hover:text-primary transition-colors cursor-pointer"
               >
                 Cancel Recovery
               </button>

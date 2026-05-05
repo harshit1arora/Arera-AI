@@ -1,31 +1,35 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  PERSONAS, 
-  PAYLOADS, 
-  runAnalysis, 
-  AnalysisResult, 
+import {
+  PERSONAS,
+  PAYLOADS,
+  runAnalysis,
+  AnalysisResult,
   Persona,
   TERMINAL_LINES,
   PROCESSING_LINES
 } from '@/lib/mock-engine';
-import { 
-  Play, 
-  Copy, 
-  Terminal as TerminalIcon, 
-  FileText, 
-  Loader2, 
-  CheckCircle2, 
+import { generateAnalysisPDF } from '@/lib/pdf-generator';
+import {
+  Play,
+  Copy,
+  Terminal as TerminalIcon,
+  FileText,
+  Loader2,
+  CheckCircle2,
   Download,
   Code,
   AlertTriangle,
   XCircle,
   AlertCircle,
   ChevronDown,
-  ChevronUp
+  ChevronUp,
+  ArrowLeft
 } from 'lucide-react';
 
 const Playground = () => {
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<'json' | 'personas' | 'pdf'>('personas');
   const [selectedPersona, setSelectedPersona] = useState<string>('strong');
   const [jsonValue, setJsonValue] = useState(JSON.stringify(PAYLOADS['strong'], null, 2));
@@ -112,26 +116,45 @@ const Playground = () => {
     }
   };
 
+  const downloadPDF = () => {
+    if (result) {
+      generateAnalysisPDF(result);
+    }
+  };
+
   return (
-    <div className="flex h-[calc(100vh-56px)] bg-[#0A0A0F] overflow-hidden">
+    <div className="flex flex-col h-[calc(100vh-56px)] bg-background overflow-hidden">
+      {/* BACK BUTTON HEADER */}
+      <div className="h-[56px] border-b border-border flex items-center px-4 shrink-0 bg-background/50 backdrop-blur-sm">
+        <button
+          onClick={() => navigate('/')}
+          className="flex items-center gap-2 px-3 py-2 rounded-lg text-foreground/70 hover:text-foreground hover:bg-foreground/5 transition-all duration-200 group"
+        >
+          <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
+          <span className="font-['DM_Sans'] text-[14px] font-medium">Back to Home</span>
+        </button>
+      </div>
+
+      {/* PLAYGROUND CONTENT */}
+      <div className="flex flex-1 bg-background overflow-hidden">
       {/* LEFT PANEL (55%) */}
-      <div className="w-[55%] bg-[#111118] border-r border-[rgba(255,255,255,0.08)] flex flex-col h-full">
+      <div className="w-[55%] bg-surface border-r border-border flex flex-col h-full">
         {/* HEADER BAR */}
-        <div className="h-[48px] border-b border-[rgba(255,255,255,0.08)] flex items-center justify-between px-4 shrink-0">
+        <div className="h-[48px] border-b border-border flex items-center justify-between px-4 shrink-0">
           <div className="flex items-center gap-2">
-            <span className="bg-[rgba(0,255,148,0.1)] border border-[rgba(0,255,148,0.2)] text-[#00FF94] font-['JetBrains_Mono'] font-bold text-[10px] px-[7px] py-[2px] rounded-[4px]">POST</span>
-            <span className="font-['JetBrains_Mono'] text-[13px] text-[rgba(255,255,255,0.5)]">/v1/underwriting/analyze</span>
+            <span className="bg-[rgba(0,255,148,0.1)] border border-border text-[#00FF94] font-['JetBrains_Mono'] font-bold text-[10px] px-[7px] py-[2px] rounded-[4px]">POST</span>
+            <span className="font-['JetBrains_Mono'] text-[13px] text-foreground/70">/v1/underwriting/analyze</span>
           </div>
           <div className="flex items-center gap-2">
             <button 
               onClick={copyCurl}
-              className="flex items-center gap-1.5 font-['JetBrains_Mono'] text-[11px] text-[rgba(255,255,255,0.4)] border border-[rgba(255,255,255,0.08)] px-[10px] py-[4px] rounded-[4px] hover:text-white hover:border-[rgba(255,255,255,0.2)] transition-all relative"
+              className="flex items-center gap-1.5 font-['JetBrains_Mono'] text-[11px] text-foreground/70 border border-border px-[10px] py-[4px] rounded-[4px] hover:text-foreground hover:border-border transition-all relative"
             >
               <TerminalIcon size={12} /> {copied === 'curl' ? 'Copied!' : '▷ cURL'}
             </button>
             <button 
               onClick={copyJson}
-              className="flex items-center gap-1.5 font-['JetBrains_Mono'] text-[11px] text-[rgba(255,255,255,0.4)] border border-[rgba(255,255,255,0.08)] px-[10px] py-[4px] rounded-[4px] hover:text-white hover:border-[rgba(255,255,255,0.2)] transition-all relative"
+              className="flex items-center gap-1.5 font-['JetBrains_Mono'] text-[11px] text-foreground/70 border border-border px-[10px] py-[4px] rounded-[4px] hover:text-foreground hover:border-border transition-all relative"
             >
               <Copy size={12} /> {copied === 'json' ? 'Copied!' : '⧉ Copy'}
             </button>
@@ -139,7 +162,7 @@ const Playground = () => {
         </div>
 
         {/* TAB BAR */}
-        <div className="h-[40px] border-b border-[rgba(255,255,255,0.08)] flex items-center px-4 gap-1 shrink-0">
+        <div className="h-[40px] border-b border-border flex items-center px-4 gap-1 shrink-0">
           {[
             { id: 'json', label: 'JSON Input' },
             { id: 'personas', label: 'Sample Personas' },
@@ -150,8 +173,8 @@ const Playground = () => {
               onClick={() => setActiveTab(tab.id as any)}
               className={`px-4 h-full font-['DM_Sans'] text-[13px] transition-all relative ${
                 activeTab === tab.id 
-                  ? 'text-white border-b-2 border-[#F97316]' 
-                  : 'text-[rgba(255,255,255,0.4)] hover:text-[rgba(255,255,255,0.7)]'
+                  ? 'text-foreground border-b-2 border-[#F97316]' 
+                  : 'text-foreground/70 hover:text-foreground/70'
               }`}
             >
               {tab.label}
@@ -167,14 +190,14 @@ const Playground = () => {
                 value={jsonValue}
                 onChange={(e) => setJsonValue(e.target.value)}
                 spellCheck={false}
-                className="flex-1 w-full bg-[#0A0A0F] border-none outline-none p-6 font-['JetBrains_Mono'] text-[13px] leading-[1.7] text-[#A8FF78] resize-none"
+                className="flex-1 w-full bg-background border-none outline-none p-6 font-['JetBrains_Mono'] text-[13px] leading-[1.7] text-muted-foreground resize-none"
               />
-              <div className="h-[24px] border-t border-[rgba(255,255,255,0.06)] px-4 flex items-center justify-between shrink-0">
+              <div className="h-[24px] border-t border-border px-4 flex items-center justify-between shrink-0">
                 <div className="flex gap-4">
-                  <span className="font-['JetBrains_Mono'] text-[11px] text-[rgba(255,255,255,0.2)]">JSON</span>
-                  <span className="font-['JetBrains_Mono'] text-[11px] text-[rgba(255,255,255,0.2)]">UTF-8</span>
+                  <span className="font-['JetBrains_Mono'] text-[11px] text-foreground/70">JSON</span>
+                  <span className="font-['JetBrains_Mono'] text-[11px] text-foreground/70">UTF-8</span>
                 </div>
-                <span className="font-['JetBrains_Mono'] text-[11px] text-[rgba(255,255,255,0.2)]">Ready</span>
+                <span className="font-['JetBrains_Mono'] text-[11px] text-foreground/70">Ready</span>
               </div>
             </>
           )}
@@ -185,31 +208,31 @@ const Playground = () => {
                 <div
                   key={p.id}
                   onClick={() => handlePersonaSelect(p.id)}
-                  className={`bg-[#16161F] border rounded-[6px] p-[14px_16px] cursor-pointer flex items-center gap-3 transition-all ${
+                  className={`bg-muted border rounded-[6px] p-[14px_16px] cursor-pointer flex items-center gap-3 transition-all ${
                     selectedPersona === p.id
                       ? p.expected === 'APPROVE' 
-                        ? 'border-[rgba(0,255,148,0.4)] border-l-[3px] border-l-[#00FF94]'
+                        ? 'border-border border-l-[3px] border-l-[#00FF94]'
                         : p.expected === 'REJECT'
-                          ? 'border-[rgba(255,68,68,0.4)] border-l-[3px] border-l-[#FF4444]'
-                          : 'border-[rgba(245,158,11,0.4)] border-l-[3px] border-l-[#F59E0B]'
-                      : 'border-[rgba(255,255,255,0.08)]'
+                          ? 'border-border border-l-[3px] border-l-[#FF4444]'
+                          : 'border-border border-l-[3px] border-l-[#F59E0B]'
+                      : 'border-border'
                   }`}
                 >
                   <div className={`px-2 py-0.5 rounded-[4px] font-['DM_Sans'] font-bold text-[11px] shrink-0 ${
                     p.expected === 'APPROVE' ? 'bg-[rgba(0,255,148,0.1)] text-[#00FF94]' :
-                    p.expected === 'REJECT' ? 'bg-[rgba(255,68,68,0.1)] text-[#FF4444]' :
-                    'bg-[rgba(245,158,11,0.1)] text-[#F59E0B]'
+                    p.expected === 'REJECT' ? 'bg-[rgba(255,68,68,0.1)] text-foreground' :
+                    'bg-[rgba(245,158,11,0.1)] text-foreground'
                   }`}>
                     {p.expected}
                   </div>
                   <div className="flex-1">
-                    <div className="font-['DM_Sans'] font-semibold text-[14px] text-white leading-none mb-1">{p.name}</div>
-                    <div className="font-['DM_Sans'] font-normal text-[12px] text-[rgba(255,255,255,0.4)]">{p.description}</div>
+                    <div className="font-['DM_Sans'] font-semibold text-[14px] text-foreground leading-none mb-1">{p.name}</div>
+                    <div className="font-['DM_Sans'] font-normal text-[12px] text-foreground/70">{p.description}</div>
                   </div>
                   <div className={`font-['JetBrains_Mono'] text-[12px] shrink-0 ${
                     p.income > 0 
-                      ? p.expected === 'REJECT' ? 'text-[#FF4444]' : 'text-[#00FF94]'
-                      : 'text-[rgba(255,255,255,0.3)]'
+                      ? p.expected === 'REJECT' ? 'text-foreground' : 'text-[#00FF94]'
+                      : 'text-foreground/70'
                   }`}>
                     {p.income > 0 ? `₹${p.income.toLocaleString('en-IN')}/mo` : 'No data'}
                   </div>
@@ -220,14 +243,14 @@ const Playground = () => {
 
           {activeTab === 'pdf' && (
             <div className="p-6">
-              <div className="border-2 border-dashed border-[rgba(255,255,255,0.12)] rounded-[8px] p-[40px_24px] text-center bg-[rgba(255,255,255,0.02)]">
-                <FileText size={32} className="mx-auto mb-4 text-[rgba(255,255,255,0.3)]" />
-                <div className="font-['DM_Sans'] font-semibold text-[14px] text-[rgba(255,255,255,0.6)] mb-1">Drop bank statement PDF here</div>
-                <div className="font-['DM_Sans'] font-normal text-[12px] text-[rgba(255,255,255,0.3)]">Supported: HDFC, SBI, ICICI, Axis, PNB statements</div>
+              <div className="border-2 border-dashed border-border rounded-[8px] p-[40px_24px] text-center bg-border/30">
+                <FileText size={32} className="mx-auto mb-4 text-foreground/70" />
+                <div className="font-['DM_Sans'] font-semibold text-[14px] text-foreground/70 mb-1">Drop bank statement PDF here</div>
+                <div className="font-['DM_Sans'] font-normal text-[12px] text-foreground/70">Supported: HDFC, SBI, ICICI, Axis, PNB statements</div>
               </div>
 
               <div className="mt-8">
-                <div className="font-['DM_Sans'] font-semibold text-[12px] text-[rgba(255,255,255,0.3)] uppercase tracking-wider mb-4">Parser pipeline</div>
+                <div className="font-['DM_Sans'] font-semibold text-[12px] text-foreground/70 uppercase tracking-wider mb-4">Parser pipeline</div>
                 <div className="space-y-3">
                   {[
                     "Extracting transactions from PDF...",
@@ -236,14 +259,14 @@ const Playground = () => {
                     "Passing to underwriting engine..."
                   ].map((text, i) => (
                     <div key={i} className="flex items-center gap-3">
-                      <div className="w-[18px] h-[18px] border border-[rgba(255,255,255,0.1)] rounded-full flex items-center justify-center font-['JetBrains_Mono'] text-[10px] text-[rgba(255,255,255,0.2)]">
+                      <div className="w-[18px] h-[18px] border border-border rounded-full flex items-center justify-center font-['JetBrains_Mono'] text-[10px] text-foreground/70">
                         {i + 1}
                       </div>
-                      <span className="font-['JetBrains_Mono'] text-[12px] text-[rgba(255,255,255,0.3)]">{text}</span>
+                      <span className="font-['JetBrains_Mono'] text-[12px] text-foreground/70">{text}</span>
                     </div>
                   ))}
                 </div>
-                <div className="text-center mt-6 font-['JetBrains_Mono'] text-[11px] text-[rgba(255,255,255,0.15)]">
+                <div className="text-center mt-6 font-['JetBrains_Mono'] text-[11px] text-foreground/70">
                   Powered by Arera Parser v1
                 </div>
               </div>
@@ -257,10 +280,10 @@ const Playground = () => {
           disabled={status === 'loading'}
           className={`h-[56px] w-full border-t flex items-center justify-center transition-all duration-300 relative overflow-hidden ${
             status === 'loading' 
-              ? 'bg-[rgba(249,115,22,0.6)] border-[rgba(255,255,255,0.08)] cursor-not-allowed'
+              ? 'bg-[rgba(249,115,22,0.6)] border-border cursor-not-allowed'
               : status === 'done'
-                ? 'bg-[rgba(0,255,148,0.15)] border-[rgba(0,255,148,0.2)] text-[#00FF94]'
-                : 'bg-[#F97316] text-black border-[rgba(255,255,255,0.08)] animate-[pulseGlow_2.5s_ease-in-out_infinite]'
+                ? 'bg-[rgba(0,255,148,0.15)] border-border text-[#00FF94]'
+                : 'bg-[#F97316] text-black border-border animate-[pulseGlow_2.5s_ease-in-out_infinite]'
           }`}
         >
           {status === 'loading' ? (
@@ -280,24 +303,24 @@ const Playground = () => {
       </div>
 
       {/* RIGHT PANEL (45%) */}
-      <div className="w-[45%] bg-[#0A0A0F] flex flex-col h-full overflow-hidden">
+      <div className="w-[45%] bg-background flex flex-col h-full overflow-hidden">
         {/* HEADER BAR */}
-        <div className="h-[48px] border-b border-[rgba(255,255,255,0.08)] flex items-center justify-between px-4 shrink-0">
-          <span className="font-['DM_Sans'] font-semibold text-[13px] text-white">Response</span>
+        <div className="h-[48px] border-b border-border flex items-center justify-between px-4 shrink-0">
+          <span className="font-['DM_Sans'] font-semibold text-[13px] text-foreground">Response</span>
           
           {status === 'done' && result && (
             <div className="flex items-center gap-2">
-              <div className="bg-[rgba(0,255,148,0.1)] border border-[rgba(0,255,148,0.2)] text-[#00FF94] font-['JetBrains_Mono'] text-[11px] px-2 py-0.5 rounded-[4px]">
+              <div className="bg-[rgba(0,255,148,0.1)] border border-border text-[#00FF94] font-['JetBrains_Mono'] text-[11px] px-2 py-0.5 rounded-[4px]">
                 200 OK
               </div>
-              <div className="bg-[rgba(245,158,11,0.1)] text-[#F59E0B] font-['JetBrains_Mono'] text-[11px] px-2 py-0.5 rounded-[4px]">
+              <div className="bg-[rgba(245,158,11,0.1)] text-foreground font-['JetBrains_Mono'] text-[11px] px-2 py-0.5 rounded-[4px]">
                 {result.processing_time_ms}ms
               </div>
-              <button onClick={copyResult} className="text-[rgba(255,255,255,0.4)] hover:text-white p-1 transition-colors relative group">
+              <button onClick={copyResult} className="text-foreground/70 hover:text-foreground p-1 transition-colors relative group">
                 <Copy size={14} />
                 {copied === 'result' && <span className="absolute -top-8 left-1/2 -translate-x-1/2 bg-white text-black text-[10px] px-2 py-1 rounded">Copied!</span>}
               </button>
-              <button className="text-[rgba(255,255,255,0.4)] hover:text-white p-1 transition-colors">
+              <button onClick={downloadPDF} className="text-foreground/70 hover:text-foreground p-1 transition-colors">
                 <Download size={14} />
               </button>
             </div>
@@ -316,18 +339,18 @@ const Playground = () => {
                 className="p-7 font-['JetBrains_Mono'] text-[13px] line-height-[1.8]"
               >
                 {terminalLines.map((line, i) => (
-                  <div key={i} style={{ 
-                    color: line.includes('RBI') ? '#F59E0B' : 
-                           line.includes('initialized') ? 'rgba(255,255,255,0.5)' :
-                           line.includes('policies') ? 'rgba(255,255,255,0.4)' :
-                           line.includes('Sandbox') ? 'rgba(255,255,255,0.3)' :
+                  <div key={i} style={{
+                    color: (line && typeof line === 'string' && line.includes('RBI')) ? '#F59E0B' :
+                           (line && typeof line === 'string' && line.includes('initialized')) ? 'rgba(255,255,255,0.5)' :
+                           (line && typeof line === 'string' && line.includes('policies')) ? 'rgba(255,255,255,0.4)' :
+                           (line && typeof line === 'string' && line.includes('Sandbox')) ? 'rgba(255,255,255,0.3)' :
                            'rgba(255,255,255,0.2)'
                   }}>
                     {line}
                   </div>
                 ))}
                 {terminalLines.length === TERMINAL_LINES.length && (
-                  <span className="inline-block w-2 h-4 bg-[#00FF94] ml-1 animate-[blink_1.2s_step-end_infinite]">_</span>
+                  <span className="inline-block w-2 h-4 bg-background ml-1 animate-[blink_1.2s_step-end_infinite]">_</span>
                 )}
               </motion.div>
             )}
@@ -341,9 +364,9 @@ const Playground = () => {
                 className="p-7 font-['JetBrains_Mono'] text-[13px] space-y-1"
               >
                 {processingLines.map((line, i) => (
-                  <div key={i} style={{ 
-                    color: line.includes('Decision ready') ? '#00FF94' :
-                           line.includes('policy rules') ? '#F97316' :
+                  <div key={i} style={{
+                    color: (line && typeof line === 'string' && line.includes('Decision ready')) ? '#00FF94' :
+                           (line && typeof line === 'string' && line.includes('policy rules')) ? '#F97316' :
                            'rgba(255,255,255,0.6)'
                   }}>
                     {line}
@@ -364,20 +387,20 @@ const Playground = () => {
                   <motion.div 
                     initial={{ scale: 0.95, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
-                    className="bg-[rgba(255,68,68,0.08)] border border-[rgba(255,68,68,0.2)] rounded-[8px] p-[20px_24px] mx-0 mt-4"
+                    className="bg-[rgba(255,68,68,0.08)] border border-border rounded-[8px] p-[20px_24px] mx-0 mt-4"
                   >
                     <div className="flex gap-2.5 items-center">
-                      <AlertTriangle size={18} className="text-[#FF4444]" />
-                      <span className="font-['JetBrains_Mono'] font-bold text-[14px] text-[#FF4444]">
+                      <AlertTriangle size={18} className="text-foreground" />
+                      <span className="font-['JetBrains_Mono'] font-bold text-[14px] text-foreground">
                         {result.error.code} — {result.error.message}
                       </span>
                     </div>
-                    <p className="mt-2 font-['DM_Sans'] font-normal text-[14px] text-[rgba(255,255,255,0.6)] leading-[1.6]">
+                    <p className="mt-2 font-['DM_Sans'] font-normal text-[14px] text-foreground/70 leading-[1.6]">
                       {result.error.detail}
                     </p>
                     <div className="mt-3 flex gap-4 font-['JetBrains_Mono'] text-[12px]">
-                      <span className="text-[rgba(255,255,255,0.4)]">Minimum required: 3 months</span>
-                      <span className="text-[#FF4444]">Detected: 1 month</span>
+                      <span className="text-foreground/70">Minimum required: 3 months</span>
+                      <span className="text-foreground">Detected: 1 month</span>
                     </div>
                   </motion.div>
                 ) : (
@@ -388,26 +411,26 @@ const Playground = () => {
                       animate={{ y: 0, opacity: 1 }}
                       transition={{ duration: 0.35 }}
                       className={`rounded-[8px] p-[20px_24px] flex justify-between items-center ${
-                        result.decision === 'APPROVE' ? 'bg-[rgba(0,255,148,0.08)] border border-[rgba(0,255,148,0.2)]' :
-                        result.decision === 'REJECT' ? 'bg-[rgba(255,68,68,0.08)] border border-[rgba(255,68,68,0.2)]' :
-                        'bg-[rgba(245,158,11,0.08)] border border-[rgba(245,158,11,0.2)]'
+                        result.decision === 'APPROVE' ? 'bg-[rgba(0,255,148,0.08)] border border-border' :
+                        result.decision === 'REJECT' ? 'bg-[rgba(255,68,68,0.08)] border border-border' :
+                        'bg-[rgba(245,158,11,0.08)] border border-border'
                       }`}
                     >
                       <div className="flex flex-col">
                         <div className="flex items-center gap-3">
                           {result.decision === 'APPROVE' && <CheckCircle2 size={24} className="text-[#00FF94]" />}
-                          {result.decision === 'REJECT' && <XCircle size={24} className="text-[#FF4444]" />}
-                          {result.decision === 'REVIEW' && <AlertCircle size={24} className="text-[#F59E0B]" />}
+                          {result.decision === 'REJECT' && <XCircle size={24} className="text-foreground" />}
+                          {result.decision === 'REVIEW' && <AlertCircle size={24} className="text-foreground" />}
                           <span className={`font-['DM_Sans'] font-extrabold text-[24px] ${
                             result.decision === 'APPROVE' ? 'text-[#00FF94]' :
-                            result.decision === 'REJECT' ? 'text-[#FF4444]' :
-                            'text-[#F59E0B]'
+                            result.decision === 'REJECT' ? 'text-foreground' :
+                            'text-foreground'
                           }`}>
                             {result.decision === 'APPROVE' ? 'APPROVED' : result.decision === 'REJECT' ? 'REJECTED' : 'REVIEW REQUIRED'}
                           </span>
                         </div>
                         {(result.decision === 'APPROVE' || result.decision === 'REVIEW') && (
-                          <span className="mt-1 font-['DM_Sans'] font-semibold text-[14px] text-[rgba(255,255,255,0.7)]">
+                          <span className="mt-1 font-['DM_Sans'] font-semibold text-[14px] text-foreground/70">
                             Credit Limit: ₹{result.credit_limit.toLocaleString('en-IN')}
                           </span>
                         )}
@@ -433,10 +456,10 @@ const Playground = () => {
                             />
                           </svg>
                           <div className="absolute inset-0 flex items-center justify-center">
-                            <span className="font-['JetBrains_Mono'] font-bold text-[18px] text-white">{result.risk_score}</span>
+                            <span className="font-['JetBrains_Mono'] font-bold text-[18px] text-foreground">{result.risk_score}</span>
                           </div>
                         </div>
-                        <span className="mt-1 font-['JetBrains_Mono'] text-[11px] text-[rgba(255,255,255,0.4)]">
+                        <span className="mt-1 font-['JetBrains_Mono'] text-[11px] text-foreground/70">
                           Confidence: {(result.confidence * 100).toFixed(0)}%
                         </span>
                       </div>
@@ -450,8 +473,8 @@ const Playground = () => {
                       className="space-y-4"
                     >
                       <div className="flex justify-between items-center px-1">
-                        <span className="font-['DM_Sans'] font-semibold text-[13px] text-[rgba(255,255,255,0.5)]">Decision Factors</span>
-                        <span className="font-['JetBrains_Mono'] text-[11px] text-[rgba(255,255,255,0.2)]">
+                        <span className="font-['DM_Sans'] font-semibold text-[13px] text-foreground/70">Decision Factors</span>
+                        <span className="font-['JetBrains_Mono'] text-[11px] text-foreground/70">
                           {result.audit_id.slice(0, 24)}...
                         </span>
                       </div>
@@ -465,19 +488,19 @@ const Playground = () => {
                             transition={{ delay: 0.3 + i * 0.08 }}
                           >
                             <div className="flex justify-between mb-0.5">
-                              <span className="font-['DM_Sans'] font-semibold text-[13px] text-white">{reason.label}</span>
-                              <span className="font-['JetBrains_Mono'] text-[13px] text-[rgba(255,255,255,0.5)]">{(reason.weight * 100).toFixed(0)}%</span>
+                              <span className="font-['DM_Sans'] font-semibold text-[13px] text-foreground">{reason.label}</span>
+                              <span className="font-['JetBrains_Mono'] text-[13px] text-foreground/70">{(reason.weight * 100).toFixed(0)}%</span>
                             </div>
-                            <p className="font-['DM_Sans'] font-normal text-[12px] text-[rgba(255,255,255,0.35)] mb-1.5">
+                            <p className="font-['DM_Sans'] font-normal text-[12px] text-foreground/70 mb-1.5">
                               {reason.detail}
                             </p>
-                            <div className="h-[5px] bg-[rgba(255,255,255,0.06)] rounded-[3px] overflow-hidden">
+                            <div className="h-[5px] bg-foreground/5 rounded-[3px] overflow-hidden">
                               <motion.div 
                                 initial={{ width: 0 }}
                                 animate={{ width: `${reason.weight * 100}%` }}
                                 transition={{ duration: 0.6, ease: "easeOut", delay: 0.4 + i * 0.08 }}
                                 className={`h-full rounded-[3px] ${
-                                  reason.sentiment === 'positive' ? 'bg-[#00FF94]' :
+                                  reason.sentiment === 'positive' ? 'bg-background' :
                                   reason.sentiment === 'negative' ? 'bg-[#FF4444]' :
                                   'bg-[#F59E0B]'
                                 }`}
@@ -496,9 +519,9 @@ const Playground = () => {
                       className="space-y-3"
                     >
                       <div className="flex justify-between items-center px-1">
-                        <span className="font-['DM_Sans'] font-semibold text-[13px] text-[rgba(255,255,255,0.5)]">Rules Evaluated</span>
+                        <span className="font-['DM_Sans'] font-semibold text-[13px] text-foreground/70">Rules Evaluated</span>
                         <div className={`font-['JetBrains_Mono'] text-[11px] px-2 py-0.5 rounded-[4px] ${
-                          result.rules_fired.filter(r => r.result).length > 2 ? 'text-[#00FF94] bg-[rgba(0,255,148,0.1)]' : 'text-[#FF4444] bg-[rgba(255,68,68,0.1)]'
+                          result.rules_fired.filter(r => r.result).length > 2 ? 'text-[#00FF94] bg-[rgba(0,255,148,0.1)]' : 'text-foreground bg-[rgba(255,68,68,0.1)]'
                         }`}>
                           {result.rules_fired.filter(r => !r.skipped).length}/{result.rules_fired.length} triggered
                         </div>
@@ -515,16 +538,16 @@ const Playground = () => {
                           >
                             <div className="shrink-0">
                               {rule.skipped ? (
-                                <span className="text-[rgba(255,255,255,0.2)] font-bold">—</span>
+                                <span className="text-foreground/70 font-bold">—</span>
                               ) : rule.result ? (
                                 <CheckCircle2 size={16} className="text-[#00FF94]" />
                               ) : (
-                                <XCircle size={16} className="text-[#FF4444]" />
+                                <XCircle size={16} className="text-foreground" />
                               )}
                             </div>
-                            <span className="font-['JetBrains_Mono'] text-[11px] text-[rgba(255,255,255,0.25)] min-w-[40px]">{rule.id}</span>
-                            <span className="font-['DM_Sans'] text-[13px] text-[rgba(255,255,255,0.6)]">{rule.name}</span>
-                            <span className="flex-1 text-right font-['JetBrains_Mono'] text-[11px] text-[rgba(255,255,255,0.2)]">{rule.condition}</span>
+                            <span className="font-['JetBrains_Mono'] text-[11px] text-foreground/70 min-w-[40px]">{rule.id}</span>
+                            <span className="font-['DM_Sans'] text-[13px] text-foreground/70">{rule.name}</span>
+                            <span className="flex-1 text-right font-['JetBrains_Mono'] text-[11px] text-foreground/70">{rule.condition}</span>
                           </motion.div>
                         ))}
                       </div>
@@ -535,14 +558,14 @@ const Playground = () => {
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       transition={{ delay: 0.75 }}
-                      className="border-t border-[rgba(255,255,255,0.08)] pt-4"
+                      className="border-t border-border pt-4"
                     >
                       <div 
                         onClick={() => setJsonExpanded(!jsonExpanded)}
                         className="flex justify-between items-center cursor-pointer px-1 group"
                       >
-                        <span className="font-['DM_Sans'] font-semibold text-[13px] text-[rgba(255,255,255,0.5)] group-hover:text-[rgba(255,255,255,0.8)] transition-colors">Raw Response</span>
-                        <div className="flex items-center gap-1.5 font-['DM_Sans'] text-[12px] text-[rgba(255,255,255,0.3)] group-hover:text-[rgba(255,255,255,0.5)]">
+                        <span className="font-['DM_Sans'] font-semibold text-[13px] text-foreground/70 group-hover:text-foreground/70 transition-colors">Raw Response</span>
+                        <div className="flex items-center gap-1.5 font-['DM_Sans'] text-[12px] text-foreground/70 group-hover:text-foreground/70">
                           {jsonExpanded ? '[Collapse ▴]' : '[Expand ▾]'}
                         </div>
                       </div>
@@ -555,7 +578,7 @@ const Playground = () => {
                             exit={{ height: 0, opacity: 0 }}
                             className="overflow-hidden mt-3"
                           >
-                            <pre className="bg-[#16161F] border border-[rgba(255,255,255,0.06)] rounded-[6px] p-4 font-['JetBrains_Mono'] text-[12px] text-[rgba(255,255,255,0.5)] max-height-[240px] overflow-y-auto whitespace-pre word-break-all">
+                            <pre className="bg-muted border border-border rounded-[6px] p-4 font-['JetBrains_Mono'] text-[12px] text-foreground/70 max-height-[240px] overflow-y-auto whitespace-pre word-break-all">
                               {JSON.stringify(result, null, 2)}
                             </pre>
                           </motion.div>
@@ -568,6 +591,8 @@ const Playground = () => {
             )}
           </AnimatePresence>
         </div>
+      </div>
+
       </div>
 
       <style>{`

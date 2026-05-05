@@ -66,7 +66,7 @@ const Apply = () => {
           animate={{ opacity: 1, y: 0 }}
           className="w-full max-w-md"
         >
-          <div className="glass-panel border-2 border-white/10 bg-black/40 backdrop-blur-xl rounded-3xl p-8 shadow-2xl relative overflow-hidden">
+          <div className="glass-panel border-2 border-border bg-background/40 backdrop-blur-xl rounded-3xl p-8 shadow-2xl relative overflow-hidden">
             {/* Inner glow */}
             <div className="absolute inset-x-0 -top-px h-px w-full bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
 
@@ -90,7 +90,7 @@ const Apply = () => {
                       value={formData.applicantName}
                       onChange={handleChange}
                       placeholder="e.g. Satoshi Nakamoto" 
-                      className="w-full bg-secondary/30 border border-white/10 rounded-xl px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
+                      className="w-full bg-secondary/30 border border-border rounded-xl px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
                     />
                   </div>
                   
@@ -103,7 +103,7 @@ const Apply = () => {
                       value={formData.annualIncome}
                       onChange={handleChange}
                       placeholder="e.g. 1500000" 
-                      className="w-full bg-secondary/30 border border-white/10 rounded-xl px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
+                      className="w-full bg-secondary/30 border border-border rounded-xl px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
                     />
                   </div>
 
@@ -117,7 +117,7 @@ const Apply = () => {
                         value={formData.loanAmount}
                         onChange={handleChange}
                         placeholder="e.g. 500000" 
-                        className="w-full bg-secondary/30 border border-white/10 rounded-xl px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
+                        className="w-full bg-secondary/30 border border-border rounded-xl px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
                       />
                     </div>
                     <div className="space-y-1.5">
@@ -129,7 +129,7 @@ const Apply = () => {
                         value={formData.creditDebt}
                         onChange={handleChange}
                         placeholder="e.g. 100000" 
-                        className="w-full bg-secondary/30 border border-white/10 rounded-xl px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
+                        className="w-full bg-secondary/30 border border-border rounded-xl px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
                       />
                     </div>
                   </div>
@@ -162,7 +162,7 @@ const Apply = () => {
                   <br/>
                   Arera AI has instantly processed your data.
                 </p>
-                <Link to="/auth" className="inline-block px-6 py-3 rounded-xl bg-white/10 text-foreground font-medium hover:bg-white/20 transition-colors text-sm border border-white/5">
+                <Link to="/auth" className="inline-block px-6 py-3 rounded-xl bg-foreground/10 text-foreground font-medium hover:bg-foreground/20 transition-colors text-sm border border-white/5">
                   Go to Lender Dashboard
                 </Link>
               </motion.div>

@@ -22,17 +22,17 @@ const AuditReportModal: React.FC<AuditReportModalProps> = ({ isOpen, onClose, lo
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="absolute inset-0 bg-black/80 backdrop-blur-md"
+            className="absolute inset-0 bg-background/80 backdrop-blur-md"
           />
           
           <motion.div 
             initial={{ scale: 0.95, opacity: 0, y: 20 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.95, opacity: 0, y: 20 }}
-            className="relative w-full max-w-5xl h-[90vh] bg-[#111118] border border-white/10 rounded-[2.5rem] shadow-2xl flex flex-col overflow-hidden"
+            className="relative w-full max-w-5xl h-[90vh] bg-surface border border-border rounded-[2.5rem] shadow-2xl flex flex-col overflow-hidden"
           >
             {/* Modal Header */}
-            <div className="p-6 border-b border-white/5 flex items-center justify-between bg-white/5 backdrop-blur-xl">
+            <div className="p-6 border-b border-white/5 flex items-center justify-between bg-foreground/5 backdrop-blur-xl">
               <div className="flex items-center gap-4">
                 <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
                   <ShieldCheck size={20} />
@@ -44,7 +44,7 @@ const AuditReportModal: React.FC<AuditReportModalProps> = ({ isOpen, onClose, lo
               </div>
               
               <div className="flex items-center gap-2">
-                <button className="p-3 hover:bg-white/5 rounded-xl text-muted-foreground transition-all">
+                <button className="p-3 hover:bg-foreground/5 rounded-xl text-muted-foreground transition-all">
                   <Printer size={18} />
                 </button>
                 <button className="flex items-center gap-2 px-5 py-2.5 bg-primary text-white rounded-xl text-xs font-black uppercase tracking-widest shadow-glow hover:opacity-90 transition-all">
@@ -52,7 +52,7 @@ const AuditReportModal: React.FC<AuditReportModalProps> = ({ isOpen, onClose, lo
                 </button>
                 <button 
                   onClick={onClose}
-                  className="p-3 hover:bg-white/5 rounded-xl text-muted-foreground transition-all ml-2"
+                  className="p-3 hover:bg-foreground/5 rounded-xl text-muted-foreground transition-all ml-2"
                 >
                   <X size={20} />
                 </button>
@@ -65,12 +65,12 @@ const AuditReportModal: React.FC<AuditReportModalProps> = ({ isOpen, onClose, lo
               <div className="flex justify-between items-start border-b-2 border-black pb-8 mb-8">
                 <div>
                    <h1 className="text-3xl font-black uppercase tracking-tighter mb-1 font-sans">ARERA ENGINE</h1>
-                   <p className="text-xs uppercase tracking-widest font-bold text-gray-500">Regulator Export Generator (RBI Sub-Clause 11B)</p>
+                   <p className="text-xs uppercase tracking-widest font-bold text-muted-foreground">Regulator Export Generator (RBI Sub-Clause 11B)</p>
                 </div>
                 <div className="text-right text-xs">
                    <p><strong>Export Hash:</strong> 8F92-XA1B-44LL-0001</p>
                    <p><strong>Generation DB Time:</strong> {new Date().toISOString()}</p>
-                   <p><strong>Record Status:</strong> <span className="bg-black text-white px-2 py-0.5 rounded ml-1">IMMUTABLE / SEALED</span></p>
+                   <p><strong>Record Status:</strong> <span className="bg-background text-foreground px-2 py-0.5 rounded ml-1">IMMUTABLE / SEALED</span></p>
                 </div>
               </div>
 
@@ -81,14 +81,14 @@ const AuditReportModal: React.FC<AuditReportModalProps> = ({ isOpen, onClose, lo
               
               <div className="grid grid-cols-2 gap-8 mb-10 text-sm font-sans">
                  <div>
-                    <p className="mb-2"><span className="text-gray-500 w-32 inline-block">Execute Engine:</span> System Deterministic Node</p>
-                    <p className="mb-2"><span className="text-gray-500 w-32 inline-block">Trigger Source:</span> API.Ingress.v1</p>
-                    <p className="mb-2"><span className="text-gray-500 w-32 inline-block">Execution Policy:</span> risk_policy_v2_1.json</p>
+                    <p className="mb-2"><span className="text-muted-foreground w-32 inline-block">Execute Engine:</span> System Deterministic Node</p>
+                    <p className="mb-2"><span className="text-muted-foreground w-32 inline-block">Trigger Source:</span> API.Ingress.v1</p>
+                    <p className="mb-2"><span className="text-muted-foreground w-32 inline-block">Execution Policy:</span> risk_policy_v2_1.json</p>
                  </div>
                  <div>
-                    <p className="mb-2"><span className="text-gray-500 w-32 inline-block">Decision:</span> <strong className="text-green-700">APPROVED</strong></p>
-                    <p className="mb-2"><span className="text-gray-500 w-32 inline-block">Compute Time:</span> 42ms</p>
-                    <p className="mb-2"><span className="text-gray-500 w-32 inline-block">Compliance:</span> VERIFIED (Level 1)</p>
+                    <p className="mb-2"><span className="text-muted-foreground w-32 inline-block">Decision:</span> <strong className="text-green-700">APPROVED</strong></p>
+                    <p className="mb-2"><span className="text-muted-foreground w-32 inline-block">Compute Time:</span> 42ms</p>
+                    <p className="mb-2"><span className="text-muted-foreground w-32 inline-block">Compliance:</span> VERIFIED (Level 1)</p>
                  </div>
               </div>
 
@@ -108,9 +108,9 @@ const AuditReportModal: React.FC<AuditReportModalProps> = ({ isOpen, onClose, lo
                     <div key={step.rule} className="flex items-start justify-between text-xs border-b border-gray-200 pb-3 last:border-0 last:pb-0">
                       <div>
                         <div className="font-bold flex items-center gap-2">
-                          <span className="text-gray-400">{step.rule}</span> {step.name}
+                          <span className="text-muted-foreground">{step.rule}</span> {step.name}
                         </div>
-                        <div className="text-gray-500 mt-1">{step.evidence}</div>
+                        <div className="text-muted-foreground mt-1">{step.evidence}</div>
                       </div>
                       <div className="font-black text-green-700">{step.result}</div>
                     </div>
@@ -123,13 +123,13 @@ const AuditReportModal: React.FC<AuditReportModalProps> = ({ isOpen, onClose, lo
                 <div className="flex items-center gap-6">
                   <div className="p-4 bg-gray-100 rounded">
                     <div className="w-16 h-16 bg-white border border-gray-300 flex items-center justify-center">
-                       <div className="w-12 h-12 bg-black/5 flex flex-wrap gap-1 p-1">
-                          {Array.from({length: 16}).map((_, i) => <div key={i} className={`w-2 h-2 ${Math.random() > 0.5 ? 'bg-black' : 'bg-gray-300'}`} />)}
+                       <div className="w-12 h-12 bg-background/5 flex flex-wrap gap-1 p-1">
+                          {Array.from({length: 16}).map((_, i) => <div key={i} className={`w-2 h-2 ${Math.random() > 0.5 ? 'bg-background' : 'bg-gray-300'}`} />)}
                        </div>
                     </div>
                   </div>
                   <div className="flex-1">
-                    <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">SHA-256 Ledger Verification</p>
+                    <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mb-1">SHA-256 Ledger Verification</p>
                     <code className="text-[10px] break-all text-gray-600 block leading-relaxed">
                       0x8f92xa1b44ll0001c9e782f59e0bc9e782f59e0bc9e782f59e0bc9e782f59e0b
                     </code>
@@ -139,7 +139,7 @@ const AuditReportModal: React.FC<AuditReportModalProps> = ({ isOpen, onClose, lo
             </div>
 
             {/* Modal Footer (Ambient) */}
-            <div className="p-6 bg-white/5 border-t border-white/5 flex items-center justify-center gap-3">
+            <div className="p-6 bg-foreground/5 border-t border-white/5 flex items-center justify-center gap-3">
               <Lock size={12} className="text-muted-foreground" />
               <span className="text-[9px] font-black uppercase tracking-[0.3em] text-muted-foreground">End of Compliance Record — Arera Deterministic Engine v2.1.0</span>
             </div>

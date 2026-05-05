@@ -158,7 +158,7 @@ const Sandbox = () => {
                  <div className="absolute top-0 right-0 p-3 flex gap-2">
                    <div className="text-xs font-mono font-bold text-muted-foreground bg-secondary px-2 py-1 rounded">POST /v1/underwrite</div>
                  </div>
-                 <pre className="bg-[#0d1117] text-gray-300 p-6 rounded-xl font-mono text-sm border border-border/50 overflow-x-auto shadow-inner">
+                 <pre className="bg-background text-muted-foreground p-6 rounded-xl font-mono text-sm border border-border/50 overflow-x-auto shadow-inner">
                    <code>
 <span className="text-pink-400">const</span> payload = {"{\n"}
   <span className="text-green-300">"applicant_id"</span>: <span className="text-yellow-200">"{activeScenario.payload.applicant_id}"</span>,
@@ -195,14 +195,14 @@ const Sandbox = () => {
             </div>
 
             {/* Right Pane - API Response */}
-            <div className="p-8 bg-[#0a0c10] relative flex flex-col items-center justify-center min-h-[400px]">
+            <div className="p-8 bg-background relative flex flex-col items-center justify-center min-h-[400px]">
               
               {!isExecuting && !response && (
                  <div className="text-center opacity-40">
                    <div className="w-16 h-16 rounded-full bg-secondary flex items-center justify-center mx-auto mb-4 border border-border">
-                     <Zap size={24} className="ml-1 text-white" />
+                     <Zap size={24} className="ml-1 text-foreground" />
                    </div>
-                   <p className="font-mono text-sm text-white">Awaiting execution...</p>
+                   <p className="font-mono text-sm text-foreground">Awaiting execution...</p>
                  </div>
               )}
 
@@ -234,8 +234,8 @@ const Sandbox = () => {
 
               {response && !isExecuting && (
                 <div className="w-full h-full flex flex-col">
-                  <div className="flex items-center justify-between border-b border-gray-800 pb-4 mb-6">
-                    <h2 className="font-bold text-white text-xl flex items-center gap-2">
+                  <div className="flex items-center justify-between border-b border-border pb-4 mb-6">
+                    <h2 className="font-bold text-foreground text-xl flex items-center gap-2">
                        <span className="w-6 h-6 rounded-full bg-primary/20 text-primary flex items-center justify-center text-xs">2</span> 
                        Response
                     </h2>
@@ -255,7 +255,7 @@ const Sandbox = () => {
                       </div>
                     </div>
 
-                    <pre className="text-sm font-mono text-gray-300">
+                    <pre className="text-sm font-mono text-muted-foreground">
 {"{\n"}
   <span className="text-green-300">"id"</span>: <span className="text-yellow-200">"res_89af74"</span>,
   <span className="text-green-300">"decision"</span>: <span className={response.decision === "APPROVED" ? "text-green-400" : response.decision === "DECLINED" ? "text-red-400" : "text-yellow-400"}>"{response.decision}"</span>,

@@ -77,7 +77,7 @@ export default function PolicyEditor() {
           <p className="text-muted-foreground mt-1 font-medium">Configure the algorithmic thresholds that dictate your auto-decisioning logic.</p>
         </div>
         <div className="flex gap-3">
-          <button className="flex items-center gap-2 px-5 py-2.5 bg-white/5 border border-white/10 rounded-xl text-xs font-black uppercase tracking-widest text-muted-foreground hover:bg-white/10 transition-all">
+          <button className="flex items-center gap-2 px-5 py-2.5 bg-foreground/5 border border-border rounded-xl text-xs font-black uppercase tracking-widest text-muted-foreground hover:bg-foreground/10 transition-all">
             <History size={14} /> Version History
           </button>
           <button className="flex items-center gap-2 px-5 py-2.5 bg-primary/10 border border-primary/20 text-primary rounded-xl text-xs font-black uppercase tracking-widest hover:bg-primary/20 transition-all">
@@ -101,10 +101,10 @@ export default function PolicyEditor() {
               className={`w-full flex items-center gap-4 px-5 py-4 rounded-2xl text-sm font-black transition-all group ${
                 activeRuleTab === item.id 
                   ? "bg-primary text-white shadow-glow" 
-                  : "text-muted-foreground hover:bg-white/5 border border-transparent"
+                  : "text-muted-foreground hover:bg-foreground/5 border border-transparent"
               }`}
             >
-              <item.icon size={18} className={activeRuleTab === item.id ? "text-white" : item.color} />
+              <item.icon size={18} className={activeRuleTab === item.id ? "text-foreground" : item.color} />
               <span className="uppercase tracking-widest text-[11px]">{item.label}</span>
               {activeRuleTab === item.id && <ChevronRight size={14} className="ml-auto opacity-40" />}
             </button>
@@ -117,20 +117,20 @@ export default function PolicyEditor() {
             key={activeRuleTab}
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="glass-panel-heavy bg-card/40 border border-white/10 p-8 rounded-[2.5rem]"
+            className="glass-panel-heavy bg-card/40 border border-border p-8 rounded-[2.5rem]"
           >
             <div className="flex items-center justify-between mb-10 pb-6 border-b border-white/5">
               <h3 className="font-black text-xl uppercase tracking-tighter flex items-center gap-3 italic">
                 {activeRuleTab.replace('-', ' ')} Logic
               </h3>
               <div className="flex gap-3">
-                <button className="flex items-center gap-2 px-5 py-2.5 bg-white/5 border border-white/10 rounded-xl text-[10px] font-black uppercase tracking-widest text-white hover:bg-white/10 transition-all">
+                <button className="flex items-center gap-2 px-5 py-2.5 bg-foreground/5 border border-border rounded-xl text-[10px] font-black uppercase tracking-widest text-foreground hover:bg-foreground/10 transition-all">
                   <Plus size={14} /> Add Rule
                 </button>
                 <button 
                   onClick={handleSave} 
                   disabled={!hasChanges || isSaving}
-                  className={`flex items-center gap-2 px-6 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${hasChanges ? 'bg-primary text-white shadow-glow' : 'bg-white/5 text-muted-foreground opacity-50 cursor-not-allowed border border-white/5'}`}
+                  className={`flex items-center gap-2 px-6 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${hasChanges ? 'bg-primary text-white shadow-glow' : 'bg-foreground/5 text-muted-foreground opacity-50 cursor-not-allowed border border-white/5'}`}
                 >
                   {isSaving ? <Loader2 size={14} className="animate-spin" /> : <Save size={14} />} 
                   {isSaving ? "Deploying..." : "Commit Changes"}
@@ -143,20 +143,20 @@ export default function PolicyEditor() {
               {(rules[activeRuleTab] || []).map((rule, idx) => (
                 <div 
                   key={rule.id}
-                  className="group flex flex-col md:flex-row md:items-center gap-6 p-6 bg-[#0A0A0F]/60 border border-white/5 rounded-2xl hover:border-primary/30 transition-all"
+                  className="group flex flex-col md:flex-row md:items-center gap-6 p-6 bg-background/60 border border-white/5 rounded-2xl hover:border-primary/30 transition-all"
                 >
                   <div className="w-10 h-10 rounded-xl bg-secondary flex items-center justify-center font-mono text-xs font-black text-muted-foreground/40 border border-white/5 italic">
                     {idx + 1}
                   </div>
                   
                   <div className="flex-1 grid grid-cols-3 gap-4">
-                    <div className="bg-white/5 p-3 rounded-xl border border-white/5 text-[11px] font-black uppercase tracking-widest text-white flex items-center justify-between group-hover:bg-white/10 transition-all">
+                    <div className="bg-foreground/5 p-3 rounded-xl border border-white/5 text-[11px] font-black uppercase tracking-widest text-foreground flex items-center justify-between group-hover:bg-foreground/10 transition-all">
                       {rule.field} <ChevronRight size={12} className="text-primary opacity-40" />
                     </div>
                     <div className="bg-primary/5 p-3 rounded-xl border border-primary/10 text-xs text-primary font-black text-center italic">
                       {rule.op}
                     </div>
-                    <div className="bg-white/5 p-3 rounded-xl border border-white/5 text-[11px] text-foreground font-mono flex items-center justify-center group-hover:bg-white/10 transition-all">
+                    <div className="bg-foreground/5 p-3 rounded-xl border border-white/5 text-[11px] text-foreground font-mono flex items-center justify-center group-hover:bg-foreground/10 transition-all">
                       <input 
                         type="text" 
                         value={rule.value} 
