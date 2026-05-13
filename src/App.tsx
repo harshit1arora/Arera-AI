@@ -27,6 +27,9 @@ import Dashboard from "./pages/Dashboard.tsx";
 import Console from "./pages/Console.tsx";
 import Playground from "./pages/Playground.tsx";
 import Apply from "./pages/Apply.tsx";
+import ContactSales from "./pages/ContactSales.tsx";
+import StartFreeTrial from "./pages/StartFreeTrial.tsx";
+import BorrowerPortal from "./pages/BorrowerPortal.tsx";
 
 const queryClient = new QueryClient();
 
@@ -44,9 +47,12 @@ const App = () => (
               <Route path="/auth" element={<Auth />} />
               <Route path="/apply" element={<Apply />} />
               <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
-              <Route path="/console" element={<Console />} />
-              <Route path="/playground" element={<Playground />} />
+              <Route path="/console" element={<ProtectedRoute><Console /></ProtectedRoute>} />
+              <Route path="/playground" element={<ProtectedRoute><Playground /></ProtectedRoute>} />
+              <Route path="/borrower" element={<BorrowerPortal />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+            <Route path="/contact-sales" element={<ContactSales />} />
+            <Route path="/start-free-trial" element={<StartFreeTrial />} />
             <Route path="/kyc-engine" element={<KycEngine />} />
             <Route path="/credit-scoring" element={<CreditScoring />} />
             <Route path="/rules-engine" element={<RulesEngine />} />

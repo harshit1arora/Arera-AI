@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { 
   Activity, ShieldAlert, TrendingDown, TrendingUp, Search, 
   ChevronRight, Map, PieChart, FileText, Bell, Filter, Download,
-  Zap, AlertTriangle, CheckCircle, Clock, MapPin, Building2
+  Zap, AlertTriangle, CheckCircle, Clock, MapPin, Building2, Bot
 } from "lucide-react";
 import { 
   AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, 
@@ -12,6 +12,7 @@ import {
 import { useAuth } from "@/contexts/AuthContext";
 import { subscribeToSentinelBorrowers, MonitoredBorrower } from "@/lib/firestore";
 import { toast } from "sonner";
+import { UnderwritingCopilot } from "./UnderwritingCopilot";
 
 export default function Sentinel() {
   const { orgId } = useAuth();
@@ -315,7 +316,7 @@ export default function Sentinel() {
                   </div>
                 </div>
 
-                <div className="grid lg:grid-cols-2 gap-8">
+                <div className="grid lg:grid-cols-3 gap-8">
                   {/* Digital Signals */}
                   <div className="space-y-6">
                     <h5 className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground flex items-center gap-2">
@@ -362,6 +363,16 @@ export default function Sentinel() {
                        <button className="w-full py-4 bg-red-500/10 hover:bg-red-500/20 text-red-500 border border-red-500/20 rounded-2xl font-black uppercase text-[10px] tracking-widest transition-all shadow-glow">
                           Invoke Intervention Protocol
                        </button>
+                    </div>
+                  </div>
+
+                  {/* Underwriting Copilot */}
+                  <div className="space-y-6 h-full flex flex-col">
+                    <h5 className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground flex items-center gap-2">
+                       <Bot size={14} className="text-primary" /> Analyst Copilot
+                    </h5>
+                    <div className="flex-1 min-h-[400px]">
+                      <UnderwritingCopilot borrower={selectedBorrower} />
                     </div>
                   </div>
                 </div>

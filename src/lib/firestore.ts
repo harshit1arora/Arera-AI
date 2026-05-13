@@ -160,13 +160,7 @@ export const revokeApiKey = async (id: string) => {
   await parseResponse(res);
 };
 
-export const validateApiKey = async (keyString: string): Promise<ApiKey | null> => {
-  const q = query(collection(db, "api_keys"), where("key", "==", keyString), where("isActive", "==", true));
-  const snapshot = await getDocs(q);
-  if (snapshot.empty) return null;
-  const doc = snapshot.docs[0];
-  return { id: doc.id, ...doc.data() } as ApiKey;
-};
+
 
 // ------ RISK POLICIES ------
 export const getRiskPolicy = async (orgId: string): Promise<RiskPolicy | null> => {

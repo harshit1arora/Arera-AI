@@ -272,6 +272,31 @@ export default function DeveloperPortal() {
         </div>
       </div>
 
+      {/* Interactive API Docs */}
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="glass-panel bg-secondary/10 border border-white/5 rounded-3xl overflow-hidden mt-8 flex flex-col h-[800px]"
+      >
+        <div className="p-6 border-b border-white/5 bg-background/50 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+             <div className="p-2 bg-primary/10 rounded-lg">
+               <Terminal size={18} className="text-primary" />
+             </div>
+             <div>
+               <h3 className="font-bold text-lg">Interactive API Explorer</h3>
+               <p className="text-xs text-muted-foreground">Test endpoints live directly from your browser.</p>
+             </div>
+          </div>
+          <a href={`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080'}/docs`} target="_blank" rel="noreferrer" className="text-xs text-primary hover:underline">Open in new tab</a>
+        </div>
+        <iframe 
+          src={`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080'}/docs`} 
+          className="w-full flex-1 bg-white" 
+          title="Swagger API Docs"
+        />
+      </motion.div>
+
       {/* Secret Key Modal (Show Once) */}
       <AnimatePresence>
         {newKeyData && (

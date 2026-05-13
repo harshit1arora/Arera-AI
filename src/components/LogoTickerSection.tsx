@@ -1,16 +1,15 @@
 import { motion } from "framer-motion";
 
 const logos = [
-  { name: "ICICI Bank", color: "text-orange-600 dark:text-orange-500" },
-  { name: "HDFC Bank", color: "text-blue-800 dark:text-blue-500" },
-  { name: "Muthoot Fincorp", color: "text-yellow-600 dark:text-yellow-500" },
-  { name: "Tata Capital", color: "text-blue-600 dark:text-blue-400" },
-  { name: "Bajaj Finserv", color: "text-cyan-700 dark:text-cyan-400" },
-  { name: "Kotak Mahindra", color: "text-red-700 dark:text-red-500" },
-  { name: "Axis Bank", color: "text-blue-700 dark:text-blue-400" },
-  { name: "SBI Cards", color: "text-blue-500 dark:text-blue-300" },
-  { name: "L&T Finance", color: "text-orange-700 dark:text-orange-400" },
-  { name: "Aditya Birla", color: "text-purple-700 dark:text-purple-400" },
+  { name: "HDFC Bank", color: "text-[#004C8F]" },
+  { name: "Muthoot Fincorp", color: "text-[#D3A144]" },
+  { name: "Tata Capital", color: "text-[#0051B4]" },
+  { name: "Bajaj Finserv", color: "text-[#008CB9]" },
+  { name: "Kotak Mahindra", color: "text-[#ED1C24]" },
+  { name: "Axis Bank", color: "text-[#97144D]" },
+  { name: "SBI Cards", color: "text-[#007CC0]" },
+  { name: "L&T Finance", color: "text-[#F15A22]" },
+  { name: "ICICI Bank", color: "text-[#F26522]" },
 ];
 
 const LogoTickerSection = () => (
@@ -18,8 +17,8 @@ const LogoTickerSection = () => (
     <div className="absolute top-0 bottom-0 left-0 w-32 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
     <div className="absolute top-0 bottom-0 right-0 w-32 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
     
-    <div className="container mx-auto px-6 mb-4 text-center">
-      <p className="text-xs font-semibold text-muted-foreground uppercase tracking-widest font-accent">
+    <div className="container mx-auto px-6 mb-8 text-center">
+      <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest font-accent">
         Architected to integrate seamlessly with modern financial ecosystems
       </p>
     </div>
@@ -27,14 +26,14 @@ const LogoTickerSection = () => (
     <div className="flex w-full relative overflow-hidden">
       <motion.div
         animate={{ x: ["0%", "-50%"] }}
-        transition={{ repeat: Infinity, ease: "linear", duration: 20 }}
-        className="flex whitespace-nowrap items-center w-max gap-16 px-8"
+        transition={{ repeat: Infinity, ease: "linear", duration: 30 }}
+        className="flex items-center w-max gap-16 px-8"
       >
-        {/* Double the array for seamless infinite scroll */}
         {[...logos, ...logos, ...logos].map((logo, i) => (
           <div
             key={i}
-            className={`text-xl font-display font-black opacity-60 hover:opacity-100 transition-opacity cursor-default ${logo.color}`}
+            className={`text-3xl md:text-4xl font-black tracking-tight whitespace-nowrap cursor-default opacity-80 hover:opacity-100 transition-opacity drop-shadow-sm ${logo.color}`}
+            style={{ fontFamily: "'Inter', 'SF Pro Display', sans-serif" }}
           >
             {logo.name}
           </div>

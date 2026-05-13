@@ -1,5 +1,6 @@
 import { Check } from "lucide-react";
 import { FadeUp } from "./arera/FadeUp";
+import { Link } from "react-router-dom";
 
 const PricingSection = () => {
   const plans = [
@@ -108,15 +109,16 @@ const PricingSection = () => {
                   </ul>
                 </div>
 
-                <button 
-                  className={`w-full mt-8 py-[13px] rounded-[6px] font-['DM_Sans'] text-[14px] transition-all ${
-                    plan.highlighted 
-                      ? 'bg-[#F97316] text-foreground font-bold hover:brightness-[1.08]' 
+                <Link
+                  to={plan.cta === "Contact Sales" ? "/contact-sales" : "/start-free-trial"}
+                  className={`w-full mt-8 py-[13px] rounded-[6px] font-['DM_Sans'] text-[14px] transition-all block text-center ${
+                    plan.highlighted
+                      ? 'bg-[#F97316] text-foreground font-bold hover:brightness-[1.08]'
                       : 'bg-transparent border border-border text-foreground font-semibold hover:bg-foreground/5'
                   }`}
                 >
                   {plan.cta}
-                </button>
+                </Link>
               </div>
             </FadeUp>
           ))}

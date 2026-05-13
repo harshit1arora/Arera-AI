@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { 
-  Terminal, Globe, Shield, Activity, Database, Users, 
+import {
+  Terminal, Globe, Shield, Activity, Database, Users,
   Settings, ChevronRight, LayoutGrid, Box, Cpu, AlertCircle, CheckCircle2,
-  Zap, ArrowRight, Sun, Moon, Plus, Copy, MoreVertical, 
+  Zap, ArrowRight, Sun, Moon, Plus, Copy, MoreVertical,
   Filter, Download, Trash2, Mail, ShieldCheck, UserPlus,
-  BarChart3, LineChart, Layers, Webhook
+  BarChart3, LineChart, Layers, Webhook, Building2, Link2, RefreshCw, PlusCircle
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import { useAuth } from "@/contexts/AuthContext";
@@ -18,8 +18,11 @@ import {
 import { useTrafficSimulator } from "@/hooks/useTrafficSimulator";
 import { useTheme } from "@/contexts/ThemeContext";
 import { toast } from "sonner";
+import BankAccountsView from "@/components/dashboard/BankAccountsView";
+import CommTemplatesView from "@/components/dashboard/CommTemplatesView";
+import ProductsView from "@/components/dashboard/ProductsView";
 
-type View = 'overview' | 'tokens' | 'logs' | 'webhooks' | 'health' | 'clusters' | 'iam' | 'settings';
+type View = 'overview' | 'tokens' | 'logs' | 'webhooks' | 'health' | 'clusters' | 'iam' | 'settings' | 'banking' | 'communications' | 'products';
 
 export default function Console() {
   const { orgId } = useAuth();
@@ -73,6 +76,9 @@ export default function Console() {
     { id: 'logs', label: "Request Logs", icon: Terminal },
     { id: 'webhooks', label: "Webhooks", icon: Webhook },
     { id: 'health', label: "Health Hub", icon: Activity },
+    { id: 'products', label: "Loan Products", icon: Box },
+    { id: 'banking', label: "Bank Accounts", icon: Building2 },
+    { id: 'communications', label: "Comms Hub", icon: Mail },
     { id: 'clusters', label: "Data Clusters", icon: Database },
     { id: 'iam', label: "Team Access", icon: Users },
     { id: 'settings', label: "Global Settings", icon: Settings },
@@ -187,6 +193,9 @@ export default function Console() {
               {activeView === 'clusters' && renderClusters(clusters)}
               {activeView === 'iam' && renderIAM(members, orgId)}
               {activeView === 'settings' && renderSettings()}
+              {activeView === 'products' && <ProductsView orgId={orgId} />}
+              {activeView === 'banking' && <BankAccountsView orgId={orgId} />}
+              {activeView === 'communications' && <CommTemplatesView orgId={orgId} />}
             </motion.div>
           </AnimatePresence>
         </main>
@@ -254,11 +263,11 @@ export default function Console() {
 
 // Sub-renders for cleanliness
 function renderOverview(logs: UsageLog[], simulatorEnabled: boolean, orgId: string | null) {
-  // Hardcoded for YC Demo per instructions
-  const activeCount = 147;
-  const efficiency = "68.4%";
-  const avgLatency = 142;
-  const failureCount = 46;
+  const activeCount = logs.length;
+  const successCount = logs.filter(l => l.status === 200 || l.status === 201).length;
+  const efficiency = logs.length > 0 ? ((successCount / logs.length) * 100).toFixed(1) + "%" : "0%";
+  const avgLatency = logs.length > 0 ? Math.round(logs.reduce((acc, log) => acc + log.durationMs, 0) / logs.length) : 0;
+  const failureCount = logs.filter(l => l.status >= 400).length;
 
   return (
     <div className="space-y-10 pb-20">

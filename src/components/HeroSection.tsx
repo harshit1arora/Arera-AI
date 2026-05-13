@@ -6,7 +6,7 @@ const HeroSection = () => {
   const navigate = useNavigate();
 
   return (
-    <section className="relative min-h-screen pt-[56px] pb-20 bg-background flex items-center overflow-hidden">
+    <section className="relative min-h-screen pt-[120px] pb-20 bg-background flex items-center overflow-hidden">
       {/* Radial Glow */}
       <div
         className="absolute inset-0 pointer-events-none"

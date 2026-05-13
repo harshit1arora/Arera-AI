@@ -30,12 +30,6 @@ export const authenticateApiToken = async (req: AuthenticatedRequest, res: Respo
 
   const token = authHeader.split('Bearer ')[1];
 
-  if (token === 'demo_token_123') {
-    req.orgId = 'public-demo-bank';
-    req.apiKeyId = 'demo-api-key';
-    return next();
-  }
-
   try {
     // Hash the incoming key and compare against stored hashes
     const hashedToken = hashApiKey(token);
@@ -90,12 +84,6 @@ export const authenticateFirebaseToken = async (req: AuthenticatedRequest, res: 
 
   const idToken = authHeader.split('Bearer ')[1];
 
-  if (idToken === 'demo_token_123') {
-    req.uid = 'public-demo-bank';
-    req.orgId = 'public-demo-bank';
-    return next();
-  }
-
   try {
     const decodedToken = await admin.auth().verifyIdToken(idToken);
     req.uid = decodedToken.uid;
@@ -104,5 +92,25 @@ export const authenticateFirebaseToken = async (req: AuthenticatedRequest, res: 
   } catch (err) {
     console.error('Firebase token verification failed:', err);
     return res.status(401).json({ error: 'Invalid or expired authentication token' });
+  }
+};
+
+/**
+ * Middleware: Authenticate via API Key or Firebase ID Token.
+ * Allows dual access for both internal dashboard and external API clients.
+ */
+export const authenticateAnyToken = async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
+  const authHeader = req.headers.authorization;
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return res.status(401).json({ error: 'Missing or malformed Authorization header' });
+  }
+
+  const token = authHeader.split('Bearer ')[1];
+  
+  // Firebase ID tokens are very long JWTs (typically > 500 chars), API keys are shorter
+  if (token.length > 200) {
+    return authenticateFirebaseToken(req, res, next);
+  } else {
+    return authenticateApiToken(req, res, next);
   }
 };

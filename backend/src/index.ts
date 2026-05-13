@@ -3,7 +3,9 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import rateLimit from 'express-rate-limit';
 import helmet from 'helmet';
-import { authenticateApiToken, authenticateFirebaseToken } from './middleware/auth';
+import swaggerUi from 'swagger-ui-express';
+import { swaggerSpec } from './swagger';
+import { authenticateApiToken, authenticateFirebaseToken, authenticateAnyToken } from './middleware/auth';
 import evaluateRouter from './routes/evaluate';
 import apikeysRouter from './routes/apikeys';
 import policiesRouter from './routes/policies';
@@ -11,6 +13,17 @@ import webhooksRouter from './routes/webhooks';
 import sentinelRouter from './routes/sentinel';
 import analyticsRouter from './routes/analytics';
 import systemRouter from './routes/system';
+import disbursementsRouter from './routes/disbursements';
+import bankAccountsRouter from './routes/bank-accounts';
+import communicationsRouter from './routes/communications';
+import loansRouter from './routes/loans';
+import productsRouter from './routes/products';
+import repaymentsRouter from './routes/repayment';
+import collectionsRouter from './routes/collections';
+import reportingRouter from './routes/reporting';
+import borrowerRouter from './routes/borrower';
+import billingRouter from './routes/billing';
+import copilotRouter from './routes/copilot';
 
 dotenv.config();
 
@@ -64,17 +77,33 @@ app.get('/health', (req, res) => {
   });
 });
 
+// ── API Documentation (Public) ─────────────────────────────────────
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, { customSiteTitle: "Arera API Docs" }));
+
 // ── Admin Routes (Secured by Firebase ID Tokens) ───────────────────
 // apikeys router handles its own auth internally (authenticateFirebaseToken)
 app.use('/v1/apikeys', apikeysRouter);
 
-// ── Protected API Routes (Secured by API Keys) ────────────────────
-app.use('/v1/evaluate', authenticateApiToken, evaluateRouter);
-app.use('/v1/policies', authenticateApiToken, policiesRouter);
-app.use('/v1/webhooks', authenticateApiToken, webhooksRouter);
-app.use('/v1/sentinel', authenticateApiToken, sentinelRouter);
-app.use('/v1/analytics', authenticateApiToken, analyticsRouter);
-app.use('/v1/system', authenticateApiToken, systemRouter);
+// ── Protected API Routes (Secured by API or Firebase Tokens) ────────
+app.use('/v1/evaluate', authenticateAnyToken, evaluateRouter);
+app.use('/v1/policies', authenticateAnyToken, policiesRouter);
+app.use('/v1/billing', authenticateAnyToken, billingRouter);
+app.use('/v1/copilot', authenticateAnyToken, copilotRouter);
+app.use('/v1/analytics', authenticateAnyToken, analyticsRouter);
+app.use('/v1/system', authenticateAnyToken, systemRouter);
+app.use('/v1/disbursements', authenticateAnyToken, disbursementsRouter);
+app.use('/v1/bank-accounts', authenticateAnyToken, bankAccountsRouter);
+app.use('/v1/communications', authenticateAnyToken, communicationsRouter);
+app.use('/v1/webhooks', authenticateAnyToken, webhooksRouter);
+app.use('/v1/sentinel', authenticateAnyToken, sentinelRouter);
+app.use('/v1/loans', authenticateAnyToken, loansRouter);
+app.use('/v1/products', authenticateAnyToken, productsRouter);
+app.use('/v1/repayments', authenticateAnyToken, repaymentsRouter);
+app.use('/v1/collections', authenticateAnyToken, collectionsRouter);
+app.use('/v1/reports', authenticateAnyToken, reportingRouter);
+
+// Borrower API (Custom Auth inside)
+app.use('/v1/borrower', borrowerRouter);
 
 // ── Global Error Handler ───────────────────────────────────────────
 app.use((err: Error, req: express.Request, res: express.Response, next: express.NextFunction) => {

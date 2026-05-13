@@ -15,11 +15,22 @@ const AuthContext = createContext<AuthContextType>({
 });
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const user = { uid: "public-demo-bank", email: "admin@arera.ai" } as User;
-  const orgId = "public-demo-bank";
-  
+  const [user, setUser] = useState<User | null>(null);
+  const [orgId, setOrgId] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+      // In Arera, orgId === user's Firebase UID
+      setOrgId(currentUser?.uid || null);
+      setLoading(false);
+    });
+    return () => unsubscribe();
+  }, []);
+
   return (
-    <AuthContext.Provider value={{ user, orgId, loading: false }}>
+    <AuthContext.Provider value={{ user, orgId, loading }}>
       {children}
     </AuthContext.Provider>
   );

@@ -243,11 +243,16 @@ const Playground = () => {
 
           {activeTab === 'pdf' && (
             <div className="p-6">
-              <div className="border-2 border-dashed border-border rounded-[8px] p-[40px_24px] text-center bg-border/30">
+              <label className="border-2 border-dashed border-border rounded-[8px] p-[40px_24px] text-center bg-border/30 cursor-pointer hover:bg-border/50 block transition-colors">
                 <FileText size={32} className="mx-auto mb-4 text-foreground/70" />
-                <div className="font-['DM_Sans'] font-semibold text-[14px] text-foreground/70 mb-1">Drop bank statement PDF here</div>
+                <div className="font-['DM_Sans'] font-semibold text-[14px] text-foreground/70 mb-1">Click to upload bank statement PDF</div>
                 <div className="font-['DM_Sans'] font-normal text-[12px] text-foreground/70">Supported: HDFC, SBI, ICICI, Axis, PNB statements</div>
-              </div>
+                <input type="file" className="hidden" accept=".pdf" onChange={(e) => {
+                  if (e.target.files && e.target.files.length > 0) {
+                    toast.success(`Mock parser: ${e.target.files[0].name} loaded`);
+                  }
+                }} />
+              </label>
 
               <div className="mt-8">
                 <div className="font-['DM_Sans'] font-semibold text-[12px] text-foreground/70 uppercase tracking-wider mb-4">Parser pipeline</div>
@@ -500,7 +505,7 @@ const Playground = () => {
                                 animate={{ width: `${reason.weight * 100}%` }}
                                 transition={{ duration: 0.6, ease: "easeOut", delay: 0.4 + i * 0.08 }}
                                 className={`h-full rounded-[3px] ${
-                                  reason.sentiment === 'positive' ? 'bg-background' :
+                                  reason.sentiment === 'positive' ? 'bg-[#10B981]' :
                                   reason.sentiment === 'negative' ? 'bg-[#FF4444]' :
                                   'bg-[#F59E0B]'
                                 }`}

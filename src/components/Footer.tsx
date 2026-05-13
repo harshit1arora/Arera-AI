@@ -1,13 +1,13 @@
 import { Link } from "react-router-dom";
-import { Logo } from "./Logo";
+import { LogoStatic } from "./LogoStatic";
 
 const Footer = () => {
   const links = {
     Product: [
       { name: "Arera", path: "/" },
-      { name: "KYC Engine", path: "#" },
-      { name: "Credit Scoring", path: "#" },
-      { name: "Rules Engine", path: "#" },
+      { name: "KYC Engine", path: "/kyc-engine" },
+      { name: "Credit Scoring", path: "/credit-scoring" },
+      { name: "Rules Engine", path: "/rules-engine" },
       { name: "API Docs", path: "/api-docs" },
     ],
     Company: [
@@ -31,7 +31,7 @@ const Footer = () => {
           {/* Column 1: Wider (~30%) */}
           <div className="lg:col-span-1">
             <div className="flex items-center gap-3 mb-4">
-              <Logo />
+              <LogoStatic />
             </div>
             
             <p className="font-['DM_Sans'] font-normal text-[14px] leading-relaxed text-muted-foreground mb-6">

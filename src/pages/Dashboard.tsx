@@ -2,10 +2,11 @@ import { useEffect, useState } from "react";
 import { Joyride, Step } from "react-joyride";
 import { subscribeToApplications, LoanApplication, updateApplicationStatus } from "../lib/firestore";
 import Navbar from "../components/Navbar";
+import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   CheckCircle, AlertTriangle, XCircle, Search, Sparkles, User, 
-  LayoutDashboard, ShieldCheck, Terminal, X, ChevronRight, Activity, Zap, FileText, Database
+  LayoutDashboard, ShieldCheck, Terminal, X, ChevronRight, Activity, Zap, FileText, Database, Banknote 
 } from "lucide-react";
 import DeveloperPortal from "../components/dashboard/DeveloperPortal";
 import PolicyEditor from "../components/dashboard/PolicyEditor";
@@ -13,14 +14,20 @@ import Integrations from "../components/dashboard/Integrations";
 import AuditLogs from "../components/dashboard/AuditLogs";
 import Analytics from "../components/dashboard/Analytics";
 import Sentinel from "../components/dashboard/Sentinel";
+import DisbursementQueue from "../components/dashboard/DisbursementQueue";
+import LoanPortfolio from "../components/dashboard/LoanPortfolio";
+import CollectionsPipeline from "../components/dashboard/CollectionsPipeline";
+import MISReports from "../components/dashboard/MISReports";
+import BillingDashboard from "../components/dashboard/BillingDashboard";
 import { useAuth } from "../contexts/AuthContext";
 import { toast } from "sonner";
 
 export default function Dashboard() {
   const { orgId } = useAuth();
-  const [activeTab, setActiveTab] = useState<"queue" | "policies" | "dev" | "integrations" | "audit" | "analytics" | "sentinel">("queue");
+  const [activeTab, setActiveTab] = useState<"queue" | "policies" | "dev" | "integrations" | "audit" | "analytics" | "sentinel" | "disbursement" | "portfolio" | "collections" | "reports" | "billing">("queue");
   const [applications, setApplications] = useState<LoanApplication[]>([]);
   const [selectedApp, setSelectedApp] = useState<LoanApplication | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     if (!orgId) return;
@@ -114,18 +121,32 @@ export default function Dashboard() {
       />
 
       <main className="container mx-auto px-6 pt-32 pb-20 relative z-10">
-        
+        <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
+          <div>
+            <h1 className="text-3xl font-display font-bold text-foreground">Enterprise Console</h1>
+            <p className="text-muted-foreground text-sm">Manage underwriting, disbursements, and risk operations.</p>
+          </div>
+          <Link to="/apply" className="px-6 py-3 hero-gradient text-foreground rounded-xl text-xs font-bold uppercase tracking-widest flex items-center justify-center gap-2 hover:opacity-90 transition-all shadow-glow w-full md:w-auto">
+             <Sparkles size={16} /> Simulate Application
+          </Link>
+        </div>
+
           <div className="overflow-x-auto pb-2 custom-scrollbar">
             <div className="flex items-center gap-1 bg-foreground/5 p-1 rounded-2xl border border-white/5 w-max mb-12 backdrop-blur-md">
-              {[
-                { id: "queue", label: "Queue", icon: LayoutDashboard },
-                { id: "sentinel", label: "Sentinel EWS", icon: ShieldCheck },
-                { id: "analytics", label: "Analytics", icon: Activity },
-                { id: "audit", label: "Audit Logs", icon: ShieldCheck },
-                { id: "integrations", label: "Data Pipes", icon: Database },
-                { id: "policies", label: "Risk Policies", icon: ShieldCheck },
-                { id: "dev", label: "Developers", icon: Terminal },
-              ].map((tab) => (
+{[
+                 { id: "queue", label: "Queue", icon: LayoutDashboard },
+                 { id: "portfolio", label: "Loan Portfolio", icon: Database },
+                 { id: "disbursement", label: "Disbursements", icon: Banknote },
+                 { id: "collections", label: "Collections", icon: ShieldCheck },
+                 { id: "sentinel", label: "Sentinel EWS", icon: ShieldCheck },
+                 { id: "reports", label: "MIS Reports", icon: Activity },
+                 { id: "analytics", label: "Analytics", icon: Activity },
+                 { id: "audit", label: "Audit Logs", icon: ShieldCheck },
+                 { id: "integrations", label: "Data Pipes", icon: Database },
+                 { id: "billing", label: "Billing", icon: Banknote },
+                 { id: "policies", label: "Risk Policies", icon: ShieldCheck },
+                 { id: "dev", label: "Developers", icon: Terminal },
+               ].map((tab) => (
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id as any)}
@@ -194,6 +215,8 @@ export default function Dashboard() {
                       <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={16} />
                       <input 
                         type="text" 
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
                         placeholder="Search applicants by ID or Name..." 
                         className="w-full bg-background/20 border border-border rounded-xl pl-10 pr-4 py-2 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-primary/50"
                       />
@@ -212,14 +235,20 @@ export default function Dashboard() {
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-white/5">
-                        {applications.length === 0 ? (
+                         {applications.filter(app => 
+                            app.applicantName.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                            app.id?.toLowerCase().includes(searchQuery.toLowerCase())
+                          ).length === 0 ? (
                            <tr>
                              <td colSpan={5} className="p-12 text-center text-muted-foreground italic">
                                <Zap size={24} className="mx-auto mb-4 opacity-20" />
-                               No live applications detected. Traffic will appear here in real-time.
+                               No applications matched your search.
                              </td>
                            </tr>
-                        ) : applications.map((app) => (
+                        ) : applications.filter(app => 
+                            app.applicantName.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                            app.id?.toLowerCase().includes(searchQuery.toLowerCase())
+                          ).map((app) => (
                           <tr key={app.id} className="hover:bg-foreground/5 transition-colors group cursor-default">
                             <td className="p-5">
                               <div className="flex items-center gap-4">
@@ -279,13 +308,18 @@ export default function Dashboard() {
               </motion.div>
             )}
 
-            {activeTab === "policies" && <PolicyEditor />}
-            {activeTab === "dev" && <DeveloperPortal />}
-            {activeTab === "integrations" && <Integrations />}
-            {activeTab === "audit" && <AuditLogs />}
-            {activeTab === "analytics" && <Analytics />}
-            {activeTab === "sentinel" && <Sentinel />}
-          </AnimatePresence>
+{activeTab === "policies" && <PolicyEditor />}
+             {activeTab === "dev" && <DeveloperPortal />}
+             {activeTab === "billing" && <BillingDashboard />}
+             {activeTab === "integrations" && <Integrations />}
+             {activeTab === "audit" && <AuditLogs />}
+             {activeTab === "analytics" && <Analytics />}
+             {activeTab === "sentinel" && <Sentinel />}
+             {activeTab === "disbursement" && <DisbursementQueue />}
+             {activeTab === "portfolio" && <LoanPortfolio orgId={orgId} />}
+             {activeTab === "collections" && <CollectionsPipeline orgId={orgId} />}
+             {activeTab === "reports" && <MISReports orgId={orgId} />}
+           </AnimatePresence>
         </div>
       </main>
 
@@ -361,13 +395,35 @@ export default function Dashboard() {
                             
                             <div className="space-y-3 pt-2">
                                <div className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest mb-4">Positive / Negative Signal Weights (SHAP Values)</div>
-                               {[
-                                 { label: "High DTI Ratio", weight: -85, length: "85%", color: "bg-red-500" },
-                                 { label: "Bureau Hit Stable", weight: 40, length: "40%", color: "bg-green-500" },
-                                 { label: "Income Verified", weight: 60, length: "60%", color: "bg-green-500" },
-                                 { label: "Device Anomaly", weight: -15, length: "15%", color: "bg-yellow-500" }
-                               ].map(signal => (
-                                  <div key={signal.label} className="grid grid-cols-[120px_1fr_40px] items-center gap-4 text-xs font-mono">
+                               {(() => {
+                                 const signals = [];
+                                 if (!selectedApp.aiReasoning) return [];
+                                 
+                                 if (selectedApp.aiReasoning.includes("DTI High: Yes")) {
+                                   signals.push({ label: "High DTI Ratio", weight: -85, length: "85%", color: "bg-red-500" });
+                                 } else {
+                                   signals.push({ label: "Low DTI Ratio", weight: 35, length: "35%", color: "bg-green-500" });
+                                 }
+                                 
+                                 if (selectedApp.aiReasoning.includes("Stable History: Yes")) {
+                                   signals.push({ label: "Bureau Hit Stable", weight: 40, length: "40%", color: "bg-green-500" });
+                                 } else {
+                                   signals.push({ label: "Thin File / No History", weight: -40, length: "40%", color: "bg-red-500" });
+                                 }
+                                 
+                                 if (selectedApp.aiReasoning.includes("Income Verified: Yes")) {
+                                   signals.push({ label: "Income Verified", weight: 60, length: "60%", color: "bg-green-500" });
+                                 } else {
+                                   signals.push({ label: "Unverified Income", weight: -55, length: "55%", color: "bg-red-500" });
+                                 }
+                                 
+                                 if (selectedApp.aiScore && selectedApp.aiScore < 650) {
+                                   signals.push({ label: "Low Bureau Score", weight: -65, length: "65%", color: "bg-red-500" });
+                                 }
+                                 
+                                 return signals;
+                               })().map((signal, idx) => (
+                                  <div key={signal.label + idx} className="grid grid-cols-[120px_1fr_40px] items-center gap-4 text-xs font-mono">
                                     <div className="text-right text-muted-foreground">{signal.label}</div>
                                     <div className="h-2 bg-foreground/5 rounded-full relative">
                                        <div className={`absolute top-0 bottom-0 rounded-full ${signal.color}`} style={{ width: signal.length, right: signal.weight < 0 ? '50%' : 'auto', left: signal.weight > 0 ? '50%' : 'auto' }} />

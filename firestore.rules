@@ -65,10 +65,18 @@ service cloud.firestore {
       allow write: if false; // Only backend writes audit logs (WORM)
     }
 
-    // 7. Usage Logs: Read-only
+    // 7. Usage Logs: Read/Create
     match /usage_logs/{docId} {
       allow read: if isOwner();
-      allow write: if false;
+      allow create: if isOwnerCreate();
+      allow update, delete: if false;
+    }
+
+    // 7.5 Team Members: Read/Write for owner
+    match /team_members/{docId} {
+      allow read: if isOwner();
+      allow create: if isOwnerCreate();
+      allow update, delete: if isOwner();
     }
 
     // 8. System config: Read-only

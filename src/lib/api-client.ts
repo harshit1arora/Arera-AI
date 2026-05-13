@@ -14,7 +14,10 @@ const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080';
  * Returns null if user is not authenticated.
  */
 const getIdToken = async (): Promise<string | null> => {
-  return "demo_token_123";
+  if (auth.currentUser) {
+    return auth.currentUser.getIdToken();
+  }
+  return null;
 };
 
 /**
@@ -27,11 +30,18 @@ export const apiWithAuth = async (path: string, options: RequestInit = {}): Prom
     throw new Error('Not authenticated. Please sign in.');
   }
 
+  const defaultHeaders: any = {
+    'Authorization': `Bearer ${token}`
+  };
+  
+  if (!(options.body instanceof FormData)) {
+    defaultHeaders['Content-Type'] = 'application/json';
+  }
+
   return fetch(`${API_BASE}${path}`, {
     ...options,
     headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`,
+      ...defaultHeaders,
       ...options.headers,
     },
   });
