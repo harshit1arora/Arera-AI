@@ -10,6 +10,7 @@ import evaluateRouter from './routes/evaluate';
 import apikeysRouter from './routes/apikeys';
 import policiesRouter from './routes/policies';
 import webhooksRouter from './routes/webhooks';
+import { processWebhookQueue } from './services/webhooks';
 import sentinelRouter from './routes/sentinel';
 import analyticsRouter from './routes/analytics';
 import systemRouter from './routes/system';
@@ -34,7 +35,7 @@ const PORT = process.env.PORT || 8080;
 app.use(helmet()); // Sets secure HTTP headers (X-Frame-Options, CSP, etc.)
 
 // CORS: Locked to specific origins
-const ALLOWED_ORIGINS = (process.env.ALLOWED_ORIGINS || 'http://localhost:5173,http://localhost:3000').split(',');
+const ALLOWED_ORIGINS = (process.env.ALLOWED_ORIGINS || 'http://localhost:5173,http://localhost:3000,https://tryarera.com,https://www.tryarera.com').split(',');
 app.use(cors({
   origin: (origin, callback) => {
     // Allow requests with no origin (server-to-server, curl, mobile apps)
@@ -113,4 +114,9 @@ app.use((err: Error, req: express.Request, res: express.Response, next: express.
 
 app.listen(PORT, () => {
   console.log(`🚀 Arera AI API Gateway running on port ${PORT}`);
+  
+  // Start background workers
+  setInterval(() => {
+    processWebhookQueue().catch(err => console.error("Webhook processor error:", err));
+  }, 30000); // Check queue every 30 seconds
 });

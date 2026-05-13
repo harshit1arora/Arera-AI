@@ -8,29 +8,20 @@ export interface WebhookPayload {
   data: any;
 }
 
-/**
- * Generate HMAC-SHA256 signature for webhook payload verification.
- * The client can verify: crypto.createHmac('sha256', secretKey).update(body).digest('hex')
- */
 const signPayload = (payload: string, secretKey: string): string => {
   return crypto.createHmac('sha256', secretKey).update(payload).digest('hex');
 };
 
+/**
+ * Enqueue a webhook for delivery. Delivery is handled by the processor.
+ */
 export const dispatchWebhook = async (orgId: string, eventType: string, data: any) => {
   try {
     const webhookDoc = await db.collection('webhooks').doc(orgId).get();
-    
-    if (!webhookDoc.exists) {
-      console.log(`[Webhook] No webhook configured for org ${orgId}. Skipping.`);
-      return;
-    }
+    if (!webhookDoc.exists) return;
 
     const { targetUrl, secretKey, isActive } = webhookDoc.data()!;
-
-    if (!isActive || !targetUrl) {
-      console.log(`[Webhook] Inactive or missing URL for org ${orgId}.`);
-      return;
-    }
+    if (!isActive || !targetUrl) return;
 
     const payload: WebhookPayload = {
       eventId: `evt_${Date.now()}_${crypto.randomBytes(8).toString('hex')}`,
@@ -39,59 +30,100 @@ export const dispatchWebhook = async (orgId: string, eventType: string, data: an
       data
     };
 
-    const payloadString = JSON.stringify(payload);
-
-    // Compute real HMAC-SHA256 signature
-    const signature = signPayload(payloadString, secretKey);
-
-    console.log(`[Webhook] Dispatching ${eventType} to ${targetUrl} for org ${orgId}`);
-
-    fetch(targetUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Arera-Signature': `sha256=${signature}`,
-        'X-Arera-Event': eventType,
-        'X-Arera-Delivery': payload.eventId,
-      },
-      body: payloadString
-    })
-    .then(response => {
-      db.collection('webhook_logs').add({
-        orgId,
-        eventId: payload.eventId,
-        eventType,
-        targetUrl,
-        status: response.status,
-        success: response.ok,
-        timestamp: new Date()
-      }).catch(console.error);
-
-      // Log to audit trail
-      db.collection('audit_logs').add({
-        orgId,
-        action: 'WEBHOOK_DELIVERY',
-        detail: `${eventType} → ${targetUrl} [HTTP ${response.status}]`,
-        success: response.ok,
-        timestamp: new Date()
-      }).catch(console.error);
-    })
-    .catch(error => {
-      console.error(`[Webhook] Failed to reach ${targetUrl}:`, error.message);
-      
-      db.collection('webhook_logs').add({
-        orgId,
-        eventId: payload.eventId,
-        eventType,
-        targetUrl,
-        status: 0,
-        success: false,
-        error: error.message,
-        timestamp: new Date()
-      }).catch(console.error);
+    await db.collection('webhook_queue').add({
+      orgId,
+      targetUrl,
+      secretKey,
+      payload,
+      eventType,
+      attempts: 0,
+      nextAttemptAt: new Date(),
+      status: 'pending' // pending, completed, failed
     });
-
+    
+    // Optionally trigger processor immediately (fire-and-forget)
+    processWebhookQueue().catch(() => {});
   } catch (err) {
-    console.error(`[Webhook Error] Org ${orgId}:`, err);
+    console.error(`[Webhook Enqueue Error] Org ${orgId}:`, err);
   }
+};
+
+/**
+ * Process the webhook queue, attempting delivery and handling backoff.
+ * Max attempts: 3 (Immediate, +30s, +5m)
+ */
+export const processWebhookQueue = async () => {
+  const now = new Date();
+  
+  // Find pending tasks that are ready to be retried
+  const snapshot = await db.collection('webhook_queue')
+    .where('status', '==', 'pending')
+    .where('nextAttemptAt', '<=', now)
+    .limit(50)
+    .get();
+
+  if (snapshot.empty) return;
+
+  const backoffDelaysMs = [0, 30 * 1000, 5 * 60 * 1000]; // 0s, 30s, 5m
+
+  const batch = db.batch();
+
+  for (const doc of snapshot.docs) {
+    const task = doc.data();
+    const payloadString = JSON.stringify(task.payload);
+    const signature = signPayload(payloadString, task.secretKey);
+    const attemptNumber = task.attempts + 1;
+
+    try {
+      const response = await fetch(task.targetUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Arera-Signature': `sha256=${signature}`,
+          'X-Arera-Event': task.eventType,
+          'X-Arera-Delivery': task.payload.eventId,
+          'X-Arera-Attempt': attemptNumber.toString(),
+        },
+        body: payloadString,
+        // Short timeout for webhooks (10s) to prevent hanging
+        signal: AbortSignal.timeout(10000)
+      });
+
+      if (response.ok) {
+        batch.update(doc.ref, { status: 'completed', completedAt: new Date(), attempts: attemptNumber });
+        db.collection('webhook_logs').add({
+          orgId: task.orgId,
+          eventId: task.payload.eventId,
+          eventType: task.eventType,
+          targetUrl: task.targetUrl,
+          status: response.status,
+          success: true,
+          timestamp: new Date()
+        }).catch(() => {});
+      } else {
+        throw new Error(`HTTP ${response.status}`);
+      }
+    } catch (error: any) {
+      if (attemptNumber >= backoffDelaysMs.length) {
+        // Max attempts reached
+        batch.update(doc.ref, { status: 'failed', failedAt: new Date(), attempts: attemptNumber, lastError: error.message });
+        db.collection('webhook_logs').add({
+          orgId: task.orgId,
+          eventId: task.payload.eventId,
+          eventType: task.eventType,
+          targetUrl: task.targetUrl,
+          status: 0,
+          success: false,
+          error: `Failed after ${attemptNumber} attempts: ${error.message}`,
+          timestamp: new Date()
+        }).catch(() => {});
+      } else {
+        // Schedule retry
+        const nextAttemptAt = new Date(Date.now() + backoffDelaysMs[attemptNumber]);
+        batch.update(doc.ref, { attempts: attemptNumber, nextAttemptAt, lastError: error.message });
+      }
+    }
+  }
+
+  await batch.commit();
 };
