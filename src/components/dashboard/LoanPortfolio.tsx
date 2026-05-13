@@ -7,6 +7,7 @@ import {
 import { useAuth } from "../../contexts/AuthContext";
 import { toast } from "sonner";
 import { apiWithAuth } from "../../lib/api-client";
+import { exportToCSV } from "../../lib/exportUtils";
 
 interface Loan {
   id: string;
@@ -55,17 +56,8 @@ export default function LoanPortfolio({ orgId }: { orgId: string | null }) {
   const fetchLoans = async () => {
     try {
       setLoading(true);
-      let url = 'http://localhost:8080/v1/loans';
-      if (filter !== 'all') {
-        url += `?status=${filter}`;
-      }
-
       try {
-        const response = await fetch(url, {
-          headers: {
-            'Authorization': `Bearer ${localStorage.getItem('apiKey')}`,
-          },
-        });
+        const response = await apiWithAuth(`/v1/loans${filter !== 'all' ? `?status=${filter}` : ''}`);
 
         if (response.ok) {
           const data = await response.json();
@@ -93,11 +85,7 @@ export default function LoanPortfolio({ orgId }: { orgId: string | null }) {
   const fetchMetrics = async () => {
     try {
       try {
-        const response = await fetch('http://localhost:8080/v1/loans/metrics/portfolio', {
-          headers: {
-            'Authorization': `Bearer ${localStorage.getItem('apiKey')}`,
-          },
-        });
+        const response = await apiWithAuth('/v1/loans/metrics/portfolio');
 
         if (response.ok) {
           const data = await response.json();
@@ -273,6 +261,12 @@ export default function LoanPortfolio({ orgId }: { orgId: string | null }) {
             </button>
           ))}
         </div>
+        <button
+          onClick={() => exportToCSV('loan_portfolio.csv', loans)}
+          className="ml-auto flex items-center gap-2 px-4 py-2 border border-border rounded-xl hover:bg-foreground/10 transition-colors text-xs font-bold uppercase tracking-widest"
+        >
+          <Download size={14} /> Export CSV
+        </button>
       </div>
 
       {/* Loans Table */}

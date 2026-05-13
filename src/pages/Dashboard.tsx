@@ -6,8 +6,11 @@ import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   CheckCircle, AlertTriangle, XCircle, Search, Sparkles, User, 
-  LayoutDashboard, ShieldCheck, Terminal, X, ChevronRight, Activity, Zap, FileText, Database, Banknote 
+  LayoutDashboard, ShieldCheck, Terminal, X, ChevronRight, Activity, Zap, FileText, Database, Banknote,
+  Settings as SettingsIcon, UserPlus, Users, Link as LinkIcon, Lock 
 } from "lucide-react";
+import SettingsView from "../components/dashboard/SettingsView";
+import OnboardingWizard from "../components/dashboard/OnboardingWizard";
 import DeveloperPortal from "../components/dashboard/DeveloperPortal";
 import PolicyEditor from "../components/dashboard/PolicyEditor";
 import Integrations from "../components/dashboard/Integrations";
@@ -24,7 +27,7 @@ import { toast } from "sonner";
 
 export default function Dashboard() {
   const { orgId } = useAuth();
-  const [activeTab, setActiveTab] = useState<"queue" | "policies" | "dev" | "integrations" | "audit" | "analytics" | "sentinel" | "disbursement" | "portfolio" | "collections" | "reports" | "billing">("queue");
+  const [activeTab, setActiveTab] = useState<"queue" | "policies" | "dev" | "integrations" | "audit" | "analytics" | "sentinel" | "disbursement" | "portfolio" | "collections" | "reports" | "billing" | "settings">("queue");
   const [applications, setApplications] = useState<LoanApplication[]>([]);
   const [selectedApp, setSelectedApp] = useState<LoanApplication | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
@@ -108,6 +111,7 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-background relative selection:bg-primary/30 text-foreground">
+      <OnboardingWizard />
       <Navbar />
       
       {/* Background gradients */}
@@ -146,6 +150,7 @@ export default function Dashboard() {
                  { id: "billing", label: "Billing", icon: Banknote },
                  { id: "policies", label: "Risk Policies", icon: ShieldCheck },
                  { id: "dev", label: "Developers", icon: Terminal },
+                 { id: "settings", label: "Settings", icon: SettingsIcon },
                ].map((tab) => (
                 <button
                   key={tab.id}
@@ -319,6 +324,7 @@ export default function Dashboard() {
              {activeTab === "portfolio" && <LoanPortfolio orgId={orgId} />}
              {activeTab === "collections" && <CollectionsPipeline orgId={orgId} />}
              {activeTab === "reports" && <MISReports orgId={orgId} />}
+             {activeTab === "settings" && <SettingsView />}
            </AnimatePresence>
         </div>
       </main>

@@ -3,6 +3,8 @@ import { motion } from "framer-motion";
 import { AlertCircle, Phone, MessageSquare, Briefcase, Filter } from "lucide-react";
 import { toast } from "sonner";
 import { apiWithAuth } from "../../lib/api-client";
+import { exportToCSV } from "../../lib/exportUtils";
+import { Download } from "lucide-react";
 
 export default function CollectionsPipeline({ orgId }: { orgId: string | null }) {
   const [collections, setCollections] = useState<any[]>([]);
@@ -34,6 +36,9 @@ export default function CollectionsPipeline({ orgId }: { orgId: string | null })
         <div className="flex gap-2">
            <button className="px-4 py-2 border border-border rounded-xl bg-background text-xs font-bold uppercase tracking-widest flex items-center gap-2">
              <Filter size={14} /> Filter 30/60/90+ DPD
+           </button>
+           <button onClick={() => exportToCSV('collections.csv', collections)} className="px-4 py-2 border border-border rounded-xl bg-background hover:bg-foreground/10 text-xs font-bold uppercase tracking-widest flex items-center gap-2">
+             <Download size={14} /> Export CSV
            </button>
         </div>
       </div>

@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { generateLoanAgreement } from "../../lib/pdf-generator";
 import { MOCK_DISBURSEMENTS } from "../../lib/disbursement";
 import { apiWithAuth } from "../../lib/api-client";
+import { exportToCSV } from "../../lib/exportUtils";
 
 interface Tranche {
   id?: string;
@@ -240,6 +241,12 @@ export default function DisbursementQueue() {
             className="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors"
           >
             <Plus size={16} /> New Disbursement
+          </button>
+          <button
+            onClick={() => exportToCSV('disbursements.csv', filteredDisbursements)}
+            className="flex items-center gap-2 px-4 py-2 border border-border rounded-lg hover:bg-foreground/10 transition-colors text-xs font-bold uppercase tracking-widest"
+          >
+            <Download size={14} /> Export CSV
           </button>
         </div>
       </div>
