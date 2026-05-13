@@ -444,7 +444,7 @@ const Apply = () => {
                   <br/>
                   Arera AI has instantly processed your data and executed underwriting rules.
                 </p>
-                <Link to="/auth" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-secondary hover:bg-secondary/80 text-foreground font-bold transition-colors text-sm border border-white/5">
+                <Link to="/sandbox" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-secondary hover:bg-secondary/80 text-foreground font-bold transition-colors text-sm border border-white/5">
                   View Lender Dashboard <ArrowLeft size={14} className="rotate-180" />
                 </Link>
               </motion.div>

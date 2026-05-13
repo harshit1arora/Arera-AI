@@ -22,7 +22,7 @@ import PrivacyPolicy from "./pages/PrivacyPolicy.tsx";
 import TermsOfService from "./pages/TermsOfService.tsx";
 import Security from "./pages/Security.tsx";
 import Sandbox from "./pages/Sandbox.tsx";
-import Auth from "./pages/Auth.tsx";
+
 import Dashboard from "./pages/Dashboard.tsx";
 import Console from "./pages/Console.tsx";
 import Playground from "./pages/Playground.tsx";
@@ -44,7 +44,7 @@ const App = () => (
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<Index />} />
-              <Route path="/auth" element={<Auth />} />
+
               <Route path="/apply" element={<Apply />} />
               <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
               <Route path="/console" element={<ProtectedRoute><Console /></ProtectedRoute>} />
