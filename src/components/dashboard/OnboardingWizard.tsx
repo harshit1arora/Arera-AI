@@ -3,7 +3,7 @@ import { Building2, Save } from "lucide-react";
 import { toast } from "sonner";
 import { useAuth } from "../../contexts/AuthContext";
 import { doc, getDoc, setDoc } from "firebase/firestore";
-import { db } from "../../lib/firestore";
+import { db } from "../../lib/firebase";
 import { motion } from "framer-motion";
 
 export default function OnboardingWizard() {

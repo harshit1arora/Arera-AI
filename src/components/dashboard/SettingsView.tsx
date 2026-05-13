@@ -3,7 +3,7 @@ import { Settings, Save, Building2, FileText, Upload } from "lucide-react";
 import { toast } from "sonner";
 import { useAuth } from "../../contexts/AuthContext";
 import { doc, getDoc, setDoc } from "firebase/firestore";
-import { db } from "../../lib/firestore";
+import { db } from "../../lib/firebase";
 
 export default function SettingsView() {
   const { orgId } = useAuth();

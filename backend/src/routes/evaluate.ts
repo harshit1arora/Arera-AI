@@ -169,11 +169,11 @@ router.post('/', enforceQuota, async (req: AuthenticatedRequest, res: Response) 
       timestamp: new Date(),
       // Strict RBI Fair Practices Code compliance fields
       rbiComplianceFields: {
-        panMasked: "******" + data.panNumber.slice(-4),
+        panMasked: "******" + panNumber.slice(-4),
         bureauSource: bureauData.provider,
         decisionRationale: usedRule,
         reviewerId: req.apiKeyId || req.uid || 'system',
-        policyVersion: policyDoc.id || 'default'
+        policyVersion: policiesQuery.empty ? 'default' : policiesQuery.docs[0].id
       }
     });
 

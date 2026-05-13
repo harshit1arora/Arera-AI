@@ -11,7 +11,7 @@ export function exportToCSV(filename: string, rows: object[]) {
         if (typeof cell === 'object') {
           cell = JSON.stringify(cell);
         }
-        cell = cell instanceof Date ? cell.toLocaleString() : cell.toString().replace(/"/g, '""');
+        cell = Object.prototype.toString.call(cell) === '[object Date]' ? cell.toLocaleString() : cell.toString().replace(/"/g, '""');
         if (cell.search(/("|,|\n)/g) >= 0) {
           cell = `"${cell}"`;
         }
