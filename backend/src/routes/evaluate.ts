@@ -159,14 +159,22 @@ router.post('/', enforceQuota, async (req: AuthenticatedRequest, res: Response) 
       decidedAt: new Date(),
     });
 
-    // 5. Audit Log
+    // 5. RBI Compliant Audit Log
     await db.collection('audit_logs').add({
       orgId,
       action: 'APPLICATION_EVALUATED',
       targetId: appRef.id,
       detail: `Status: ${status}, Score: ${bureauData.score}, Rule: ${usedRule}`,
       actor: 'system_ai',
-      timestamp: new Date()
+      timestamp: new Date(),
+      // Strict RBI Fair Practices Code compliance fields
+      rbiComplianceFields: {
+        panMasked: "******" + data.panNumber.slice(-4),
+        bureauSource: bureauData.provider,
+        decisionRationale: usedRule,
+        reviewerId: req.apiKeyId || req.uid || 'system',
+        policyVersion: policyDoc.id || 'default'
+      }
     });
 
     // 6. Fire Webhook (async, non-blocking)
