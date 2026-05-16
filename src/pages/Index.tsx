@@ -12,6 +12,7 @@ import PricingSection from "@/components/PricingSection";
 import ValidationSection from "@/components/WhyAreraSection";
 import FAQSection from "@/components/FAQSection";
 import CTASection from "@/components/CTASection";
+import BlogSection from "@/components/BlogSection";
 import Footer from "@/components/Footer";
 
 const Index = () => (
@@ -29,6 +30,7 @@ const Index = () => (
     <PricingSection />
     <ValidationSection />
     <FAQSection />
+    <BlogSection />
     <CTASection />
     <Footer />
   </div>

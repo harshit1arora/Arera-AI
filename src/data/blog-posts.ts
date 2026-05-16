@@ -187,5 +187,103 @@ Deterministic, rules-based underwriting infrastructure makes compliance the defa
 
 *Arera builds RBI-compliant, explainable underwriting infrastructure for NBFCs. Audit-ready by design. [Learn more](/sandbox)*
     `
+  },
+  {
+    slug: "bank-statement-analysis-api-nbfcs",
+    title: "Bank Statement Analysis API for NBFCs: What to Look For",
+    date: "2025-05-15",
+    excerpt: "Choosing a bank statement analysis API is one of the most consequential infrastructure decisions an NBFC can make. Here's the complete evaluation framework.",
+    author: "Arera",
+    tags: ["bank statement analysis", "API", "NBFC", "underwriting", "fintech"],
+    content: `
+Bank statement analysis is the foundation of NBFC underwriting. For most borrower segments — MSMEs, self-employed individuals, gig workers — the bank statement is the single most reliable source of truth about income, obligations, and financial behaviour.
+
+Yet most NBFCs still process bank statements manually. An analyst downloads a PDF, scrolls through 12 months of transactions, builds a summary in Excel, and hands it to an underwriter. This process takes 2–4 hours per application. It introduces human error. And it doesn't scale.
+
+A bank statement analysis API eliminates this entirely. But not all APIs are built the same. Here's what to evaluate before you integrate one into your underwriting stack.
+
+## What a Bank Statement Analysis API Actually Does
+
+At its core, a bank statement analysis API accepts a bank statement (PDF or raw transaction data) and returns structured financial signals. The output typically includes:
+
+- Average Monthly Balance (AMB) — across 3, 6, and 12 month windows
+- Monthly inflow/outflow — gross credits and debits by month
+- Salary or business credit detection — identifies regular income credits
+- EMI and obligation detection — flags recurring debits that look like loan repayments
+- Bounce and return analysis — ECS/NACH bounce frequency and patterns
+- Overdraft usage — frequency and depth of negative balance periods
+- Cash withdrawal patterns — ratio of cash to digital transactions
+- Top debit/credit categories — merchant-level or category-level spend analysis
+
+The difference between a good API and a great one is in the accuracy of these extractions — particularly for messy, unstructured PDFs from smaller banks and cooperative banks that don't follow standard formats.
+
+## The 6 Things to Evaluate in a Bank Statement Analysis API
+
+**1. Parser Coverage**
+India has 40+ scheduled commercial banks, hundreds of cooperative banks, and dozens of payment banks and small finance banks. Your borrowers don't all bank with HDFC and SBI.
+What to ask: How many bank formats does the parser support? What's the accuracy rate on tier-2 and tier-3 bank statements? Can it handle password-protected PDFs? What about scanned (image-based) PDFs?
+A parser that works perfectly on ICICI statements but fails on Saraswat Cooperative Bank statements is not production-ready for NBFC underwriting.
+
+**2. Signal Quality, Not Just Data Extraction**
+Extracting transactions is the easy part. The hard part is deriving reliable signals from those transactions.
+For example: identifying salary credits requires understanding that the same amount arriving on the 1st of every month from an employer is different from a one-time large transfer. Identifying EMI obligations requires recognising patterns across ACH debits, not just looking for the word "EMI" in a transaction description.
+What to ask: How does the API distinguish between business income and personal transfers? How does it handle irregular income patterns for self-employed borrowers? Can it identify obligations that aren't labelled as EMIs?
+
+**3. Fraud Detection**
+Bank statement fraud is a real and growing problem. Borrowers submit altered PDFs — modified balances, deleted debit transactions, inflated credits.
+What to ask: Does the API include PDF tampering detection? Does it flag metadata inconsistencies (creation date vs. transaction dates)? Can it detect font substitution or pixel-level edits?
+This is a non-negotiable for any NBFC processing unsupervised digital applications.
+
+**4. Integration Speed**
+An API that takes 3 months to integrate is not infrastructure — it's a project. Your underwriting stack needs to move as fast as your product roadmap.
+What to ask: Is there a REST API with clear documentation? What's the average response time per statement? Is there a sandbox environment for testing? What does error handling look like for malformed inputs?
+The best APIs return structured JSON in under 10 seconds per statement and have SDKs that let a developer integrate in a day.
+
+**5. Explainability of Output**
+This comes back to the RBI compliance point. If your underwriting decision is influenced by bank statement signals, those signals need to be explainable to a borrower or auditor.
+What to ask: Does the API output raw signals or processed scores? If it outputs scores, can you see the underlying variables? Is the output audit-ready — timestamped, immutable, exportable?
+Avoid APIs that return only a single "creditworthiness score" with no supporting data. That's a black box, not infrastructure.
+
+**6. Connectivity to Your Underwriting Rules**
+A bank statement analysis API is only as useful as what you do with its output. The signals it returns need to feed directly into your policy rules — minimum AMB, maximum FOIR, bounce thresholds, etc.
+What to ask: Does the API output map cleanly to your credit policy variables? Can the output be consumed directly by a rules engine? Or does your team need to manually interpret the JSON and re-enter values into a decisioning system?
+The best setup is a single pipeline: bank statement in → structured signals out → policy rules applied → credit decision generated. No manual steps in between.
+
+## What an Integrated Pipeline Looks Like
+
+When bank statement analysis is properly connected to underwriting infrastructure, the workflow looks like this:
+
+Borrower uploads bank statement
+↓
+API parses statement → extracts 20+ financial signals
+↓
+Signals mapped to credit policy variables
+↓
+Rules engine evaluates against policy (FOIR, AMB, bounce limit, etc.)
+↓
+Credit decision generated with full audit trail
+↓
+Underwriter reviews flagged cases only
+
+Total time: under 60 seconds for the automated portion.
+Underwriter time: reserved for the 15–20% of applications that hit exception rules.
+
+## Common Mistakes NBFCs Make When Evaluating APIs
+
+- **Evaluating on clean data only.** Demo environments always use perfect, well-formatted PDFs from major banks. Ask to test on your actual borrower statements — the messy ones from smaller banks, the scanned copies, the password-protected files.
+- **Ignoring latency at scale.** An API that returns results in 8 seconds for one statement may take 45 seconds under load. Ask for SLA guarantees at your expected transaction volume.
+- **Separating analysis from decisioning.** Many NBFCs integrate a bank statement API but still require a human to interpret the output and apply policy rules manually. This halves the efficiency gain. The analysis and decisioning should be one connected pipeline.
+- **Choosing on price alone.** A cheaper API with lower parser accuracy will produce wrong signals, which will produce wrong decisions. The cost of a bad credit decision is orders of magnitude higher than the cost of a better API.
+
+## The Bottom Line
+
+Your bank statement analysis API is not a commodity integration. It is a core piece of your underwriting infrastructure, and its accuracy directly affects your portfolio quality.
+
+Evaluate on parser coverage, signal quality, fraud detection, integration speed, explainability, and connectivity to your decisioning layer. Test on real borrower data, not demos.
+
+The NBFCs that get this right process applications in minutes, not days — and their underwriters spend their time on judgment calls, not data entry.
+
+*Arera combines bank statement analysis and rules-based underwriting in a single API — from raw statement to credit decision in seconds. [See how it works](/sandbox)*
+    `
   }
 ];

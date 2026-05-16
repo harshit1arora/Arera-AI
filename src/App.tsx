@@ -25,9 +25,11 @@ import Sandbox from "./pages/Sandbox.tsx";
 import BlogPost from "./pages/BlogPost.tsx";
 import { HelmetProvider } from "react-helmet-async";
 
-import Dashboard from "./pages/Dashboard.tsx";
-import Console from "./pages/Console.tsx";
-import Playground from "./pages/Playground.tsx";
+import { lazy, Suspense } from "react";
+
+const Dashboard = lazy(() => import("./pages/Dashboard.tsx"));
+const Console = lazy(() => import("./pages/Console.tsx"));
+const Playground = lazy(() => import("./pages/Playground.tsx"));
 import Apply from "./pages/Apply.tsx";
 import ContactSales from "./pages/ContactSales.tsx";
 import StartFreeTrial from "./pages/StartFreeTrial.tsx";
@@ -45,6 +47,7 @@ const App = () => (
           <Toaster />
           <Sonner />
           <BrowserRouter>
+            <Suspense fallback={<div className="min-h-screen flex items-center justify-center bg-background"><div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin"></div></div>}>
             <Routes>
               <Route path="/" element={<Index />} />
 
@@ -72,6 +75,7 @@ const App = () => (
             <Route path="/sandbox" element={<Sandbox />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
+          </Suspense>
         </BrowserRouter>
         </ErrorBoundary>
         </AuthProvider>

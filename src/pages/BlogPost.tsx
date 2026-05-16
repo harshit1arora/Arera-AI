@@ -31,6 +31,13 @@ const BlogPost = () => {
         <title>{post.title} | Arera Blog</title>
         <meta name="description" content={post.excerpt} />
         <link rel="canonical" href={`https://www.tryarera.com/blog/${slug}`} />
+        <meta property="og:title" content={`${post.title} | Arera Blog`} />
+        <meta property="og:description" content={post.excerpt} />
+        <meta property="og:url" content={`https://www.tryarera.com/blog/${slug}`} />
+        <meta property="og:type" content="article" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={`${post.title} | Arera Blog`} />
+        <meta name="twitter:description" content={post.excerpt} />
         <script type="application/ld+json">{JSON.stringify(structuredData)}</script>
       </Helmet>
       <Navbar />
@@ -46,6 +53,19 @@ const BlogPost = () => {
             </ReactMarkdown>
           </div>
         </article>
+        
+        <div className="mt-20 pt-10 border-t border-border">
+          <h3 className="text-2xl font-bold font-['DM_Sans'] text-foreground mb-6">Related Posts</h3>
+          <div className="grid md:grid-cols-2 gap-6">
+            {BLOG_POSTS.filter(p => p.slug !== post.slug).slice(0, 2).map(related => (
+              <a key={related.slug} href={`/blog/${related.slug}`} className="block border border-border p-6 rounded-lg bg-muted/10 hover:bg-muted/30 transition-colors">
+                <h4 className="text-lg font-bold font-['DM_Sans'] text-foreground mb-2">{related.title}</h4>
+                <p className="text-sm text-muted-foreground font-['DM_Sans'] line-clamp-2 mb-4">{related.excerpt}</p>
+                <div className="text-xs font-['JetBrains_Mono'] text-primary">{related.date}</div>
+              </a>
+            ))}
+          </div>
+        </div>
       </main>
       <Footer />
     </div>
