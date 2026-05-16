@@ -13,7 +13,7 @@
     "test:watch": "vitest",
     "postbuild": "react-snap"
   },
-  "react-snap": {
+  "reactSnap": {
     "source": "dist",
     "include": [
       "/",
