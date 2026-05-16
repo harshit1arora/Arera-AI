@@ -10,8 +10,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest run",
-    "test:watch": "vitest",
-    "postbuild": "react-snap"
+    "test:watch": "vitest"
   },
   "reactSnap": {
     "source": "dist",
