@@ -14,6 +14,7 @@
     "postbuild": "react-snap"
   },
   "react-snap": {
+    "source": "dist",
     "include": [
       "/",
       "/sandbox",
