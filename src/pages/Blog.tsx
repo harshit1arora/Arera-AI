@@ -4,14 +4,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Helmet } from "react-helmet-async";
 
-const POSTS = [
-  {
-    slug: "underwriting-for-nbfcs",
-    title: "The Future of Underwriting for NBFCs",
-    excerpt: "How automated, deterministic rules engines are replacing manual credit teams and improving accuracy.",
-    date: "2025-05-10"
-  }
-];
+import { BLOG_POSTS as POSTS } from "@/data/blog-posts";
 
 const Blog = () => {
   return (
