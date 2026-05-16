@@ -62,7 +62,7 @@ export interface CollectionCase {
 
 export const createCollectionCase = async (
   orgId: string,
-  collectionCase: Omit<CollectionCase, 'id' | 'createdAt' | 'updatedAt'>
+  collectionCase: Omit<CollectionCase, 'id' | 'createdAt' | 'updatedAt' | 'orgId'>
 ): Promise<string> => {
   try {
     const docRef = await db.collection('collections').add({

@@ -22,6 +22,8 @@ import PrivacyPolicy from "./pages/PrivacyPolicy.tsx";
 import TermsOfService from "./pages/TermsOfService.tsx";
 import Security from "./pages/Security.tsx";
 import Sandbox from "./pages/Sandbox.tsx";
+import BlogPost from "./pages/BlogPost.tsx";
+import { HelmetProvider } from "react-helmet-async";
 
 import Dashboard from "./pages/Dashboard.tsx";
 import Console from "./pages/Console.tsx";
@@ -34,6 +36,7 @@ import BorrowerPortal from "./pages/BorrowerPortal.tsx";
 const queryClient = new QueryClient();
 
 const App = () => (
+  <HelmetProvider>
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <ThemeProvider>
@@ -61,6 +64,7 @@ const App = () => (
             <Route path="/about" element={<About />} />
             <Route path="/careers" element={<Careers />} />
             <Route path="/blog" element={<Blog />} />
+            <Route path="/blog/:slug" element={<BlogPost />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="/terms-of-service" element={<TermsOfService />} />
@@ -74,6 +78,7 @@ const App = () => (
       </ThemeProvider>
     </TooltipProvider>
   </QueryClientProvider>
+  </HelmetProvider>
 );
 
 export default App;

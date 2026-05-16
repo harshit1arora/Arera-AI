@@ -21,8 +21,7 @@ export interface Tranche {
 export interface Disbursement {
   id: string;
   loanId: string;
-  applicationId: string;
-  status: DisburseStatus;
+  applicationId: string;hi
   tranches: Tranche[];
   borrowerName: string;
   borrowerPhone: string;

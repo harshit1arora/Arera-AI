@@ -29,8 +29,7 @@ const HeroSection = () => {
 
               {/* Main Headline */}
               <h1 className="font-['DM_Sans'] font-bold text-[48px] md:text-[68px] leading-[1.08] text-foreground mb-6">
-                Underwriting Infrastructure<br />
-                for Indian NBFCs.
+                Underwriting Infrastructure for NBFCs
               </h1>
 
               {/* Sub-headline */}

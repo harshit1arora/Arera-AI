@@ -1,286 +1,540 @@
-import { useState } from "react";
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
-import { Zap, Loader2, RefreshCcw, CheckCircle2, ShieldAlert, AlertTriangle } from "lucide-react";
-import { submitApplication } from "@/lib/firestore";
-import { evaluateApplicationWithAI } from "@/lib/ai-engine";
-
-const scenarios = [
-  {
-    id: "prime",
-    label: "Prime Applicant",
-    payload: {
-      applicant_id: "usr_prime_990",
-      income: 1800000,
-      bureau_score: 785,
-      alt_data_flags: ["stable_location", "high_utility_payments"],
-    },
-    response: {
-      decision: "APPROVED",
-      arera_score: 812,
-      max_approved_amount: 1200000,
-      risk_tier: "LOW_RISK",
-      reasons: ["Strong bureau history", "Stable geospatial telemetry"],
-      latency_ms: 412
-    }
-  },
-  {
-    id: "thin_file",
-    label: "Thin File (Alt Data)",
-    payload: {
-      applicant_id: "usr_thin_421",
-      income: 450000,
-      bureau_score: null,
-      alt_data_flags: ["consistent_telecom", "gig_economy_income"],
-    },
-    response: {
-      decision: "MANUAL_REVIEW",
-      arera_score: 645,
-      max_approved_amount: 50000,
-      risk_tier: "MODERATE_RISK",
-      reasons: ["No bureau hit", "Consistent alternate income verified"],
-      latency_ms: 685
-    }
-  },
-  {
-    id: "high_risk",
-    label: "High Risk",
-    payload: {
-      applicant_id: "usr_risk_004",
-      income: 250000,
-      bureau_score: 520,
-      alt_data_flags: ["multiple_bounce_history", "frequent_device_swaps"],
-    },
-    response: {
-      decision: "DECLINED",
-      arera_score: 410,
-      max_approved_amount: 0,
-      risk_tier: "VERY_HIGH_RISK",
-      reasons: ["Severe delinquency in bureau", "Device fingerprint anomalies"],
-      latency_ms: 320
-    }
-  }
-];
+import { 
+  PERSONAS, 
+  PAYLOADS, 
+  runAnalysis, 
+  AnalysisResult, 
+  TERMINAL_LINES, 
+  PROCESSING_LINES 
+} from '@/lib/mock-engine';
+import { generateAnalysisPDF } from '@/lib/pdf-generator';
+import {
+  Play,
+  Copy,
+  FileText,
+  Loader2,
+  CheckCircle2,
+  Download,
+  Code,
+  AlertTriangle,
+  XCircle,
+  AlertCircle,
+  ChevronDown,
+  ChevronUp,
+} from 'lucide-react';
 
 const Sandbox = () => {
-  const [activeScenario, setActiveScenario] = useState(scenarios[0]);
-  const [isExecuting, setIsExecuting] = useState(false);
-  const [response, setResponse] = useState<any>(null);
+  const [selectedPersona, setSelectedPersona] = useState<string>('strong');
+  const [status, setStatus] = useState<'idle' | 'loading' | 'done'>('idle');
+  const [result, setResult] = useState<AnalysisResult | null>(null);
+  const [terminalLines, setTerminalLines] = useState<string[]>([]);
+  const [processingLines, setProcessingLines] = useState<string[]>([]);
+  const [activeTab, setActiveTab] = useState<'statement' | 'details'>('statement');
+  const [jsonExpanded, setJsonExpanded] = useState(false);
+  const [copied, setCopied] = useState<'curl' | 'json' | 'result' | null>(null);
 
-  const handleExecute = async () => {
-    setIsExecuting(true);
-    setResponse(null);
+  // Terminal typewriter effect on mount
+  useEffect(() => {
+    let currentLine = 0;
+    const interval = setInterval(() => {
+      if (currentLine < TERMINAL_LINES.length) {
+        setTerminalLines(prev => [...prev, TERMINAL_LINES[currentLine]]);
+        currentLine++;
+      } else {
+        clearInterval(interval);
+      }
+    }, 400);
+    return () => clearInterval(interval);
+  }, []);
+
+  const handlePersonaSelect = (id: string) => {
+    setSelectedPersona(id);
+    setResult(null);
+    setStatus('idle');
+    setProcessingLines([]);
+  };
+
+  const handleRunAnalysis = async () => {
+    setStatus('loading');
+    setResult(null);
+    setProcessingLines([]);
     
+    // Stagger processing lines
+    let currentLine = 0;
+    const lineInterval = setInterval(() => {
+      if (currentLine < PROCESSING_LINES.length) {
+        setProcessingLines(prev => [...prev, PROCESSING_LINES[currentLine]]);
+        currentLine++;
+      }
+    }, 400);
+
     try {
-      const applicantNameMap: Record<string, string> = {
-        "prime": "Sarah Connor",
-        "thin_file": "John Doe",
-        "high_risk": "Alice Smith"
-      };
-
-      const parsedData = {
-        applicantName: applicantNameMap[activeScenario.id] || "Sandbox User",
-        annualIncome: activeScenario.payload.income,
-        loanAmount: 500000, 
-        creditDebt: activeScenario.id === "high_risk" ? 250000 : activeScenario.payload.income * 0.1,
-        orgId: "public-demo-bank"
-      };
-
-      const start = Date.now();
-      const newAppId = await submitApplication(parsedData);
-      const { score, status, reasoning } = await evaluateApplicationWithAI(newAppId, parsedData);
-      const latency_ms = Math.round(Date.now() - start);
-
-      const decisionMap: Record<string, string> = {
-        "Approved": "APPROVED",
-        "Rejected": "DECLINED",
-        "Manual Review": "MANUAL_REVIEW"
-      };
-
-      setResponse({
-        id: "res_" + newAppId.substring(0, 6),
-        decision: decisionMap[status] || "MANUAL_REVIEW",
-        arera_score: score,
-        max_approved_amount: status === "Approved" ? 1200000 : status === "Manual Review" ? 50000 : 0,
-        risk_tier: status === "Approved" ? "LOW_RISK" : status === "Manual Review" ? "MODERATE_RISK" : "VERY_HIGH_RISK",
-        reasons: [reasoning],
-        latency_ms
-      });
-      setIsExecuting(false);
-    } catch (err) {
-      console.error(err);
-      setIsExecuting(false);
+      const data = await runAnalysis(selectedPersona);
+      const totalLinesTime = PROCESSING_LINES.length * 400;
+      setTimeout(() => {
+        clearInterval(lineInterval);
+        setResult(data);
+        setStatus('done');
+      }, totalLinesTime + 400);
+    } catch (error) {
+      console.error('Analysis failed', error);
+      setStatus('idle');
     }
   };
 
-  const reset = () => {
-    setResponse(null);
-    setIsExecuting(false);
+  const copyJson = () => {
+    const payload = PAYLOADS[selectedPersona as keyof typeof PAYLOADS];
+    navigator.clipboard.writeText(JSON.stringify(payload, null, 2));
+    setCopied('json');
+    setTimeout(() => setCopied(null), 2000);
   };
+
+  const copyResult = () => {
+    if (result) {
+      navigator.clipboard.writeText(JSON.stringify(result, null, 2));
+      setCopied('result');
+      setTimeout(() => setCopied(null), 2000);
+    }
+  };
+
+  const downloadPDF = () => {
+    if (result) {
+      generateAnalysisPDF(result);
+    }
+  };
+
+  const persona = PERSONAS.find(p => p.id === selectedPersona);
+  const payload = PAYLOADS[selectedPersona as keyof typeof PAYLOADS] as any;
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
       <Navbar />
-      <main className="flex-1 pt-32 pb-20">
-        <section className="container mx-auto px-6 max-w-6xl">
+      <main className="flex-1 pt-20 pb-12">
+        <section className="container mx-auto px-6 max-w-7xl">
           
-          <div className="mb-12 text-center max-w-3xl mx-auto">
+          {/* HEADER */}
+          <div className="mb-8 text-center max-w-3xl mx-auto">
             <h1 className="text-4xl md:text-5xl font-display font-bold text-foreground mb-4">
-              Interactive API Sandbox
+              Sandbox Underwriting Engine
             </h1>
-            <p className="text-xl text-muted-foreground">
-              Experience our underwriting engine in real-time. Select a borrower profile below and execute a test request to see the instant credit decision algorithm at work.
+            <p className="text-lg text-muted-foreground">
+              Experience instant credit decisions powered by our AI-driven underwriting engine. 
+              Select a borrower profile and watch real-time evaluation with transparent reasoning.
             </p>
           </div>
 
-          <div className="grid lg:grid-cols-2 gap-8 shadow-elevated rounded-3xl overflow-hidden border border-border/60 bg-card">
+          {/* MAIN LAYOUT */}
+          <div className="grid lg:grid-cols-[1fr_1.2fr] gap-6 h-[calc(100vh-300px)]">
             
-            {/* Left Pane - Request Configuration */}
-            <div className="p-8 border-b lg:border-b-0 lg:border-r border-border/60 bg-secondary/10 relative">
-              <h2 className="font-bold text-xl mb-6 flex items-center gap-2">
-                <span className="w-6 h-6 rounded-full bg-primary/20 text-primary flex items-center justify-center text-xs">1</span> 
-                Configure Payload
-              </h2>
+            {/* LEFT PANEL - REQUEST & PERSONAS */}
+            <div className="flex flex-col gap-4">
               
-              <div className="mb-8 flex flex-wrap gap-2">
-                {scenarios.map(s => (
-                  <button
-                    key={s.id}
-                    onClick={() => { setActiveScenario(s); reset(); }}
-                    className={"px-4 py-2 rounded-lg text-sm font-semibold transition-all " + (activeScenario.id === s.id ? 'bg-primary text-primary-foreground' : 'bg-secondary text-muted-foreground hover:text-foreground')}
-                  >
-                    {s.label}
-                  </button>
-                ))}
+              {/* TERMINAL BOOT SEQUENCE */}
+              <div className="bg-surface border border-border rounded-lg overflow-hidden flex flex-col h-[140px]">
+                <div className="h-[36px] border-b border-border flex items-center px-3 shrink-0 bg-foreground/5">
+                  <span className="font-['JetBrains_Mono'] text-[11px] text-foreground/70">Arera Sandbox v2.1.0</span>
+                </div>
+                <div className="flex-1 overflow-y-auto p-3 font-['JetBrains_Mono'] text-[11px]">
+                  {terminalLines.map((line, i) => (
+                    <div key={i} className="text-foreground/60 whitespace-nowrap">
+                      {line}
+                    </div>
+                  ))}
+                  {terminalLines.length === TERMINAL_LINES.length && (
+                    <span className="inline-block w-1.5 h-3 bg-foreground/60 ml-1 animate-[blink_1.2s_step-end_infinite]">_</span>
+                  )}
+                </div>
               </div>
 
-              <div className="mb-8 relative">
-                 <div className="absolute top-0 right-0 p-3 flex gap-2">
-                   <div className="text-xs font-mono font-bold text-muted-foreground bg-secondary px-2 py-1 rounded">POST /v1/underwrite</div>
-                 </div>
-                 <pre className="bg-background text-muted-foreground p-6 rounded-xl font-mono text-sm border border-border/50 overflow-x-auto shadow-inner">
-                   <code>
-<span className="text-pink-400">const</span> payload = {"{\n"}
-  <span className="text-green-300">"applicant_id"</span>: <span className="text-yellow-200">"{activeScenario.payload.applicant_id}"</span>,
-  <span className="text-green-300">"annual_income_inr"</span>: <span className="text-orange-300">{activeScenario.payload.income}</span>,
-  <span className="text-green-300">"bureau_score"</span>: <span className="text-orange-300">{activeScenario.payload.bureau_score !== null ? activeScenario.payload.bureau_score : "null"}</span>,
-  <span className="text-green-300">"alt_data_flags"</span>: [
-{activeScenario.payload.alt_data_flags.map((flag, i) => (
-  <span key={i}>
-    {"    "}<span className="text-yellow-200">"{flag}"</span>{i < activeScenario.payload.alt_data_flags.length - 1 ? ',' : ''}
-    {"\n"}
-  </span>
-))}
-  ]
-{"}"};
-                   </code>
-                 </pre>
+              {/* PERSONA SELECTOR */}
+              <div className="bg-surface border border-border rounded-lg overflow-hidden flex flex-col flex-1">
+                <div className="h-[40px] border-b border-border flex items-center px-4 shrink-0 bg-foreground/5">
+                  <span className="font-['DM_Sans'] font-semibold text-[12px] text-foreground/70 uppercase tracking-wider">Sample Personas</span>
+                </div>
+                
+                <div className="flex-1 overflow-y-auto p-2.5 space-y-1.5">
+                  {PERSONAS.map((p) => (
+                    <button
+                      key={p.id}
+                      onClick={() => handlePersonaSelect(p.id)}
+                      className={`w-full text-left bg-muted border rounded-lg p-3 transition-all ${
+                        selectedPersona === p.id
+                          ? p.expected === 'APPROVE' 
+                            ? 'border-[#00FF94] border-l-4 border-l-[#00FF94] bg-[rgba(0,255,148,0.05)]'
+                            : p.expected === 'REJECT'
+                              ? 'border-[#FF4444] border-l-4 border-l-[#FF4444] bg-[rgba(255,68,68,0.05)]'
+                              : 'border-[#F59E0B] border-l-4 border-l-[#F59E0B] bg-[rgba(245,158,11,0.05)]'
+                          : 'border-border hover:border-foreground/20'
+                      }`}
+                    >
+                      <div className="flex items-center justify-between mb-1">
+                        <div className="font-['DM_Sans'] font-semibold text-[13px] text-foreground">{p.name}</div>
+                        <div className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${
+                          p.expected === 'APPROVE' ? 'bg-[rgba(0,255,148,0.1)] text-[#00FF94]' :
+                          p.expected === 'REJECT' ? 'bg-[rgba(255,68,68,0.1)] text-[#FF4444]' :
+                          'bg-[rgba(245,158,11,0.1)] text-[#F59E0B]'
+                        }`}>
+                          {p.expected}
+                        </div>
+                      </div>
+                      <div className="font-['DM_Sans'] text-[12px] text-foreground/70 mb-1">{p.description}</div>
+                      <div className="font-['JetBrains_Mono'] text-[11px] text-foreground/70">
+                        ₹{p.income.toLocaleString('en-IN')}/month
+                      </div>
+                    </button>
+                  ))}
+                </div>
               </div>
 
-              <div className="flex gap-4">
-                <button 
-                   onClick={handleExecute}
-                   disabled={isExecuting}
-                   className="flex-1 bg-primary text-primary-foreground font-bold py-4 rounded-xl flex items-center justify-center gap-2 hover:opacity-90 transition disabled:opacity-50"
-                 >
-                   {isExecuting ? <Loader2 className="animate-spin" size={20} /> : <Zap size={20} />}
-                   {isExecuting ? "Processing Algorithms..." : "Execute Request"}
-                </button>
-                {response && (
-                  <button onClick={reset} className="px-5 py-4 border border-border rounded-xl text-muted-foreground hover:text-foreground hover:bg-secondary transition">
-                    <RefreshCcw size={20} />
-                  </button>
+              {/* RUN BUTTON */}
+              <button
+                onClick={handleRunAnalysis}
+                disabled={status === 'loading'}
+                className={`h-[56px] rounded-lg border font-['DM_Sans'] font-bold text-[14px] flex items-center justify-center gap-2 transition-all ${
+                  status === 'loading' 
+                    ? 'bg-[rgba(249,115,22,0.6)] border-border cursor-not-allowed'
+                    : status === 'done'
+                      ? 'bg-[rgba(0,255,148,0.15)] border-border text-[#00FF94]'
+                      : 'bg-[#F97316] text-black border-border hover:opacity-90 active:scale-95'
+                }`}
+              >
+                {status === 'loading' ? (
+                  <>
+                    <Loader2 size={18} className="animate-spin" />
+                    Processing...
+                  </>
+                ) : status === 'done' && result ? (
+                  <>
+                    <CheckCircle2 size={18} className="text-[#00FF94]" />
+                    Complete — {result.processing_time_ms}ms
+                  </>
+                ) : (
+                  <>
+                    <Play size={18} />
+                    RUN ANALYSIS
+                  </>
                 )}
-              </div>
+              </button>
             </div>
 
-            {/* Right Pane - API Response */}
-            <div className="p-8 bg-background relative flex flex-col items-center justify-center min-h-[400px]">
+            {/* RIGHT PANEL - RESPONSE & DETAILS */}
+            <div className="bg-surface border border-border rounded-lg overflow-hidden flex flex-col">
               
-              {!isExecuting && !response && (
-                 <div className="text-center opacity-40">
-                   <div className="w-16 h-16 rounded-full bg-secondary flex items-center justify-center mx-auto mb-4 border border-border">
-                     <Zap size={24} className="ml-1 text-foreground" />
-                   </div>
-                   <p className="font-mono text-sm text-foreground">Awaiting execution...</p>
-                 </div>
-              )}
+              {/* HEADER BAR */}
+              <div className="h-[48px] border-b border-border flex items-center justify-between px-4 shrink-0 bg-foreground/5">
+                <span className="font-['JetBrains_Mono'] font-bold text-[12px] text-foreground/70">
+                  POST /v1/underwriting/analyze
+                </span>
+                
+                {status === 'done' && result && (
+                  <div className="flex items-center gap-2">
+                    <div className="bg-[rgba(0,255,148,0.1)] border border-border text-[#00FF94] font-['JetBrains_Mono'] text-[10px] px-2 py-0.5 rounded-[4px]">
+                      200 OK
+                    </div>
+                    <button onClick={copyResult} className="text-foreground/70 hover:text-foreground p-1 transition-colors">
+                      <Copy size={14} />
+                    </button>
+                    <button onClick={downloadPDF} className="text-foreground/70 hover:text-foreground p-1 transition-colors">
+                      <Download size={14} />
+                    </button>
+                  </div>
+                )}
+              </div>
 
-              {isExecuting && (
-                <div className="text-center space-y-6 w-full max-w-sm">
-                  <Loader2 className="animate-spin text-primary mx-auto mb-8" size={48} />
+              {/* CONTENT AREA */}
+              <div className="flex-1 overflow-y-auto flex flex-col">
+                <AnimatePresence mode="wait">
                   
-                  <div className="space-y-4">
-                    <div className="flex items-center justify-between text-xs font-mono text-muted-foreground">
-                      <span>Generating Risk Vectors</span>
-                      <span className="text-green-400">DONE</span>
-                    </div>
-                    <div className="w-full bg-secondary/50 rounded-full h-1 overflow-hidden">
-                       <div className="bg-primary h-1 rounded-full w-full"></div>
-                    </div>
-                  </div>
-                  
-                  <div className="space-y-4">
-                    <div className="flex items-center justify-between text-xs font-mono text-muted-foreground">
-                      <span>Scoring ML Models</span>
-                      <span className="text-yellow-400 animate-pulse">EVALUATING</span>
-                    </div>
-                    <div className="w-full bg-secondary/50 rounded-full h-1 overflow-hidden">
-                       <div className="bg-primary h-1 rounded-full opacity-50 w-1/2"></div>
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {response && !isExecuting && (
-                <div className="w-full h-full flex flex-col">
-                  <div className="flex items-center justify-between border-b border-border pb-4 mb-6">
-                    <h2 className="font-bold text-foreground text-xl flex items-center gap-2">
-                       <span className="w-6 h-6 rounded-full bg-primary/20 text-primary flex items-center justify-center text-xs">2</span> 
-                       Response
-                    </h2>
-                    <span className="text-xs font-mono text-green-400 bg-green-400/10 px-2 py-1 rounded">
-                      200 OK — {response.latency_ms}ms
-                    </span>
-                  </div>
-
-                  <div className="flex-1 overflow-y-auto">
-                    <div className="mb-6 flex gap-3">
-                      {response.decision === "APPROVED" && <div className="flex items-center gap-2 px-4 py-2 bg-green-500/20 text-green-400 font-bold rounded-lg"><CheckCircle2 size={18}/> APPROVED</div>}
-                      {response.decision === "MANUAL_REVIEW" && <div className="flex items-center gap-2 px-4 py-2 bg-yellow-500/20 text-yellow-400 font-bold rounded-lg"><AlertTriangle size={18}/> MANUAL REVIEW</div>}
-                      {response.decision === "DECLINED" && <div className="flex items-center gap-2 px-4 py-2 bg-red-500/20 text-red-500 font-bold rounded-lg"><ShieldAlert size={18}/> DECLINED</div>}
-                      
-                      <div className="flex items-center px-4 py-2 bg-blue-500/20 text-blue-400 font-bold rounded-lg font-mono">
-                        Score: {response.arera_score}
+                  {status === 'idle' && (
+                    <motion.div 
+                      key="idle"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      className="p-6 font-['JetBrains_Mono'] text-[12px] text-foreground/60 space-y-1"
+                    >
+                      {terminalLines.map((line, i) => (
+                        <div key={i}>{line}</div>
+                      ))}
+                      <div className="text-foreground/40 mt-4">
+                        {">"} Select a persona and click RUN ANALYSIS to evaluate...
                       </div>
-                    </div>
+                    </motion.div>
+                  )}
 
-                    <pre className="text-sm font-mono text-muted-foreground">
-{"{\n"}
-  <span className="text-green-300">"id"</span>: <span className="text-yellow-200">"res_89af74"</span>,
-  <span className="text-green-300">"decision"</span>: <span className={response.decision === "APPROVED" ? "text-green-400" : response.decision === "DECLINED" ? "text-red-400" : "text-yellow-400"}>"{response.decision}"</span>,
-  <span className="text-green-300">"arera_score"</span>: <span className="text-orange-300">{response.arera_score}</span>,
-  <span className="text-green-300">"max_approved_amount"</span>: <span className="text-orange-300">{response.max_approved_amount}</span>,
-  <span className="text-green-300">"risk_tier"</span>: <span className="text-yellow-200">"{response.risk_tier}"</span>,
-  <span className="text-green-300">"reasons"</span>: [
-{response.reasons.map((r: string, i: number) => (
-  <span key={i}>
-    {"    "}<span className="text-yellow-200">"{r}"</span>{i < response.reasons.length - 1 ? ',' : ''}
-    {"\n"}
-  </span>
-))}
-  ]
-{"\n}"}
-                    </pre>
-                  </div>
-                </div>
-              )}
+                  {status === 'loading' && (
+                    <motion.div 
+                      key="loading"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      className="p-6 font-['JetBrains_Mono'] text-[12px] space-y-1"
+                    >
+                      {processingLines.map((line, i) => (
+                        <div key={i} className={
+                          line.includes('Decision ready') ? 'text-[#00FF94]' :
+                          line.includes('policy rules') ? 'text-[#F97316]' :
+                          'text-foreground/60'
+                        }>
+                          {line}
+                        </div>
+                      ))}
+                    </motion.div>
+                  )}
 
+                  {status === 'done' && result && (
+                    <motion.div 
+                      key="done"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      className="p-4 space-y-4 pb-6"
+                    >
+                      {/* ERROR STATE */}
+                      {result.error ? (
+                        <motion.div 
+                          initial={{ scale: 0.95, opacity: 0 }}
+                          animate={{ scale: 1, opacity: 1 }}
+                          className="bg-[rgba(255,68,68,0.08)] border border-border rounded-lg p-4"
+                        >
+                          <div className="flex gap-2.5 items-start">
+                            <AlertTriangle size={18} className="text-foreground mt-0.5 flex-shrink-0" />
+                            <div>
+                              <span className="font-['JetBrains_Mono'] font-bold text-[13px] text-foreground block">
+                                {result.error.code} — {result.error.message}
+                              </span>
+                              <p className="mt-1 font-['DM_Sans'] font-normal text-[12px] text-foreground/70">
+                                {result.error.detail}
+                              </p>
+                            </div>
+                          </div>
+                        </motion.div>
+                      ) : (
+                        <>
+                          {/* DECISION BANNER */}
+                          <motion.div 
+                            initial={{ y: -12, opacity: 0 }}
+                            animate={{ y: 0, opacity: 1 }}
+                            transition={{ duration: 0.35 }}
+                            className={`rounded-lg p-4 flex justify-between items-center ${
+                              result.decision === 'APPROVE' ? 'bg-[rgba(0,255,148,0.08)] border border-border' :
+                              result.decision === 'REJECT' ? 'bg-[rgba(255,68,68,0.08)] border border-border' :
+                              'bg-[rgba(245,158,11,0.08)] border border-border'
+                            }`}
+                          >
+                            <div className="flex flex-col">
+                              <div className="flex items-center gap-2.5">
+                                {result.decision === 'APPROVE' && <CheckCircle2 size={24} className="text-[#00FF94]" />}
+                                {result.decision === 'REJECT' && <XCircle size={24} className="text-foreground" />}
+                                {result.decision === 'REVIEW' && <AlertCircle size={24} className="text-foreground" />}
+                                <span className={`font-['DM_Sans'] font-extrabold text-[20px] ${
+                                  result.decision === 'APPROVE' ? 'text-[#00FF94]' :
+                                  result.decision === 'REJECT' ? 'text-foreground' :
+                                  'text-foreground'
+                                }`}>
+                                  {result.decision === 'APPROVE' ? 'APPROVED' : result.decision === 'REJECT' ? 'REJECTED' : 'REVIEW REQUIRED'}
+                                </span>
+                              </div>
+                              {(result.decision === 'APPROVE' || result.decision === 'REVIEW') && (
+                                <span className="mt-1 font-['DM_Sans'] font-semibold text-[13px] text-foreground/70">
+                                  Credit Limit: ₹{result.credit_limit.toLocaleString('en-IN')}
+                                </span>
+                              )}
+                            </div>
+
+                            <div className="flex flex-col items-center">
+                              <div className="relative w-16 h-16">
+                                <svg className="w-full h-full transform -rotate-90">
+                                  <circle cx="32" cy="32" r="28" stroke="rgba(255,255,255,0.1)" strokeWidth="3" fill="transparent" />
+                                  <circle
+                                    cx="32" cy="32" r="28"
+                                    stroke={result.risk_score > 65 ? '#00FF94' : result.risk_score > 40 ? '#F59E0B' : '#FF4444'}
+                                    strokeWidth="3"
+                                    fill="transparent"
+                                    strokeDasharray={2 * Math.PI * 28}
+                                    strokeDashoffset={2 * Math.PI * 28 * (1 - (result.risk_score / 100) * 0.75)}
+                                    className="transition-all duration-1000 ease-out"
+                                  />
+                                </svg>
+                                <div className="absolute inset-0 flex items-center justify-center">
+                                  <span className="font-['JetBrains_Mono'] font-bold text-[16px] text-foreground">{result.risk_score}</span>
+                                </div>
+                              </div>
+                              <span className="mt-1 font-['JetBrains_Mono'] text-[10px] text-foreground/70">
+                                {(result.confidence * 100).toFixed(0)}% conf
+                              </span>
+                            </div>
+                          </motion.div>
+
+                          {/* TABS */}
+                          <div className="flex gap-1 border-b border-border">
+                            <button
+                              onClick={() => setActiveTab('statement')}
+                              className={`px-3 py-2 text-[12px] font-['DM_Sans'] font-semibold border-b-2 transition-colors ${
+                                activeTab === 'statement'
+                                  ? 'border-[#F97316] text-foreground'
+                                  : 'border-transparent text-foreground/70 hover:text-foreground'
+                              }`}
+                            >
+                              Bank Statement
+                            </button>
+                            <button
+                              onClick={() => setActiveTab('details')}
+                              className={`px-3 py-2 text-[12px] font-['DM_Sans'] font-semibold border-b-2 transition-colors ${
+                                activeTab === 'details'
+                                  ? 'border-[#F97316] text-foreground'
+                                  : 'border-transparent text-foreground/70 hover:text-foreground'
+                              }`}
+                            >
+                              Analysis
+                            </button>
+                          </div>
+
+                          {/* BANK STATEMENT TAB */}
+                          {activeTab === 'statement' && (
+                            <motion.div 
+                              initial={{ opacity: 0 }}
+                              animate={{ opacity: 1 }}
+                              className="space-y-3"
+                            >
+                              <div className="bg-muted border border-border rounded-lg p-3">
+                                <div className="text-[11px] font-['JetBrains_Mono'] text-foreground/70 space-y-1">
+                                  <div><span className="text-foreground/50">Account:</span> <span className="text-foreground">{payload.bank_statement.account_number}</span></div>
+                                  <div><span className="text-foreground/50">Bank:</span> <span className="text-foreground">{payload.bank_statement.bank}</span></div>
+                                  <div><span className="text-foreground/50">Period:</span> <span className="text-foreground">{payload.bank_statement.period}</span></div>
+                                </div>
+                              </div>
+
+                              <div className="space-y-1.5">
+                                <div className="text-[11px] font-['DM_Sans'] font-semibold text-foreground/70 uppercase">Transactions</div>
+                                {payload.bank_statement.transactions.map((tx: any, i: number) => (
+                                  <div key={i} className="bg-muted border border-border rounded-lg p-2 font-['JetBrains_Mono'] text-[11px]">
+                                    <div className="flex justify-between items-start mb-1">
+                                      <div className="text-foreground/70">{tx.date}</div>
+                                      <div className={tx.type === 'credit' ? 'text-[#00FF94]' : 'text-[#FF4444]'}>
+                                        {tx.type === 'credit' ? '+' : ''} ₹{Math.abs(tx.amount).toLocaleString('en-IN')}
+                                      </div>
+                                    </div>
+                                    <div className="text-foreground/60">{tx.description}</div>
+                                    <div className="text-foreground/50 mt-1">Balance: ₹{tx.balance.toLocaleString('en-IN')}</div>
+                                  </div>
+                                ))}
+                              </div>
+                            </motion.div>
+                          )}
+
+                          {/* ANALYSIS TAB */}
+                          {activeTab === 'details' && (
+                            <motion.div 
+                              initial={{ opacity: 0 }}
+                              animate={{ opacity: 1 }}
+                              className="space-y-4"
+                            >
+                              {/* DECISION FACTORS */}
+                              {result.reasons?.length > 0 && (
+                                <div className="space-y-2">
+                                  <div className="text-[12px] font-['DM_Sans'] font-semibold text-foreground/70">Decision Factors</div>
+                                  <div className="space-y-2">
+                                    {result.reasons?.map((reason, i) => (
+                                      <motion.div 
+                                        key={reason.code}
+                                        initial={{ opacity: 0, x: -8 }}
+                                        animate={{ opacity: 1, x: 0 }}
+                                        transition={{ delay: 0.3 + i * 0.08 }}
+                                        className="bg-muted border border-border rounded-lg p-2.5"
+                                      >
+                                        <div className="flex justify-between mb-1">
+                                          <span className="font-['DM_Sans'] text-[12px] font-semibold text-foreground">{reason.label}</span>
+                                          <span className="font-['JetBrains_Mono'] text-[11px] text-foreground/70">{(reason.weight * 100).toFixed(0)}%</span>
+                                        </div>
+                                        <p className="font-['DM_Sans'] text-[11px] text-foreground/70 mb-1.5">{reason.detail}</p>
+                                        <div className="h-1.5 bg-foreground/10 rounded-full overflow-hidden">
+                                          <motion.div 
+                                            initial={{ width: 0 }}
+                                            animate={{ width: `${reason.weight * 100}%` }}
+                                            transition={{ duration: 0.6, delay: 0.4 + i * 0.08 }}
+                                            className={`h-full ${
+                                              reason.sentiment === 'positive' ? 'bg-[#10B981]' :
+                                              reason.sentiment === 'negative' ? 'bg-[#FF4444]' :
+                                              'bg-[#F59E0B]'
+                                            }`}
+                                          />
+                                        </div>
+                                      </motion.div>
+                                    ))}
+                                  </div>
+                                </div>
+                              )}
+
+                              {/* RULES EVALUATED */}
+                              <div className="space-y-2">
+                                <div className="flex justify-between items-center">
+                                  <div className="text-[12px] font-['DM_Sans'] font-semibold text-foreground/70">Rules Evaluated</div>
+                                  <div className={`font-['JetBrains_Mono'] text-[10px] px-1.5 py-0.5 rounded ${
+                                    result.rules_fired?.filter(r => r.result).length > 2 ? 'text-[#00FF94] bg-[rgba(0,255,148,0.1)]' : 'text-foreground bg-[rgba(255,68,68,0.1)]'
+                                  }`}>
+                                    {result.rules_fired?.filter(r => !r.skipped).length}/{result.rules_fired?.length}
+                                  </div>
+                                </div>
+                                <div className="space-y-1">
+                                  {result.rules_fired?.map((rule) => (
+                                    <div key={rule.id} className="flex items-center gap-2 bg-muted border border-border rounded-lg p-1.5 font-['JetBrains_Mono'] text-[11px]">
+                                      <div className="shrink-0">
+                                        {rule.skipped ? (
+                                          <span className="text-foreground/50">—</span>
+                                        ) : rule.result ? (
+                                          <CheckCircle2 size={14} className="text-[#00FF94]" />
+                                        ) : (
+                                          <XCircle size={14} className="text-foreground" />
+                                        )}
+                                      </div>
+                                      <span className="text-foreground/70 min-w-[40px]">{rule.id}</span>
+                                      <span className="text-foreground/70 flex-1">{rule.name}</span>
+                                      <span className="text-foreground/50">{rule.condition}</span>
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+
+                              {/* RAW JSON */}
+                              <div className="border-t border-border pt-3">
+                                <button
+                                  onClick={() => setJsonExpanded(!jsonExpanded)}
+                                  className="flex justify-between items-center w-full cursor-pointer group"
+                                >
+                                  <span className="text-[12px] font-['DM_Sans'] font-semibold text-foreground/70">Raw Response</span>
+                                  <ChevronDown size={14} className={`text-foreground/70 transition-transform ${jsonExpanded ? 'rotate-180' : ''}`} />
+                                </button>
+                                
+                                <AnimatePresence>
+                                  {jsonExpanded && (
+                                    <motion.div
+                                      initial={{ height: 0, opacity: 0 }}
+                                      animate={{ height: 'auto', opacity: 1 }}
+                                      exit={{ height: 0, opacity: 0 }}
+                                      className="overflow-hidden mt-2"
+                                    >
+                                      <pre className="bg-muted border border-border rounded-lg p-3 font-['JetBrains_Mono'] text-[10px] text-foreground/70 max-h-[240px] overflow-y-auto whitespace-pre-wrap word-break-all">
+                                        {JSON.stringify(result, null, 2)}
+                                      </pre>
+                                    </motion.div>
+                                  )}
+                                </AnimatePresence>
+                              </div>
+                            </motion.div>
+                          )}
+                        </>
+                      )}
+                    </motion.div>
+                  )}
+
+                </AnimatePresence>
+              </div>
             </div>
           </div>
         </section>
       </main>
-      <Footer />
     </div>
   );
 };
