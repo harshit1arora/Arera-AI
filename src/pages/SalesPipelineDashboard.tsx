@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { apiWithAuth, parseResponse } from '../lib/api-client';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
-import { Button } from './ui/button';
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from './ui/dialog';
-import { Input } from './ui/input';
-import { Textarea } from './ui/textarea';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card';
+import { Button } from '../components/ui/button';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '../components/ui/dialog';
+import { Input } from '../components/ui/input';
+import { Textarea } from '../components/ui/textarea';
 import { BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 import { Plus, TrendingUp, Calendar, DollarSign, Target, ArrowRight } from 'lucide-react';
 import { toast } from 'sonner';
@@ -41,7 +41,7 @@ interface SalesPipeline {
   metrics: SalesPipelineMetrics;
 }
 
-export const SalesPipelineDashboard: React.FC = () => {
+const SalesPipelineDashboard: React.FC = () => {
   const { user } = useAuth();
   const [pipeline, setPipeline] = useState<SalesPipeline | null>(null);
   const [loading, setLoading] = useState(true);
@@ -372,3 +372,5 @@ export const SalesPipelineDashboard: React.FC = () => {
     </div>
   );
 };
+
+export default SalesPipelineDashboard;

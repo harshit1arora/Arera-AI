@@ -61,12 +61,12 @@ export default function DisbursementQueue() {
       }
       
       // Fallback to mock data
-      setDisbursements(MOCK_DISBURSEMENTS as Disbursement[]);
+      setDisbursements(MOCK_DISBURSEMENTS as unknown as Disbursement[]);
     } catch (error) {
       console.error('Error fetching disbursements:', error);
       toast.error('Failed to load disbursements');
       // Fallback to mock data on error
-      setDisbursements(MOCK_DISBURSEMENTS as Disbursement[]);
+      setDisbursements(MOCK_DISBURSEMENTS as unknown as Disbursement[]);
     } finally {
       setLoading(false);
     }

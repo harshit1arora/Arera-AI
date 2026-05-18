@@ -76,7 +76,7 @@ const mockCollections: CollectionAccount[] = [
       { id: "n1", date: "2024-04-01", type: "call", outcome: "Promise to pay by April 10", agent: "Amit Singh", nextAction: "Follow up April 5" }
     ],
     paymentSchedule: [
-      { date: "2024-03-15", amount: 15000, mode: "upi", ref: "UPI123" }
+      { date: "2024-03-15", amount: 15000, mode: "upi", reference: "UPI123" }
     ],
     totalPaid: 125000
   },
@@ -118,7 +118,7 @@ const mockCollections: CollectionAccount[] = [
     assignedAgent: "Ramesh Kumar",
     notes: [],
     paymentSchedule: [
-      { date: "2024-03-28", amount: 8500, mode: "bank_transfer", ref: "NEFT456" }
+      { date: "2024-03-28", amount: 8500, mode: "bank_transfer", reference: "NEFT456" }
     ],
     totalPaid: 45000
   },
@@ -141,7 +141,7 @@ const mockCollections: CollectionAccount[] = [
       { id: "n3", date: "2024-04-03", type: "visit", outcome: "Home visit - borrower not home", agent: "Vikram Singh", nextAction: "Visit again April 5" }
     ],
     paymentSchedule: [
-      { date: "2024-03-15", amount: 25000, mode: "upi", ref: "UPI789" }
+      { date: "2024-03-15", amount: 25000, mode: "upi", reference: "UPI789" }
     ],
     totalPaid: 180000
   },
