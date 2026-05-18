@@ -22,12 +22,13 @@ import LoanPortfolio from "../components/dashboard/LoanPortfolio";
 import CollectionsPipeline from "../components/dashboard/CollectionsPipeline";
 import MISReports from "../components/dashboard/MISReports";
 import BillingDashboard from "../components/dashboard/BillingDashboard";
+import ComplianceDashboard from "../components/dashboard/ComplianceDashboard";
 import { useAuth } from "../contexts/AuthContext";
 import { toast } from "sonner";
 
 export default function Dashboard() {
   const { orgId } = useAuth();
-  const [activeTab, setActiveTab] = useState<"queue" | "policies" | "dev" | "integrations" | "audit" | "analytics" | "sentinel" | "disbursement" | "portfolio" | "collections" | "reports" | "billing" | "settings">("queue");
+  const [activeTab, setActiveTab] = useState<"queue" | "policies" | "dev" | "integrations" | "audit" | "analytics" | "sentinel" | "disbursement" | "portfolio" | "collections" | "reports" | "billing" | "settings" | "compliance">("queue");
   const [applications, setApplications] = useState<LoanApplication[]>([]);
   const [selectedApp, setSelectedApp] = useState<LoanApplication | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
@@ -143,6 +144,7 @@ export default function Dashboard() {
                  { id: "disbursement", label: "Disbursements", icon: Banknote },
                  { id: "collections", label: "Collections", icon: ShieldCheck },
                  { id: "sentinel", label: "Sentinel EWS", icon: ShieldCheck },
+                 { id: "compliance", label: "RBI Compliance", icon: ShieldCheck },
                  { id: "reports", label: "MIS Reports", icon: Activity },
                  { id: "analytics", label: "Analytics", icon: Activity },
                  { id: "audit", label: "Audit Logs", icon: ShieldCheck },
@@ -324,6 +326,7 @@ export default function Dashboard() {
              {activeTab === "portfolio" && <LoanPortfolio orgId={orgId} />}
              {activeTab === "collections" && <CollectionsPipeline orgId={orgId} />}
              {activeTab === "reports" && <MISReports orgId={orgId} />}
+              {activeTab === "compliance" && <ComplianceDashboard orgId={orgId} />}
              {activeTab === "settings" && <SettingsView />}
            </AnimatePresence>
         </div>

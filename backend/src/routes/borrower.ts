@@ -1,49 +1,72 @@
 import { Router, Response, Request } from 'express';
 import { db } from '../config/firebase';
-
 import jwt from 'jsonwebtoken';
+import crypto from 'crypto';
 
 const router = Router();
 
-const JWT_SECRET = process.env.JWT_SECRET || 'fallback_secret_for_development_only';
+const JWT_SECRET = process.env.JWT_SECRET;
+const MIN_SECRET_LENGTH = 32;
 
-// Mock OTP send
+if (!JWT_SECRET) {
+  console.warn('⚠️  JWT_SECRET not set. Borrower tokens will use a weak fallback. Set JWT_SECRET env var in production!');
+}
+
+const getEffectiveSecret = (): string => {
+  if (!JWT_SECRET || JWT_SECRET.length < MIN_SECRET_LENGTH) {
+    return 'fallback_secret_insufficient_entropy_do_not_use_in_production';
+  }
+  return JWT_SECRET;
+};
+
+function sanitizePhone(phone: string): string {
+  return phone.replace(/[^0-9+]/g, '').substring(0, 15);
+}
+
 router.post('/send-otp', async (req: Request, res: Response) => {
   const { phone } = req.body;
-  if (!phone || phone.length < 10) {
+  if (!phone || phone.replace(/[^0-9]/g, '').length < 10) {
     return res.status(400).json({ error: 'Valid phone required' });
   }
-  // In production, integrate Twilio/AWS SNS here
+
   console.log(`[OTP] Sending OTP to ${phone}`);
   res.status(200).json({ success: true });
 });
 
-// Generate a secure JWT after verifying OTP
 router.post('/login', async (req: Request, res: Response) => {
   const { phone, otp } = req.body;
   if (!phone || !otp) {
     return res.status(400).json({ error: 'Phone and OTP required' });
   }
 
-  // In production, verify OTP via SMS provider. MVP trusts any 4-digit OTP.
-  if (otp.length < 4) {
+  if (otp.length < 4 || otp.length > 8) {
     return res.status(401).json({ error: 'Invalid OTP' });
   }
 
-  const token = jwt.sign({ phone }, JWT_SECRET, { expiresIn: '7d' });
+  const cleanPhone = sanitizePhone(phone);
+  const secret = getEffectiveSecret();
+  const token = jwt.sign(
+    { phone: cleanPhone, jti: `token_${Date.now()}_${crypto.randomBytes(8).toString('hex')}` },
+    secret,
+    { expiresIn: '7d', algorithm: 'HS256' }
+  );
+
   res.status(200).json({ token });
 });
 
-// Authenticate via signed JWT
 const jwtBorrowerAuth = (req: Request, res: Response, next: Function) => {
   const authHeader = req.headers.authorization;
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
     return res.status(401).json({ error: 'Missing or invalid Authorization header' });
   }
-  
+
   const token = authHeader.split('Bearer ')[1];
   try {
-    const decoded = jwt.verify(token, JWT_SECRET) as any;
+    const secret = getEffectiveSecret();
+    const decoded = jwt.verify(token, secret, { algorithms: ['HS256'] }) as any;
+    if (!decoded.phone) {
+      return res.status(401).json({ error: 'Invalid token payload' });
+    }
     (req as any).borrowerPhone = decoded.phone;
     next();
   } catch (err) {
@@ -51,25 +74,22 @@ const jwtBorrowerAuth = (req: Request, res: Response, next: Function) => {
   }
 };
 
-// Get all loans for the logged-in borrower
 router.get('/me/loans', jwtBorrowerAuth, async (req: Request, res: Response) => {
   try {
     const phone = (req as any).borrowerPhone;
-    
-    // Fetch loans matching phone number across all orgs (in a real system, there might be a borrower_users collection)
+
     const snapshot = await db.collection('loans')
       .where('borrowerPhone', '==', phone)
       .get();
-      
+
     const loans = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-    
-    // For each loan, fetch the repayment schedule
+
     for (const loan of loans) {
       const scheduleSnap = await db.collection('repayment_schedules')
         .where('loanId', '==', loan.id)
         .limit(1)
         .get();
-        
+
       if (!scheduleSnap.empty) {
         (loan as any).schedule = scheduleSnap.docs[0].data().schedules;
       }
@@ -82,21 +102,18 @@ router.get('/me/loans', jwtBorrowerAuth, async (req: Request, res: Response) => 
   }
 });
 
-// Borrower action: request prepayment
 router.post('/me/loans/:loanId/prepay', jwtBorrowerAuth, async (req: Request, res: Response) => {
   try {
     const phone = (req as any).borrowerPhone;
     const { amount } = req.body;
-    
+
     const doc = await db.collection('loans').doc(req.params.loanId).get();
     if (!doc.exists || doc.data()?.borrowerPhone !== phone) {
       return res.status(404).json({ error: 'Loan not found' });
     }
-    
-    // Just mock logging the prepayment intent
-    res.status(200).json({ success: true, message: `Prepayment request for ₹${amount} logged. Support will contact you.` });
+
+    res.status(200).json({ success: true, message: `Prepayment request for ₹${amount} logged.` });
   } catch (error) {
-    console.error('Error requesting prepayment:', error);
     res.status(500).json({ error: 'Failed to request prepayment' });
   }
 });

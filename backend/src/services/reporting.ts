@@ -179,10 +179,13 @@ export const generateDailyReport = async (orgId: string, date?: Date): Promise<R
       approvalMetrics,
       disburseMetrics,
       collectionMetrics: {
-        ...collectionMetrics,
         date: reportDate,
-        recoveryRate: 0, // To be calculated based on recovery data
-      },
+        totalOverdueAccounts: (collectionMetrics as any).byStatus.overdue || 0,
+        totalNPAAccounts: (collectionMetrics as any).byStatus.npa || 0,
+        totalRecovered: (collectionMetrics as any).byStatus.closed || 0,
+        recoveryRate: 0,
+        avgDaysOverdue: (collectionMetrics as any).avgDaysOverdue || 0,
+      } as CollectionMetrics,
       complianceNotes: [
         `Report generated for ${reportDate.toDateString()}`,
         `Total portfolio outstanding: ₹${portfolioMetrics.outstandingAmount.toLocaleString('en-IN')}`,
@@ -258,7 +261,7 @@ export const listReports = async (
       .limit(filter?.limit || 100)
       .get();
 
-    return snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id })) as RBIComplianceReport[];
+    return snapshot.docs.map((doc: any) => ({ ...doc.data(), id: doc.id })) as RBIComplianceReport[];
   } catch (error) {
     console.error('Error listing reports:', error);
     throw error;

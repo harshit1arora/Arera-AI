@@ -64,7 +64,15 @@ export const processWebhookQueue = async () => {
 
   if (snapshot.empty) return;
 
-  const backoffDelaysMs = [0, 30 * 1000, 5 * 60 * 1000]; // 0s, 30s, 5m
+  const backoffDelaysMs = [
+    0,                          // Immediate (first attempt)
+    30 * 1000,                  // 30 seconds
+    2 * 60 * 1000,             // 2 minutes  
+    10 * 60 * 1000,            // 10 minutes
+    30 * 60 * 1000             // 30 minutes (max 5 retries)
+  ];
+  const MAX_ATTEMPTS = 5;
+  const MAX_RETRY_HOURS = 24; // Stop retrying after 24 hours
 
   const batch = db.batch();
 

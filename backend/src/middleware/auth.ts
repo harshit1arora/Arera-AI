@@ -7,6 +7,8 @@ export interface AuthenticatedRequest extends Request {
   orgId?: string;
   apiKeyId?: string;
   uid?: string;
+  userId?: string;
+  userName?: string;
 }
 
 /**
@@ -88,6 +90,8 @@ export const authenticateFirebaseToken = async (req: AuthenticatedRequest, res: 
     const decodedToken = await admin.auth().verifyIdToken(idToken);
     req.uid = decodedToken.uid;
     req.orgId = decodedToken.uid; // In Arera, orgId === user's Firebase UID
+    req.userId = decodedToken.uid;
+    req.userName = decodedToken.email || decodedToken.name || 'User';
     next();
   } catch (err) {
     console.error('Firebase token verification failed:', err);

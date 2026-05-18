@@ -11,6 +11,9 @@ const router = Router();
 router.get('/borrowers', async (req: AuthenticatedRequest, res: Response) => {
   try {
     const orgId = req.orgId!;
+    if (!/^[a-zA-Z0-9_-]{1,128}$/.test(orgId)) {
+      return res.status(400).json({ error: 'Invalid org ID' });
+    }
     const borrowers = await getMonitoredBorrowers(orgId);
     res.status(200).json(borrowers);
   } catch (error) {

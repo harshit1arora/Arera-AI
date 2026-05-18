@@ -72,3 +72,194 @@ export const parseResponse = async <T = any>(response: Response): Promise<T> => 
   }
   return response.json();
 };
+
+// ==================== Collections API ====================
+
+export const collectionsApi = {
+  getDashboard: () => apiWithAuth('/v1/collections/dashboard'),
+  getPipeline: () => apiWithAuth('/v1/collections/pipeline'),
+  getMetrics: () => apiWithAuth('/v1/collections/metrics'),
+  getOverdueLoans: (params?: { page?: number; limit?: number }) => 
+    apiWithAuth(`/v1/collections/overdue?page=${params?.page || 1}&limit=${params?.limit || 20}`),
+  createPromise: (loanId: string, data: { amount: number; date: string; notes?: string }) =>
+    apiWithAuth('/v1/collections/promise', { method: 'POST', body: JSON.stringify({ loanId, ...data }) }),
+  markAsResolved: (loanId: string, resolution: string) =>
+    apiWithAuth('/v1/collections/resolve', { method: 'POST', body: JSON.stringify({ loanId, resolution }) }),
+  sendReminder: (loanId: string) =>
+    apiWithAuth(`/v1/collections/remind/${loanId}`, { method: 'POST' }),
+  getAgentWorkload: () => apiWithAuth('/v1/collections/agent-workload'),
+  triggerWorkflow: (loanId: string, missedEmis: number, daysOverdue: number) =>
+    apiWithAuth('/v1/collections/trigger/' + loanId, { method: 'POST', body: JSON.stringify({ missedEmis, daysOverdue }) }),
+  processAllOverdue: () =>
+    apiWithAuth('/v1/collections/process-all', { method: 'POST' }),
+  getWorkflowStatus: (loanId: string) =>
+    apiWithAuth('/v1/collections/workflow/' + loanId),
+};
+
+// ==================== Loan Origination API ====================
+
+export const originationApi = {
+  getApplications: (params?: { status?: string; page?: number; limit?: number }) => {
+    const query = new URLSearchParams(params as any).toString();
+    return apiWithAuth(`/v1/origination/applications?${query}`);
+  },
+  getApplication: (id: string) => apiWithAuth(`/v1/origination/applications/${id}`),
+  createApplication: (data: any) => apiWithAuth('/v1/origination/applications', { method: 'POST', body: JSON.stringify(data) }),
+  updateApplication: (id: string, data: any) => apiWithAuth(`/v1/origination/applications/${id}`, { method: 'PATCH', body: JSON.stringify(data) }),
+  bulkUpload: (file: File) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    return apiWithAuth('/v1/origination/bulk-upload', { method: 'POST', body: formData });
+  },
+  startKYC: (applicationId: string, data: { aadhaar?: string; pan?: string }) =>
+    apiWithAuth(`/v1/origination/applications/${applicationId}/kyc`, { method: 'POST', body: JSON.stringify(data) }),
+};
+
+// ==================== Compliance API ====================
+
+export const complianceApi = {
+  getAuditTrail: (params?: { startDate?: string; endDate?: string; action?: string }) => {
+    const query = new URLSearchParams(params as any).toString();
+    return apiWithAuth(`/v1/compliance/audit-trail?${query}`);
+  },
+  getReports: () => apiWithAuth('/v1/compliance/reports'),
+  generateReport: (type: string, params: any) =>
+    apiWithAuth('/v1/compliance/generate', { method: 'POST', body: JSON.stringify({ type, ...params }) }),
+  getStatistics: () => apiWithAuth('/v1/compliance/statistics'),
+};
+
+// ==================== Agent Commission API ====================
+
+export const agentsApi = {
+  getAgents: (params?: { tier?: string; status?: string }) => {
+    const query = new URLSearchParams(params as any).toString();
+    return apiWithAuth(`/v1/agents?${query}`);
+  },
+  getAgent: (id: string) => apiWithAuth(`/v1/agents/${id}`),
+  getCommission: (agentId: string, params?: { month?: string }) => {
+    const query = new URLSearchParams(params as any).toString();
+    return apiWithAuth(`/v1/agents/${agentId}/commission?${query}`);
+  },
+  getPayoutSchedule: (agentId: string) => apiWithAuth(`/v1/agents/${agentId}/payouts`),
+  updateAgent: (id: string, data: any) => apiWithAuth(`/v1/agents/${id}`, { method: 'PATCH', body: JSON.stringify(data) }),
+};
+
+// ==================== Portfolio API ====================
+
+export const portfolioApi = {
+  getOverview: () => apiWithAuth('/v1/portfolio/overview'),
+  getAUM: () => apiWithAuth('/v1/portfolio/aum'),
+  getSegmentation: () => apiWithAuth('/v1/portfolio/segmentation'),
+  getTrends: (params?: { period?: string }) =>
+    apiWithAuth(`/v1/portfolio/trends?period=${params?.period || '30d'}`),
+  getPerformance: (params?: { startDate?: string; endDate?: string }) => {
+    const query = new URLSearchParams(params as any).toString();
+    return apiWithAuth(`/v1/portfolio/performance?${query}`);
+  },
+};
+
+// ==================== Payment API ====================
+
+export const paymentApi = {
+  getPaymentLink: (loanId: string, amount: number, description?: string) =>
+    apiWithAuth('/v1/payments/link', { method: 'POST', body: JSON.stringify({ loanId, amount, description }) }),
+  getPaymentStatus: (paymentId: string) => apiWithAuth(`/v1/payments/${paymentId}`),
+  recordPayment: (data: { loanId: string; amount: number; method: string; reference?: string }) =>
+    apiWithAuth('/v1/payments/record', { method: 'POST', body: JSON.stringify(data) }),
+  initiateRefund: (paymentId: string, amount: number, reason: string) =>
+    apiWithAuth('/v1/payments/refund', { method: 'POST', body: JSON.stringify({ paymentId, amount, reason }) }),
+};
+
+// ==================== AI Evaluation API ====================
+
+export const aiApi = {
+  evaluate: (applicationData: any) => apiWithAuth('/v1/ai/evaluate', { method: 'POST', body: JSON.stringify(applicationData) }),
+  analyzeBankStatement: (file: File) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    return apiWithAuth('/v1/ai/analyze-bank-statement', { method: 'POST', body: formData });
+  },
+  generateAgreement: (loanId: string) => apiWithAuth('/v1/ai/generate-agreement', { method: 'POST', body: JSON.stringify({ loanId }) }),
+  chat: (message: string, context?: any) => apiWithAuth('/v1/ai/chat', { method: 'POST', body: JSON.stringify({ message, context }) }),
+  getStatus: () => apiWithAuth('/v1/ai/status'),
+};
+
+// ==================== Workflow API ====================
+
+export const workflowApi = {
+  start: (applicationId: string, workflowType: string = 'standard') =>
+    apiWithAuth('/v1/workflow/start', { method: 'POST', body: JSON.stringify({ applicationId, workflowType }) }),
+  get: (workflowId: string) => apiWithAuth(`/v1/workflow/${workflowId}`),
+  getByApplication: (applicationId: string) => apiWithAuth(`/v1/workflow/by-application/${applicationId}`),
+  getAnalytics: () => apiWithAuth('/v1/workflow/analytics/summary'),
+};
+
+// ==================== KYC API ====================
+
+export const kycApi = {
+  verifyAadhaar: (aadhaarNumber: string, name?: string, dob?: string) =>
+    apiWithAuth('/v1/kyc/aadhaar/verify', { method: 'POST', body: JSON.stringify({ aadhaarNumber, name, dob }) }),
+  getEKYC: (aadhaarNumber: string) => apiWithAuth('/v1/kyc/aadhaar/ekyc', { method: 'POST', body: JSON.stringify({ aadhaarNumber }) }),
+  verifyPAN: (panNumber: string, name?: string, dob?: string) =>
+    apiWithAuth('/v1/kyc/pan/verify', { method: 'POST', body: JSON.stringify({ panNumber, name, dob }) }),
+  verifyAll: (aadhaarNumber?: string, panNumber?: string) =>
+    apiWithAuth('/v1/kyc/verify-all', { method: 'POST', body: JSON.stringify({ aadhaarNumber, panNumber }) }),
+  batchVerify: (applicants: { id: string; aadhaar?: string; pan?: string }[]) =>
+    apiWithAuth('/v1/kyc/batch-verify', { method: 'POST', body: JSON.stringify({ applicants }) }),
+  getStatus: (applicationId: string) => apiWithAuth(`/v1/kyc/status/${applicationId}`),
+};
+
+// ==================== Disbursement API ====================
+
+export const disbursementApi = {
+  initiate: (data: { loanId: string; bankAccountNumber: string; ifscCode: string; beneficiaryName: string; amount: number; paymentMode?: string }) =>
+    apiWithAuth('/v1/disbursement/initiate', { method: 'POST', body: JSON.stringify(data) }),
+  getStatus: (transactionId: string) => apiWithAuth(`/v1/disbursement/status/${transactionId}`),
+  list: (params?: { status?: string; fromDate?: string; toDate?: string }) => {
+    const query = new URLSearchParams(params as any).toString();
+    return apiWithAuth(`/v1/disbursement?${query}`);
+  },
+  bulk: (disbursements: any[]) => apiWithAuth('/v1/disbursement/bulk', { method: 'POST', body: JSON.stringify({ disbursements }) }),
+  reverse: (transactionId: string) => apiWithAuth(`/v1/disbursement/${transactionId}/reverse`, { method: 'POST' }),
+  getAnalytics: () => apiWithAuth('/v1/disbursement/analytics/summary'),
+};
+
+// ==================== Webhook API ====================
+
+export const webhookApi = {
+  register: (url: string, events: string[], secret?: string) =>
+    apiWithAuth('/v1/webhooks', { method: 'POST', body: JSON.stringify({ url, events, secret }) }),
+  list: () => apiWithAuth('/v1/webhooks'),
+  delete: (webhookId: string) => apiWithAuth(`/v1/webhooks/${webhookId}`, { method: 'DELETE' }),
+  test: (webhookId: string) => apiWithAuth(`/v1/webhooks/${webhookId}/test`, { method: 'POST' }),
+  getLogs: (webhookId: string) => apiWithAuth(`/v1/webhooks/${webhookId}/logs`),
+};
+
+// ==================== Notification API ====================
+
+export const notificationApi = {
+  send: (to: string, template: string, data: any) =>
+    apiWithAuth('/v1/notifications/send', { method: 'POST', body: JSON.stringify({ to, template, data }) }),
+  sendBulk: (recipients: { to: string; template: string; data: any }[]) =>
+    apiWithAuth('/v1/notifications/bulk', { method: 'POST', body: JSON.stringify({ recipients }) }),
+  getHistory: (params?: { page?: number; limit?: number }) => {
+    const query = new URLSearchParams(params as any).toString();
+    return apiWithAuth(`/v1/notifications/history?${query}`);
+  },
+};
+
+// ==================== RBI Compliance API ====================
+
+export const rbiApi = {
+  getPortfolioClassification: () => apiWithAuth('/v1/rbi/portfolio-classification'),
+  runClassification: () => apiWithAuth('/v1/rbi/run-classification', { method: 'POST' }),
+  getProvisioningReport: () => apiWithAuth('/v1/rbi/provisioning-report'),
+  getLoanClassification: (loanId: string) => apiWithAuth(`/v1/rbi/loan/${loanId}/classification`),
+  classifyLoan: (loanId: string) => apiWithAuth(`/v1/rbi/loan/${loanId}/classify`, { method: 'POST' }),
+  getSMATracking: () => apiWithAuth('/v1/rbi/sma-tracking'),
+  getAuditTrail: (params?: { action?: string; startDate?: string; endDate?: string; limit?: number }) => {
+    const query = new URLSearchParams(params as any).toString();
+    return apiWithAuth(`/v1/rbi/audit-trail?${query}`);
+  },
+  getRBIReport: (reportType: string) => apiWithAuth(`/v1/rbi/rbi-report/${reportType}`),
+};

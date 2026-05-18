@@ -140,7 +140,7 @@ export const listLoans = async (
     query = query.orderBy('createdAt', 'desc').limit(filter?.limit || 500);
 
     const snapshot = await query.get();
-    return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as Loan[];
+    return snapshot.docs.map((doc: any) => ({ id: doc.id, ...doc.data() })) as Loan[];
   } catch (error) {
     console.error('Error listing loans:', error);
     throw error;
@@ -265,7 +265,7 @@ export const updateLoanFinancials = async (
     const loan = await getLoan(orgId, loanId);
     if (!loan) throw new Error('Loan not found');
 
-    const updateData = {
+    const updateData: any = {
       totalRepaid,
       outstandingAmount,
       updatedAt: new Date()

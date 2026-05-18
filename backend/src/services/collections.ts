@@ -135,7 +135,7 @@ export const listCollectionCases = async (
     query = query.orderBy('updatedAt', 'desc').limit(filter?.limit || 500);
 
     const snapshot = await query.get();
-    return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as CollectionCase[];
+    return snapshot.docs.map((doc: any) => ({ id: doc.id, ...doc.data() })) as CollectionCase[];
   } catch (error) {
     console.error('Error listing collection cases:', error);
     throw error;
@@ -305,7 +305,7 @@ export const markLoanNPA = async (
         recoveryNotes: [],
         npaStartDate: new Date(),
         npaAge: daysOverdue,
-        npaCategory: daysOverdue > 90 ? '90+ DPD' : daysOverdue > 60 ? '60-90 DPD' : '30-60 DPD',
+        npaCategory: (daysOverdue > 90 ? '90+ DPD' : daysOverdue > 60 ? '60-90 DPD' : '30-60 DPD') as any,
         priority: 'High' as const,
       };
 

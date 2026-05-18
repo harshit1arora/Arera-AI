@@ -11,6 +11,7 @@ import {
   markLoanNPA,
   getCollectionMetrics,
 } from '../services/collections';
+import { triggerCollectionWorkflow, processOverdueLoans } from '../services/collection-automation';
 
 const router = Router();
 
@@ -204,6 +205,105 @@ router.get('/metrics/dashboard', async (req: AuthenticatedRequest, res: Response
   } catch (error) {
     console.error('Error getting metrics:', error);
     res.status(500).json({ error: 'Failed to get metrics' });
+  }
+});
+
+// Manual trigger collection workflow for a loan
+router.post('/trigger/:loanId', async (req: AuthenticatedRequest, res: Response) => {
+  try {
+    const { missedEmis, daysOverdue } = req.body;
+
+    if (typeof missedEmis !== 'number' || typeof daysOverdue !== 'number') {
+      return res.status(400).json({ error: 'missedEmis and daysOverdue are required' });
+    }
+
+    const loanDoc = await import('../config/firebase').then(m => m.db.collection('loans').doc(req.params.loanId).get());
+    if (!loanDoc.exists) {
+      return res.status(404).json({ error: 'Loan not found' });
+    }
+
+    const loan = loanDoc.data()!;
+    if (loan.orgId !== req.orgId) {
+      return res.status(403).json({ error: 'Unauthorized' });
+    }
+
+    const scheduleSnapshot = await import('../config/firebase').then(m =>
+      m.db.collection('repayment_schedules').where('loanId', '==', req.params.loanId).limit(1).get()
+    );
+
+    const schedule = scheduleSnapshot.empty ? null : scheduleSnapshot.docs[0].data();
+
+    const loanInfo = {
+      id: loan.id || req.params.loanId,
+      borrowerId: loan.borrowerId,
+      borrowerName: loan.borrowerName,
+      borrowerPhone: loan.borrowerPhone || '+919876543210',
+      borrowerEmail: loan.borrowerEmail || 'borrower@example.com',
+      loanAmount: loan.loanAmount,
+      outstandingAmount: loan.outstandingAmount || loan.loanAmount,
+      firstEmiDueDate: new Date(loan.firstEmiDueDate || loan.startDate || new Date()),
+      emiAmount: schedule?.emiAmount || loan.emiAmount || 0,
+      orgId: loan.orgId,
+    };
+
+    const result = await triggerCollectionWorkflow(req.orgId!, loanInfo, missedEmis, daysOverdue);
+
+    res.status(200).json({
+      success: true,
+      caseId: result.caseId,
+      action: result.action,
+      smsSent: result.smsSent,
+      emailSent: result.emailSent,
+      priority: result.priority,
+      message: `Collection workflow ${result.action} for loan ${req.params.loanId}`,
+    });
+  } catch (error) {
+    console.error('Error triggering collection workflow:', error);
+    res.status(500).json({ error: 'Failed to trigger collection workflow' });
+  }
+});
+
+// Process all overdue loans (batch operation)
+router.post('/process-all', async (req: AuthenticatedRequest, res: Response) => {
+  try {
+    const result = await processOverdueLoans(req.orgId!);
+
+    res.status(200).json({
+      success: true,
+      ...result,
+      message: `Processed ${result.processed} loans, triggered ${result.triggered} workflows`,
+    });
+  } catch (error) {
+    console.error('Error processing overdue loans:', error);
+    res.status(500).json({ error: 'Failed to process overdue loans' });
+  }
+});
+
+// Get collection workflow status for a loan
+router.get('/workflow/:loanId', async (req: AuthenticatedRequest, res: Response) => {
+  try {
+    const collectionCase = await getCollectionCaseByLoanId(req.orgId!, req.params.loanId);
+
+    if (!collectionCase) {
+      return res.status(404).json({ error: 'No collection case found for this loan' });
+    }
+
+    res.status(200).json({
+      caseId: collectionCase.id,
+      status: collectionCase.status,
+      priority: collectionCase.priority,
+      missedEmis: collectionCase.missedEmis,
+      daysOverdue: collectionCase.daysOverdue,
+      actions: collectionCase.actions,
+      reminders: collectionCase.reminders,
+      npaCategory: collectionCase.npaCategory,
+      assignedCollector: collectionCase.assignedCollector,
+      createdAt: collectionCase.createdAt,
+      updatedAt: collectionCase.updatedAt,
+    });
+  } catch (error) {
+    console.error('Error getting workflow status:', error);
+    res.status(500).json({ error: 'Failed to get workflow status' });
   }
 });
 

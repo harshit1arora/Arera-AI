@@ -134,7 +134,7 @@ export const listLoanProducts = async (
     }
 
     const snapshot = await query.orderBy('createdAt', 'desc').get();
-    return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as LoanProduct[];
+    return snapshot.docs.map((doc: any) => ({ id: doc.id, ...doc.data() })) as LoanProduct[];
   } catch (error) {
     console.error('Error listing loan products:', error);
     throw error;

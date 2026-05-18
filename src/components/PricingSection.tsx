@@ -7,7 +7,10 @@ const PricingSection = () => {
     {
       name: "Starter",
       target: "For early-stage fintechs and NBFCs.",
-      price: "2.50",
+      price: "7.50",
+      priceNote: "Gemini Flash",
+      altPrice: "9.50",
+      altNote: "Claude Haiku",
       volume: "Up to 500 decisions / month",
       features: [
         "Core underwriting API",
@@ -15,6 +18,7 @@ const PricingSection = () => {
         "Explainable output with reasons",
         "Audit log access",
         "Email support",
+        "Model selection (Gemini or Claude)",
       ],
       cta: "Start Free Trial",
       highlighted: false,
@@ -22,7 +26,10 @@ const PricingSection = () => {
     {
       name: "Growth",
       target: "For scaling NBFCs with production lending operations.",
-      price: "1.80",
+      price: "8.50",
+      priceNote: "Gemini Flash",
+      altPrice: "10.50",
+      altNote: "Claude Haiku",
       volume: "500–5,000 decisions / month",
       features: [
         "Everything in Starter",
@@ -30,6 +37,8 @@ const PricingSection = () => {
         "Batch processing (up to 100/request)",
         "Priority support (Email + Slack)",
         "Custom rule additions",
+        "Real-time analytics dashboard",
+        "Model switching on the fly",
       ],
       cta: "Start Free Trial",
       highlighted: true,
@@ -38,14 +47,17 @@ const PricingSection = () => {
       name: "Enterprise",
       target: "For large NBFCs needing full customization.",
       price: "Custom",
+      priceNote: "Hybrid pricing",
       volume: "5,000+ decisions / month",
       features: [
         "Everything in Growth",
         "Custom underwriting rule engine",
         "SLA guarantee (99.9%)",
         "Dedicated account manager",
+        "Multi-model orchestration",
         "On-premise deployment option",
         "24/7 Phone + Slack support",
+        "Advanced compliance reporting",
       ],
       cta: "Contact Sales",
       highlighted: false,
@@ -90,12 +102,35 @@ const PricingSection = () => {
                   <div className="font-['DM_Sans'] font-bold text-[18px] text-foreground mb-1">{plan.name}</div>
                   <div className="font-['DM_Sans'] font-normal text-[13px] text-muted-foreground mb-5">{plan.target}</div>
 
-                  <div className="flex items-baseline gap-1 mt-5">
-                    {plan.price !== "Custom" && <span className="font-['DM_Sans'] font-normal text-[20px] text-muted-foreground">₹</span>}
-                    <span className={`font-['JetBrains_Mono'] font-bold text-[52px] text-foreground leading-none`}>{plan.price}</span>
-                    {plan.price !== "Custom" && <span className="font-['DM_Sans'] font-normal text-[14px] text-muted-foreground">/ analysis</span>}
-                  </div>
-                  <div className="font-['DM_Sans'] font-normal text-[13px] text-muted-foreground mt-1">{plan.volume}</div>
+                  {plan.price !== "Custom" ? (
+                    <div className="mt-5 space-y-3">
+                      {/* Gemini Option */}
+                      <div className="bg-gradient-to-r from-blue-500/10 to-cyan-500/10 rounded-lg p-3 border border-blue-500/20">
+                        <div className="flex items-baseline gap-1">
+                          <span className="font-['DM_Sans'] font-normal text-[14px] text-muted-foreground">₹</span>
+                          <span className="font-['JetBrains_Mono'] font-bold text-[36px] text-blue-400 leading-none">{plan.price}</span>
+                          <span className="font-['DM_Sans'] font-normal text-[12px] text-muted-foreground">/ decision</span>
+                        </div>
+                        <p className="font-['DM_Sans'] text-[11px] text-muted-foreground mt-1">{plan.priceNote}</p>
+                      </div>
+
+                      {/* Claude Option */}
+                      <div className="bg-gradient-to-r from-purple-500/10 to-pink-500/10 rounded-lg p-3 border border-purple-500/20">
+                        <div className="flex items-baseline gap-1">
+                          <span className="font-['DM_Sans'] font-normal text-[14px] text-muted-foreground">₹</span>
+                          <span className="font-['JetBrains_Mono'] font-bold text-[36px] text-purple-400 leading-none">{plan.altPrice}</span>
+                          <span className="font-['DM_Sans'] font-normal text-[12px] text-muted-foreground">/ decision</span>
+                        </div>
+                        <p className="font-['DM_Sans'] text-[11px] text-muted-foreground mt-1">{plan.altNote}</p>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="flex items-baseline gap-1 mt-5">
+                      <span className={`font-['JetBrains_Mono'] font-bold text-[52px] text-foreground leading-none`}>{plan.price}</span>
+                    </div>
+                  )}
+                  
+                  <div className="font-['DM_Sans'] font-normal text-[13px] text-muted-foreground mt-3">{plan.volume}</div>
 
                   <div className="h-[1px] bg-border my-[24px]"></div>
 
@@ -125,10 +160,45 @@ const PricingSection = () => {
         </div>
 
         <FadeUp delay={0.4}>
-          <div className="mt-8 text-center">
-            <p className="font-['DM_Sans'] font-normal text-[13px] text-muted-foreground">
-              All plans include 100 free analyses to start. No credit card required.
-            </p>
+          <div className="mt-12 bg-gradient-to-r from-primary/5 to-orange-500/5 border border-primary/20 rounded-lg p-8 max-w-[900px] mx-auto">
+            <div className="grid md:grid-cols-2 gap-8">
+              <div>
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
+                  <h3 className="font-['DM_Sans'] font-bold text-[14px] text-foreground">Gemini Flash</h3>
+                </div>
+                <p className="font-['DM_Sans'] font-normal text-[13px] text-muted-foreground mb-3">
+                  ✓ Fast inference (sub-second)<br/>
+                  ✓ Cost-optimized<br/>
+                  ✓ Great for high-volume underwriting
+                </p>
+                <p className="font-['DM_Sans'] font-normal text-[12px] text-muted-foreground">
+                  Perfect for NBFC looking to maximize throughput
+                </p>
+              </div>
+
+              <div>
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="w-2 h-2 bg-purple-400 rounded-full"></div>
+                  <h3 className="font-['DM_Sans'] font-bold text-[14px] text-foreground">Claude Haiku</h3>
+                </div>
+                <p className="font-['DM_Sans'] font-normal text-[13px] text-muted-foreground mb-3">
+                  ✓ Superior reasoning<br/>
+                  ✓ Better edge-case handling<br/>
+                  ✓ Enhanced explainability
+                </p>
+                <p className="font-['DM_Sans'] font-normal text-[12px] text-muted-foreground">
+                  For complex lending scenarios & premium accuracy
+                </p>
+              </div>
+            </div>
+
+            <div className="mt-6 pt-6 border-t border-primary/20">
+              <p className="font-['DM_Sans'] font-semibold text-[13px] text-foreground mb-2">💡 Choose your engine:</p>
+              <p className="font-['DM_Sans'] font-normal text-[13px] text-muted-foreground">
+                Select Gemini Flash for speed & cost, or Claude Haiku for accuracy. Switch anytime in your dashboard. All plans include 100 free test decisions—no credit card required.
+              </p>
+            </div>
           </div>
         </FadeUp>
       </div>

@@ -1,4 +1,5 @@
 import { db } from '../config/firebase';
+import { triggerCollectionWorkflow } from './collection-automation';
 
 export interface RepaymentScheduleItem {
   emiNo: number;
@@ -259,6 +260,30 @@ export const markEMIOverdue = async (
         detail: `EMI #${emiNo} marked as overdue`,
         timestamp: new Date()
       });
+
+      const overdueItems = updatedSchedules.filter(s => s.status === 'Overdue' ||
+        (s.status === 'Pending' && new Date(s.dueDate) < new Date()));
+      const missedEmis = overdueItems.length;
+      const latestOverdue = overdueItems[overdueItems.length - 1];
+      const daysOverdue = latestOverdue ? Math.max(1, Math.floor((Date.now() - new Date(latestOverdue.dueDate).getTime()) / (1000 * 60 * 60 * 24))) : 1;
+
+      try {
+        const loanInfo = {
+          id: schedule.loanId,
+          borrowerId: schedule.borrowerId,
+          borrowerName: schedule.borrowerName,
+          borrowerPhone: (schedule as any).borrowerPhone || '+919876543210',
+          borrowerEmail: (schedule as any).borrowerEmail || 'borrower@example.com',
+          loanAmount: schedule.loanAmount,
+          outstandingAmount: schedule.totalOutstanding,
+          firstEmiDueDate: new Date(schedule.firstEmiDate),
+          emiAmount: schedule.emiAmount,
+          orgId: schedule.orgId,
+        };
+        await triggerCollectionWorkflow(orgId, loanInfo, missedEmis, daysOverdue);
+      } catch (colError) {
+        console.error('Collection trigger failed:', colError);
+      }
     }
   } catch (error) {
     console.error('Error marking EMI overdue:', error);
@@ -280,9 +305,9 @@ export const getOverdueEMIs = async (
     const snapshot = await query.get();
     
     return snapshot.docs
-      .map(doc => {
+      .map((doc: any) => {
         const data = doc.data() as RepaymentSchedule;
-        const overdueEMIs = data.schedules.filter(s => s.status === 'Overdue' || 
+        const overdueEMIs = data.schedules.filter((s: any) => s.status === 'Overdue' || 
           (s.status === 'Pending' && new Date(s.dueDate) < new Date()));
         return {
           id: doc.id,
@@ -290,7 +315,7 @@ export const getOverdueEMIs = async (
           overdueEMIs
         };
       })
-      .filter(s => s.overdueEMIs.length > 0);
+      .filter((s: any) => s.overdueEMIs.length > 0);
   } catch (error) {
     console.error('Error getting overdue EMIs:', error);
     throw error;

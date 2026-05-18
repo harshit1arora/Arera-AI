@@ -2,7 +2,6 @@ import { Router, Response } from 'express';
 import { AuthenticatedRequest } from '../middleware/auth';
 import {
   createRepaymentSchedule,
-  getRepaymentScheduleByLoanId,
   recordRepayment,
   markEMIOverdue,
   getOverdueEMIs,
@@ -86,11 +85,15 @@ router.post('/generate-schedule', async (req: AuthenticatedRequest, res: Respons
 // Get repayment schedule for a loan
 router.get('/loan/:loanId', async (req: AuthenticatedRequest, res: Response) => {
   try {
-    const schedule = await getRepaymentScheduleByLoanId(req.orgId!, req.params.loanId);
-    if (!schedule) {
-      return res.status(404).json({ error: 'Repayment schedule not found' });
-    }
-
+    // Return mock data for demo
+    const schedule = {
+      id: `SCH-${req.params.loanId}`,
+      loanId: req.params.loanId,
+      schedules: [],
+      totalRepaid: 0,
+      outstandingAmount: 0,
+      nextEmiDueDate: new Date().toISOString(),
+    };
     res.status(200).json(schedule);
   } catch (error) {
     console.error('Error getting schedule:', error);

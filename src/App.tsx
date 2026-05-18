@@ -30,10 +30,22 @@ import { lazy, Suspense } from "react";
 const Dashboard = lazy(() => import("./pages/Dashboard.tsx"));
 const Console = lazy(() => import("./pages/Console.tsx"));
 const Playground = lazy(() => import("./pages/Playground.tsx"));
+const UsageAndBilling = lazy(() => import("./pages/UsageAndBilling.tsx"));
+const MetricsAndROI = lazy(() => import("./pages/MetricsAndROI.tsx"));
+const EnhancedBorrowerPortal = lazy(() => import("./pages/EnhancedBorrowerPortal.tsx"));
+const QuickSetupWizard = lazy(() => import("./pages/QuickSetupWizard.tsx"));
+const SalesPipelineDashboard = lazy(() => import("./pages/SalesPipelineDashboard.tsx"));
+const ModelComparison = lazy(() => import("./pages/ModelComparison.tsx"));
 import Apply from "./pages/Apply.tsx";
 import ContactSales from "./pages/ContactSales.tsx";
 import StartFreeTrial from "./pages/StartFreeTrial.tsx";
 import BorrowerPortal from "./pages/BorrowerPortal.tsx";
+import CollectionsDashboard from "./pages/CollectionsDashboard.tsx";
+import LoanOrigination from "./pages/LoanOrigination.tsx";
+import ComplianceReports from "./pages/ComplianceReports.tsx";
+import AgentCommission from "./pages/AgentCommission.tsx";
+import PortfolioOverview from "./pages/PortfolioOverview.tsx";
+import BorrowerPayment from "./pages/BorrowerPayment.tsx";
 
 const queryClient = new QueryClient();
 
@@ -55,7 +67,19 @@ const App = () => (
               <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
               <Route path="/console" element={<ProtectedRoute><Console /></ProtectedRoute>} />
               <Route path="/playground" element={<ProtectedRoute><Playground /></ProtectedRoute>} />
+              <Route path="/setup-wizard" element={<ProtectedRoute><QuickSetupWizard /></ProtectedRoute>} />
+              <Route path="/usage-billing" element={<ProtectedRoute><UsageAndBilling /></ProtectedRoute>} />
+              <Route path="/metrics-roi" element={<ProtectedRoute><MetricsAndROI /></ProtectedRoute>} />
+              <Route path="/sales-pipeline" element={<ProtectedRoute><SalesPipelineDashboard /></ProtectedRoute>} />
+              <Route path="/model-comparison" element={<ModelComparison />} />
+              <Route path="/borrower/:loanId" element={<EnhancedBorrowerPortal />} />
               <Route path="/borrower" element={<BorrowerPortal />} />
+              <Route path="/collections" element={<ProtectedRoute><CollectionsDashboard /></ProtectedRoute>} />
+              <Route path="/loan-origination" element={<ProtectedRoute><LoanOrigination /></ProtectedRoute>} />
+              <Route path="/compliance" element={<ProtectedRoute><ComplianceReports /></ProtectedRoute>} />
+              <Route path="/agents" element={<ProtectedRoute><AgentCommission /></ProtectedRoute>} />
+              <Route path="/portfolio" element={<ProtectedRoute><PortfolioOverview /></ProtectedRoute>} />
+              <Route path="/pay" element={<BorrowerPayment />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="/contact-sales" element={<ContactSales />} />
             <Route path="/start-free-trial" element={<StartFreeTrial />} />

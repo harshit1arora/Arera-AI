@@ -1,4 +1,5 @@
 import * as admin from 'firebase-admin';
+import { Firestore } from 'firebase-admin/firestore';
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -26,3 +27,21 @@ if (!admin.apps.length) {
 
 export const db = admin.firestore();
 export { admin };
+
+export const {
+  getFirestore,
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  setDoc,
+  updateDoc,
+  deleteDoc,
+  query,
+  where,
+  orderBy,
+  limit,
+  Timestamp,
+  DocumentReference,
+  FieldValue
+} = require('firebase-admin/firestore');

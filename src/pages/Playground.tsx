@@ -40,6 +40,91 @@ const Playground = () => {
   const [processingLines, setProcessingLines] = useState<string[]>([]);
   const [jsonExpanded, setJsonExpanded] = useState(false);
   const [copied, setCopied] = useState<'curl' | 'json' | 'result' | null>(null);
+  const [pdfFile, setPdfFile] = useState<File | null>(null);
+  const [parseStatus, setParseStatus] = useState<'idle' | 'uploading' | 'parsing' | 'done' | 'error'>('idle');
+  const [parseResult, setParseResult] = useState<any>(null);
+  const [parseError, setParseError] = useState<string | null>(null);
+  const [dragOver, setDragOver] = useState(false);
+  const [completedSteps, setCompletedSteps] = useState<number[]>([]);
+
+  const PARSE_STEPS = [
+    { id: 1, label: 'Reading PDF file...' },
+    { id: 2, label: 'Extracting text content...' },
+    { id: 3, label: 'Detecting bank format...' },
+    { id: 4, label: 'Identifying transactions...' },
+    { id: 5, label: 'Normalizing amounts and dates...' },
+    { id: 6, label: 'Categorizing transactions...' },
+    { id: 7, label: 'Validating extracted data...' },
+    { id: 8, label: 'Ready for underwriting engine.' },
+  ];
+
+  const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080';
+
+  const handlePdfUpload = async (file: File) => {
+    setPdfFile(file);
+    setParseStatus('uploading');
+    setParseError(null);
+    setCompletedSteps([]);
+
+    const stepInterval = setInterval(() => {
+      setCompletedSteps(prev => {
+        if (prev.length >= 7) {
+          clearInterval(stepInterval);
+          return prev;
+        }
+        return [...prev, prev.length + 1];
+      });
+    }, 400);
+
+    try {
+      setParseStatus('parsing');
+
+      const formData = new FormData();
+      formData.append('statement', file);
+
+      const response = await fetch(`${API_BASE}/v1/parse/bank-statement`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer sk_test_demo`
+        },
+        body: formData
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error?.detail || data.error?.message || 'Parsing failed');
+      }
+
+      clearInterval(stepInterval);
+      setCompletedSteps([1, 2, 3, 4, 5, 6, 7, 8]);
+      setParseResult(data);
+      setParseStatus('done');
+
+      const payload = {
+        applicant: {
+          name: data.data.account_holder || 'Applicant',
+          pan: 'AUTO_DETECTED',
+          monthly_income_declared: null
+        },
+        bank_statement: data.data,
+        loan_request: {
+          amount: 200000,
+          tenure_months: 24,
+          purpose: 'general'
+        }
+      };
+
+      setJsonValue(JSON.stringify(payload, null, 2));
+      toast.success('PDF parsed! Switch to JSON tab or run analysis.');
+
+    } catch (err: any) {
+      clearInterval(stepInterval);
+      setParseError(err.message);
+      setParseStatus('error');
+      toast.error(err.message);
+    }
+  };
 
   // Terminal typewriter effect on mount
   useEffect(() => {
@@ -244,38 +329,102 @@ const Playground = () => {
 
           {activeTab === 'pdf' && (
             <div className="p-6">
-              <label className="border-2 border-dashed border-border rounded-[8px] p-[40px_24px] text-center bg-border/30 cursor-pointer hover:bg-border/50 block transition-colors">
-                <FileText size={32} className="mx-auto mb-4 text-foreground/70" />
-                <div className="font-['DM_Sans'] font-semibold text-[14px] text-foreground/70 mb-1">Click to upload bank statement PDF</div>
-                <div className="font-['DM_Sans'] font-normal text-[12px] text-foreground/70">Supported: HDFC, SBI, ICICI, Axis, PNB statements</div>
-                <input type="file" className="hidden" accept=".pdf" onChange={(e) => {
-                  if (e.target.files && e.target.files.length > 0) {
-                    toast.success(`Mock parser: ${e.target.files[0].name} loaded`);
-                  }
-                }} />
-              </label>
+              {parseStatus === 'idle' && (
+                <div
+                  onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
+                  onDragLeave={() => setDragOver(false)}
+                  onDrop={(e) => {
+                    e.preventDefault();
+                    setDragOver(false);
+                    const file = e.dataTransfer.files[0];
+                    if (file?.type === 'application/pdf') { handlePdfUpload(file); }
+                  }}
+                  onClick={() => document.getElementById('pdf-input')?.click()}
+                  className={`border-2 border-dashed rounded-[8px] p-[48px_24px] text-center cursor-pointer transition-all ${
+                    dragOver ? 'border-[rgba(249,115,22,0.5)] bg-[rgba(249,115,22,0.04)]' : 'border-border bg-border/30 hover:bg-border/50'
+                  }`}
+                >
+                  <input
+                    id="pdf-input"
+                    type="file"
+                    accept=".pdf"
+                    className="hidden"
+                    onChange={(e) => { const file = e.target.files?.[0]; if (file) handlePdfUpload(file); }}
+                  />
+                  <FileText size={32} className="mx-auto mb-4 text-foreground/30" />
+                  <div className="font-['DM_Sans'] font-semibold text-[14px] text-foreground/60 mb-1">Drop bank statement PDF here</div>
+                  <div className="font-['DM_Sans'] font-normal text-[12px] text-foreground/30 mt-1">HDFC · SBI · ICICI · Axis · PNB · Kotak</div>
+                  <div className="mt-5 inline-flex items-center gap-2 bg-[rgba(249,115,22,0.08)] border border-[rgba(249,115,22,0.2)] rounded-[4px] px-3 py-1.5">
+                    <span className="font-['JetBrains_Mono'] text-[11px] text-[#F97316]">Parsed by AI · Decided by rules</span>
+                  </div>
+                </div>
+              )}
 
-              <div className="mt-8">
-                <div className="font-['DM_Sans'] font-semibold text-[12px] text-foreground/70 uppercase tracking-wider mb-4">Parser pipeline</div>
-                <div className="space-y-3">
-                  {[
-                    "Extracting transactions from PDF...",
-                    "Detecting income credit patterns...",
-                    "Identifying EMI deductions...",
-                    "Passing to underwriting engine..."
-                  ].map((text, i) => (
-                    <div key={i} className="flex items-center gap-3">
-                      <div className="w-[18px] h-[18px] border border-border rounded-full flex items-center justify-center font-['JetBrains_Mono'] text-[10px] text-foreground/70">
-                        {i + 1}
-                      </div>
-                      <span className="font-['JetBrains_Mono'] text-[12px] text-foreground/70">{text}</span>
+              {(parseStatus === 'uploading' || parseStatus === 'parsing') && (
+                <div className="p-6">
+                  <p className="font-['JetBrains_Mono'] text-[12px] text-foreground/40 mb-5">Parsing {pdfFile?.name}...</p>
+                  {PARSE_STEPS.map((step) => (
+                    <div key={step.id} className={`flex items-center gap-2.5 mb-2.5 transition-opacity ${completedSteps.includes(step.id) ? 'opacity-100' : 'opacity-30'}`}>
+                      <span className={`${completedSteps.includes(step.id) ? 'text-[#00FF94]' : 'text-foreground/20'} font-['JetBrains_Mono'] text-[14px] w-4`}>
+                        {completedSteps.includes(step.id) ? '✓' : '○'}
+                      </span>
+                      <span className={`font-['JetBrains_Mono'] text-[12px] ${completedSteps.includes(step.id) ? 'text-foreground/70' : 'text-foreground/25'}`}>
+                        {step.label}
+                      </span>
                     </div>
                   ))}
                 </div>
-                <div className="text-center mt-6 font-['JetBrains_Mono'] text-[11px] text-foreground/70">
-                  Powered by Arera Parser v1
+              )}
+
+              {parseStatus === 'done' && parseResult && (
+                <div className="p-4">
+                  <div className="bg-[rgba(0,255,148,0.08)] border border-[rgba(0,255,148,0.2)] rounded-[6px] p-3.5 mb-4 flex justify-between items-center">
+                    <div>
+                      <p className="font-['JetBrains_Mono'] text-[12px] text-[#00FF94]">✓ Parsed successfully</p>
+                      <p className="font-['DM_Sans'] text-[13px] text-foreground/60 mt-1">{parseResult.bank_detected} · {parseResult.transactions_found} transactions · {(parseResult.confidence * 100).toFixed(0)}% confidence</p>
+                    </div>
+                    <span className="font-['JetBrains_Mono'] text-[11px] text-foreground/30">{parseResult.period_detected}</span>
+                  </div>
+
+                  <p className="font-['DM_Sans'] text-[12px] text-foreground/30 mb-2">Showing first 5 of {parseResult.transactions_found} transactions</p>
+                  
+                  {parseResult.data.transactions.slice(0, 5).map((t: any, i: number) => (
+                    <div key={i} className="flex justify-between items-center py-2 border-b border-foreground/5">
+                      <div>
+                        <p className="font-['DM_Sans'] text-[12px] text-foreground/70">{t.description.substring(0, 35)}{t.description.length > 35 ? '...' : ''}</p>
+                        <p className="font-['JetBrains_Mono'] text-[11px] text-foreground/30 mt-0.5">{t.date} · {t.category}</p>
+                      </div>
+                      <span className={`font-['JetBrains_Mono'] text-[13px] ${t.amount > 0 ? 'text-[#00FF94]' : 'text-[#FF4444]'}`}>
+                        {t.amount > 0 ? '+' : ''}₹{Math.abs(t.amount).toLocaleString('en-IN')}
+                      </span>
+                    </div>
+                  ))}
+
+                  <div className="mt-4 bg-[rgba(249,115,22,0.06)] border border-[rgba(249,115,22,0.15)] rounded-[6px] p-3">
+                    <p className="font-['JetBrains_Mono'] text-[11px] text-[#F97316]">→ JSON tab auto-populated. Switch to JSON tab or click RUN ANALYSIS.</p>
+                  </div>
+
+                  <button
+                    onClick={() => { setPdfFile(null); setParseStatus('idle'); setParseResult(null); setCompletedSteps([]); }}
+                    className="mt-3 font-['DM_Sans'] text-[12px] text-foreground/30 bg-transparent border-none cursor-pointer underline"
+                  >
+                    Upload a different PDF
+                  </button>
                 </div>
-              </div>
+              )}
+
+              {parseStatus === 'error' && (
+                <div className="m-4 bg-[rgba(255,68,68,0.08)] border border-[rgba(255,68,68,0.2)] rounded-[6px] p-4">
+                  <p className="font-['JetBrains_Mono'] text-[12px] text-[#FF4444] mb-2">✗ Parse failed</p>
+                  <p className="font-['DM_Sans'] text-[13px] text-foreground/50">{parseError}</p>
+                  <button
+                    onClick={() => { setPdfFile(null); setParseStatus('idle'); setParseError(null); }}
+                    className="mt-3 font-['DM_Sans'] text-[12px] text-[#F97316] bg-transparent border border-[rgba(249,115,22,0.3)] rounded-[4px] px-3 py-1.5 cursor-pointer"
+                  >
+                    Try again
+                  </button>
+                </div>
+              )}
             </div>
           )}
         </div>

@@ -25,8 +25,40 @@ import reportingRouter from './routes/reporting';
 import borrowerRouter from './routes/borrower';
 import billingRouter from './routes/billing';
 import copilotRouter from './routes/copilot';
+import applicationsRouter from './routes/applications';
+import agentsRouter from './routes/agents';
+import portfolioRouter from './routes/portfolio';
+import complianceRouter from './routes/compliance';
+import complianceRbiRouter from './routes/compliance-rbi';
+import aiEvaluationRouter from './routes/ai-evaluation';
+import workflowAutomationRouter from './routes/workflow-automation';
+import automatedKycRouter from './routes/automated-kyc';
+import automatedDisbursementRouter from './routes/automated-disbursement';
+import notificationsRouter from './routes/notifications';
+import paymentsRouter from './routes/payments';
+import pdfParserRouter from './routes/pdf-parser';
+import auditLogRouter from './routes/audit-log';
+import salesRouter from './routes/sales';
+import roiRouter from './routes/roi';
+import bureauRouter from './routes/bureau';
+import evaluationRouter from './routes/evaluation';
+import slackAlertsRouter from './routes/slack-alerts';
+import { connectRedis } from './services/redis';
+import { runDailyCollectionCheck } from './services/collection-automation';
+import { runPortfolioClassification } from './services/compliance-engine';
 
 dotenv.config();
+
+// Initialize Redis connection
+connectRedis().then(client => {
+  if (client) {
+    console.log('✅ Redis connected for workflow state management');
+  } else {
+    console.log('⚠️  Using in-memory fallback for workflows');
+  }
+}).catch(err => {
+  console.warn('Redis initialization failed:', err.message);
+});
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -48,7 +80,19 @@ app.use(cors({
   credentials: true,
 }));
 
-app.use(express.json({ limit: '1mb' })); // Cap request body size
+app.use(express.json({ limit: '1mb' }));
+
+// Disable X-Powered-By header
+app.disable('x-powered-by');
+
+// ── Request Validation Middleware ───────────────────────────────────────
+app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
+  const contentLength = req.headers['content-length'];
+  if (contentLength && parseInt(contentLength) > 10 * 1024 * 1024) {
+    return res.status(413).json({ error: 'Request body too large' });
+  }
+  next();
+});
 
 // ── Rate Limiting ──────────────────────────────────────────────────
 const apiLimiter = rateLimit({
@@ -95,7 +139,8 @@ app.use('/v1/system', authenticateAnyToken, systemRouter);
 app.use('/v1/disbursements', authenticateAnyToken, disbursementsRouter);
 app.use('/v1/bank-accounts', authenticateAnyToken, bankAccountsRouter);
 app.use('/v1/communications', authenticateAnyToken, communicationsRouter);
-app.use('/v1/webhooks', authenticateAnyToken, webhooksRouter);
+// Razorpay webhook - needs raw body for signature verification
+app.post('/v1/webhooks/razorpay', express.raw({ type: 'application/json' }), webhooksRouter);
 app.use('/v1/sentinel', authenticateAnyToken, sentinelRouter);
 app.use('/v1/loans', authenticateAnyToken, loansRouter);
 app.use('/v1/products', authenticateAnyToken, productsRouter);
@@ -106,17 +151,104 @@ app.use('/v1/reports', authenticateAnyToken, reportingRouter);
 // Borrower API (Custom Auth inside)
 app.use('/v1/borrower', borrowerRouter);
 
+// New Feature Routes
+app.use('/v1/applications', authenticateAnyToken, applicationsRouter);
+app.use('/v1/agents', authenticateAnyToken, agentsRouter);
+app.use('/v1/portfolio', authenticateAnyToken, portfolioRouter);
+app.use('/v1/compliance', authenticateAnyToken, complianceRouter);
+app.use('/v1/rbi', authenticateAnyToken, complianceRbiRouter);
+app.use('/v1/ai', authenticateAnyToken, aiEvaluationRouter);
+app.use('/v1/workflow', authenticateAnyToken, workflowAutomationRouter);
+app.use('/v1/kyc', authenticateAnyToken, automatedKycRouter);
+app.use('/v1/disbursement', authenticateAnyToken, automatedDisbursementRouter);
+app.use('/v1/notifications', authenticateAnyToken, notificationsRouter);
+app.use('/v1/payments', paymentsRouter);
+app.use('/v1/parse', pdfParserRouter);
+app.use('/v1/sales', authenticateAnyToken, salesRouter);
+app.use('/v1/roi', authenticateAnyToken, roiRouter);
+app.use('/v1/bureau', authenticateAnyToken, bureauRouter);
+app.use('/v1/evaluation', authenticateAnyToken, evaluationRouter);
+app.use('/v1/slack', authenticateAnyToken, slackAlertsRouter);
+
 // ── Global Error Handler ───────────────────────────────────────────
 app.use((err: Error, req: express.Request, res: express.Response, next: express.NextFunction) => {
-  console.error('Unhandled error:', err.message);
-  res.status(500).json({ error: 'Internal server error' });
+  const requestId = (req as any).requestId;
+  const method = req.method;
+  const path = req.originalUrl;
+  const status = (err as any).status || (err as any).statusCode || 500;
+
+  console.error(`[ERROR] ${requestId} ${method} ${path} → ${status}:`, {
+    message: err.message,
+    stack: process.env.NODE_ENV !== 'production' ? err.stack : undefined,
+  });
+
+  if (res.headersSent) {
+    return next(err);
+  }
+
+  if (err.message?.includes('CORS')) {
+    return res.status(403).json({ error: 'Cross-origin request blocked' });
+  }
+
+  if (err.message?.includes('rate limit') || err.message?.includes('Too many')) {
+    return res.status(429).json({ error: 'Too many requests. Please slow down.' });
+  }
+
+  res.status(status).json({
+    error: status === 500 ? 'Internal server error' : err.message,
+    ...(process.env.NODE_ENV !== 'production' && { requestId }),
+  });
 });
 
-app.listen(PORT, () => {
+// ── Graceful Shutdown ────────────────────────────────────────────
+const server = app.listen(PORT, () => {
   console.log(`🚀 Arera AI API Gateway running on port ${PORT}`);
-  
-  // Start background workers
+
   setInterval(() => {
     processWebhookQueue().catch(err => console.error("Webhook processor error:", err));
-  }, 30000); // Check queue every 30 seconds
+  }, 30000);
+
+  setInterval(() => {
+    runDailyCollectionCheck().catch(err => console.error("Collection automation error:", err));
+  }, 6 * 60 * 60 * 1000);
+
+  const msUntil6AM = (() => {
+    const now = new Date();
+    const target = new Date(now);
+    target.setHours(6, 0, 0, 0);
+    if (target <= now) target.setDate(target.getDate() + 1);
+    return target.getTime() - now.getTime();
+  })();
+  setTimeout(() => {
+    runPortfolioClassification().catch(err => console.error("Portfolio classification error:", err));
+    setInterval(() => {
+      runPortfolioClassification().catch(err => console.error("Portfolio classification error:", err));
+    }, 24 * 60 * 60 * 1000);
+  }, msUntil6AM);
+
+  setTimeout(() => {
+    runDailyCollectionCheck().catch(err => console.error("Initial collection check error:", err));
+    runPortfolioClassification().catch(err => console.error("Initial portfolio classification error:", err));
+  }, 5000);
 });
+
+const shutdown = (signal: string) => {
+  console.log(`\n${signal} received. Starting graceful shutdown...`);
+
+  server.close((err) => {
+    if (err) {
+      console.error('Error closing HTTP server:', err);
+      process.exit(1);
+    }
+    console.log('HTTP server closed.');
+    process.exit(0);
+  });
+
+  setTimeout(() => {
+    console.error('Forced shutdown after timeout.');
+    process.exit(1);
+  }, 30000);
+};
+
+process.on('SIGTERM', () => shutdown('SIGTERM'));
+process.on('SIGINT', () => shutdown('SIGINT'));
