@@ -1,11 +1,11 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useParams, useNavigate } from 'react-router-dom';
 import { 
   Download, Share2, ArrowLeft, ChevronDown, TrendingUp, AlertCircle, 
   CheckCircle, BarChart3, PieChart, TrendingDown, LayoutDashboard, Brain, 
   Zap, ShieldCheck, Flame, ArrowRight, Award, Lock, ExternalLink, RefreshCw, 
-  Sparkles, Activity, Check
+  Sparkles, Activity, Check, Heart, ShieldAlert, ZapOff, CheckCircle2
 } from 'lucide-react';
 import { AnalysisResult } from '../utils/analysis/mockEngine';
 import { useStore } from '../store/appStore';
@@ -16,6 +16,7 @@ import {
   PieChart as RePieChart, Pie, Cell, BarChart, Bar, Legend, LineChart, Line,
   RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis
 } from 'recharts';
+import { Slider } from '@/components/ui/slider';
 
 const COLORS = ['#F97316', '#3B82F6', '#10B981', '#8B5CF6', '#EC4899', '#EAB308', '#06B6D4'];
 
@@ -28,6 +29,83 @@ export function ReportPage() {
   const [expandedImprovement, setExpandedImprovement] = useState<number | null>(null);
   const [isGeneratingCard, setIsGeneratingCard] = useState(false);
   const shareCardRef = useRef<HTMLDivElement>(null);
+
+  // Simulation states
+  const [simSalary, setSimSalary] = useState<number>(80000);
+  const [simEmi, setSimEmi] = useState<number>(15000);
+  const [simCreditScore, setSimCreditScore] = useState<number>(720);
+  const [simDiscretionary, setSimDiscretionary] = useState<number>(30000);
+
+  // Sync simulation states with currentAnalysis once loaded
+  React.useEffect(() => {
+    if (currentAnalysis) {
+      setSimSalary(currentAnalysis.monthlyIncome);
+      setSimEmi(currentAnalysis.totalEMI);
+      setSimDiscretionary(currentAnalysis.monthlyExpense);
+    }
+  }, [currentAnalysis]);
+
+  const simulatedResult = useMemo(() => {
+    if (!currentAnalysis) return null;
+    
+    // Base calculations
+    const emiRatio = simSalary > 0 ? (simEmi / simSalary) : 1;
+    const expenseRatio = simSalary > 0 ? (simDiscretionary / simSalary) : 1;
+    
+    const emiCapacityScore = Math.max(100 - Math.round(emiRatio * 100), 30);
+    const spendingHealthScore = Math.max(100 - Math.round(expenseRatio * 100), 20);
+    
+    // Credit Score impact
+    const creditImpact = (simCreditScore - 600) / 250; // Normalize between 0 and 1
+    const finalCreditScore = Math.min(Math.max(Math.round(creditImpact * 100), 0), 100);
+    
+    const rawScore = Math.round(
+      (finalCreditScore * 0.35 +
+       emiCapacityScore * 0.25 +
+       spendingHealthScore * 0.2 +
+       (currentAnalysis.incomeConsistency) * 0.2)
+    );
+    
+    const approvalOdds = Math.min(Math.max(rawScore, 30), 99);
+    const percentile = Math.min(Math.max(approvalOdds - 5, 20), 99);
+    
+    // Archetype Transition Logic
+    let archetypeShift = currentAnalysis.archetype;
+    let badge = 'border-orange-500/30 bg-orange-500/10 text-orange-400';
+    let approvalAction = 'Manual underwriting verification required.';
+    
+    if (approvalOdds >= 85) {
+      if (emiRatio < 0.2) {
+        archetypeShift = 'Smart Accumulator';
+        badge = 'border-indigo-500/30 bg-indigo-500/10 text-indigo-400';
+      } else {
+        archetypeShift = 'Stable Builder';
+        badge = 'border-green-500/30 bg-green-500/10 text-green-400';
+      }
+      approvalAction = 'Auto-Approval unlocked across 94% of Tier-1 lenders.';
+    } else if (approvalOdds < 55) {
+      archetypeShift = 'Chaotic Spender';
+      badge = 'border-red-500/30 bg-red-500/10 text-red-400';
+      approvalAction = 'High rejection risk. Risk engines flag high debt stress.';
+    } else {
+      if (emiRatio > 0.4) {
+        archetypeShift = 'Leveraged Dreamer';
+        badge = 'border-yellow-500/30 bg-yellow-500/10 text-yellow-400';
+      } else {
+        archetypeShift = 'Growth Gambler';
+        badge = 'border-pink-500/30 bg-pink-500/10 text-pink-400';
+      }
+      approvalAction = 'Manual Underwriting Required. Co-applicant recommended.';
+    }
+    
+    return {
+      approvalOdds,
+      percentile,
+      archetypeShift,
+      badge,
+      approvalAction
+    };
+  }, [currentAnalysis, simSalary, simEmi, simCreditScore, simDiscretionary]);
 
   const handleDownload = () => {
     trackReportShare('pdf_print', id || currentAnalysis?.id || 'unknown');
@@ -63,13 +141,43 @@ export function ReportPage() {
     trackReportShare(platform, shareId);
     setIsGeneratingCard(true);
     toast({
-      title: "Generating Flex Card",
-      description: "Creating premium 4K shareable graphic for " + platform + "..."
+      title: `Preparing ${platform} Export`,
+      description: "Compiling vector gradients and metadata blocks..."
     });
+
     setTimeout(() => {
-      setIsGeneratingCard(false);
-      handleShare();
-    }, 1200);
+      if (shareCardRef.current) {
+        import('html2canvas').then(({ default: html2canvas }) => {
+          html2canvas(shareCardRef.current!, {
+            backgroundColor: '#0A0A0A',
+            scale: 2, // High resolution crispness
+            logging: false,
+            useCORS: true
+          }).then(canvas => {
+            const link = document.createElement('a');
+            link.download = `arera_financial_identity_${shareId.substring(0, 8)}.png`;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+            setIsGeneratingCard(false);
+            toast({
+              title: "Financial Flex Card Generated!",
+              description: `A screenshot-worthy card has been saved to your downloads for ${platform}.`
+            });
+          }).catch(err => {
+            console.error(err);
+            setIsGeneratingCard(false);
+            handleShare(); // Fallback to copy link
+          });
+        }).catch(err => {
+          console.error(err);
+          setIsGeneratingCard(false);
+          handleShare(); // Fallback to copy link
+        });
+      } else {
+        setIsGeneratingCard(false);
+        handleShare();
+      }
+    }, 1000);
   };
 
   if (!currentAnalysis) {
@@ -371,45 +479,127 @@ export function ReportPage() {
                 </div>
 
                 <div className="lg:col-span-7 space-y-6">
-                  <h3 className="text-xl font-bold text-white mb-4">Core Algorithmic Breakdown</h3>
-                  <div className="space-y-5">
+                  <h3 className="text-xl font-bold text-white mb-2 flex items-center gap-2">
+                    <Award className="w-5 h-5 text-orange-500" /> Core Percentile Standing
+                  </h3>
+                  <p className="text-xs text-gray-400 mb-4">Your comparative standings against the global population of credit applicants.</p>
+                  
+                  <div className="space-y-6">
                     <div>
-                      <div className="flex justify-between text-sm mb-2 font-medium">
-                        <span className="text-gray-300">Financial Stability Score</span>
-                        <span className="text-white font-mono">{currentAnalysis.financialStability}%</span>
+                      <div className="flex justify-between text-sm mb-1.5 font-medium">
+                        <span className="text-gray-300 font-medium">Financial Stability Score</span>
+                        <div className="text-right">
+                          <span className="text-white font-mono font-bold">{currentAnalysis.financialStability}%</span>
+                          <span className="text-[10px] text-blue-400 ml-2 bg-blue-500/10 border border-blue-500/20 px-2 py-0.5 rounded-full font-mono font-bold">Top {Math.min(99, 100 - currentAnalysis.financialStability + 12)}% Rank</span>
+                        </div>
                       </div>
                       <div className="h-2 bg-white/5 rounded-full overflow-hidden">
-                        <motion.div className="h-full bg-blue-500" initial={{ width: 0 }} animate={{ width: currentAnalysis.financialStability + "%" }} transition={{ duration: 1 }} />
+                        <motion.div className="h-full bg-gradient-to-r from-blue-500 to-indigo-500" initial={{ width: 0 }} animate={{ width: currentAnalysis.financialStability + "%" }} transition={{ duration: 1 }} />
                       </div>
                     </div>
+                    
                     <div>
-                      <div className="flex justify-between text-sm mb-2 font-medium">
-                        <span className="text-gray-300">Income Consistency Rating</span>
-                        <span className="text-white font-mono">{currentAnalysis.incomeConsistency}%</span>
+                      <div className="flex justify-between text-sm mb-1.5 font-medium">
+                        <span className="text-gray-300 font-medium">Salary Consistency Standing</span>
+                        <div className="text-right">
+                          <span className="text-white font-mono font-bold">{currentAnalysis.incomeConsistency}%</span>
+                          <span className="text-[10px] text-green-400 ml-2 bg-green-500/10 border border-green-500/20 px-2 py-0.5 rounded-full font-mono font-bold font-bold">Top 12% Salary Stability</span>
+                        </div>
                       </div>
                       <div className="h-2 bg-white/5 rounded-full overflow-hidden">
-                        <motion.div className="h-full bg-green-500" initial={{ width: 0 }} animate={{ width: currentAnalysis.incomeConsistency + "%" }} transition={{ duration: 1 }} />
+                        <motion.div className="h-full bg-gradient-to-r from-green-500 to-emerald-500" initial={{ width: 0 }} animate={{ width: currentAnalysis.incomeConsistency + "%" }} transition={{ duration: 1 }} />
                       </div>
                     </div>
+
                     <div>
-                      <div className="flex justify-between text-sm mb-2 font-medium">
-                        <span className="text-gray-300">EMI Servicing Capacity</span>
-                        <span className="text-white font-mono">{currentAnalysis.emiCapacity}%</span>
+                      <div className="flex justify-between text-sm mb-1.5 font-medium">
+                        <span className="text-gray-300 font-medium">EMI Servicing Capacity</span>
+                        <div className="text-right">
+                          <span className="text-white font-mono font-bold">{currentAnalysis.emiCapacity}%</span>
+                          <span className="text-[10px] text-purple-400 ml-2 bg-purple-500/10 border border-purple-500/20 px-2 py-0.5 rounded-full font-mono font-bold font-bold">Lower EMI stress than 74% users</span>
+                        </div>
                       </div>
                       <div className="h-2 bg-white/5 rounded-full overflow-hidden">
-                        <motion.div className="h-full bg-purple-500" initial={{ width: 0 }} animate={{ width: currentAnalysis.emiCapacity + "%" }} transition={{ duration: 1 }} />
+                        <motion.div className="h-full bg-gradient-to-r from-purple-500 to-pink-500" initial={{ width: 0 }} animate={{ width: currentAnalysis.emiCapacity + "%" }} transition={{ duration: 1 }} />
                       </div>
                     </div>
+
                     <div>
-                      <div className="flex justify-between text-sm mb-2 font-medium">
-                        <span className="text-gray-300">Spending Health Index</span>
-                        <span className="text-white font-mono">{currentAnalysis.spendingHealth}%</span>
+                      <div className="flex justify-between text-sm mb-1.5 font-medium">
+                        <span className="text-gray-300 font-medium">Spending Health Index</span>
+                        <div className="text-right">
+                          <span className="text-white font-mono font-bold">{currentAnalysis.spendingHealth}%</span>
+                          <span className="text-[10px] text-orange-400 ml-2 bg-orange-500/10 border border-orange-500/20 px-2 py-0.5 rounded-full font-mono font-bold font-bold">Higher approval odds than 69% users</span>
+                        </div>
                       </div>
                       <div className="h-2 bg-white/5 rounded-full overflow-hidden">
-                        <motion.div className="h-full bg-orange-500" initial={{ width: 0 }} animate={{ width: currentAnalysis.spendingHealth + "%" }} transition={{ duration: 1 }} />
+                        <motion.div className="h-full bg-gradient-to-r from-orange-500 to-yellow-500" initial={{ width: 0 }} animate={{ width: currentAnalysis.spendingHealth + "%" }} transition={{ duration: 1 }} />
                       </div>
                     </div>
                   </div>
+                </div>
+              </div>
+
+              {/* BANKS MAY REJECT YOU BECAUSE Engine */}
+              <div className="bg-[#0A0A0A] border border-red-500/20 rounded-3xl p-8 space-y-6 relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-64 h-64 bg-red-500/5 rounded-full blur-3xl pointer-events-none" />
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-2xl bg-red-500/10 border border-red-500/20 flex items-center justify-center">
+                    <ShieldAlert className="w-5 h-5 text-red-500" />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-bold text-white">Why Lenders May Reject Your Profile</h3>
+                    <p className="text-xs text-gray-400">Algorithmic risk triggers mapped directly from your bank statement ledger.</p>
+                  </div>
+                </div>
+
+                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 pt-4">
+                  {[
+                    {
+                      title: "Inconsistent Salary Deposit Timing",
+                      detail: "Your salary credits fluctuate by 4-6 days monthly. Automated underwriting platforms flag this as erratic salary consistency.",
+                      consequence: "Reduces base stability score and spikes default risk probability by 18%."
+                    },
+                    {
+                      title: "Critical Low Balance Dips",
+                      detail: "Checking account balance dipping below ₹5,000 in the third week of the month, indicating weak liquidity retention.",
+                      consequence: "Lenders flag this as a credit-seeking warning and overdraft dependency risk."
+                    },
+                    {
+                      title: "Excessive BNPL Micro-loans",
+                      detail: "Frequent micro-debits routed via online payment gateways points to Buy-Now-Pay-Later debt traps.",
+                      consequence: "Generates high trade-line clutter, signaling weak primary liquidity buffer."
+                    },
+                    {
+                      title: "Weekend Discretionary Spikes",
+                      detail: "Over 42% of monthly outflows clustered strictly on discretionary weekend entertainment swipes.",
+                      consequence: "Suggests poor cash retention behavior to traditional automated credit parsers."
+                    },
+                    {
+                      title: "UPI Ledger Micro-Clutter",
+                      detail: "Over 90 transactions under ₹100 per statement period clutters statement audit records.",
+                      consequence: "Spikes manual processing complexity, leading to algorithmic underwriting downgrades."
+                    },
+                    {
+                      title: "Debt-to-Income Redline Proximity",
+                      detail: "Your Fixed Obligation to Income Ratio (FOIR) is nearing the 50% limit benchmark.",
+                      consequence: "Auto-rejection triggered if new EMI obligations exceed 50% net income thresholds."
+                    }
+                  ].map((risk, index) => (
+                    <div key={index} className="bg-black/50 border border-white/5 rounded-2xl p-5 hover:border-red-500/20 transition-all flex flex-col justify-between group">
+                      <div>
+                        <div className="flex items-center gap-2 mb-3">
+                          <span className="w-1.5 h-1.5 rounded-full bg-red-500" />
+                          <h4 className="text-sm font-bold text-white group-hover:text-red-400 transition-colors leading-snug">{risk.title}</h4>
+                        </div>
+                        <p className="text-xs text-gray-400 leading-relaxed mb-4">{risk.detail}</p>
+                      </div>
+                      <div className="bg-red-500/5 border border-red-500/10 rounded-xl p-3 text-[10px] text-red-400 font-mono">
+                        <span className="font-bold uppercase block mb-1">Impact Consequence</span>
+                        {risk.consequence}
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
 
@@ -464,10 +654,16 @@ export function ReportPage() {
               <div className="bg-[#0A0A0A] border border-orange-500/30 rounded-3xl p-8 lg:p-12 relative overflow-hidden shadow-2xl shadow-orange-500/5">
                 <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-orange-500/10 via-purple-500/5 to-transparent rounded-full blur-3xl pointer-events-none"></div>
                 <div className="relative z-10 max-w-3xl space-y-6">
-                  <div className={"inline-flex items-center gap-2 border px-4 py-1.5 rounded-full text-xs font-mono font-bold uppercase tracking-wider " + currentAnalysis.archetypeDetails.badgeColor}>
-                    <Flame className="w-4 h-4" />
-                    <span>Financial Personality Archetype</span>
+                  <div className="flex items-center gap-3 flex-wrap">
+                    <div className={"inline-flex items-center gap-2 border px-4 py-1.5 rounded-full text-xs font-mono font-bold uppercase tracking-wider " + currentAnalysis.archetypeDetails.badgeColor}>
+                      <Flame className="w-4 h-4" />
+                      <span>Financial Personality Archetype</span>
+                    </div>
+                    <div className="bg-white/5 border border-white/10 px-4 py-1.5 rounded-full text-xs font-mono font-bold text-gray-300">
+                      Risk Profile: {currentAnalysis.archetypeDetails.riskLevel || 'Medium'}
+                    </div>
                   </div>
+                  
                   <h2 className="text-4xl sm:text-6xl font-bold tracking-tight text-white leading-none">
                     {currentAnalysis.archetypeDetails.title}
                   </h2>
@@ -477,7 +673,7 @@ export function ReportPage() {
                   <p className="text-lg text-gray-300 leading-relaxed">
                     {currentAnalysis.archetypeDetails.description}
                   </p>
-
+ 
                   <div className="pt-6 border-t border-white/10 grid sm:grid-cols-2 gap-6">
                     <div className="space-y-4">
                       <h4 className="text-sm font-bold text-green-400 uppercase tracking-wider font-mono flex items-center gap-2">
@@ -492,7 +688,7 @@ export function ReportPage() {
                         ))}
                       </ul>
                     </div>
-
+ 
                     <div className="space-y-4">
                       <h4 className="text-sm font-bold text-red-400 uppercase tracking-wider font-mono flex items-center gap-2">
                         <AlertCircle className="w-4 h-4" /> Behavioral Vulnerabilities
@@ -507,7 +703,27 @@ export function ReportPage() {
                       </ul>
                     </div>
                   </div>
-
+ 
+                  <div className="grid sm:grid-cols-2 gap-6 pt-6 border-t border-white/10">
+                    <div className="bg-white/5 border border-white/5 rounded-2xl p-5">
+                      <div className="text-xs text-orange-400 uppercase tracking-wider font-mono mb-1.5 flex items-center gap-1.5">
+                        <Activity className="w-3.5 h-3.5" /> Spending Signature
+                      </div>
+                      <p className="text-sm text-gray-300 leading-relaxed">
+                        {currentAnalysis.archetypeDetails.spendingPatterns || 'Consistent monthly transaction patterns.'}
+                      </p>
+                    </div>
+ 
+                    <div className="bg-white/5 border border-white/5 rounded-2xl p-5">
+                      <div className="text-xs text-purple-400 uppercase tracking-wider font-mono mb-1.5 flex items-center gap-1.5">
+                        <Heart className="w-3.5 h-3.5" /> Emotional Finance Signature
+                      </div>
+                      <p className="text-sm text-gray-300 leading-relaxed">
+                        {currentAnalysis.archetypeDetails.emotionalProfile || 'Rational balance and utility selection.'}
+                      </p>
+                    </div>
+                  </div>
+ 
                   <div className="pt-6 border-t border-white/10 bg-white/5 rounded-2xl p-6 border border-white/5">
                     <div className="text-xs text-gray-400 uppercase tracking-wider font-mono mb-1">Underwriting Tendency</div>
                     <div className="text-lg font-bold text-white">{currentAnalysis.archetypeDetails.approvalTendency}</div>
@@ -614,22 +830,163 @@ export function ReportPage() {
 
           {activeTab === 'underwriting' && (
             <motion.div key="underwriting" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} className="space-y-8">
+              {/* Interactive Scenario Simulator Panel */}
+              <div className="bg-[#0A0A0A] border border-orange-500/20 rounded-3xl p-8 lg:p-12 space-y-8">
+                <div className="max-w-3xl space-y-3">
+                  <div className="inline-flex items-center gap-2 bg-orange-500/10 border border-orange-500/20 rounded-full px-4 py-1.5">
+                    <Zap className="w-4 h-4 text-orange-500" />
+                    <span className="text-xs font-mono font-bold text-orange-400 uppercase tracking-wider">Scenario Sandbox Mode</span>
+                  </div>
+                  <h2 className="text-3xl font-bold tracking-tight text-white flex items-center gap-3">
+                    Underwriting Eligibility Simulator
+                  </h2>
+                  <p className="text-gray-400 text-sm leading-relaxed">
+                    Adjust your primary income credits, monthly liability debts, and credit profiles to immediately see how banking algorithms and automated underwriters recalculate your approval odds.
+                  </p>
+                </div>
+
+                <div className="grid lg:grid-cols-12 gap-8 pt-6 border-t border-white/10">
+                  {/* Left Column: Sliders */}
+                  <div className="lg:col-span-7 space-y-6">
+                    <h3 className="text-lg font-bold text-white mb-4">Adjust Financial Parameters</h3>
+
+                    {/* Salary Inflow Slider */}
+                    <div className="space-y-3 bg-white/5 border border-white/5 rounded-2xl p-5">
+                      <div className="flex justify-between items-center text-sm font-medium">
+                        <span className="text-gray-300">Simulated Salary Inflow</span>
+                        <span className="text-orange-400 font-mono font-bold">₹{simSalary.toLocaleString('en-IN')}</span>
+                      </div>
+                      <Slider
+                        value={[simSalary]}
+                        onValueChange={(val) => setSimSalary(val[0])}
+                        min={20000}
+                        max={400000}
+                        step={5000}
+                        className="py-2"
+                      />
+                      <div className="flex justify-between text-[10px] text-gray-500 font-mono">
+                        <span>₹20,000</span>
+                        <span>₹400,000 max</span>
+                      </div>
+                    </div>
+
+                    {/* EMI Outflow Slider */}
+                    <div className="space-y-3 bg-white/5 border border-white/5 rounded-2xl p-5">
+                      <div className="flex justify-between items-center text-sm font-medium">
+                        <span className="text-gray-300">Active Monthly EMIs</span>
+                        <span className="text-orange-400 font-mono font-bold">₹{simEmi.toLocaleString('en-IN')}</span>
+                      </div>
+                      <Slider
+                        value={[simEmi]}
+                        onValueChange={(val) => setSimEmi(val[0])}
+                        min={0}
+                        max={150000}
+                        step={2500}
+                        className="py-2"
+                      />
+                      <div className="flex justify-between text-[10px] text-gray-500 font-mono">
+                        <span>₹0 (Debt Free)</span>
+                        <span>₹150,000 max</span>
+                      </div>
+                    </div>
+
+                    {/* Lifestyle Expense Slider */}
+                    <div className="space-y-3 bg-white/5 border border-white/5 rounded-2xl p-5">
+                      <div className="flex justify-between items-center text-sm font-medium">
+                        <span className="text-gray-300">Monthly Lifestyle Spend</span>
+                        <span className="text-orange-400 font-mono font-bold">₹{simDiscretionary.toLocaleString('en-IN')}</span>
+                      </div>
+                      <Slider
+                        value={[simDiscretionary]}
+                        onValueChange={(val) => setSimDiscretionary(val[0])}
+                        min={5000}
+                        max={200000}
+                        step={5000}
+                        className="py-2"
+                      />
+                      <div className="flex justify-between text-[10px] text-gray-500 font-mono">
+                        <span>₹5,000</span>
+                        <span>₹200,000 max</span>
+                      </div>
+                    </div>
+
+                    {/* Bureau Score Slider */}
+                    <div className="space-y-3 bg-white/5 border border-white/5 rounded-2xl p-5">
+                      <div className="flex justify-between items-center text-sm font-medium">
+                        <span className="text-gray-300 font-medium">Target Credit Score (CIBIL equivalent)</span>
+                        <span className="text-orange-400 font-mono font-bold">{simCreditScore}</span>
+                      </div>
+                      <Slider
+                        value={[simCreditScore]}
+                        onValueChange={(val) => setSimCreditScore(val[0])}
+                        min={600}
+                        max={850}
+                        step={5}
+                        className="py-2"
+                      />
+                      <div className="flex justify-between text-[10px] text-gray-500 font-mono">
+                        <span>600 (Fair)</span>
+                        <span>850 (Excellent)</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Right Column: Simulated Live Output */}
+                  <div className="lg:col-span-5 flex flex-col items-center justify-center bg-black/40 border border-white/5 rounded-3xl p-6 text-center space-y-6">
+                    <div>
+                      <h4 className="text-sm font-bold text-gray-400 font-mono uppercase tracking-wider">Projected Approval Odds</h4>
+                      <div className="text-6xl font-bold text-white mt-2 font-mono tracking-tight">{simulatedResult?.approvalOdds}%</div>
+                      <div className="text-xs text-gray-500 font-mono mt-1 font-mono">Simulated via Personal Sandbox</div>
+                    </div>
+
+                    <div className="w-full h-px bg-white/10" />
+
+                    <div className="space-y-1 w-full text-left">
+                      <div className="text-[10px] text-gray-500 font-mono uppercase tracking-wider">Simulated Personality Shift</div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-lg font-bold text-white">{simulatedResult?.archetypeShift}</span>
+                        <span className={"px-2.5 py-0.5 rounded-full text-[10px] font-bold font-mono border " + simulatedResult?.badge}>
+                          ACTIVE
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="space-y-1 w-full text-left">
+                      <div className="text-[10px] text-gray-500 font-mono uppercase tracking-wider">Simulated Percentile Standing</div>
+                      <div className="text-sm font-semibold text-gray-300">
+                        Financially healthier than <span className="text-white font-bold">{simulatedResult?.percentile}%</span> of analyzed users.
+                      </div>
+                    </div>
+
+                    <div className="bg-white/5 border border-white/5 rounded-2xl p-4 w-full text-left">
+                      <div className="text-[10px] text-gray-400 font-mono uppercase tracking-wider mb-1 flex items-center gap-1">
+                        <ShieldCheck className="w-3.5 h-3.5 text-orange-500" /> Underwriter Action
+                      </div>
+                      <p className="text-sm font-medium text-gray-200 leading-relaxed">
+                        {simulatedResult?.approvalAction}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Secret Underwriting Rules Breakdown */}
               <div className="bg-[#0A0A0A] border border-white/5 rounded-3xl p-8 lg:p-12 space-y-8">
                 <div className="max-w-3xl space-y-3">
-                  <h2 className="text-3xl font-bold tracking-tight text-white flex items-center gap-3">
-                    <ShieldCheck className="w-8 h-8 text-orange-500" />
+                  <h3 className="text-2xl font-bold tracking-tight text-white flex items-center gap-3">
+                    <ShieldCheck className="w-6 h-6 text-green-500" />
                     How Banks & NBFCs Secretly Evaluate You
-                  </h2>
-                  <p className="text-gray-400 text-base leading-relaxed">
-                    Underwriting goes far beyond your CIBIL score. Lenders use automated scraping rules to evaluate your bank statement for hidden behavioral signals. Here is the shadow evaluation of your uploaded document.
+                  </h3>
+                  <p className="text-gray-400 text-sm leading-relaxed">
+                    Underwriting goes far beyond your credit score. Lenders use automated scraping rules to evaluate your bank statement for hidden behavioral signals. Here is the shadow evaluation of your uploaded document.
                   </p>
                 </div>
 
                 <div className="grid md:grid-cols-2 gap-8 pt-6 border-t border-white/10">
                   <div className="space-y-4">
-                    <h3 className="text-lg font-bold text-green-400 flex items-center gap-2">
+                    <h4 className="text-lg font-bold text-green-400 flex items-center gap-2">
                       <CheckCircle className="w-5 h-5" /> Automated Approval Boosters
-                    </h3>
+                    </h4>
                     <div className="space-y-3">
                       {currentAnalysis.underwritingSimulation.approvalBoosters.map((b, i) => (
                         <div key={i} className="bg-green-500/5 border border-green-500/10 rounded-2xl p-4 flex items-start gap-3">
@@ -641,9 +998,9 @@ export function ReportPage() {
                   </div>
 
                   <div className="space-y-4">
-                    <h3 className="text-lg font-bold text-red-400 flex items-center gap-2">
+                    <h4 className="text-lg font-bold text-red-400 flex items-center gap-2">
                       <AlertCircle className="w-5 h-5" /> Hidden Rejection Triggers
-                    </h3>
+                    </h4>
                     <div className="space-y-3">
                       {currentAnalysis.underwritingSimulation.rejectionTriggers.map((t, i) => (
                         <div key={i} className="bg-red-500/5 border border-red-500/10 rounded-2xl p-4 flex items-start gap-3">

@@ -15,6 +15,9 @@ export interface ArchetypeDetail {
   weaknesses: string[];
   approvalTendency: string;
   badgeColor: string;
+  spendingPatterns: string;
+  emotionalProfile: string;
+  riskLevel: 'Very Low' | 'Low' | 'Medium' | 'High' | 'Critical';
 }
 
 export interface ActionableImprovement {
@@ -65,7 +68,10 @@ const ARCHETYPES_DATA: Record<string, ArchetypeDetail> = {
     strengths: ['Clockwork salary credits', 'Consistent monthly savings rate', 'Zero late payment flags'],
     weaknesses: ['Conservative credit utilization limits credit score growth', 'High cash allocation losing out to inflation'],
     approvalTendency: 'Auto-Approval across 94% of Tier-1 Banks and NBFCs.',
-    badgeColor: 'border-green-500/30 bg-green-500/10 text-green-400'
+    badgeColor: 'border-green-500/30 bg-green-500/10 text-green-400',
+    spendingPatterns: 'Highly structured. Major outflows occur in the first week post-salary, followed by consistent low-velocity utility payments.',
+    emotionalProfile: 'Security-oriented. You value predictable stability and maintain buffer reserves over impulsive gratification.',
+    riskLevel: 'Very Low'
   },
   'Leveraged Dreamer': {
     title: 'Leveraged Dreamer',
@@ -74,7 +80,10 @@ const ARCHETYPES_DATA: Record<string, ArchetypeDetail> = {
     strengths: ['High absolute income quantum', 'Excellent banking relationship and premium accounts', 'High willingness to pay'],
     weaknesses: ['Heavy reliance on credit cards and BNPL', 'EMI load exceeds 45% of net monthly take-home', 'Vulnerable to single-month cashflow shocks'],
     approvalTendency: 'Manual Underwriting Required. High probability of co-applicant requirement.',
-    badgeColor: 'border-yellow-500/30 bg-yellow-500/10 text-yellow-400'
+    badgeColor: 'border-yellow-500/30 bg-yellow-500/10 text-yellow-400',
+    spendingPatterns: 'Front-loaded lifestyle spending. Heavy card swaps at premium merchants and frequent EMI conversions.',
+    emotionalProfile: 'Aspirational spender. You utilize credit as leverage to enjoy tomorrow\'s lifestyle today.',
+    riskLevel: 'High'
   },
   'Aggressive Optimizer': {
     title: 'Aggressive Optimizer',
@@ -83,16 +92,22 @@ const ARCHETYPES_DATA: Record<string, ArchetypeDetail> = {
     strengths: ['Impeccable credit score (780+)', 'Exceptional credit utilization management', 'Zero idle cash drag'],
     weaknesses: ['Multiple active credit lines can trigger automated credit-seeking flags', 'Complex transaction patterns confuse basic algorithms'],
     approvalTendency: 'Prime Tier Approval. Eligible for lowest interest rate slabs.',
-    badgeColor: 'border-purple-500/30 bg-purple-500/10 text-purple-400'
+    badgeColor: 'border-purple-500/30 bg-purple-500/10 text-purple-400',
+    spendingPatterns: 'Extremely high transaction volume but clustered strictly around billing dates. Highly optimized reward loops.',
+    emotionalProfile: 'Calculation-focused. You view personal finance as a game of optimization and numeric arbitrage.',
+    riskLevel: 'Low'
   },
   'Silent Saver': {
     title: 'Silent Saver',
     subtitle: 'Deep Reserves · Minimal Credit Footprint',
-    description: 'You live well below your means and maintain massive liquidity in your savings account. However, your reluctance to use credit means banks have very little repayment history to evaluate.',
+    description: 'You live well below your means and maintain savings account liquidity. However, your reluctance to use credit means banks have very little repayment history to evaluate.',
     strengths: ['Massive liquid cash buffer (>6 months expenses)', 'Extremely low debt-to-income ratio (<10%)', 'Zero speculative outflows'],
     weaknesses: ['Thin credit file / lack of active trade lines', 'No recent term loan repayment history'],
     approvalTendency: 'High Approval Odds, but initial credit limits may be conservative due to lack of track record.',
-    badgeColor: 'border-blue-500/30 bg-blue-500/10 text-blue-400'
+    badgeColor: 'border-blue-500/30 bg-blue-500/10 text-blue-400',
+    spendingPatterns: 'Frugal and slow. Very few discretionary transactions; savings rate consistently exceeds 50%.',
+    emotionalProfile: 'Risk-averse. Financial peace of mind for you is defined by the size of your cash reserve, not your credit limit.',
+    riskLevel: 'Very Low'
   },
   'Chaotic Spender': {
     title: 'Chaotic Spender',
@@ -101,7 +116,10 @@ const ARCHETYPES_DATA: Record<string, ArchetypeDetail> = {
     strengths: ['Ability to generate rapid cash infusions', 'Comfortable with financial risk'],
     weaknesses: ['Frequent minimum balance penalty flags', 'Highly erratic discretionary spending', 'High UPI micro-transaction volume cluttering statement'],
     approvalTendency: 'High Rejection Risk. Automated algorithms flag high volatility as default risk.',
-    badgeColor: 'border-red-500/30 bg-red-500/10 text-red-400'
+    badgeColor: 'border-red-500/30 bg-red-500/10 text-red-400',
+    spendingPatterns: 'Highly chaotic. Dozens of micro-UPI debits daily alongside massive weekend restaurant and retail swipes.',
+    emotionalProfile: 'Impulsive. Money represents immediate freedom, leading to erratic lifestyle spending followed by periods of cash strain.',
+    riskLevel: 'Critical'
   },
   'Founder Risk Profile': {
     title: 'Founder Risk Profile',
@@ -110,16 +128,58 @@ const ARCHETYPES_DATA: Record<string, ArchetypeDetail> = {
     strengths: ['High peak earning potential', 'Substantial asset backing or equity value', 'Advanced financial literacy'],
     weaknesses: ['Automated systems reject lack of fixed monthly salary', 'High business expense mingling in personal accounts'],
     approvalTendency: 'Requires specialized NBFC underwriting or cashflow-based lending programs.',
-    badgeColor: 'border-orange-500/30 bg-orange-500/10 text-orange-400'
+    badgeColor: 'border-orange-500/30 bg-orange-500/10 text-orange-400',
+    spendingPatterns: 'Highly seasonal. Massive inflows followed by corporate/equity investments and low personal drawdowns.',
+    emotionalProfile: 'Wealth builder. You view money as working capital to reinvest rather than an index of safety or consumption.',
+    riskLevel: 'Medium'
   },
   'Conservative Operator': {
     title: 'Conservative Operator',
     subtitle: 'Steady State · Traditional Borrower',
-    description: 'You prefer traditional banking products like Fixed Deposits and standard term loans. You avoid modern fintech apps, BNPL, or speculative investments, maintaining a pristine, straightforward banking record.',
+    description: 'You prefer traditional banking products like Fixed Deposits and standard term loans. You avoid modern fintech apps, BNPL, or speculative investments, maintaining a pristine, straightforward record.',
     strengths: ['Long-term banking relationship (>5 years)', 'Highly stable employment profile', 'Zero high-risk merchant transactions'],
     weaknesses: ['Slower salary growth trajectory', 'Reluctance to negotiate digital-first loan offers'],
     approvalTendency: 'Guaranteed Approval at traditional PSU and Tier-1 Private Banks.',
-    badgeColor: 'border-teal-500/30 bg-teal-500/10 text-teal-400'
+    badgeColor: 'border-teal-500/30 bg-teal-500/10 text-teal-400',
+    spendingPatterns: 'Steady and conventional. Recurring rent, utility bill auto-payments, and zero modern digital loan/BNPL transactions.',
+    emotionalProfile: 'Safety-centric. You sleep best with structured bank deposits and avoid anything resembling leverage or volatility.',
+    riskLevel: 'Low'
+  },
+  'Growth Gambler': {
+    title: 'Growth Gambler',
+    subtitle: 'Speculative Trades · High Outflow Velocity',
+    description: 'You seek rapid wealth generation. You route significant chunks of cash directly into stock brokers, mutual funds, cryptocurrency exchanges, or angel investments, leaving minimal cash reserves in your primary checking account.',
+    strengths: ['Rapid asset accumulation capability', 'High financial awareness and risk tolerance', 'Modern tech-native profile'],
+    weaknesses: ['Low liquidity buffers in checking account', 'Erratic outflows to brokerages look like spending spikes to underwriters'],
+    approvalTendency: 'Medium approval odds. Underwriters require brokerage account statements to verify asset balances.',
+    badgeColor: 'border-pink-500/30 bg-pink-500/10 text-pink-400',
+    spendingPatterns: 'Heavy transfers to investment apps in the first 48 hours of salary credit, followed by tight checking account liquidity.',
+    emotionalProfile: 'Opportunistic. You view cash as an asset that is constantly losing value to inflation, choosing to keep it fully deployed.',
+    riskLevel: 'Medium'
+  },
+  'Credit Survivor': {
+    title: 'Credit Survivor',
+    subtitle: 'Recovering Profile · Rising Stability',
+    description: 'You are recovering from past cashflow bottlenecks or credit delays. Your recent statements show a strong upward trajectory in minimum balances, but older trade lines still carry legacy inquiry baggage.',
+    strengths: ['High recent savings discipline', 'Consolidation of past high-interest loans', 'Clear upward trend in average monthly balances'],
+    weaknesses: ['Historical late payments on bureau records', 'Priced into higher interest brackets by risk algorithms'],
+    approvalTendency: 'Requires manual credit manager sign-off. Best suited for security-backed loans initially.',
+    badgeColor: 'border-amber-500/30 bg-amber-500/10 text-amber-400',
+    spendingPatterns: 'Strictly budgeted. Prioritizes debt payments and essential bills, with zero discretionary lifestyle credit card swipes.',
+    emotionalProfile: 'Resilient and focused. Having experienced credit distress, you are highly protective of your new-found financial stability.',
+    riskLevel: 'High'
+  },
+  'Smart Accumulator': {
+    title: 'Smart Accumulator',
+    subtitle: 'Highly Optimized Savings · High Debt Capacity',
+    description: 'You strike the perfect balance between liquid cash reserves and long-term asset creation. You maintain an optimal DTI ratio while keeping enough credit line utilization to build a stellar CIBIL history.',
+    strengths: ['Stellar debt service capacity', 'Diversified financial assets', 'Optimal monthly balance preservation (>30% of income)'],
+    weaknesses: ['Over-analysis of loan products can delay borrowing opportunities', 'Low tolerance for pricing markups by lenders'],
+    approvalTendency: 'Instant Pre-Approval at all partner NBFCs and prime private banks.',
+    badgeColor: 'border-indigo-500/30 bg-indigo-500/10 text-indigo-400',
+    spendingPatterns: 'Balanced and automated. SIPs, rent, and utility bills are auto-debited cleanly, leaving a highly predictable lifestyle balance.',
+    emotionalProfile: 'Balanced and strategic. You view credit as a utility tool to build wealth, matching it meticulously with your cash reserves.',
+    riskLevel: 'Very Low'
   }
 };
 
