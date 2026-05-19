@@ -40,7 +40,8 @@ const Sandbox = () => {
     let currentLine = 0;
     const interval = setInterval(() => {
       if (currentLine < TERMINAL_LINES.length) {
-        setTerminalLines(prev => [...prev, TERMINAL_LINES[currentLine]]);
+        const lineToAppend = TERMINAL_LINES[currentLine];
+        setTerminalLines(prev => [...prev, lineToAppend]);
         currentLine++;
       } else {
         clearInterval(interval);
@@ -65,8 +66,11 @@ const Sandbox = () => {
     let currentLine = 0;
     const lineInterval = setInterval(() => {
       if (currentLine < PROCESSING_LINES.length) {
-        setProcessingLines(prev => [...prev, PROCESSING_LINES[currentLine]]);
+        const lineToAppend = PROCESSING_LINES[currentLine];
+        setProcessingLines(prev => [...prev, lineToAppend]);
         currentLine++;
+      } else {
+        clearInterval(lineInterval);
       }
     }, 400);
 
@@ -274,8 +278,8 @@ const Sandbox = () => {
                     >
                       {processingLines.map((line, i) => (
                         <div key={i} className={
-                          line.includes('Decision ready') ? 'text-[#00FF94]' :
-                          line.includes('policy rules') ? 'text-[#F97316]' :
+                          (line && line.includes('Decision ready')) ? 'text-[#00FF94]' :
+                          (line && line.includes('policy rules')) ? 'text-[#F97316]' :
                           'text-foreground/60'
                         }>
                           {line}
