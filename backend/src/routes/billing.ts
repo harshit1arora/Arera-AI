@@ -164,7 +164,7 @@ router.post('/usage/reset', authenticateFirebaseToken, async (req: Authenticated
 
     res.status(200).json({ success: true, message: 'Usage counters reset' });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: (error as any).message });
   }
 });
 

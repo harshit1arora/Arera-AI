@@ -1,5 +1,5 @@
 import admin from 'firebase-admin';
-import { ParsedBankStatement } from '../types/bank-statement';
+import { ParsedBankStatement } from './bank-statement-parser';
 
 /**
  * ML-Based Loan Prediction Engine

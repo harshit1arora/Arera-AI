@@ -53,6 +53,7 @@ export interface WorkflowState {
   startedAt: Date;
   completedAt?: Date;
   updatedAt: Date;
+  webhookUrl?: string;
 }
 
 export interface WorkflowStage {
@@ -68,6 +69,7 @@ export interface WorkflowStage {
   webhookEvent?: string;
   attempts: number;
   outputs?: Record<string, any>;
+  retryCount?: number;
 }
 
 async function fetchWebhook(url: string, event: string, payload: any, attempt: number) {
@@ -130,7 +132,7 @@ router.post('/templates', authenticateFirebaseToken, async (req: AuthenticatedRe
     const templateStages: WorkflowStageConfig[] = stages.map((s: any, idx: number) => ({
       name: sanitizeString(s.name, 100),
       order: idx,
-      type: sanitizeString(s.type || 'custom', 50),
+      type: sanitizeString(s.type || 'custom', 50) as any,
       webhookUrl: s.webhookUrl || undefined,
       webhookEvent: s.webhookEvent || undefined,
       timeout: s.timeout || 30000,
@@ -153,7 +155,7 @@ router.post('/templates', authenticateFirebaseToken, async (req: AuthenticatedRe
 
     await db.collection('workflow_templates').doc(templateId).set(template);
 
-    res.status(201).json({ id: templateId, ...template });
+    res.status(201).json({ ...template, id: templateId });
   } catch (error: any) {
     console.error('Error creating workflow template:', error);
     res.status(500).json({ error: 'Failed to create template' });
@@ -235,6 +237,7 @@ router.post('/start', async (req: AuthenticatedRequest, res: Response) => {
       webhookUrl: s.webhookUrl,
       webhookEvent: s.webhookEvent,
       attempts: 0,
+      retryCount: s.retryCount,
     }));
 
     const workflow: WorkflowState = {
@@ -342,9 +345,9 @@ router.post('/:workflowId/trigger/:stage', async (req: AuthenticatedRequest, res
       data: workflow.data,
       errors: workflow.errors,
       updatedAt: Timestamp.now(),
-    });
+    } as any);
 
-    res.status(200).json({ id: doc.id, ...workflow });
+    res.status(200).json({ ...workflow, id: doc.id });
   } catch (error: any) {
     res.status(500).json({ error: error.message });
   }
@@ -375,7 +378,7 @@ router.post('/:workflowId/cancel', async (req: AuthenticatedRequest, res: Respon
     workflow.completedAt = new Date();
     workflow.updatedAt = new Date();
 
-    await db.collection('workflows').doc(req.params.workflowId).update(workflow);
+    await db.collection('workflows').doc(req.params.workflowId).update(workflow as any);
 
     await db.collection('audit_logs').add({
       orgId: req.orgId!,
@@ -413,9 +416,9 @@ router.post('/:workflowId/retry', async (req: AuthenticatedRequest, res: Respons
       currentStage: workflow.currentStage,
       data: workflow.data,
       updatedAt: Timestamp.now(),
-    });
+    } as any);
 
-    res.status(200).json({ id: doc.id, ...workflow });
+    res.status(200).json({ ...workflow, id: doc.id });
   } catch (error: any) {
     res.status(500).json({ error: error.message });
   }
@@ -468,7 +471,7 @@ async function processApplication(workflowId: string, autoApproveThreshold: numb
       workflow.completedAt = new Date();
     }
     workflow.updatedAt = new Date();
-    await doc.ref.update(workflow);
+    await doc.ref.update(workflow as any);
 
     if (workflow.webhookUrl) {
       fetchWebhook(workflow.webhookUrl, 'workflow.completed', workflow, 1).catch(() => {});
@@ -477,7 +480,7 @@ async function processApplication(workflowId: string, autoApproveThreshold: numb
     console.error('Workflow processing error:', error);
     workflow.errors.push(String(error));
     workflow.updatedAt = new Date();
-    await doc.ref.update(workflow);
+    await doc.ref.update(workflow as any);
   }
 }
 

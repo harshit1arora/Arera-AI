@@ -1,6 +1,6 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { AuthProvider } from "./contexts/AuthContext";
+import { AuthProvider, useAuth } from "./contexts/AuthContext";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { ErrorBoundary } from "./components/ErrorBoundary";
@@ -76,6 +76,18 @@ import FinancialHealthCheck from "./pages/tools/FinancialHealthCheck.tsx";
 
 const queryClient = new QueryClient();
 
+const DashboardRouteWrapper = () => {
+  const { user, loading } = useAuth();
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-black">
+        <div className="w-8 h-8 border-4 border-orange-500 border-t-transparent rounded-full animate-spin"></div>
+      </div>
+    );
+  }
+  return user ? <Dashboard /> : <DashboardPage />;
+};
+
 const App = () => (
   <HelmetProvider>
   <QueryClientProvider client={queryClient}>
@@ -95,10 +107,9 @@ const App = () => (
               <Route path="/analyzing" element={<AnalyzingPage />} />
               <Route path="/report/:id" element={<ReportPage />} />
               <Route path="/compare" element={<ComparePage />} />
-              <Route path="/dashboard" element={<DashboardPage />} />
+              <Route path="/dashboard" element={<DashboardRouteWrapper />} />
 
               <Route path="/apply" element={<Apply />} />
-              <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
               <Route path="/console" element={<ProtectedRoute><Console /></ProtectedRoute>} />
               <Route path="/playground" element={<ProtectedRoute><Playground /></ProtectedRoute>} />
               <Route path="/setup-wizard" element={<ProtectedRoute><QuickSetupWizard /></ProtectedRoute>} />

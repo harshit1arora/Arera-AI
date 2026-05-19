@@ -290,7 +290,7 @@ export async function getPartnerMetrics(orgId: string): Promise<{
 
   const active = partners.filter(p => p.status === 'active');
   const signed = partners.filter(p => ['active', 'suspended'].includes(p.status));
-  const converted = partners.filter(p => p.status !== 'lead' && p.status !== 'new');
+  const converted = partners.filter(p => p.status !== 'lead');
 
   const pipelineValue = partners
     .filter(p => ['contacted', 'qualified', 'onboarding'].includes(p.status))
@@ -364,7 +364,15 @@ export async function calculateCommission(
   );
 
   if (!matchingRule) {
-    return rules.find(r => r.type === 'one-time' && dealValue >= r.minDealValue) || null;
+    const fallbackRule = rules.find(r => r.type === 'one-time' && dealValue >= r.minDealValue);
+    if (!fallbackRule) return null;
+    const amount = fallbackRule.flatCommission
+      || (dealValue * fallbackRule.commissionPercent / 100);
+    return {
+      ruleId: fallbackRule.id,
+      amount: Math.round(amount),
+      type: fallbackRule.type,
+    };
   }
 
   const amount = matchingRule.flatCommission

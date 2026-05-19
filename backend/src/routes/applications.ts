@@ -349,7 +349,7 @@ router.post('/:id/fetch-kyc', async (req: AuthenticatedRequest, res: Response) =
       return res.status(404).json({ error: 'Application not found' });
     }
 
-    const data = doc.data();
+    const data = doc.data()!;
     await doc.ref.update({
       status: 'kyc_verified',
       aadhaar: data.aadhaar || `${Math.floor(Math.random() * 900000000000) + 100000000000}`,
@@ -383,7 +383,7 @@ router.put('/:id/documents', async (req: AuthenticatedRequest, res: Response) =>
 
     const updates: Record<string, any> = { [documentType]: !!uploaded, updatedAt: Timestamp.now() };
 
-    const data = doc.data();
+    const data = doc.data()!;
     const newBankStatements = documentType === 'bankStatements' ? !!uploaded : data.bankStatements;
     const newIdProof = documentType === 'idProof' ? !!uploaded : data.idProof;
     const newAddressProof = documentType === 'addressProof' ? !!uploaded : data.addressProof;

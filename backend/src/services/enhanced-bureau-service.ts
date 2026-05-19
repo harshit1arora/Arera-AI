@@ -219,7 +219,7 @@ class EnhancedBureauService {
 
     return {
       score,
-      scoreBand: report.bureauFields?.scoreBand || 'Not Available',
+      scoreBand: report.scoreBand || 'Not Available',
       debtToIncomeRatio: Math.round(debtToIncomeRatio * 10) / 10,
       paymentHistoryScore: Math.max(0, Math.round(paymentHistoryScore)),
       creditMixScore: Math.round(creditMixScore),

@@ -113,7 +113,7 @@ router.get('/metrics/:userId', async (req: Request, res: Response) => {
       });
     }
 
-    const report = cacheDoc.data();
+    const report = cacheDoc.data() as any;
     const metrics = EnhancedBureauService.calculateCreditMetrics(report);
 
     res.json({
@@ -207,7 +207,7 @@ router.get('/summary/:userId', async (req: Request, res: Response) => {
       return res.status(404).json({ error: 'No bureau data found' });
     }
 
-    const report = cacheDoc.data();
+    const report = cacheDoc.data() as any;
     const metrics = EnhancedBureauService.calculateCreditMetrics(report);
     const summary = EnhancedBureauService.generateBureauSummary(metrics);
 
