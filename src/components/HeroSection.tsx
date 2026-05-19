@@ -1,10 +1,47 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, useMotionTemplate, useMotionValue, useScroll, useTransform, animate } from "framer-motion";
 import { FadeUp } from "./arera/FadeUp";
 
 const HeroSection = () => {
   const navigate = useNavigate();
+  const [showCursor, setShowCursor] = useState(true);
+  const words = ["Lenders", "NBFCs"];
+  const [wordIndex, setWordIndex] = useState(0);
+  const [text, setText] = useState("");
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  useEffect(() => {
+    let timeoutId: NodeJS.Timeout;
+    const currentWord = words[wordIndex];
+
+    if (isDeleting) {
+      if (text.length === 0) {
+        setIsDeleting(false);
+        setWordIndex((prev) => (prev + 1) % words.length);
+      } else {
+        timeoutId = setTimeout(() => {
+          setText(currentWord.substring(0, text.length - 1));
+        }, 50);
+      }
+    } else {
+      if (text.length === currentWord.length) {
+        timeoutId = setTimeout(() => setIsDeleting(true), 2000);
+      } else {
+        timeoutId = setTimeout(() => {
+          setText(currentWord.substring(0, text.length + 1));
+        }, 100);
+      }
+    }
+    return () => clearTimeout(timeoutId);
+  }, [text, isDeleting, wordIndex]);
+
+  useEffect(() => {
+    const cursorInterval = setInterval(() => {
+      setShowCursor((prev) => !prev);
+    }, 500);
+    return () => clearInterval(cursorInterval);
+  }, []);
   
   // Mouse position for dynamic lighting
   const mouseX = useMotionValue(0);
@@ -119,7 +156,19 @@ const HeroSection = () => {
                 <span className="bg-clip-text text-transparent bg-gradient-to-b from-white to-white/70">
                   Underwriting <br className="hidden md:block"/>
                   Infrastructure <br className="hidden md:block"/>
-                  for NBFCs
+                  <span className="inline-flex items-center">
+                    <span className="min-w-[140px]">
+                      <span className={wordIndex === 1 ? "text-[#F97316]" : "text-white"}>
+                        for {text}
+                      </span>
+                      <span 
+                        className={wordIndex === 1 ? "text-[#F97316] ml-1" : "text-white ml-1"} 
+                        style={{ opacity: showCursor ? 1 : 0 }}
+                      >
+                        |
+                      </span>
+                    </span>
+                  </span>
                 </span>
               </h1>
 
@@ -157,6 +206,13 @@ const HeroSection = () => {
                   className="bg-transparent border border-white/10 text-gray-300 font-['DM_Sans'] font-medium text-[15px] px-[28px] py-[14px] rounded-[6px] hover:bg-white/5 hover:text-white transition-all backdrop-blur-sm"
                 >
                   View API Docs
+                </button>
+
+                <button
+                  onClick={() => window.open('/', '_self')}
+                  className="bg-transparent border border-orange-500/30 text-orange-400 font-['DM_Sans'] font-medium text-[15px] px-[28px] py-[14px] rounded-[6px] hover:bg-orange-500/10 hover:text-orange-300 transition-all backdrop-blur-sm"
+                >
+                  Try Loan Predictor →
                 </button>
               </div>
 

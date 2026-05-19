@@ -65,6 +65,22 @@ const Navbar = () => {
             Pricing
           </a>
 
+          {/* Loan Approval Predictor — B2C Product */}
+          <Link
+            to="/loan-approval-predictor"
+            className="font-['DM_Sans'] text-[14px] text-orange-500 hover:text-orange-400 transition-colors duration-200 font-medium"
+          >
+            Loan Predictor
+          </Link>
+
+          {/* Tools Directory — SEO Hub */}
+          <Link
+            to="/tools"
+            className="font-['DM_Sans'] text-[14px] text-muted-foreground hover:text-foreground transition-colors duration-200"
+          >
+            Tools
+          </Link>
+
           {/* API Docs — routed page */}
           <Link
             to="/api-docs"

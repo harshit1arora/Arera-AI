@@ -263,3 +263,94 @@ export const rbiApi = {
   },
   getRBIReport: (reportType: string) => apiWithAuth(`/v1/rbi/rbi-report/${reportType}`),
 };
+
+// ==================== Bank Statement Analysis API ====================
+
+export const statementAnalysisApi = {
+  parseStatement: (file: File, applicationId: string, userId: string) => {
+    const formData = new FormData();
+    formData.append('statement', file);
+    formData.append('applicationId', applicationId);
+    formData.append('userId', userId);
+    return apiWithAuth('/v1/statement-analysis/parse', { method: 'POST', body: formData });
+  },
+  getAnalysis: (applicationId: string) => 
+    apiWithAuth(`/v1/statement-analysis/${applicationId}`),
+  getSummary: (applicationId: string) => 
+    apiWithAuth(`/v1/statement-analysis/${applicationId}/summary`),
+  deleteAnalysis: (statementId: string) => 
+    apiWithAuth(`/v1/statement-analysis/${statementId}`, { method: 'DELETE' }),
+};
+
+// Extend originationApi with statement analysis methods
+Object.assign(originationApi, {
+  parseStatement: (file: File, applicationId: string, userId: string) =>
+    statementAnalysisApi.parseStatement(file, applicationId, userId),
+  getStatementAnalysis: (applicationId: string) =>
+    statementAnalysisApi.getAnalysis(applicationId).then(res => parseResponse(res)),
+  getStatementSummary: (applicationId: string) =>
+    statementAnalysisApi.getSummary(applicationId).then(res => parseResponse(res)),
+});
+
+// ==================== ML Prediction API ====================
+
+export const predictionApi = {
+  predict: (data: {
+    userId: string;
+    applicationId?: string;
+    monthlyIncome: number;
+    existingEmi?: number;
+    creditScore?: number;
+    employmentType?: string;
+    requestedLoanAmount: number;
+    requestedTenure?: number;
+    bankStatementId?: string;
+  }) => apiWithAuth('/v1/prediction/predict', { method: 'POST', body: JSON.stringify(data) }),
+  
+  quickEstimate: (data: {
+    monthlyIncome: number;
+    existingEmi?: number;
+    creditScore?: number;
+    employmentType?: string;
+    loanAmount: number;
+  }) => apiWithAuth('/v1/prediction/quick-estimate', { method: 'POST', body: JSON.stringify(data) }),
+  
+  getHistory: () => apiWithAuth('/v1/prediction/history'),
+  
+  getPrediction: (predictionId: string) => apiWithAuth(`/v1/prediction/${predictionId}`),
+  
+  compareScenarios: (data: {
+    userId: string;
+    applicationId: string;
+    monthlyIncome: number;
+    existingEmi?: number;
+    creditScore?: number;
+    employmentType?: string;
+    scenarios: Array<{ loanAmount: number; tenure?: number; purpose?: string }>;
+  }) => apiWithAuth('/v1/prediction/scenarios', { method: 'POST', body: JSON.stringify(data) }),
+};
+
+// ==================== Enhanced Bureau API ====================
+
+export const enhancedBureauApi = {
+  fetchReport: (data: {
+    userId: string;
+    pan: string;
+    borrowerId?: string;
+    orgId?: string;
+    forceRefresh?: boolean;
+  }) => apiWithAuth('/v1/enhanced-bureau/fetch-report', { method: 'POST', body: JSON.stringify(data) }),
+
+  calculateMetrics: (data: { userId: string; pan: string; borrowerId?: string; orgId?: string }) =>
+    apiWithAuth('/v1/enhanced-bureau/calculate-metrics', { method: 'POST', body: JSON.stringify(data) }),
+
+  getMetrics: (userId: string) => apiWithAuth(`/v1/enhanced-bureau/metrics/${userId}`),
+
+  batchFetch: (users: Array<{ userId: string; pan: string; borrowerId?: string; orgId?: string }>) =>
+    apiWithAuth('/v1/enhanced-bureau/batch-fetch', { method: 'POST', body: JSON.stringify({ users }) }),
+
+  getSummary: (userId: string) => apiWithAuth(`/v1/enhanced-bureau/summary/${userId}`),
+
+  clearCache: () =>
+    apiWithAuth('/v1/enhanced-bureau/cache/clear', { method: 'POST', body: JSON.stringify({}) }),
+};

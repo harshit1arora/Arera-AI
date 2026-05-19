@@ -17,7 +17,9 @@
     "include": [
       "/",
       "/sandbox",
-      "/blog"
+      "/blog",
+      "/loan-approval-predictor",
+      "/apply"
     ],
     "puppeteerArgs": [
       "--no-sandbox",

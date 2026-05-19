@@ -1,3 +1,21 @@
 User-agent: *
 Allow: /
-Sitemap: https://www.tryarera.com/sitemap.xml
+Allow: /tools/
+Allow: /loan-approval-predictor
+Allow: /blog/
+
+Disallow: /dashboard
+Disallow: /console
+Disallow: /playground
+Disallow: /setup-wizard
+Disallow: /usage-billing
+Disallow: /metrics-roi
+Disallow: /sales-pipeline
+Disallow: /collections
+Disallow: /loan-origination
+Disallow: /compliance
+Disallow: /agents
+Disallow: /portfolio
+Disallow: /api-reference
+
+Sitemap: https://tryarera.com/sitemap.xml

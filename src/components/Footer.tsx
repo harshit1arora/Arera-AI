@@ -5,10 +5,27 @@ const Footer = () => {
   const links = {
     Product: [
       { name: "Arera", path: "/" },
+      { name: "Loan Predictor (B2C)", path: "/loan-approval-predictor" },
       { name: "KYC Engine", path: "/kyc-engine" },
       { name: "Credit Scoring", path: "/credit-scoring" },
       { name: "Rules Engine", path: "/rules-engine" },
       { name: "API Docs", path: "/api-docs" },
+    ],
+    Tools: [
+      { name: "All Tools (20+)", path: "/tools" },
+      { name: "EMI Calculator", path: "/tools/emi-calculator" },
+      { name: "Salary Eligibility", path: "/tools/salary-loan-eligibility" },
+      { name: "DTI Calculator", path: "/tools/dti-calculator" },
+      { name: "Credit Score Simulator", path: "/tools/credit-score-simulator" },
+      { name: "Home Loan Affordability", path: "/tools/home-loan-affordability" },
+    ],
+    Guides: [
+      { name: "Loan on ₹50K Salary", path: "/loan-eligibility-50k-salary" },
+      { name: "Personal Loan in Mumbai", path: "/personal-loan-in-mumbai" },
+      { name: "HDFC Loan Eligibility", path: "/hdfc-personal-loan-eligibility" },
+      { name: "Low CIBIL Score Guide", path: "/poor-cibil-score" },
+      { name: "Loan Rejected? Fix It", path: "/loan-rejected" },
+      { name: "Self-Employed Loans", path: "/self-employed-loan" },
     ],
     Company: [
       { name: "About", path: "/about" },
@@ -26,9 +43,9 @@ const Footer = () => {
   return (
     <footer className="bg-surface border-t border-border py-[56px] pb-[32px]">
       <div className="container mx-auto px-6">
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8">
+        <div className="grid md:grid-cols-2 lg:grid-cols-6 gap-12 lg:gap-8">
           
-          {/* Column 1: Wider (~30%) */}
+          {/* Column 1: Brand */}
           <div className="lg:col-span-1">
             <div className="flex items-center gap-3 mb-4">
               <LogoStatic />
@@ -48,47 +65,21 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Column 2: Product */}
-          <div>
-            <h4 className="font-['DM_Sans'] font-semibold text-[12px] text-foreground uppercase tracking-wider mb-6">Product</h4>
-            <ul className="space-y-3">
-              {links.Product.map((link) => (
-                <li key={link.name}>
-                  <Link to={link.path} className="font-['DM_Sans'] text-[14px] text-muted-foreground hover:text-primary transition-colors duration-150">
-                    {link.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Column 3: Company */}
-          <div>
-            <h4 className="font-['DM_Sans'] font-semibold text-[12px] text-foreground uppercase tracking-wider mb-6">Company</h4>
-            <ul className="space-y-3">
-              {links.Company.map((link) => (
-                <li key={link.name}>
-                  <Link to={link.path} className="font-['DM_Sans'] text-[14px] text-muted-foreground hover:text-primary transition-colors duration-150">
-                    {link.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Column 4: Legal */}
-          <div>
-            <h4 className="font-['DM_Sans'] font-semibold text-[12px] text-foreground uppercase tracking-wider mb-6">Legal</h4>
-            <ul className="space-y-3">
-              {links.Legal.map((link) => (
-                <li key={link.name}>
-                  <Link to={link.path} className="font-['DM_Sans'] text-[14px] text-muted-foreground hover:text-primary transition-colors duration-150">
-                    {link.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
+          {/* Dynamic Link Columns */}
+          {Object.entries(links).map(([category, items]) => (
+            <div key={category}>
+              <h4 className="font-['DM_Sans'] font-semibold text-[12px] text-foreground uppercase tracking-wider mb-6">{category}</h4>
+              <ul className="space-y-3">
+                {items.map((link) => (
+                  <li key={link.name}>
+                    <Link to={link.path} className="font-['DM_Sans'] text-[14px] text-muted-foreground hover:text-primary transition-colors duration-150">
+                      {link.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
 
         <div className="h-[1px] bg-border mt-[40px]"></div>

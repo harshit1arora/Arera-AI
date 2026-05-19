@@ -18,44 +18,22 @@ const About = () => {
           </p>
         </section>
 
-        {/* Impact Numbers */}
-        <section className="container mx-auto px-6 mb-24">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 p-8 bg-secondary/30 rounded-3xl border border-border/50">
-            <div className="text-center p-4">
-              <div className="text-4xl md:text-5xl font-display font-bold text-primary mb-2">5B+</div>
-              <div className="text-sm text-muted-foreground font-semibold uppercase tracking-wider">Data Points Processed</div>
-            </div>
-            <div className="text-center p-4">
-              <div className="text-4xl md:text-5xl font-display font-bold text-foreground mb-2">12M+</div>
-              <div className="text-sm text-muted-foreground font-semibold uppercase tracking-wider">Decisions Made</div>
-            </div>
-            <div className="text-center p-4">
-              <div className="text-4xl md:text-5xl font-display font-bold text-foreground mb-2">40+</div>
-              <div className="text-sm text-muted-foreground font-semibold uppercase tracking-wider">NBFC Partners</div>
-            </div>
-            <div className="text-center p-4">
-              <div className="text-4xl md:text-5xl font-display font-bold text-foreground mb-2">99.9%</div>
-              <div className="text-sm text-muted-foreground font-semibold uppercase tracking-wider">Uptime SLA</div>
-            </div>
-          </div>
-        </section>
-
         {/* Our Values */}
-        <section className="container mx-auto px-6 mb-24 max-w-5xl">
-          <h2 className="text-3xl font-display font-bold mb-12 text-center">Our Core Values</h2>
+        <section className="container mx-auto px-6 mt-12 mb-24 max-w-5xl">
+          <h2 className="text-3xl font-display font-bold mb-12 text-center text-foreground">Our Core Values</h2>
           <div className="grid md:grid-cols-2 gap-8">
             {[
-              { icon: Target, title: "Mission First", desc: "Every line of code we write is dedicated to unlocking capital for those who need it, faster and fairer than ever before." },
-              { icon: Globe, title: "Built for Bharat", desc: "We don't just localize western models. We build exclusively for the nuances of the Indian consumer and MSME." },
-              { icon: Users, title: "Collaborative Intelligence", desc: "We believe the best risk models are a synthesis of machine scale and human underwriting expertise." },
-              { icon: Award, title: "Uncompromising Integrity", desc: "We treat our partners' data like our own. Security and privacy form the bedrock of our infrastructure." }
+              { icon: Target, title: "Speed as a Feature", desc: "We believe latency is the enemy of conversion. Our infrastructure is engineered to deliver deep financial analysis and deterministic credit decisions in milliseconds." },
+              { icon: Globe, title: "Deterministic by Design", desc: "We reject opaque, black-box AI for underwriting. Our decision engine ensures every outcome is fully explainable, transparent, and audit-ready for regulatory compliance." },
+              { icon: Users, title: "Lender-Centric Infrastructure", desc: "We are a technology partner, not a competitor. We arm NBFCs and banks with cutting-edge tools to aggressively win their markets without building teams from scratch." },
+              { icon: Award, title: "Uncompromising Security", desc: "We treat financial data with bank-grade encryption. Information privacy and strict adherence to RBI DPDP guidelines form the absolute bedrock of our systems." }
             ].map((v, i) => (
-              <div key={i} className="flex gap-6 p-6">
-                <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center shrink-0">
+              <div key={i} className="flex gap-6 p-6 border border-border/50 bg-secondary/10 hover:border-primary/30 hover:bg-primary/5 rounded-2xl transition-colors group">
+                <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
                   <v.icon className="text-primary" />
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold mb-2">{v.title}</h3>
+                  <h3 className="text-xl font-bold mb-2 text-foreground">{v.title}</h3>
                   <p className="text-muted-foreground leading-relaxed">{v.desc}</p>
                 </div>
               </div>

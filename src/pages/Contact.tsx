@@ -102,28 +102,12 @@ const Contact = () => {
                     <div className="flex items-start gap-3 relative z-10">
                       <MapPin className="text-primary mt-1 shrink-0" size={20} />
                       <div>
-                        <h4 className="font-bold text-foreground mb-1 text-lg">Bengaluru (HQ)</h4>
+                        <h4 className="font-bold text-foreground mb-1 text-lg">Gurugram (HQ)</h4>
                         <p className="text-muted-foreground leading-relaxed text-sm">
-                          Arera Heights, 4th Floor<br/>
-                          100 Feet Road, Indiranagar<br/>
-                          Bengaluru 560038<br/>
-                          Karnataka, India
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <div className="relative p-6 border border-border/50 bg-secondary/10 rounded-2xl overflow-hidden">
-                    <div className="absolute top-0 right-0 p-4 opacity-10"><Building size={64} /></div>
-                    <div className="flex items-start gap-3 relative z-10">
-                      <MapPin className="text-primary mt-1 shrink-0" size={20} />
-                      <div>
-                        <h4 className="font-bold text-foreground mb-1 text-lg">Mumbai Hub</h4>
-                        <p className="text-muted-foreground leading-relaxed text-sm">
-                          WeWork BKC<br/>
-                          Bandra Kurla Complex<br/>
-                          Mumbai 400051<br/>
-                          Maharashtra, India
+                          Cyber City, DLF Phase 2<br/>
+                          Sector 24<br/>
+                          Gurugram 122002<br/>
+                          Haryana, India
                         </p>
                       </div>
                     </div>

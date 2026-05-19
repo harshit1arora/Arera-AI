@@ -43,6 +43,11 @@ import roiRouter from './routes/roi';
 import bureauRouter from './routes/bureau';
 import evaluationRouter from './routes/evaluation';
 import slackAlertsRouter from './routes/slack-alerts';
+import statementAnalysisRouter from './routes/statement-analysis';
+import predictionRouter from './routes/prediction';
+import enhancedBureauRouter from './routes/enhanced-bureau';
+import lenderMatchingRouter from './routes/lender-matching';
+import publicPredictionRouter from './routes/public-prediction';
 import { connectRedis } from './services/redis';
 import { runDailyCollectionCheck } from './services/collection-automation';
 import { runPortfolioClassification } from './services/compliance-engine';
@@ -80,7 +85,7 @@ app.use(cors({
   credentials: true,
 }));
 
-app.use(express.json({ limit: '1mb' }));
+app.use(express.json({ limit: '10mb' }));
 
 // Disable X-Powered-By header
 app.disable('x-powered-by');
@@ -124,6 +129,10 @@ app.get('/health', (req, res) => {
 
 // ── API Documentation (Public) ─────────────────────────────────────
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, { customSiteTitle: "Arera API Docs" }));
+
+// ── Public B2C Routes (No Auth Required) ────────────────────────────
+app.use('/v1/public', publicPredictionRouter);
+app.use('/v1/public/lenders', lenderMatchingRouter);
 
 // ── Admin Routes (Secured by Firebase ID Tokens) ───────────────────
 // apikeys router handles its own auth internally (authenticateFirebaseToken)
@@ -169,6 +178,10 @@ app.use('/v1/roi', authenticateAnyToken, roiRouter);
 app.use('/v1/bureau', authenticateAnyToken, bureauRouter);
 app.use('/v1/evaluation', authenticateAnyToken, evaluationRouter);
 app.use('/v1/slack', authenticateAnyToken, slackAlertsRouter);
+app.use('/v1/statement-analysis', authenticateAnyToken, statementAnalysisRouter);
+app.use('/v1/prediction', authenticateAnyToken, predictionRouter);
+app.use('/v1/enhanced-bureau', authenticateAnyToken, enhancedBureauRouter);
+app.use('/v1/lender-matching', authenticateAnyToken, lenderMatchingRouter);
 
 // ── Global Error Handler ───────────────────────────────────────────
 app.use((err: Error, req: express.Request, res: express.Response, next: express.NextFunction) => {
