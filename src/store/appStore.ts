@@ -32,8 +32,10 @@ interface Store {
   // User state
   userId: string | null;
   isGuestUser: boolean;
+  userEmail: string | null;
   setUserId: (userId: string | null) => void;
   setIsGuestUser: (isGuest: boolean) => void;
+  setUserEmail: (email: string | null) => void;
 }
 
 export const useStore = create<Store>((set, get) => ({
@@ -95,6 +97,7 @@ export const useStore = create<Store>((set, get) => ({
   // User state
   userId: null,
   isGuestUser: true,
+  userEmail: null,
 
   setUserId: (userId: string | null) => {
     set({ userId });
@@ -102,5 +105,9 @@ export const useStore = create<Store>((set, get) => ({
 
   setIsGuestUser: (isGuest: boolean) => {
     set({ isGuestUser: isGuest });
+  },
+
+  setUserEmail: (email: string | null) => {
+    set({ userEmail: email });
   },
 }));

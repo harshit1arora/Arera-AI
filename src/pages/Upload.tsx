@@ -8,12 +8,18 @@ import { trackPredictorUpload } from '../utils/analytics';
 
 export function UploadPage() {
   const navigate = useNavigate();
-  const { uploadedFiles, setUploading, setUploadProgress } = useStore();
+  const { uploadedFiles, setUploading, setUploadProgress, setUserEmail } = useStore();
   const [isProcessing, setIsProcessing] = useState(false);
+  const [emailInput, setEmailInput] = useState('');
 
   const handleAnalyze = async () => {
     if (uploadedFiles.length === 0) {
       alert('Please upload at least one file');
+      return;
+    }
+
+    if (!emailInput || !emailInput.includes('@')) {
+      alert('Please enter a valid email address to lock in your report and continue.');
       return;
     }
 
@@ -23,6 +29,7 @@ export function UploadPage() {
 
     setIsProcessing(true);
     setUploading(true);
+    setUserEmail(emailInput);
 
     // Simulate file upload
     for (let i = 0; i <= 100; i += 10) {
@@ -71,9 +78,31 @@ export function UploadPage() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 0.6 }}
-          className="mb-12"
+          className="mb-8"
         >
           <UploadArea />
+        </motion.div>
+
+        {/* Email Capture Panel */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3, duration: 0.6 }}
+          className="max-w-md mx-auto mb-8 bg-white/5 border border-white/10 rounded-2xl p-6 text-center space-y-4"
+        >
+          <div className="text-xs font-mono text-orange-400 font-bold uppercase tracking-wider">Step 2: Connect Financial Identity</div>
+          <div>
+            <h3 className="text-sm font-bold text-white">Enter email to lock in your personal report</h3>
+            <p className="text-xs text-gray-400 mt-1">Receive monthly score improvement summaries and CIBIL notifications.</p>
+          </div>
+          <input
+            type="email"
+            value={emailInput}
+            onChange={(e) => setEmailInput(e.target.value)}
+            placeholder="name@example.com"
+            className="w-full px-4 py-3 rounded-xl bg-black border border-white/15 focus:border-orange-500/50 outline-none text-white text-center text-sm font-medium transition-all"
+            required
+          />
         </motion.div>
 
         {/* Analyze button */}

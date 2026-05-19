@@ -30,6 +30,10 @@ export function ReportPage() {
   const [isGeneratingCard, setIsGeneratingCard] = useState(false);
   const shareCardRef = useRef<HTMLDivElement>(null);
 
+  // Spotify Wrapped Intro Experience Overlay
+  const [showWrappedOverlay, setShowWrappedOverlay] = useState(true);
+  const [wrappedStep, setWrappedStep] = useState(0);
+
   // Simulation states
   const [simSalary, setSimSalary] = useState<number>(80000);
   const [simEmi, setSimEmi] = useState<number>(15000);
@@ -231,6 +235,13 @@ export function ReportPage() {
           </div>
 
           <div className="flex items-center gap-3">
+            <button 
+              onClick={() => { setShowWrappedOverlay(true); setWrappedStep(0); }}
+              className="px-4 py-2 rounded-xl bg-orange-500/10 border border-orange-500/20 hover:border-orange-500/40 transition-all text-sm font-semibold text-orange-400 hover:text-orange-300 flex items-center gap-2"
+            >
+              <Sparkles className="w-4 h-4" />
+              <span>Wrapped Recap</span>
+            </button>
             <button 
               onClick={() => navigate("/compare?score=" + currentAnalysis.approvalScore)}
               className="px-4 py-2 rounded-xl bg-white/5 border border-white/10 hover:border-orange-500/30 transition-all text-sm font-medium text-gray-300 hover:text-white flex items-center gap-2"
@@ -461,6 +472,50 @@ export function ReportPage() {
         <AnimatePresence mode="wait">
           {activeTab === 'overview' && (
             <motion.div key="overview" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} className="space-y-12">
+              
+              {/* STREAK & ACHIEVEMENTS SHELF */}
+              <div className="grid lg:grid-cols-12 gap-8">
+                {/* Column 1: Financial Improvement Streak */}
+                <div className="lg:col-span-5 bg-gradient-to-br from-orange-500/10 via-transparent to-transparent border border-orange-500/20 rounded-3xl p-6 relative overflow-hidden flex flex-col justify-between">
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-orange-500/5 rounded-full blur-3xl" />
+                  <div className="space-y-3">
+                    <div className="flex items-center gap-2">
+                      <Flame className="w-5 h-5 text-orange-500 animate-pulse" />
+                      <span className="text-xs font-mono font-bold text-orange-400 uppercase tracking-wider">Active Behavioral Streak</span>
+                    </div>
+                    <h3 className="text-xl font-bold text-white">3-Month Improvement Streak</h3>
+                    <p className="text-xs text-gray-400 leading-relaxed">
+                      Your savings discipline is improving consistently. Liquid buffer reserves have ticked upward for 4 consecutive weeks.
+                    </p>
+                  </div>
+                  <div className="mt-6 pt-4 border-t border-white/5 flex items-center justify-between text-xs text-gray-500 font-mono">
+                    <span>LIQUIDITY STRESS: -14%</span>
+                    <span className="text-orange-400 font-bold">STREAK MULTIPLIER x1.2</span>
+                  </div>
+                </div>
+
+                {/* Column 2: Achievement Badges */}
+                <div className="lg:col-span-7 bg-[#0A0A0A] border border-white/5 rounded-3xl p-6 space-y-4">
+                  <h3 className="text-sm font-bold text-gray-400 font-mono uppercase tracking-wider flex items-center gap-2">
+                    <Award className="w-4 h-4 text-orange-500" /> Behavioral Badges Unlocked
+                  </h3>
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                    {[
+                      { name: "Income Master", desc: "Consistency >85%", color: "text-green-400 border-green-500/20 bg-green-500/5" },
+                      { name: "EMI Optimizer", desc: "FOIR under 35%", color: "text-purple-400 border-purple-500/20 bg-purple-500/5" },
+                      { name: "Discipline Pro", desc: "No default spikes", color: "text-blue-400 border-blue-500/20 bg-blue-500/5" },
+                      { name: "Risk Minimizer", desc: "Zero overdrafts", color: "text-amber-400 border-amber-500/20 bg-amber-500/5" }
+                    ].map((badge, idx) => (
+                      <div key={idx} className={`border rounded-2xl p-3.5 text-center transition-all hover:scale-105 ${badge.color}`}>
+                        <Award className="w-6 h-6 mx-auto mb-1.5" />
+                        <div className="text-xs font-bold text-white whitespace-nowrap">{badge.name}</div>
+                        <span className="text-[9px] text-gray-500 font-mono block mt-0.5">{badge.desc}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
               {/* Radar Chart & Key Stability Breakdown */}
               <div className="grid lg:grid-cols-12 gap-8 items-center bg-[#0A0A0A] border border-white/5 rounded-3xl p-8">
                 <div className="lg:col-span-5 flex flex-col items-center">
@@ -540,6 +595,31 @@ export function ReportPage() {
                 </div>
               </div>
 
+              {/* PEER COMPARISON ENG DETAILS */}
+              <div className="bg-[#0A0A0A] border border-white/5 rounded-3xl p-8 space-y-6">
+                <div>
+                  <h3 className="text-lg font-bold text-white flex items-center gap-2">
+                    <Activity className="w-5 h-5 text-orange-500" /> Contextual Peer Comparison
+                  </h3>
+                  <p className="text-xs text-gray-400 mt-1">Comparing your parsed ledger activity against same salary, profession, and regional brackets.</p>
+                </div>
+                <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 pt-2">
+                  {[
+                    { label: "Salary Cohort", compared: "Same Salary Range (₹80K-1L)", metric: "Top 19% Savings Discipline", status: "Stronger cash retention than peers" },
+                    { label: "Profession Cluster", compared: "Software Engineers", metric: "Top 81% Score Standing", status: "Lower default index than tech segment" },
+                    { label: "Regional Standings", compared: "Bengaluru Metropolitan", metric: "+14% Average Balance", status: "Higher safety net liquidity buffers" },
+                    { label: "Age Bracket (25-35)", compared: "Millennial Borrowers", metric: "Lower BNPL Dependency", status: "Fewer active micro-lines of credit" }
+                  ].map((peer, idx) => (
+                    <div key={idx} className="bg-black border border-white/5 hover:border-orange-500/20 rounded-2xl p-5 transition-all">
+                      <div className="text-[10px] font-mono text-orange-400 uppercase tracking-wider mb-1">{peer.label}</div>
+                      <div className="text-xs font-semibold text-gray-400 mb-3">{peer.compared}</div>
+                      <div className="text-base font-bold text-white mb-1.5">{peer.metric}</div>
+                      <span className="text-[11px] text-gray-500 leading-tight block">{peer.status}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
               {/* BANKS MAY REJECT YOU BECAUSE Engine */}
               <div className="bg-[#0A0A0A] border border-red-500/20 rounded-3xl p-8 space-y-6 relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-64 h-64 bg-red-500/5 rounded-full blur-3xl pointer-events-none" />
@@ -600,6 +680,40 @@ export function ReportPage() {
                       </div>
                     </div>
                   ))}
+                </div>
+              </div>
+
+              {/* AI COACHING SYSTEM */}
+              <div className="bg-gradient-to-r from-orange-500/10 via-purple-500/5 to-transparent border border-orange-500/20 rounded-3xl p-8 space-y-6">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-2xl bg-orange-500/10 border border-orange-500/20 flex items-center justify-center">
+                    <Sparkles className="w-5 h-5 text-orange-500" />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-bold text-white">AI Financial Coaching Feed</h3>
+                    <p className="text-xs text-gray-400">Contextual recommendation cards generated by underwriter simulation algorithms.</p>
+                  </div>
+                </div>
+
+                <div className="grid md:grid-cols-3 gap-6 pt-2">
+                  <div className="bg-black/50 border border-white/5 rounded-2xl p-6 space-y-3">
+                    <div className="text-xs font-mono font-bold text-orange-400 uppercase tracking-wider">EMI Debt Recommendation</div>
+                    <p className="text-sm text-gray-200 leading-relaxed">
+                      "Reducing your active EMI obligation by just <span className="text-white font-bold">₹4,000</span> could improve your overall bank approval odds by <span className="text-green-400 font-bold">+11%</span>."
+                    </p>
+                  </div>
+                  <div className="bg-black/50 border border-white/5 rounded-2xl p-6 space-y-3">
+                    <div className="text-xs font-mono font-bold text-purple-400 uppercase tracking-wider">Salary Index Recommendation</div>
+                    <p className="text-sm text-gray-200 leading-relaxed">
+                      "Your salary consistency is strong, but weekend liquidity volatility weakens automated underwriting confidence score."
+                    </p>
+                  </div>
+                  <div className="bg-black/50 border border-white/5 rounded-2xl p-6 space-y-3">
+                    <div className="text-xs font-mono font-bold text-blue-400 uppercase tracking-wider">checking balances recommendation</div>
+                    <p className="text-sm text-gray-200 leading-relaxed">
+                      "Maintaining a checking balance above <span className="text-white font-bold font-bold font-bold font-bold font-bold font-bold font-bold font-bold">₹15,000</span> will eliminate cash stress triggers."
+                    </p>
+                  </div>
                 </div>
               </div>
 
@@ -1188,6 +1302,204 @@ export function ReportPage() {
           </div>
         </div>
       </main>
+
+      {/* SPOTIFY WRAPPED CINEMATIC OVERLAY */}
+      <AnimatePresence>
+        {showWrappedOverlay && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className={`fixed inset-0 z-[100] flex flex-col justify-between bg-gradient-to-br ${
+              wrappedStep === 0 ? 'from-zinc-950 via-neutral-950 to-orange-950/50' :
+              wrappedStep === 1 ? 'from-zinc-950 via-neutral-950 to-purple-950/50' :
+              wrappedStep === 2 ? 'from-zinc-950 via-neutral-950 to-indigo-950/50' :
+              wrappedStep === 3 ? 'from-zinc-950 via-neutral-950 to-emerald-950/50' :
+              wrappedStep === 4 ? 'from-zinc-950 via-neutral-950 to-blue-950/50' :
+              'from-zinc-950 via-neutral-950 to-zinc-950'
+            } p-6 md:p-12 text-white transition-all duration-700`}
+          >
+            {/* Background grids */}
+            <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.01)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.01)_1px,transparent_1px)] bg-[size:32px_32px] opacity-40 pointer-events-none" />
+            <div className="absolute top-1/4 left-1/3 w-96 h-96 bg-orange-500/5 rounded-full blur-3xl pointer-events-none animate-pulse" />
+            
+            {/* Header: Story Progress Bars */}
+            <div className="relative z-10 w-full max-w-4xl mx-auto space-y-4">
+              <div className="flex gap-2">
+                {[0, 1, 2, 3, 4, 5].map((idx) => (
+                  <div key={idx} className="flex-1 h-1 bg-white/10 rounded-full overflow-hidden">
+                    <div 
+                      className={`h-full bg-orange-500 transition-all duration-300 ${
+                        idx < wrappedStep ? 'w-full' : idx === wrappedStep ? 'w-full animate-pulse' : 'w-0'
+                      }`}
+                    />
+                  </div>
+                ))}
+              </div>
+              <div className="flex items-center justify-between text-xs text-gray-500 font-mono">
+                <span>ARERA WRAPPED // SLIDE 0{wrappedStep + 1} OF 06</span>
+                <button 
+                  onClick={() => setShowWrappedOverlay(false)} 
+                  className="hover:text-white transition-colors flex items-center gap-1.5 uppercase font-bold text-orange-400"
+                >
+                  Skip Wrapped
+                </button>
+              </div>
+            </div>
+
+            {/* Body Content */}
+            <div className="relative z-10 w-full max-w-4xl mx-auto flex-1 flex flex-col justify-center my-8">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={wrappedStep}
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -30 }}
+                  transition={{ duration: 0.5 }}
+                  className="space-y-8"
+                >
+                  {/* Icon pulsing container */}
+                  <div className="w-16 h-16 rounded-2xl bg-orange-500/10 border border-orange-500/20 flex items-center justify-center text-orange-500">
+                    {wrappedStep === 0 && <Brain className="w-8 h-8 text-orange-500" />}
+                    {wrappedStep === 1 && <Flame className="w-8 h-8 text-purple-400" />}
+                    {wrappedStep === 2 && <ShieldAlert className="w-8 h-8 text-indigo-400" />}
+                    {wrappedStep === 3 && <Award className="w-8 h-8 text-emerald-400" />}
+                    {wrappedStep === 4 && <ShieldCheck className="w-8 h-8 text-blue-400" />}
+                    {wrappedStep === 5 && <CheckCircle2 className="w-8 h-8 text-orange-500 animate-pulse" />}
+                  </div>
+
+                  {/* Title & Subtitle */}
+                  <div className="space-y-3">
+                    <h1 className="text-4xl md:text-6xl font-black tracking-tight text-white leading-tight">
+                      {wrappedStep === 0 && "Your Financial Documentary Begins."}
+                      {wrappedStep === 1 && "Your Financial Archetype"}
+                      {wrappedStep === 2 && "Strongest Trait vs Secret Worry"}
+                      {wrappedStep === 3 && "Global Peer Standings"}
+                      {wrappedStep === 4 && "The Underwriting Verdict"}
+                      {wrappedStep === 5 && "Interactive Report Unlocked."}
+                    </h1>
+                    <p className="text-lg md:text-xl text-gray-400 font-medium">
+                      {wrappedStep === 0 && "Arera AI parsed 142 ledger items to build your behavioural risk portrait."}
+                      {wrappedStep === 1 && "Lenders look for behavioral consistency. You are classified as:"}
+                      {wrappedStep === 2 && "Every user profile triggers unique flags in shadow systems."}
+                      {wrappedStep === 3 && "How your net credits compare to other loan applicants."}
+                      {wrappedStep === 4 && "How traditional bank credit algorithms react to your profile."}
+                      {wrappedStep === 5 && "Your personal dashboard is compiled and fully calibrated."}
+                    </p>
+                  </div>
+
+                  {/* Dynamic Slide Components */}
+                  <div className="pt-4">
+                    {/* Slide 0: General Text */}
+                    {wrappedStep === 0 && (
+                      <p className="text-gray-300 text-base md:text-lg leading-relaxed max-w-2xl">
+                        Let's uncover the true story of how automated credit parsers, risk modeling networks, and underwriter guidelines analyze your monthly transaction flow.
+                      </p>
+                    )}
+
+                    {/* Slide 1: Archetype Highlight */}
+                    {wrappedStep === 1 && (
+                      <div className="bg-white/5 border border-purple-500/20 rounded-3xl p-8 max-w-2xl shadow-2xl">
+                        <div className="text-6xl font-black text-purple-400 leading-none mb-4">
+                          {currentAnalysis.archetypeDetails.title}
+                        </div>
+                        <div className="text-xl text-purple-300 font-semibold mb-3">
+                          {currentAnalysis.archetypeDetails.subtitle}
+                        </div>
+                        <p className="text-sm text-gray-300 leading-relaxed">
+                          {currentAnalysis.archetypeDetails.description}
+                        </p>
+                      </div>
+                    )}
+
+                    {/* Slide 2: Strengths & Weaknesses */}
+                    {wrappedStep === 2 && (
+                      <div className="grid md:grid-cols-2 gap-6 max-w-3xl">
+                        <div className="bg-green-500/10 border border-green-500/20 rounded-2xl p-6 space-y-3">
+                          <div className="text-xs font-mono font-bold text-green-400 uppercase tracking-wider">Strongest Trait</div>
+                          <h4 className="text-lg font-bold text-white leading-snug">Income Velocity Continuity</h4>
+                          <p className="text-xs text-gray-300 leading-relaxed">
+                            Zero historical overdraft penalties and salary credits verified consistently within a 3-day buffer.
+                          </p>
+                        </div>
+                        <div className="bg-red-500/10 border border-red-500/20 rounded-2xl p-6 space-y-3">
+                          <div className="text-xs font-mono font-bold text-red-400 uppercase tracking-wider">Secret Worry</div>
+                          <h4 className="text-lg font-bold text-white leading-snug">UPI Ledger Clutter</h4>
+                          <p className="text-xs text-gray-300 leading-relaxed">
+                            High frequency of micro-debits under ₹100 spikes processing cost limits and manual audit triggers.
+                          </p>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Slide 3: Peer Standings */}
+                    {wrappedStep === 3 && (
+                      <div className="grid sm:grid-cols-3 gap-6 max-w-3xl">
+                        {[
+                          { label: "Salary Consistency", rank: "Top 12%", detail: "Exceeds software engineer averages" },
+                          { label: "EMI Obligation Load", rank: "Top 26%", detail: "Lower active obligations than peers" },
+                          { label: "Spending Health Index", rank: "Top 31%", detail: "Strong liquid reserves retention" }
+                        ].map((c, i) => (
+                          <div key={i} className="bg-white/5 border border-white/10 rounded-2xl p-5 text-center space-y-2">
+                            <span className="text-xs text-gray-400 font-medium">{c.label}</span>
+                            <div className="text-3xl font-black text-orange-500 font-mono">{c.rank}</div>
+                            <span className="text-[10px] text-gray-500 block leading-tight">{c.detail}</span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
+                    {/* Slide 4: Verdict */}
+                    {wrappedStep === 4 && (
+                      <div className="bg-blue-500/5 border border-blue-500/20 rounded-2xl p-6 max-w-2xl space-y-3">
+                        <div className="text-xs font-mono font-bold text-blue-400 uppercase tracking-wider">Algorithmic Tendency</div>
+                        <p className="text-base font-semibold text-gray-200 leading-relaxed">
+                          {currentAnalysis.archetypeDetails.approvalTendency}
+                        </p>
+                      </div>
+                    )}
+
+                    {/* Slide 5: Unlocked */}
+                    {wrappedStep === 5 && (
+                      <div className="space-y-4 max-w-lg">
+                        <p className="text-gray-300 text-sm leading-relaxed">
+                          Explore live simulation scenario engines, optimize your debt-to-income benchmarks, and flex your share-ready identity card.
+                        </p>
+                        <button
+                          onClick={() => setShowWrappedOverlay(false)}
+                          className="px-8 py-4 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-2xl transition-all shadow-lg shadow-orange-500/25 flex items-center gap-2"
+                        >
+                          Launch My Interactive Report <ArrowRight className="w-5 h-5" />
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                </motion.div>
+              </AnimatePresence>
+            </div>
+
+            {/* Footer Navigation Controls */}
+            <div className="relative z-10 w-full max-w-4xl mx-auto flex items-center justify-between pt-6 border-t border-white/5 flex-shrink-0">
+              <button
+                onClick={() => setWrappedStep(prev => Math.max(0, prev - 1))}
+                disabled={wrappedStep === 0}
+                className="px-5 py-2.5 rounded-xl border border-white/10 hover:bg-white/5 transition-all text-sm font-semibold disabled:opacity-30 disabled:pointer-events-none"
+              >
+                Back
+              </button>
+              
+              {wrappedStep < 5 ? (
+                <button
+                  onClick={() => setWrappedStep(prev => Math.min(5, prev + 1))}
+                  className="px-6 py-2.5 bg-white text-black hover:bg-gray-200 transition-all text-sm font-bold rounded-xl flex items-center gap-1"
+                >
+                  Next Slide <ArrowRight className="w-4 h-4" />
+                </button>
+              ) : null}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
