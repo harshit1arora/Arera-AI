@@ -7,6 +7,7 @@ import Footer from '../components/Footer';
 import { ShieldAlert, Activity, CreditCard, FileText, Landmark, Calculator, ArrowRight, Zap, AlertTriangle, CheckCircle2, TrendingUp } from 'lucide-react';
 import { getSEODatabase, type SEOPage } from '../data/seo-content';
 import { Button } from '@/components/ui/button';
+import { trackTopicalHubVisit } from '../utils/analytics';
 
 interface HubConfig {
   title: string;
@@ -238,6 +239,11 @@ const HUB_MAP: Record<string, HubConfig> = {
 
 const TopicalHub = ({ topic }: { topic: string }) => {
   const navigate = useNavigate();
+  
+  React.useEffect(() => {
+    trackTopicalHubVisit(topic);
+  }, [topic]);
+
   const config = useMemo(() => {
     return HUB_MAP[topic] || HUB_MAP['rejection'];
   }, [topic]);

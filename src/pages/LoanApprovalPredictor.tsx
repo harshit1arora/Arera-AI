@@ -16,6 +16,7 @@ import { useToast } from "@/hooks/use-toast";
 import { UploadArea } from '../components/upload/UploadArea';
 import { useStore } from '../store/appStore';
 import { getPrediction, matchLenders, compareScenarios, saveApplication, loadApplication, hasSavedApplication, clearSavedApplication, type PredictionResult, type LenderOffer, type ScenarioResult } from '../services/api';
+import { trackPredictorStart, trackPredictorSuccess, trackPredictorError } from '../utils/analytics';
 
 const LoanApprovalPredictor = () => {
   const { toast } = useToast();
@@ -79,6 +80,7 @@ const LoanApprovalPredictor = () => {
   };
 
   const calculatePrediction = async () => {
+    trackPredictorStart();
     setIsAnalyzingForm(true);
     setPredictionResult(null);
     setLenderOffers([]);
@@ -95,6 +97,7 @@ const LoanApprovalPredictor = () => {
         loanTenure: tenure,
       });
       setPredictionResult(prediction);
+      trackPredictorSuccess('form_based', prediction.approvalOdds);
 
       // 2. Match lenders in parallel
       const lenderResult = await matchLenders({
@@ -130,7 +133,8 @@ const LoanApprovalPredictor = () => {
       });
 
       toast({ title: "Analysis Complete", description: "Your loan approval prediction, lender matches, and scenarios are ready." });
-    } catch (err) {
+    } catch (err: any) {
+      trackPredictorError(err?.message || 'Calculation failure');
       toast({ title: "Analysis Error", description: "Something went wrong. Please try again.", variant: "destructive" });
     } finally {
       setIsAnalyzingForm(false);

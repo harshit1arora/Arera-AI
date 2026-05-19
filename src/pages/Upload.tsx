@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { Upload as UploadIcon, Lock, Zap, Shield } from 'lucide-react';
 import { UploadArea } from '../components/upload/UploadArea';
 import { useStore } from '../store/appStore';
+import { trackPredictorUpload } from '../utils/analytics';
 
 export function UploadPage() {
   const navigate = useNavigate();
@@ -15,6 +16,10 @@ export function UploadPage() {
       alert('Please upload at least one file');
       return;
     }
+
+    uploadedFiles.forEach(file => {
+      trackPredictorUpload(file.name, file.size);
+    });
 
     setIsProcessing(true);
     setUploading(true);

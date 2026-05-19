@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { Zap, Brain, TrendingUp } from 'lucide-react';
 import { ANALYSIS_STEPS, generateMockAnalysis } from '../utils/analysis/mockEngine';
 import { useStore } from '../store/appStore';
+import { trackPredictorSuccess } from '../utils/analytics';
 
 const analyzeMessages = [
   "Parsing transaction metadata...",
@@ -49,6 +50,8 @@ export function AnalyzingPage() {
         setCurrentAnalysis(analysis);
         addToHistory(analysis);
         clearFiles();
+        
+        trackPredictorSuccess(analysis.id, analysis.score);
 
         // Redirect to report
         setTimeout(() => {

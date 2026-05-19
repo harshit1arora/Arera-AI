@@ -7,6 +7,7 @@ import Footer from '../../components/Footer';
 import { ArrowRight, ChevronDown, ChevronUp, Zap, BookOpen, Calculator, Home as HomeIcon, CheckCircle2, ShieldAlert, Calendar, Clock, UserCheck, BarChart3, AlertCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { getSEOPage, getPagesByCategory, SEO_CATEGORIES, type SEOPage } from '../../data/seo-content';
+import { trackFAQInteraction } from '../../utils/analytics';
 
 const DOMAIN = 'https://www.tryarera.com';
 
@@ -217,11 +218,19 @@ function Breadcrumbs({ items }: { items: { label: string; path: string }[] }) {
 function FAQAccordion({ faqs }: { faqs: { q: string; a: string }[] }) {
   const [open, setOpen] = useState<number | null>(null);
 
+  const handleToggle = (i: number, q: string) => {
+    const nextOpen = open === i ? null : i;
+    setOpen(nextOpen);
+    if (nextOpen !== null) {
+      trackFAQInteraction(q);
+    }
+  };
+
   return (
     <div className="space-y-3">
       {faqs.map((faq, i) => (
         <div key={i} className="border border-white/10 rounded-xl overflow-hidden hover:border-orange-500/20 transition-all">
-          <button onClick={() => setOpen(open === i ? null : i)}
+          <button onClick={() => handleToggle(i, faq.q)}
             className="w-full flex items-center justify-between p-5 text-left gap-4 bg-white/5">
             <span className="text-base font-semibold text-white">{faq.q}</span>
             {open === i ? <ChevronUp className="w-5 h-5 text-orange-500 shrink-0" /> : <ChevronDown className="w-5 h-5 text-gray-500 shrink-0" />}

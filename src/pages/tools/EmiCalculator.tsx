@@ -6,6 +6,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import { Calculator, ArrowRight, IndianRupee, Percent, Clock, TrendingDown, ChevronDown, ChevronUp, Zap, BarChart3, PieChart, Table2, Info, CheckCircle2 } from 'lucide-react';
+import { trackCalculatorUsage } from '../../utils/analytics';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 import { Input } from '@/components/ui/input';
@@ -76,6 +77,14 @@ const EmiCalculator = () => {
 
   const result = useMemo(() => calcEmi(principal, rate, tenure), [principal, rate, tenure]);
   const schedule = useMemo(() => showSchedule || activeView === 'schedule' ? buildSchedule(principal, rate, tenure) : [], [principal, rate, tenure, showSchedule, activeView]);
+
+  // Debounced calculator telemetry to prevent spam on slide drag
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      trackCalculatorUsage('emi_calculator', `principal_${principal}_rate_${rate}_tenure_${tenure}`);
+    }, 1500);
+    return () => clearTimeout(timer);
+  }, [principal, rate, tenure]);
 
   // Yearly summary from schedule
   const yearlySummary = useMemo(() => {

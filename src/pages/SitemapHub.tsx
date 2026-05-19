@@ -7,6 +7,7 @@ import Footer from '../components/Footer';
 import { Search, Zap, ArrowRight, BookOpen, Calculator, Landmark, ShieldCheck, MapPin, Briefcase, FileText } from 'lucide-react';
 import { getSEODatabase, SEO_CATEGORIES, type SEOPage } from '../data/seo-content';
 import { Input } from '@/components/ui/input';
+import { trackSearchUsage } from '../utils/analytics';
 
 const SitemapHub = () => {
   const navigate = useNavigate();
@@ -33,6 +34,15 @@ const SitemapHub = () => {
     }
     return pages;
   }, [allPages, activeCategory, searchQuery]);
+
+  // Telemetry tracking for search queries with a debounce
+  React.useEffect(() => {
+    if (!searchQuery.trim()) return;
+    const timer = setTimeout(() => {
+      trackSearchUsage(searchQuery, filteredPages.length);
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, [searchQuery, filteredPages.length]);
 
   // Group pages by category for structured sections
   const groupedCategories = useMemo(() => {

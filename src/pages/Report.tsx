@@ -10,6 +10,7 @@ import {
 import { AnalysisResult } from '../utils/analysis/mockEngine';
 import { useStore } from '../store/appStore';
 import { useToast } from '@/hooks/use-toast';
+import { trackReportShare } from '../utils/analytics';
 import { 
   AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
   PieChart as RePieChart, Pie, Cell, BarChart, Bar, Legend, LineChart, Line,
@@ -29,6 +30,7 @@ export function ReportPage() {
   const shareCardRef = useRef<HTMLDivElement>(null);
 
   const handleDownload = () => {
+    trackReportShare('pdf_print', id || currentAnalysis?.id || 'unknown');
     toast({
       title: "Generating Underwriting PDF",
       description: "Compiling financial embedding charts. Print dialog opening..."
@@ -39,6 +41,8 @@ export function ReportPage() {
   };
 
   const handleShare = () => {
+    const shareId = id || currentAnalysis?.id || 'unknown';
+    trackReportShare('copy_link', shareId);
     const shareUrl = window.location.origin + "/report/" + (id || currentAnalysis?.id || crypto.randomUUID());
     navigator.clipboard.writeText(shareUrl).then(() => {
       toast({
@@ -55,6 +59,8 @@ export function ReportPage() {
   };
 
   const generateSocialShare = (platform: string) => {
+    const shareId = id || currentAnalysis?.id || 'unknown';
+    trackReportShare(platform, shareId);
     setIsGeneratingCard(true);
     toast({
       title: "Generating Flex Card",
