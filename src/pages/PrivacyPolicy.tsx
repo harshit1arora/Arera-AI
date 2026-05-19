@@ -1,9 +1,15 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { Helmet } from "react-helmet-async";
 
 const PrivacyPolicy = () => {
   return (
     <div className="min-h-screen bg-background flex flex-col">
+      <Helmet>
+        <title>Privacy Policy – Arera AI</title>
+        <meta name="description" content="Read the official Privacy Policy of Arera AI. Learn how we handle personal data and comply with DPDP Act and RBI guidelines." />
+        <link rel="canonical" href="https://www.tryarera.com/privacy-policy" />
+      </Helmet>
       <Navbar />
       <main className="flex-1 pt-32 pb-20">
         <section className="container mx-auto px-6 max-w-4xl">
@@ -50,7 +56,7 @@ const PrivacyPolicy = () => {
             <div className="mt-16 p-8 bg-secondary/30 rounded-2xl border border-border/60">
               <h3 className="text-lg font-bold mb-2">Contact our Data Protection Officer</h3>
               <p className="text-sm text-muted-foreground mb-4">For any inquiries regarding data rights, compliance, or this policy, our DPO can be reached directly.</p>
-              <a href="mailto:dpo@arera.ai" className="font-mono text-primary hover:underline">dpo@arera.ai</a>
+              <a href="mailto:dpo@tryarera.com" className="font-mono text-primary hover:underline">dpo@tryarera.com</a>
             </div>
           </div>
         </section>

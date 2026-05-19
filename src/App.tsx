@@ -15,6 +15,7 @@ import RulesEngine from "./pages/RulesEngine.tsx";
 import ApiDocs from "./pages/ApiDocs.tsx";
 import ApiReference from "./pages/ApiReference.tsx";
 import About from "./pages/About.tsx";
+import Brand from "./pages/Brand.tsx";
 import Careers from "./pages/Careers.tsx";
 import Blog from "./pages/Blog.tsx";
 import Contact from "./pages/Contact.tsx";
@@ -136,6 +137,7 @@ const App = () => (
             <Route path="/api-docs" element={<ApiDocs />} />
             <Route path="/api-reference" element={<ApiReference />} />
             <Route path="/about" element={<About />} />
+            <Route path="/brand" element={<Brand />} />
             <Route path="/careers" element={<Careers />} />
             <Route path="/blog" element={<Blog />} />
             <Route path="/blog/:slug" element={<BlogPost />} />

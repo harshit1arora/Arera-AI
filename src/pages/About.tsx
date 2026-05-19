@@ -1,10 +1,16 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Users, Target, Globe, Award } from "lucide-react";
+import { Helmet } from "react-helmet-async";
 
 const About = () => {
   return (
     <div className="min-h-screen bg-background flex flex-col">
+      <Helmet>
+        <title>About Arera AI — Our Mission and Vision</title>
+        <meta name="description" content="Discover the mission, values, and team behind Arera AI, a consumer-first AI financial intelligence platform." />
+        <link rel="canonical" href="https://www.tryarera.com/about" />
+      </Helmet>
       <Navbar />
       <main className="flex-1 pt-32 pb-20">
         

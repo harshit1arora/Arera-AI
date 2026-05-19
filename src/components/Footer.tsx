@@ -4,7 +4,7 @@ import { LogoStatic } from "./LogoStatic";
 const Footer = () => {
   const links = {
     Product: [
-      { name: "Arera", path: "/" },
+      { name: "Arera AI", path: "/" },
       { name: "Loan Predictor (B2C)", path: "/loan-approval-predictor" },
       { name: "KYC Engine", path: "/kyc-engine" },
       { name: "Credit Scoring", path: "/credit-scoring" },
@@ -29,6 +29,7 @@ const Footer = () => {
     ],
     Company: [
       { name: "About", path: "/about" },
+      { name: "Brand Guidelines", path: "/brand" },
       { name: "Careers", path: "/careers" },
       { name: "Blog", path: "/blog" },
       { name: "Contact", path: "/contact" },
@@ -52,7 +53,7 @@ const Footer = () => {
             </div>
             
             <p className="font-['DM_Sans'] font-normal text-[14px] leading-relaxed text-muted-foreground mb-6">
-              Deterministic underwriting infrastructure for India's lending ecosystem.
+              Consumer-first AI financial intelligence platform.
             </p>
 
             <div className="flex flex-wrap gap-2">

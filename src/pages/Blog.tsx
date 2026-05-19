@@ -10,7 +10,7 @@ const Blog = () => {
   return (
     <div className="min-h-screen bg-background flex flex-col">
       <Helmet>
-        <title>Arera Blog | Underwriting Insights</title>
+        <title>Arera AI Blog — Credit, Loans, & Underwriting Insights</title>
         <meta name="description" content="Read the latest insights on automated underwriting, RBI compliance, and NBFC technology." />
         <link rel="canonical" href="https://www.tryarera.com/blog" />
       </Helmet>

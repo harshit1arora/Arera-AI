@@ -37,7 +37,7 @@ const ToolsDirectory = () => {
   return (
     <div className="min-h-screen bg-black text-white flex flex-col font-sans selection:bg-orange-500/30 overflow-x-hidden">
       <Helmet>
-        <title>Free Financial Tools & Loan Calculators | Arera AI</title>
+        <title>Financial Tools & Loan Calculators – Arera AI</title>
         <meta name="description" content="20+ free AI-powered financial tools. Calculate EMI, check loan eligibility, simulate credit score changes, compare lenders, and plan your finances." />
         <link rel="canonical" href="https://www.tryarera.com/tools" />
         <script type="application/ld+json">{JSON.stringify({
@@ -45,6 +45,14 @@ const ToolsDirectory = () => {
           name: 'Financial Tools & Calculators', description: '20+ free AI-powered financial tools',
           publisher: { '@type': 'Organization', name: 'Arera AI' },
           numberOfItems: tools.length,
+        })}</script>
+        <script type="application/ld+json">{JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'BreadcrumbList',
+          'itemListElement': [
+            { '@type': 'ListItem', 'position': 1, 'name': 'Home', 'item': 'https://www.tryarera.com' },
+            { '@type': 'ListItem', 'position': 2, 'name': 'Tools', 'item': 'https://www.tryarera.com/tools' }
+          ]
         })}</script>
       </Helmet>
 

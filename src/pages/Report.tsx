@@ -774,7 +774,7 @@ export function ReportPage() {
                   </div>
 
                   <div className="flex items-center justify-between pt-4 border-t border-white/5 text-xs text-gray-500 font-mono">
-                    <span>arera.ai/report/{currentAnalysis.id.substring(0, 14)}...</span>
+                    <span>tryarera.com/report/{currentAnalysis.id.substring(0, 14)}...</span>
                     <span className="text-white font-bold">Top {100 - currentAnalysis.percentileRank}% Rank</span>
                   </div>
                 </div>

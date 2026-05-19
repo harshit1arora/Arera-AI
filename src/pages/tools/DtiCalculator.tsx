@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from 'react';
+import { Breadcrumbs } from '../../components/Breadcrumbs';
 import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
@@ -117,13 +118,11 @@ export default function DtiCalculator() {
       <main className="flex-1 pt-32 pb-24 relative z-10">
         <div className="container mx-auto px-4 max-w-6xl">
           {/* Breadcrumbs */}
-          <nav className="flex items-center gap-2 text-sm text-gray-500 mb-8">
-            <Link to="/" className="hover:text-orange-400 transition-colors">Home</Link>
-            <span>/</span>
-            <Link to="/tools" className="hover:text-orange-400 transition-colors">Tools</Link>
-            <span>/</span>
-            <span className="text-gray-300">Debt-to-Income Calculator</span>
-          </nav>
+                    <Breadcrumbs items={[
+            { label: 'Home', path: '/' },
+            { label: 'Tools', path: '/tools' },
+            { label: 'Debt-to-Income Calculator', path: '/tools/dti-calculator' }
+          ]} />
 
           {/* Header */}
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-10">

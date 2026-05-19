@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
+import { Breadcrumbs } from '../components/Breadcrumbs';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -181,18 +182,18 @@ const LoanApprovalPredictor = () => {
   return (
     <div className="min-h-screen bg-black text-white flex flex-col font-sans selection:bg-orange-500/30 overflow-x-hidden">
       <Helmet>
-        <title>Free Loan Approval Predictor | Check Your Loan Eligibility Instantly</title>
-        <meta name="description" content="Use our AI-powered Loan Approval Predictor to check your personal loan eligibility instantly. Get your approval odds, credit insights, and tips to improve your chances without affecting your credit score." />
-        <meta name="keywords" content="loan approval predictor, check loan eligibility, personal loan calculator, free credit score check, instant loan approval, loan approval odds, AI loan predictor, bank statement analyzer" />
-        <link rel="canonical" href="https://arera.ai/loan-approval-predictor" />
+        <title>Free Loan Approval Predictor | AI Eligibility Checker – Arera AI</title>
+        <meta name="description" content="Use our AI-powered Loan Approval Predictor by Arera AI to check your personal loan eligibility instantly. Get your approval odds, credit insights, and tips to improve your chances without affecting your credit score." />
+        <meta name="keywords" content="loan approval predictor, check loan eligibility, personal loan calculator, free credit score check, instant loan approval, loan approval odds, AI loan predictor, bank statement analyzer, Arera AI" />
+        <link rel="canonical" href="https://www.tryarera.com/loan-approval-predictor" />
         <script type="application/ld+json">
           {`
             {
               "@context": "https://schema.org",
               "@type": "WebApplication",
               "name": "Arera AI Loan Approval Predictor",
-              "url": "https://arera.ai/loan-approval-predictor",
-              "description": "AI-powered loan approval predictor and eligibility calculator. Check your personal loan approval odds instantly.",
+              "url": "https://www.tryarera.com/loan-approval-predictor",
+              "description": "AI-powered loan approval predictor and eligibility calculator by Arera AI. Check your personal loan approval odds instantly.",
               "applicationCategory": "FinanceApplication",
               "operatingSystem": "All",
               "offers": {
@@ -250,8 +251,13 @@ const LoanApprovalPredictor = () => {
       <main className="flex-1 relative z-10 pt-20">
         {/* Hero Section */}
         <section className="relative pt-12 pb-16 md:pt-20 md:pb-20">
-          <div className="container mx-auto px-4 text-center max-w-5xl">
+          <div className="container mx-auto px-4 max-w-5xl text-left">
+            <Breadcrumbs items={[
+              { label: 'Home', path: '/' },
+              { label: 'Loan Predictor', path: '/loan-approval-predictor' }
+            ]} />
             <motion.div
+              className="text-center"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}

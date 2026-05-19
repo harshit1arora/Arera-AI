@@ -1,10 +1,16 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Mail, Phone, MapPin, Building } from "lucide-react";
+import { Helmet } from "react-helmet-async";
 
 const Contact = () => {
   return (
     <div className="min-h-screen bg-background flex flex-col">
+      <Helmet>
+        <title>Contact Arera AI — Get in Touch</title>
+        <meta name="description" content="Get in touch with Arera AI. Reach out for partnerships, support, or general inquiries." />
+        <link rel="canonical" href="https://www.tryarera.com/contact" />
+      </Helmet>
       <Navbar />
       <main className="flex-1 pt-32 pb-20">
         
@@ -79,7 +85,7 @@ const Contact = () => {
                     </div>
                     <div>
                       <p className="text-sm font-medium text-muted-foreground">General Enquiries</p>
-                      <p className="font-semibold text-foreground">hello@arera.ai</p>
+                      <p className="font-semibold text-foreground">hello@tryarera.com</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-4 group">

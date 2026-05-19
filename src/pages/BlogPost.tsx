@@ -19,8 +19,8 @@ const BlogPost = () => {
     "@context": "https://schema.org",
     "@type": "Article",
     "headline": post.title,
-    "author": { "@type": "Organization", "name": "Arera" },
-    "publisher": { "@type": "Organization", "name": "Arera", "logo": "https://www.tryarera.com/arera-logo.png" },
+    "author": { "@type": "Organization", "name": "Arera AI" },
+    "publisher": { "@type": "Organization", "name": "Arera AI", "logo": "https://www.tryarera.com/arera-logo.png" },
     "datePublished": new Date(post.date).toISOString(),
     "dateModified": new Date(post.date).toISOString()
   };
@@ -28,15 +28,15 @@ const BlogPost = () => {
   return (
     <div className="min-h-screen bg-background flex flex-col">
       <Helmet>
-        <title>{post.title} | Arera Blog</title>
+        <title>{post.title} – Arera AI Blog</title>
         <meta name="description" content={post.excerpt} />
         <link rel="canonical" href={`https://www.tryarera.com/blog/${slug}`} />
-        <meta property="og:title" content={`${post.title} | Arera Blog`} />
+        <meta property="og:title" content={`${post.title} – Arera AI Blog`} />
         <meta property="og:description" content={post.excerpt} />
         <meta property="og:url" content={`https://www.tryarera.com/blog/${slug}`} />
         <meta property="og:type" content="article" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={`${post.title} | Arera Blog`} />
+        <meta name="twitter:title" content={`${post.title} – Arera AI Blog`} />
         <meta name="twitter:description" content={post.excerpt} />
         <script type="application/ld+json">{JSON.stringify(structuredData)}</script>
       </Helmet>

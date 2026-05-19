@@ -1,9 +1,15 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { Helmet } from "react-helmet-async";
 
 const TermsOfService = () => {
   return (
     <div className="min-h-screen bg-background flex flex-col">
+      <Helmet>
+        <title>Terms of Service – Arera AI</title>
+        <meta name="description" content="Review the Terms of Service for Arera AI. Learn about API usage restrictions, SLA, and customer obligations." />
+        <link rel="canonical" href="https://www.tryarera.com/terms-of-service" />
+      </Helmet>
       <Navbar />
       <main className="flex-1 pt-32 pb-20">
         <section className="container mx-auto px-6 max-w-4xl">
@@ -32,7 +38,7 @@ const TermsOfService = () => {
 
             <h2 className="text-2xl mt-12 mb-6 text-foreground border-b border-border/50 pb-4">2. SLA & Uptime Guarantees</h2>
             <p className="text-muted-foreground leading-relaxed">
-              Arera AI provides a **99.9% Uptime Service Level Agreement (SLA)** for all core endpoints on the `api.arera.ai` domain for enterprise tier customers. If uptime falls below 99.9% in a given billing calendar month, you may be eligible for Service Credits proportional to the downtime. 
+              Arera AI provides a **99.9% Uptime Service Level Agreement (SLA)** for all core endpoints on the `api.tryarera.com` domain for enterprise tier customers. If uptime falls below 99.9% in a given billing calendar month, you may be eligible for Service Credits proportional to the downtime. 
             </p>
             <p className="text-muted-foreground leading-relaxed mt-4">
               Downtime caused by downstream third-party registries (such as UIDAI, NSDL, or specific credit bureaus going offline independently of Arera) is explicitly excluded from the SLA calculation, though our cache layer attempts to mitigate these where legally permissible.
