@@ -55,6 +55,8 @@ import BorrowerPayment from "./pages/BorrowerPayment.tsx";
 import LoanApprovalPredictor from "./pages/LoanApprovalPredictor.tsx";
 import ToolsDirectory from "./pages/ToolsDirectory.tsx";
 import ProgrammaticSEOPage from "./pages/ProgrammaticSEOPage.tsx";
+import SitemapHub from "./pages/SitemapHub.tsx";
+import TopicalHub from "./pages/TopicalHub.tsx";
 import EmiCalculator from "./pages/tools/EmiCalculator.tsx";
 import SalaryEligibility from "./pages/tools/SalaryEligibility.tsx";
 import CreditUtilization from "./pages/tools/CreditUtilization.tsx";
@@ -170,6 +172,15 @@ const App = () => (
             <Route path="/tools/financial-health-check" element={<FinancialHealthCheck />} />
             <Route path="/tools/:slug" element={<ProgrammaticSEOPage />} />
             
+            {/* HTML Sitemap Hub & Topical Authority Hubs */}
+            <Route path="/all-guides" element={<SitemapHub />} />
+            <Route path="/loan-rejection-guides" element={<TopicalHub topic="rejection" />} />
+            <Route path="/financial-health-tools" element={<TopicalHub topic="tools" />} />
+            <Route path="/cibil-score-guides" element={<TopicalHub topic="cibil" />} />
+            <Route path="/bank-statement-analysis" element={<TopicalHub topic="statements" />} />
+            <Route path="/loan-eligibility-center" element={<TopicalHub topic="eligibility" />} />
+            <Route path="/emi-education-hub" element={<TopicalHub topic="emi" />} />
+
             {/* SEO Catch-all (must be right before 404) */}
             <Route path="/:slug" element={<ProgrammaticSEOPage />} />
             

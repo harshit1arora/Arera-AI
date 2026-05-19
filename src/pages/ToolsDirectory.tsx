@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { useNavigate, Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
-import { Calculator, Percent, TrendingDown, Home, Briefcase, Activity, ShieldCheck, Zap, CreditCard, PiggyBank, GraduationCap, Car, Building2, BarChart3, Wallet, Target, ArrowLeftRight, Clock, Heart, TrendingUp, ArrowRight } from 'lucide-react';
+import { Calculator, Percent, TrendingDown, Home, Briefcase, Activity, ShieldCheck, Zap, CreditCard, PiggyBank, GraduationCap, Car, Building2, BarChart3, Wallet, Target, ArrowLeftRight, Clock, Heart, TrendingUp, ArrowRight, FileText } from 'lucide-react';
 import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { SEO_CATEGORIES, getPagesByCategory } from '../data/seo-content';
 
@@ -109,12 +109,45 @@ const ToolsDirectory = () => {
               </motion.div>
             ))}
           </div>
+          {/* Credit Intelligence Hubs */}
+          <section className="border-t border-white/10 pt-16 mb-16">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-bold text-white mb-4">Credit Intelligence Hubs</h2>
+              <p className="text-gray-400 text-lg">Master knowledge bases designed to optimize your financial eligibility scores.</p>
+            </div>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {[
+                { title: "Loan Rejection Manuals", desc: "Why banks reject applications and how to recover.", path: "/loan-rejection-guides", icon: ShieldCheck, color: "text-rose-500", bg: "bg-rose-500/10" },
+                { title: "CIBIL Optimization Hub", desc: "Settle active queries and boost credit scores fast.", path: "/cibil-score-guides", icon: CreditCard, color: "text-orange-500", bg: "bg-orange-500/10" },
+                { title: "Statement Analysis Guide", desc: "Understand UPI flags and balance buffers.", path: "/bank-statement-analysis", icon: FileText, color: "text-blue-500", bg: "bg-blue-500/10" },
+                { title: "Eligibility Center", desc: "Pre-approved salary and career criteria matrix.", path: "/loan-eligibility-center", icon: Building2, color: "text-emerald-500", bg: "bg-emerald-500/10" },
+                { title: "EMI Stress Center", desc: "Calculate tenure sweetspots and prepay benefits.", path: "/emi-education-hub", icon: Calculator, color: "text-purple-500", bg: "bg-purple-500/10" }
+              ].map((hub, idx) => (
+                <div key={idx} className="bg-white/5 border border-white/10 hover:border-orange-500/30 p-6 rounded-2xl transition-all hover:bg-white/10 group cursor-pointer"
+                  onClick={() => navigate(hub.path)}>
+                  <div className={"w-10 h-10 rounded-lg flex items-center justify-center mb-4 " + hub.bg}>
+                    <hub.icon className={"w-5 h-5 " + hub.color} />
+                  </div>
+                  <h3 className="font-bold text-white text-lg group-hover:text-orange-400 transition-colors mb-2">{hub.title}</h3>
+                  <p className="text-sm text-gray-400 leading-relaxed mb-4">{hub.desc}</p>
+                  <span className="text-xs text-orange-400 font-semibold flex items-center gap-1">
+                    Explore Hub <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                  </span>
+                </div>
+              ))}
+            </div>
+          </section>
 
           {/* SEO Content Directory */}
           <section className="border-t border-white/10 pt-16">
             <div className="text-center mb-12">
               <h2 className="text-3xl font-bold text-white mb-4">Loan Eligibility Guides</h2>
               <p className="text-gray-400 text-lg">Comprehensive guides for every salary, city, profession, and bank in India.</p>
+              <div className="mt-4">
+                <Link to="/all-guides" className="text-orange-400 hover:text-orange-300 font-semibold text-sm inline-flex items-center gap-1">
+                  View Full A-Z Knowledge Directory (1,070+ pages) <ArrowRight className="w-4 h-4" />
+                </Link>
+              </div>
             </div>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {SEO_CATEGORIES.map(cat => {
