@@ -108,7 +108,7 @@ export default function LoanTenureOptimizer() {
       <Helmet>
         <title>Loan Tenure Optimizer – Reduce Loan Interest | Arera AI</title>
         <meta name="description" content="Optimize your loan tenure. Compare EMIs against total interest payable to discover the sweet spot of maximum interest savings." />
-        <link rel="canonical" href="https://tryarera.com/tools/loan-tenure-optimizer" />
+        <link rel="canonical" href="https://www.tryarera.com/tools/loan-tenure-optimizer" />
         <script type="application/ld+json">{JSON.stringify({
           '@context': 'https://schema.org', '@type': 'WebApplication',
           name: 'Loan Tenure Optimizer', applicationCategory: 'FinanceApplication',

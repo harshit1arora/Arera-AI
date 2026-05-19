@@ -39,7 +39,7 @@ const ToolsDirectory = () => {
       <Helmet>
         <title>Free Financial Tools & Loan Calculators | Arera AI</title>
         <meta name="description" content="20+ free AI-powered financial tools. Calculate EMI, check loan eligibility, simulate credit score changes, compare lenders, and plan your finances." />
-        <link rel="canonical" href="https://tryarera.com/tools" />
+        <link rel="canonical" href="https://www.tryarera.com/tools" />
         <script type="application/ld+json">{JSON.stringify({
           '@context': 'https://schema.org', '@type': 'CollectionPage',
           name: 'Financial Tools & Calculators', description: '20+ free AI-powered financial tools',

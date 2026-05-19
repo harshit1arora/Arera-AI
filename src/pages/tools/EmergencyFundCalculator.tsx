@@ -69,7 +69,7 @@ export default function EmergencyFundCalculator() {
       <Helmet>
         <title>Emergency Fund Calculator – Save For Financial Safety | Arera AI</title>
         <meta name="description" content="Calculate your recommended emergency savings fund target. Plan and budget your monthly expenses, coverage duration, and gap contributions." />
-        <link rel="canonical" href="https://tryarera.com/tools/emergency-fund-calculator" />
+        <link rel="canonical" href="https://www.tryarera.com/tools/emergency-fund-calculator" />
         <script type="application/ld+json">{JSON.stringify({
           '@context': 'https://schema.org', '@type': 'WebApplication',
           name: 'Emergency Fund Calculator', applicationCategory: 'FinanceApplication',

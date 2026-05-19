@@ -94,7 +94,7 @@ export default function CarLoanEmiCalculator() {
       <Helmet>
         <title>Car Loan EMI Calculator – Calculate Monthly Auto EMIs | Arera AI</title>
         <meta name="description" content="Calculate your monthly car loan EMI, interest component, and view the full amortization schedule. Compare auto interest rates across SBI, HDFC, and ICICI." />
-        <link rel="canonical" href="https://tryarera.com/tools/car-loan-emi-calculator" />
+        <link rel="canonical" href="https://www.tryarera.com/tools/car-loan-emi-calculator" />
         <script type="application/ld+json">{JSON.stringify({
           '@context': 'https://schema.org', '@type': 'WebApplication',
           name: 'Car Loan EMI Calculator', applicationCategory: 'FinanceApplication',

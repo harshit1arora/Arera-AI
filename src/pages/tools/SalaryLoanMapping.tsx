@@ -74,7 +74,7 @@ export default function SalaryLoanMapping() {
       <Helmet>
         <title>Salary Loan Mapping Calculator – Check Credit Eligibility | Arera AI</title>
         <meta name="description" content="Map your net monthly salary and employer category to eligible personal, home, and auto loan limits from premium lenders." />
-        <link rel="canonical" href="https://tryarera.com/tools/salary-loan-mapping" />
+        <link rel="canonical" href="https://www.tryarera.com/tools/salary-loan-mapping" />
         <script type="application/ld+json">{JSON.stringify({
           '@context': 'https://schema.org', '@type': 'WebApplication',
           name: 'Salary Loan Mapping Calculator', applicationCategory: 'FinanceApplication',

@@ -138,7 +138,7 @@ export default function CreditUtilization() {
       <Helmet>
         <title>Credit Card Utilization Ratio Checker | Arera AI</title>
         <meta name="description" content="Check your Credit Card Utilization Ratio (CUR). Calculate total available credit limit versus current outstanding balances to estimate the impact on your CIBIL score." />
-        <link rel="canonical" href="https://tryarera.com/tools/credit-utilization" />
+        <link rel="canonical" href="https://www.tryarera.com/tools/credit-utilization" />
         <script type="application/ld+json">{JSON.stringify({
           '@context': 'https://schema.org', '@type': 'WebApplication',
           name: 'Credit Card Utilization Ratio Checker', applicationCategory: 'FinanceApplication',

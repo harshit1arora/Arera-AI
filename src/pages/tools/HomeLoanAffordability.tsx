@@ -114,7 +114,7 @@ export default function HomeLoanAffordability() {
       <Helmet>
         <title>Home Loan Affordability & Budget Calculator | Arera AI</title>
         <meta name="description" content="Calculate the maximum home budget you can afford. Estimate eligible home loan amounts, monthly EMIs, stamp duty costs, and down payment requirements." />
-        <link rel="canonical" href="https://tryarera.com/tools/home-loan-affordability" />
+        <link rel="canonical" href="https://www.tryarera.com/tools/home-loan-affordability" />
         <script type="application/ld+json">{JSON.stringify({
           '@context': 'https://schema.org', '@type': 'WebApplication',
           name: 'Home Loan Affordability Calculator', applicationCategory: 'FinanceApplication',

@@ -8,7 +8,7 @@ import { ArrowRight, ChevronDown, ChevronUp, Zap, BookOpen, Calculator, Home as 
 import { Button } from '@/components/ui/button';
 import { getSEOPage, getPagesByCategory, SEO_CATEGORIES, type SEOPage } from '../../data/seo-content';
 
-const DOMAIN = 'https://tryarera.com';
+const DOMAIN = 'https://www.tryarera.com';
 
 const toolRoutes: Record<string, string> = {
   'loan-approval-predictor': '/loan-approval-predictor',

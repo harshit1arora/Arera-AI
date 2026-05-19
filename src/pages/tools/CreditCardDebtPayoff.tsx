@@ -118,7 +118,7 @@ export default function CreditCardDebtPayoff() {
       <Helmet>
         <title>Credit Card Debt Payoff Calculator | Arera AI</title>
         <meta name="description" content="Simulate credit card payoff strategies. Compare paying minimum due vs an optimized fixed budget to escape high-interest debt traps." />
-        <link rel="canonical" href="https://tryarera.com/tools/credit-card-debt-payoff" />
+        <link rel="canonical" href="https://www.tryarera.com/tools/credit-card-debt-payoff" />
         <script type="application/ld+json">{JSON.stringify({
           '@context': 'https://schema.org', '@type': 'WebApplication',
           name: 'Credit Card Payoff Calculator', applicationCategory: 'FinanceApplication',

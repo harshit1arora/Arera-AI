@@ -18,4 +18,4 @@ Disallow: /agents
 Disallow: /portfolio
 Disallow: /api-reference
 
-Sitemap: https://tryarera.com/sitemap.xml
+Sitemap: https://www.tryarera.com/sitemap.xml

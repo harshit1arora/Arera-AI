@@ -91,7 +91,7 @@ export default function FinancialHealthCheck() {
       <Helmet>
         <title>Financial Health Check Tool – Score Card | Arera AI</title>
         <meta name="description" content="Audit your personal financial health. Calculate DTI margins, emergency savings ratios, and insurance coverage points." />
-        <link rel="canonical" href="https://tryarera.com/tools/financial-health-check" />
+        <link rel="canonical" href="https://www.tryarera.com/tools/financial-health-check" />
         <script type="application/ld+json">{JSON.stringify({
           '@context': 'https://schema.org', '@type': 'WebApplication',
           name: 'Financial Health Check Tool', applicationCategory: 'FinanceApplication',

@@ -68,7 +68,7 @@ export default function MonthlyBudgetPlanner() {
       <Helmet>
         <title>Monthly Budget Planner – 50/30/20 Rule | Arera AI</title>
         <meta name="description" content="Plan your monthly expenses using the 50/30/20 rule. Calculate needs, wants, savings, and debt limits to optimize your financial surplus." />
-        <link rel="canonical" href="https://tryarera.com/tools/monthly-budget-planner" />
+        <link rel="canonical" href="https://www.tryarera.com/tools/monthly-budget-planner" />
         <script type="application/ld+json">{JSON.stringify({
           '@context': 'https://schema.org', '@type': 'WebApplication',
           name: 'Monthly Budget Planner', applicationCategory: 'FinanceApplication',

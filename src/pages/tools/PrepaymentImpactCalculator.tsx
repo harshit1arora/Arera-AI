@@ -133,7 +133,7 @@ export default function PrepaymentImpactCalculator() {
       <Helmet>
         <title>Loan Prepayment Impact Calculator | Arera AI</title>
         <meta name="description" content="Calculate interest savings and tenure reduction by making lump-sum or part prepayments on your home, personal, or car loans." />
-        <link rel="canonical" href="https://tryarera.com/tools/prepayment-impact-calculator" />
+        <link rel="canonical" href="https://www.tryarera.com/tools/prepayment-impact-calculator" />
         <script type="application/ld+json">{JSON.stringify({
           '@context': 'https://schema.org', '@type': 'WebApplication',
           name: 'Loan Prepayment Impact Calculator', applicationCategory: 'FinanceApplication',

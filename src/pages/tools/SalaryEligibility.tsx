@@ -115,7 +115,7 @@ export default function SalaryEligibility() {
       <Helmet>
         <title>Salary-Based Personal Loan Eligibility Calculator | Arera AI</title>
         <meta name="description" content="Calculate your maximum personal loan eligibility based on your net monthly salary, existing EMIs, and employer category. Dynamic calculations using actual banking FOIR guidelines." />
-        <link rel="canonical" href="https://tryarera.com/tools/salary-loan-eligibility" />
+        <link rel="canonical" href="https://www.tryarera.com/tools/salary-loan-eligibility" />
         <script type="application/ld+json">{JSON.stringify({
           '@context': 'https://schema.org', '@type': 'WebApplication',
           name: 'Salary-Based Loan Eligibility Calculator', applicationCategory: 'FinanceApplication',

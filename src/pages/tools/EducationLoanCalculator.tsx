@@ -84,7 +84,7 @@ export default function EducationLoanCalculator() {
       <Helmet>
         <title>Education Loan Calculator – Study Abroad Repayments | Arera AI</title>
         <meta name="description" content="Calculate education loan repayments, moratorium period interest capitalization, and monthly EMIs for domestic or study abroad courses." />
-        <link rel="canonical" href="https://tryarera.com/tools/education-loan-calculator" />
+        <link rel="canonical" href="https://www.tryarera.com/tools/education-loan-calculator" />
         <script type="application/ld+json">{JSON.stringify({
           '@context': 'https://schema.org', '@type': 'WebApplication',
           name: 'Education Loan Calculator', applicationCategory: 'FinanceApplication',

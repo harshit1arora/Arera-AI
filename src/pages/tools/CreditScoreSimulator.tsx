@@ -97,7 +97,7 @@ export default function CreditScoreSimulator() {
       <Helmet>
         <title>Credit Score Simulator – Forecast CIBIL Impact | Arera AI</title>
         <meta name="description" content="Simulate how financial actions impact your credit score. Estimate CIBIL score additions or drops from late payments, credit inquiries, and utilization changes." />
-        <link rel="canonical" href="https://tryarera.com/tools/credit-score-simulator" />
+        <link rel="canonical" href="https://www.tryarera.com/tools/credit-score-simulator" />
         <script type="application/ld+json">{JSON.stringify({
           '@context': 'https://schema.org', '@type': 'WebApplication',
           name: 'Credit Score Simulator', applicationCategory: 'FinanceApplication',
