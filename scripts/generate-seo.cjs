@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const config = require('../src/data/seo-config.json');
 
 const DOMAIN = 'https://www.tryarera.com';
 
@@ -30,23 +31,91 @@ const toolPages = [
   'financial-health-check',
 ];
 
-const salaries = [15000, 20000, 25000, 30000, 35000, 40000, 45000, 50000, 60000, 75000, 80000, 100000, 125000, 150000, 200000, 250000, 300000];
-const loanAmounts = [50000, 100000, 150000, 200000, 300000, 500000, 700000, 1000000, 1500000, 2000000, 3000000, 5000000, 10000000];
-const cities = ['mumbai', 'delhi', 'bangalore', 'hyderabad', 'chennai', 'pune', 'kolkata', 'ahmedabad', 'jaipur', 'kochi', 'lucknow', 'chandigarh', 'indore', 'bhopal', 'nagpur', 'surat', 'vadodara', 'coimbatore', 'visakhapatnam', 'noida', 'gurugram', 'thane', 'navi-mumbai', 'ghaziabad', 'faridabad'];
-const professions = ['software-engineer', 'doctor', 'teacher', 'chartered-accountant', 'freelancer', 'startup-founder', 'gig-worker', 'government-employee', 'bank-employee', 'lawyer', 'architect', 'data-scientist', 'product-manager', 'sales-executive', 'business-owner'];
-const banks = ['hdfc', 'icici', 'sbi', 'axis', 'kotak', 'bajaj-finserv', 'tata-capital', 'idfc-first', 'yes-bank', 'pnb', 'bank-of-baroda', 'canara-bank', 'union-bank', 'moneytap', 'fullerton-india'];
-const intents = ['poor-cibil-score', 'loan-rejected', 'high-emi-burden', 'self-employed-loan', 'no-credit-history', 'salary-credited-late', 'frequent-job-changes', 'low-salary', 'too-many-loans', 'credit-card-defaulter', 'bounced-cheques', 'loan-settlement-impact', 'joint-loan-applicant', 'loan-for-women', 'loan-after-bankruptcy'];
-
-const fmt = (n) => n >= 10000000 ? (n / 10000000) + 'Cr' : n >= 100000 ? (n / 100000) + 'L' : n >= 1000 ? (n / 1000) + 'K' : '' + n;
+const fmt = (n) => {
+  if (n >= 10000000) return (n / 10000000) + 'cr';
+  if (n >= 100000) return (n / 100000) + 'l';
+  if (n >= 1000) return (n / 1000) + 'k';
+  return '' + n;
+};
 
 const getSlugs = () => {
   const slugs = [];
-  salaries.forEach(s => slugs.push(`loan-eligibility-${fmt(s).toLowerCase()}-salary`));
-  loanAmounts.forEach(amt => slugs.push(`${fmt(amt).toLowerCase()}-personal-loan`));
-  cities.forEach(city => slugs.push(`personal-loan-in-${city}`));
-  professions.forEach(prof => slugs.push(`personal-loan-for-${prof}`));
-  banks.forEach(bank => slugs.push(`${bank}-personal-loan-eligibility`));
-  intents.forEach(intent => slugs.push(intent));
+
+  // 1. Salary Pages
+  config.salaries.forEach(s => {
+    slugs.push(`loan-eligibility-${fmt(s)}-salary`);
+  });
+
+  // 2. Loan Amount Pages
+  config.loanAmounts.forEach(amt => {
+    slugs.push(`${fmt(amt)}-personal-loan`);
+  });
+
+  // 3. City Pages (2 variations)
+  config.cities.forEach(city => {
+    slugs.push(`personal-loan-in-${city}`);
+    slugs.push(`home-loan-in-${city}`);
+  });
+
+  // 4. Profession Pages
+  config.professions.forEach(prof => {
+    slugs.push(`personal-loan-for-${prof}`);
+  });
+
+  // 5. Bank Pages (3 variations)
+  config.banks.forEach(bank => {
+    slugs.push(`${bank}-personal-loan-eligibility`);
+    slugs.push(`${bank}-loan-rejection-reasons`);
+    slugs.push(`${bank}-loan-analysis`);
+  });
+
+  // 6. Intent Pages
+  config.intents.forEach(intent => {
+    slugs.push(intent);
+  });
+
+  // 7. Salary + Profession (20 salaries, 15 professions)
+  const subSalaries = config.salaries.slice(0, 20);
+  const subProfessions = config.professions.slice(0, 15);
+  subSalaries.forEach(s => {
+    const sl = fmt(s);
+    subProfessions.forEach(prof => {
+      slugs.push(`loan-eligibility-${sl}-salary-for-${prof}`);
+    });
+  });
+
+  // 8. Bank + Profession (10 banks, 10 professions)
+  const subBanks = config.banks.slice(0, 10);
+  const subProfessions2 = config.professions.slice(0, 10);
+  subBanks.forEach(bank => {
+    subProfessions2.forEach(prof => {
+      slugs.push(`${bank}-personal-loan-for-${prof}`);
+    });
+  });
+
+  // 9. Bank + Salary (10 banks, 15 salaries)
+  const subSalaries2 = config.salaries.slice(0, 15);
+  subBanks.forEach(bank => {
+    subSalaries2.forEach(s => {
+      slugs.push(`${bank}-loan-eligibility-for-${fmt(s)}-salary`);
+    });
+  });
+
+  // 10. Profession + City (15 professions, 15 cities)
+  const subProfessions3 = config.professions.slice(0, 15);
+  const subCities = config.cities.slice(0, 15);
+  subProfessions3.forEach(prof => {
+    subCities.forEach(city => {
+      slugs.push(`personal-loan-for-${prof}-in-${city}`);
+    });
+  });
+
+  // 11. Datasets
+  slugs.push('average-approval-score-by-profession');
+  slugs.push('most-common-rejection-reasons');
+  slugs.push('financial-trends-by-salary-range');
+  slugs.push('emi-stress-trends');
+
   return slugs;
 };
 
@@ -67,7 +136,7 @@ function generate() {
     xml += `  <url>\n    <loc>${DOMAIN}/tools/${tool}</loc>\n    <lastmod>${today}</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>0.80</priority>\n  </url>\n`;
   }
 
-  // SEO pages
+  // Programmatic SEO pages
   for (const slug of slugs) {
     xml += `  <url>\n    <loc>${DOMAIN}/${slug}</loc>\n    <lastmod>${today}</lastmod>\n    <changefreq>monthly</changefreq>\n    <priority>0.60</priority>\n  </url>\n`;
   }
