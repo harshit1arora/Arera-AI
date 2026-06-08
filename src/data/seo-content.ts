@@ -284,130 +284,6 @@ function intentPages(): SEOPage[] {
   });
 }
 
-function salaryProfessionPages(): SEOPage[] {
-  const pages: SEOPage[] = [];
-  const subSalaries = config.salaries.slice(0, 20);
-  const subProfessions = config.professions.slice(0, 15);
-  
-  subSalaries.forEach(s => {
-    const sl = fmt(s);
-    const maxLoan = Math.round(s * 18);
-    
-    subProfessions.forEach(prof => {
-      const profName = titleCase(prof);
-      const isSelfEmployed = ['freelancer', 'startup-founder', 'business-owner'].includes(prof);
-      
-      pages.push({
-        slug: `loan-eligibility-${sl.toLowerCase()}-salary-for-${prof}`,
-        title: `Personal Loan for ${profName} with ₹${sl} Salary | Arera AI`,
-        h1: `Loan Eligibility for a ${profName} Earning ₹${sl}/Month`,
-        description: `Can a ${profName.toLowerCase()} earning ₹${sl} monthly salary get approved for a personal loan? Check your eligible limits and best lenders.`,
-        category: 'salary-profession',
-        schema: 'FAQPage',
-        content: `Getting a personal loan as a ${profName} earning a monthly salary of ₹${sl} depends on whether your income is salaried or self-employed. ${isSelfEmployed ? `For self-employed ${profName}s, lenders will inspect your 12-month business transaction statements and verify your ITR filings.` : `Salaried ${profName}s enjoy faster processing, especially if working for a listed corporate.`} With a take-home of ₹${sl}, your maximum eligible loan amount is approximately ${fmtFull(maxLoan)}.\n\nRisk assessment details:\n• Profession Classification: Lenders assign risk ratings based on career stability.\n• Income Verification: Clean net banking credits are required.\n• Debt-to-Income (DTI): Ensure your total EMIs are under 45%.\n\nHow to ensure approval:\n• Keep credit card usage low.\n• Apply directly where your primary business or salary account is maintained.\n• Maintain a stable CIBIL score of 720+.`,
-        faqs: [
-          { q: `What is the max loan for a ${profName} with ₹${sl} salary?`, a: `The maximum loan limit is approximately ${fmtFull(maxLoan)} over a 5-year repayment tenure.` },
-          { q: `What documents are needed for a ${profName}?`, a: `${isSelfEmployed ? '2 years of ITRs, business registration, and 12-month bank statements.' : '3 months of salary slips and 6-month bank statements.'}` }
-        ],
-        relatedTools: ['loan-approval-predictor', 'salary-loan-eligibility'],
-        relatedPages: [],
-        breadcrumbs: [{ label: 'Home', path: '/' }, { label: 'Tools', path: '/tools' }, { label: `₹${sl} Salary`, path: `/loan-eligibility-${sl.toLowerCase()}-salary` }, { label: profName, path: '' }]
-      });
-    });
-  });
-  return pages;
-}
-
-function bankProfessionPages(): SEOPage[] {
-  const pages: SEOPage[] = [];
-  const subBanks = config.banks.slice(0, 10);
-  const subProfessions = config.professions.slice(0, 10);
-  
-  subBanks.forEach(bank => {
-    const bankName = getBankName(bank);
-    subProfessions.forEach(prof => {
-      const profName = titleCase(prof);
-      pages.push({
-        slug: `${bank}-personal-loan-for-${prof}`,
-        title: `${bankName} Personal Loan for ${profName}s – Eligibility | Arera AI`,
-        h1: `${bankName} Personal Loan Scheme for ${profName}s`,
-        description: `Explore ${bankName}'s personal loan eligibility rules, special interest rates, and document checklist for ${profName}s.`,
-        category: 'bank-profession',
-        schema: 'FAQPage',
-        content: `${bankName} offers specialized credit programs for ${profName}s. These programs feature customized processing and rate discounts based on your career vintage. Salaried professionals working in reputed companies can secure loans up to ₹40 Lakhs with minimum paperwork.\n\nUnderwriting parameters at ${bankName} for ${profName}s:\n• Minimum Vintage: At least 1-2 years in the current profession.\n• CIBIL Requirement: 720+ preferred for prime rate schemes.\n• Bank Statement Health: Clean ledger credits with no auto-debit bounced payments.`,
-        faqs: [
-          { q: `Does ${bankName} offer special rates for ${profName}s?`, a: `Yes, corporate-salaried and select self-employed professionals can get rate discounts of 0.5% to 1.0%.` },
-          { q: `What is the processing time for ${profName}s?`, a: `Approvals are completed within 48 to 72 hours of digital document upload.` }
-        ],
-        relatedTools: ['loan-approval-predictor', 'emi-calculator'],
-        relatedPages: [],
-        breadcrumbs: [{ label: 'Home', path: '/' }, { label: 'Banks', path: '/tools' }, { label: bankName, path: `/${bank}-personal-loan-eligibility` }, { label: profName, path: '' }]
-      });
-    });
-  });
-  return pages;
-}
-
-function bankSalaryPages(): SEOPage[] {
-  const pages: SEOPage[] = [];
-  const subBanks = config.banks.slice(0, 10);
-  const subSalaries = config.salaries.slice(0, 15);
-  
-  subBanks.forEach(bank => {
-    const bankName = getBankName(bank);
-    subSalaries.forEach(s => {
-      const sl = fmt(s);
-      const maxLoan = Math.round(s * 18);
-      pages.push({
-        slug: `${bank}-loan-eligibility-for-${sl.toLowerCase()}-salary`,
-        title: `${bankName} Personal Loan Eligibility on ₹${sl} Salary | Arera AI`,
-        h1: `${bankName} Loan Eligibility for ₹${sl}/Month Salary`,
-        description: `Can you get approved for a ${bankName} personal loan with ₹${sl}/month salary? Check eligibility criteria, FOIR limits, and pre-approved limits.`,
-        category: 'bank-salary',
-        schema: 'FAQPage',
-        content: `Applying for a personal loan at ${bankName} with a monthly take-home salary of ₹${sl} is possible if you meet their credit policy benchmarks. ${bankName} uses the FOIR calculation model, capping total monthly EMIs at 40-50% of your net income. This means your maximum EMI cannot exceed ${fmtFull(s * 0.45)}.\n\nDetails of the eligibility criteria:\n• Salary Minimum: ₹${sl} is accepted, though metro locations may require higher thresholds.\n• Maximum Loan Amount: Typically capped at 15x to 18x your salary, yielding up to ${fmtFull(maxLoan)}.\n• Employer Category: Working for a listed firm increases approval chances.`,
-        faqs: [
-          { q: `What is the max loan ${bankName} gives on ₹${sl} salary?`, a: `You can qualify for up to ${fmtFull(maxLoan)} depending on your credit score and other active EMIs.` },
-          { q: `Does ${bankName} reject loans if I have a low credit score?`, a: `Yes, they typically require a CIBIL score of 700+ for salary levels around ₹${sl}.` }
-        ],
-        relatedTools: ['loan-approval-predictor', 'salary-loan-eligibility'],
-        relatedPages: [],
-        breadcrumbs: [{ label: 'Home', path: '/' }, { label: 'Banks', path: '/tools' }, { label: bankName, path: `/${bank}-personal-loan-eligibility` }, { label: `₹${sl} Salary`, path: '' }]
-      });
-    });
-  });
-  return pages;
-}
-
-function professionCityPages(): SEOPage[] {
-  const pages: SEOPage[] = [];
-  const subProfessions = config.professions.slice(0, 15);
-  const subCities = config.cities.slice(0, 15);
-  
-  subProfessions.forEach(prof => {
-    const profName = titleCase(prof);
-    subCities.forEach(city => {
-      const cityName = titleCase(city);
-      pages.push({
-        slug: `personal-loan-for-${prof}-in-${city}`,
-        title: `Personal Loan for ${profName}s in ${cityName} | Arera AI`,
-        h1: `Personal Loan for ${profName}s in ${cityName}`,
-        description: `Looking for a personal loan as a ${profName.toLowerCase()} living in ${cityName}? Compare local bank programs, rates, and documentation rules.`,
-        category: 'profession-city',
-        schema: 'FAQPage',
-        content: `Living in ${cityName} and working as a ${profName}? Lenders in ${cityName} offer customized personal loan programs. Local banks and NBFC branches provide direct doorstep processing and quick digital verification options tailored to your professional profile.\n\nLocal requirements in ${cityName}:\n• Local Address: Valid rental or owned home address proof in ${cityName}.\n• Stable Credits: Salary or business credits with local bank branches.\n• CIBIL Benchmark: 700+ CIBIL score preferred for quick processing.`,
-        faqs: [
-          { q: `What is the minimum income for a ${profName} in ${cityName}?`, a: `Lenders generally look for a minimum take-home salary of ₹25,000 to ₹30,000.` },
-          { q: `Can self-employed ${profName}s in ${cityName} get loans?`, a: `Yes. Doorstep or paperless document verification is available with 2 years of ITRs.` }
-        ],
-        relatedTools: ['loan-approval-predictor', 'emi-calculator'],
-        relatedPages: [],
-        breadcrumbs: [{ label: 'Home', path: '/' }, { label: 'Professions', path: '/tools' }, { label: profName, path: `/personal-loan-for-${prof}` }, { label: cityName, path: '' }]
-      });
-    });
-  });
-  return pages;
-}
 
 function datasetPages(): SEOPage[] {
   const dataList = [
@@ -476,10 +352,6 @@ export function getSEODatabase(): Map<string, SEOPage> {
     ...professionPages(),
     ...bankPages(),
     ...intentPages(),
-    ...salaryProfessionPages(),
-    ...bankProfessionPages(),
-    ...bankSalaryPages(),
-    ...professionCityPages(),
     ...datasetPages()
   ];
 
@@ -524,9 +396,5 @@ export const SEO_CATEGORIES = [
   { id: 'bank-rejection', label: 'Bank Rejection Manuals', count: config.banks.length },
   { id: 'bank-analysis', label: 'Bank Underwriting Reviews', count: config.banks.length },
   { id: 'intent', label: 'Problem Solvers & Intents', count: config.intents.length },
-  { id: 'salary-profession', label: 'Profession Salary Guides', count: 300 },
-  { id: 'bank-profession', label: 'Bank Profession Schemes', count: 100 },
-  { id: 'bank-salary', label: 'Bank Salary Eligibility', count: 150 },
-  { id: 'profession-city', label: 'Profession City Mappings', count: 225 },
   { id: 'dataset', label: 'AI Credit Reports & Datasets', count: 4 }
 ];

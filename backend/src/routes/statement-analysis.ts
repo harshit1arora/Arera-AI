@@ -38,22 +38,16 @@ router.post('/parse', upload.single('statement'), async (req: Request, res: Resp
   try {
     const { applicationId, userId } = req.body;
     
-    if (!applicationId || !userId) {
-      return res.status(400).json({ error: 'Missing applicationId or userId' });
-    }
-
     if (!req.file) {
       return res.status(400).json({ error: 'No file uploaded' });
     }
 
-    // Parse the statement
     const parsedStatement = await BankStatementParser.parseStatement(
       req.file.path,
-      userId,
-      applicationId
+      userId || 'anonymous',
+      applicationId || `app_${Date.now()}`
     );
 
-    // Save to Firestore
     const docId = await BankStatementParser.saveToFirestore(parsedStatement, db);
 
     res.json({

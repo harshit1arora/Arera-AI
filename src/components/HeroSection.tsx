@@ -6,7 +6,7 @@ import { FadeUp } from "./arera/FadeUp";
 const HeroSection = () => {
   const navigate = useNavigate();
   const [showCursor, setShowCursor] = useState(true);
-  const words = ["Lenders", "NBFCs"];
+  const words = ["60 Seconds", "Real-Time", "1 Minute"];
   const [wordIndex, setWordIndex] = useState(0);
   const [text, setText] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
@@ -154,15 +154,15 @@ const HeroSection = () => {
               {/* Main Headline */}
               <h1 className="font-['DM_Sans'] font-bold text-[48px] md:text-[68px] leading-[1.08] text-white mb-6 tracking-tight relative">
                 <span className="bg-clip-text text-transparent bg-gradient-to-b from-white to-white/70">
-                  Underwriting <br className="hidden md:block"/>
-                  Infrastructure <br className="hidden md:block"/>
+                  Check Your Loan <br className="hidden md:block"/>
+                  Approval Chances <br className="hidden md:block"/>
                   <span className="inline-flex items-center">
-                    <span className="min-w-[140px]">
-                      <span className={wordIndex === 1 ? "text-[#F97316]" : "text-white"}>
-                        for {text}
+                    <span className="min-w-[240px] md:min-w-[340px]">
+                      <span className="text-[#F97316]">
+                        in {text}
                       </span>
                       <span 
-                        className={wordIndex === 1 ? "text-[#F97316] ml-1" : "text-white ml-1"} 
+                        className="text-[#F97316] ml-1" 
                         style={{ opacity: showCursor ? 1 : 0 }}
                       >
                         |
@@ -174,9 +174,7 @@ const HeroSection = () => {
 
               {/* Sub-headline */}
               <p className="font-['DM_Sans'] font-normal text-[18px] leading-[1.6] text-gray-400 max-w-[500px] mb-9">
-                One API call. Bank statement in. Loan decision out.
-                Deterministic, explainable, and audit-ready
-                in under <span className="text-gray-200 font-medium">2 seconds</span>.
+                Free AI-powered predictor that analyzes your salary, credit score, and bank statements to tell you exactly which banks will approve your loan.
               </p>
 
               {/* CTA row */}
@@ -191,37 +189,30 @@ const HeroSection = () => {
                   whileTap={{ scale: 0.95 }}
                 >
                   <button
-                    onClick={() => navigate('/playground')}
+                    onClick={() => navigate('/loan-approval-predictor')}
                     className="relative group bg-gradient-to-b from-[#F97316] to-[#E0610D] border border-[#FF8A3A]/50 text-white font-['DM_Sans'] font-semibold text-[15px] px-[28px] py-[14px] rounded-[6px] transition-all overflow-hidden shadow-[0_0_20px_rgba(249,115,22,0.3)] hover:shadow-[0_0_30px_rgba(249,115,22,0.5)]"
                   >
                     <div className="absolute inset-0 bg-white/20 translate-y-[-100%] group-hover:translate-y-[100%] transition-transform duration-500 ease-in-out"></div>
                     <span className="relative z-10 flex items-center gap-2">
-                      Try Sandbox — No Signup <span className="group-hover:translate-x-1 transition-transform">→</span>
+                      Check My Approval Chances <span className="group-hover:translate-x-1 transition-transform">→</span>
                     </span>
                   </button>
                 </motion.div>
 
                 <button
-                  onClick={() => navigate('/api-reference')}
+                  onClick={() => navigate('/tools')}
                   className="bg-transparent border border-white/10 text-gray-300 font-['DM_Sans'] font-medium text-[15px] px-[28px] py-[14px] rounded-[6px] hover:bg-white/5 hover:text-white transition-all backdrop-blur-sm"
                 >
-                  View API Docs
-                </button>
-
-                <button
-                  onClick={() => window.open('/', '_self')}
-                  className="bg-transparent border border-orange-500/30 text-orange-400 font-['DM_Sans'] font-medium text-[15px] px-[28px] py-[14px] rounded-[6px] hover:bg-orange-500/10 hover:text-orange-300 transition-all backdrop-blur-sm"
-                >
-                  Try Loan Predictor →
+                  Explore Free Tools
                 </button>
               </div>
 
               {/* Trust signals row */}
               <div className="flex flex-col sm:flex-row gap-6">
                 {[
-                  "24 deterministic rules",
-                  "Immutable audit trail",
-                  "< 2s latency"
+                  "100% Free & Secure",
+                  "No Impact on CIBIL Score",
+                  "Instant Analysis"
                 ].map((text, i) => (
                   <div key={i} className="flex items-center gap-2">
                     <div className="w-4 h-4 rounded-full bg-[#00FF94]/10 flex items-center justify-center">

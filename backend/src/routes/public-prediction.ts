@@ -293,4 +293,115 @@ router.post('/scenarios', async (req: Request, res: Response) => {
   }
 });
 
+const DEFAULT_LENDERS_B2C = [
+  { id: 'hdfc', name: 'HDFC Bank', category: 'bank', minScore: 700, minIncome: 30000, maxEmiPct: 50, rateRange: [10.5, 15.0], fee: 0.5, days: 3, approval: 0.85 },
+  { id: 'bajaj', name: 'Bajaj Finserv', category: 'nbfc', minScore: 650, minIncome: 25000, maxEmiPct: 60, rateRange: [11.0, 16.0], fee: 1.0, days: 1, approval: 0.88 },
+  { id: 'icici', name: 'ICICI Bank', category: 'bank', minScore: 700, minIncome: 30000, maxEmiPct: 50, rateRange: [10.75, 16.0], fee: 0.5, days: 3, approval: 0.82 },
+  { id: 'tata', name: 'Tata Capital', category: 'nbfc', minScore: 680, minIncome: 25000, maxEmiPct: 55, rateRange: [10.99, 16.0], fee: 1.5, days: 2, approval: 0.80 },
+  { id: 'kotak', name: 'Kotak Mahindra', category: 'bank', minScore: 720, minIncome: 30000, maxEmiPct: 45, rateRange: [10.99, 14.0], fee: 0.5, days: 4, approval: 0.78 },
+  { id: 'moneytap', name: 'MoneyTap', category: 'fintech', minScore: 600, minIncome: 20000, maxEmiPct: 65, rateRange: [13.0, 24.0], fee: 2.0, days: 1, approval: 0.72 },
+  { id: 'sbi', name: 'State Bank of India', category: 'bank', minScore: 700, minIncome: 25000, maxEmiPct: 50, rateRange: [11.0, 14.0], fee: 0.5, days: 5, approval: 0.80 },
+];
+
+router.post('/lenders/match', async (req: Request, res: Response) => {
+  try {
+    const { monthlyIncome, existingEmi = 0, creditScore = 700, employmentType = 'salaried', loanAmount, tenure = 60, age = 30 } = req.body;
+
+    if (!monthlyIncome || !loanAmount) {
+      return res.status(400).json({ error: 'Missing monthlyIncome or loanAmount' });
+    }
+
+    const emiRatio = (existingEmi / monthlyIncome) * 100;
+    const offers: any[] = [];
+
+    for (const l of DEFAULT_LENDERS_B2C) {
+      if (creditScore < l.minScore || monthlyIncome < l.minIncome || emiRatio > l.maxEmiPct) continue;
+
+      let eligScore = 50;
+      eligScore += Math.min(30, ((creditScore - l.minScore) / (900 - l.minScore)) * 30);
+      eligScore += Math.min(20, (monthlyIncome / l.minIncome) * 5);
+      eligScore = Math.min(100, Math.max(0, Math.round(eligScore)));
+
+      const prob = Math.round((1 / (1 + Math.exp(-0.1 * (eligScore - 50)))) * l.approval * 100) / 100;
+
+      const creditFactor = (creditScore - 600) / 300;
+      const adj = (l.rateRange[1] - l.rateRange[0]) * (1 - creditFactor) / 2;
+      let rate = (l.rateRange[0] + l.rateRange[1]) / 2 - adj;
+      rate = Math.min(l.rateRange[1], Math.max(l.rateRange[0], Math.round(rate * 100) / 100));
+
+      const mRate = rate / 100 / 12;
+      const emi = mRate > 0 ? Math.round((loanAmount * mRate * Math.pow(1 + mRate, tenure)) / (Math.pow(1 + mRate, tenure) - 1)) : Math.round(loanAmount / tenure);
+
+      const matchScore = Math.round(eligScore * 0.4 + prob * 100 * 0.3 + l.approval * 100 * 0.2 + Math.max(0, 100 - l.days * 5) * 0.1);
+
+      offers.push({
+        lenderId: l.id,
+        lenderName: l.name,
+        lenderCategory: l.category,
+        logoUrl: `/banks/${l.id}.svg`,
+        eligibilityScore: eligScore,
+        estimatedApprovalProbability: prob,
+        estimatedInterestRate: rate,
+        estimatedMonthlyEmi: emi,
+        estimatedProcessingFee: Math.round(loanAmount * l.fee / 100),
+        estimatedTurnaroundDays: l.days,
+        matchScore,
+        reasons: creditScore >= 750 ? ['Excellent credit score'] : emiRatio < 20 ? ['Low existing debt'] : [],
+      });
+    }
+
+    offers.sort((a, b) => b.matchScore - a.matchScore);
+
+    res.json({
+      success: true,
+      data: {
+        totalOffers: offers.length,
+        loanTypes: [{ type: 'Personal Loan', description: 'Unsecured loan for any purpose', icon: 'user', offers }],
+        bestOffer: offers[0] || null,
+        userProfile: { monthlyIncome, existingEmi, creditScore, employmentType, loanAmount, tenure, age },
+      },
+    });
+  } catch (error) {
+    console.error('Lender match error:', error);
+    res.status(500).json({ error: 'Failed to match lenders' });
+  }
+});
+
+router.post('/lenders/interest-rates', async (req: Request, res: Response) => {
+  try {
+    const { monthlyIncome, creditScore = 700, loanAmount, tenure = 60, employmentType = 'salaried' } = req.body;
+
+    if (!monthlyIncome || !loanAmount) {
+      return res.status(400).json({ error: 'Missing monthlyIncome or loanAmount' });
+    }
+
+    const rates: any[] = [];
+    for (const l of DEFAULT_LENDERS_B2C) {
+      if (creditScore < l.minScore || monthlyIncome < l.minIncome) continue;
+
+      const creditFactor = (creditScore - 600) / 300;
+      const adj = (l.rateRange[1] - l.rateRange[0]) * (1 - creditFactor) / 2;
+      let rate = Math.min(l.rateRange[1], Math.max(l.rateRange[0], Math.round(((l.rateRange[0] + l.rateRange[1]) / 2 - adj) * 100) / 100));
+
+      const mRate = rate / 100 / 12;
+      const emi = mRate > 0 ? Math.round((loanAmount * mRate * Math.pow(1 + mRate, tenure)) / (Math.pow(1 + mRate, tenure) - 1)) : Math.round(loanAmount / tenure);
+
+      rates.push({ lenderName: l.name, lenderCategory: l.category, rate, emi, processingFee: Math.round(loanAmount * l.fee / 100), turnaroundDays: l.days });
+    }
+
+    res.json({
+      success: true,
+      data: {
+        rates,
+        averageRate: rates.length > 0 ? Math.round((rates.reduce((s, r) => s + r.rate, 0) / rates.length) * 100) / 100 : 0,
+        bestRate: rates.length > 0 ? Math.min(...rates.map(r => r.rate)) : 0,
+        eligibleLenders: rates.length,
+      },
+    });
+  } catch (error) {
+    console.error('Interest rate error:', error);
+    res.status(500).json({ error: 'Failed to estimate rates' });
+  }
+});
+
 export default router;

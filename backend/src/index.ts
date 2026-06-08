@@ -48,6 +48,7 @@ import predictionRouter from './routes/prediction';
 import enhancedBureauRouter from './routes/enhanced-bureau';
 import lenderMatchingRouter from './routes/lender-matching';
 import publicPredictionRouter from './routes/public-prediction';
+import originationRouter from './routes/origination';
 import { connectRedis } from './services/redis';
 import { runDailyCollectionCheck } from './services/collection-automation';
 import { runPortfolioClassification } from './services/compliance-engine';
@@ -155,6 +156,7 @@ app.use('/v1/loans', authenticateAnyToken, loansRouter);
 app.use('/v1/products', authenticateAnyToken, productsRouter);
 app.use('/v1/repayments', authenticateAnyToken, repaymentsRouter);
 app.use('/v1/collections', authenticateAnyToken, collectionsRouter);
+app.use('/v1/origination', authenticateAnyToken, originationRouter);
 app.use('/v1/reports', authenticateAnyToken, reportingRouter);
 
 // Borrower API (Custom Auth inside)

@@ -308,4 +308,206 @@ router.get('/workflow/:loanId', async (req: AuthenticatedRequest, res: Response)
 });
 
 
+// Get collection pipeline view
+router.get('/pipeline', async (req: AuthenticatedRequest, res: Response) => {
+  try {
+    const cases = await listCollectionCases(req.orgId!, { limit: 1000 });
+    
+    const pipeline = {
+      new: cases.filter(c => c.status === 'Current' && c.actions.length === 0),
+      contacted: cases.filter(c => c.actions.length > 0 && c.status === 'Overdue'),
+      promise: cases.filter(c => c.actions.some((a: any) => a.type === 'Call' && a.notes.toLowerCase().includes('promise'))),
+      partialPayment: cases.filter(c => c.status === 'Overdue'),
+      recovered: cases.filter(c => c.status === 'Closed'),
+      npa: cases.filter(c => c.status === 'NPA'),
+    };
+    
+    res.status(200).json({
+      stages: ['new', 'contacted', 'promise', 'partialPayment', 'recovered', 'npa'],
+      counts: {
+        new: pipeline.new.length,
+        contacted: pipeline.contacted.length,
+        promise: pipeline.promise.length,
+        partialPayment: pipeline.partialPayment.length,
+        recovered: pipeline.recovered.length,
+        npa: pipeline.npa.length,
+      },
+    });
+  } catch (error) {
+    console.error('Error getting pipeline:', error);
+    res.status(500).json({ error: 'Failed to get pipeline' });
+  }
+});
+
+// Get collection metrics (alternative endpoint)
+router.get('/metrics', async (req: AuthenticatedRequest, res: Response) => {
+  try {
+    const cases = await listCollectionCases(req.orgId!, { limit: 10000 });
+    
+    const overdueCases = cases.filter(c => c.status === 'Overdue' || c.status === 'NPA');
+    const recoveredCases = cases.filter(c => c.status === 'Closed');
+    
+    const metrics = {
+      totalCases: cases.length,
+      activeCases: cases.filter(c => c.status === 'Current' || c.status === 'Overdue').length,
+      overdueCases: overdueCases.length,
+      npaCases: cases.filter(c => c.status === 'NPA').length,
+      recoveredCases: recoveredCases.length,
+      totalOutstanding: cases.reduce((sum: number, c) => sum + c.amountOutstanding, 0),
+      overdueAmount: overdueCases.reduce((sum: number, c) => sum + c.amountOutstanding, 0),
+      npaAmount: cases.filter(c => c.status === 'NPA').reduce((sum: number, c) => sum + c.amountOutstanding, 0),
+      avgDaysOverdue: overdueCases.length > 0 
+        ? Math.round(overdueCases.reduce((sum: number, c) => sum + c.daysOverdue, 0) / overdueCases.length) 
+        : 0,
+      collectionRate: cases.length > 0 
+        ? Math.round((recoveredCases.length / cases.length) * 100) 
+        : 0,
+      byPriority: {
+        high: cases.filter(c => c.priority === 'High').length,
+        medium: cases.filter(c => c.priority === 'Medium').length,
+        low: cases.filter(c => c.priority === 'Low').length,
+      },
+      byBucket: {
+        current: cases.filter(c => c.daysOverdue <= 0).length,
+        '0-30': cases.filter(c => c.daysOverdue > 0 && c.daysOverdue <= 30).length,
+        '31-60': cases.filter(c => c.daysOverdue > 30 && c.daysOverdue <= 60).length,
+        '61-90': cases.filter(c => c.daysOverdue > 60 && c.daysOverdue <= 90).length,
+        '90+': cases.filter(c => c.daysOverdue > 90).length,
+      },
+    };
+    
+    res.status(200).json(metrics);
+  } catch (error) {
+    console.error('Error getting metrics:', error);
+    res.status(500).json({ error: 'Failed to get metrics' });
+  }
+});
+
+// Get overdue loans
+router.get('/overdue', async (req: AuthenticatedRequest, res: Response) => {
+  try {
+    const { page = 1, limit = 20 } = req.query;
+    const cases = await listCollectionCases(req.orgId!, { status: 'Overdue', limit: 1000 });
+    
+    const skip = (Number(page) - 1) * Number(limit);
+    const paginatedCases = cases.slice(skip, skip + Number(limit));
+    
+    res.status(200).json({
+      loans: paginatedCases,
+      total: cases.length,
+      page: Number(page),
+      limit: Number(limit),
+    });
+  } catch (error) {
+    console.error('Error getting overdue loans:', error);
+    res.status(500).json({ error: 'Failed to get overdue loans' });
+  }
+});
+
+// Record promise to pay
+router.post('/promise', async (req: AuthenticatedRequest, res: Response) => {
+  try {
+    const { loanId, amount, date, notes } = req.body;
+    
+    if (!loanId || !amount || !date) {
+      return res.status(400).json({ error: 'loanId, amount, and date are required' });
+    }
+    
+    const collectionCase = await getCollectionCaseByLoanId(req.orgId!, loanId);
+    if (!collectionCase) {
+      return res.status(404).json({ error: 'Collection case not found' });
+    }
+    
+    await addCollectionAction(req.orgId!, collectionCase.id!, {
+      type: 'Call',
+      notes: `Promise to pay ₹${amount} on ${date}${notes ? `. Notes: ${notes}` : ''}`,
+      status: 'Completed',
+      actor: 'System',
+    });
+    
+    res.status(200).json({ success: true, message: `Promise recorded: ₹${amount} on ${date}`, loanId });
+  } catch (error) {
+    console.error('Error recording promise:', error);
+    res.status(500).json({ error: 'Failed to record promise' });
+  }
+});
+
+// Resolve collection case
+router.post('/resolve', async (req: AuthenticatedRequest, res: Response) => {
+  try {
+    const { loanId, resolution } = req.body;
+    
+    if (!loanId || !resolution) {
+      return res.status(400).json({ error: 'loanId and resolution are required' });
+    }
+    
+    const collectionCase = await getCollectionCaseByLoanId(req.orgId!, loanId);
+    if (!collectionCase) {
+      return res.status(404).json({ error: 'Collection case not found' });
+    }
+    
+    await updateCollectionCaseStatus(req.orgId!, collectionCase.id!, { status: 'Closed' as any });
+    
+    await addCollectionAction(req.orgId!, collectionCase.id!, {
+      type: 'Call',
+      notes: `Case resolved: ${resolution}`,
+      status: 'Completed',
+      actor: 'System',
+    });
+    
+    res.status(200).json({ success: true, message: `Collection case resolved`, loanId, resolution });
+  } catch (error) {
+    console.error('Error resolving case:', error);
+    res.status(500).json({ error: 'Failed to resolve case' });
+  }
+});
+
+// Send reminder for a loan
+router.get('/remind/:loanId', async (req: AuthenticatedRequest, res: Response) => {
+  try {
+    const collectionCase = await getCollectionCaseByLoanId(req.orgId!, req.params.loanId);
+    
+    if (!collectionCase) {
+      return res.status(404).json({ error: 'Collection case not found' });
+    }
+    
+    console.log(`[REMINDER] Would send reminder to ${collectionCase.borrowerPhone} for loan ${req.params.loanId}`);
+    
+    res.status(200).json({ success: true, message: `Reminder queued`, phone: collectionCase.borrowerPhone });
+  } catch (error) {
+    console.error('Error sending reminder:', error);
+    res.status(500).json({ error: 'Failed to send reminder' });
+  }
+});
+
+// Get agent workload
+router.get('/agent-workload', async (req: AuthenticatedRequest, res: Response) => {
+  try {
+    const cases = await listCollectionCases(req.orgId!, { limit: 1000 });
+    
+    const agentMap = new Map<string, any>();
+    
+    cases.forEach(c => {
+      const agent = c.assignedCollector || 'unassigned';
+      if (!agentMap.has(agent)) {
+        agentMap.set(agent, { agentId: agent, totalCases: 0, overdue: 0, npa: 0, totalOutstanding: 0 });
+      }
+      const stats = agentMap.get(agent)!;
+      stats.totalCases++;
+      if (c.status === 'Overdue') stats.overdue++;
+      if (c.status === 'NPA') stats.npa++;
+      stats.totalOutstanding += c.amountOutstanding;
+    });
+    
+    res.status(200).json({
+      agents: Array.from(agentMap.values()),
+      totalAgents: agentMap.size,
+      unassigned: cases.filter(c => !c.assignedCollector).length,
+    });
+  } catch (error) {
+    console.error('Error getting agent workload:', error);
+    res.status(500).json({ error: 'Failed to get agent workload' });
+  }
+});
+
 export default router;

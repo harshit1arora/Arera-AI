@@ -4,10 +4,11 @@ import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
-import { ArrowRight, ChevronDown, ChevronUp, Zap, BookOpen, Calculator, Home as HomeIcon, CheckCircle2, ShieldAlert, Calendar, Clock, UserCheck, BarChart3, AlertCircle } from 'lucide-react';
+import { ArrowRight, ChevronDown, ChevronUp, Zap, BookOpen, Calculator, Home as HomeIcon, CheckCircle2, ShieldAlert, Calendar, Clock, UserCheck, BarChart3 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { getSEOPage, getPagesByCategory, SEO_CATEGORIES, type SEOPage } from '../../data/seo-content';
 import { trackFAQInteraction } from '../../utils/analytics';
+import NotFound from '../../pages/NotFound';
 
 const DOMAIN = 'https://www.tryarera.com';
 
@@ -40,34 +41,7 @@ function FreshnessBanner() {
   );
 }
 
-// ── Dynamic Statistics Engine ──
-function getContextualStat(category: string, slug: string): { pct: number; text: string } {
-  // Pure deterministic generator based on slug characters to keep rendering consistent and indexing friendly
-  const sum = slug.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
-  const pct = 50 + (sum % 41); // ranges between 50% and 90%
-  
-  const stats: Record<string, string> = {
-    'salary': `of applicants in this salary bracket underestimate their monthly EMI stress margins before hard checks.`,
-    'loan-amount': `of borrowers seeking this loan size fail primary bank verification due to active credit card outstanding.`,
-    'city-personal-loan': `of applicants residing in this city trigger automated rejection flags due to recent address mismatches.`,
-    'city-home-loan': `of local mortgage applications are delayed by stamp duty calculations or property registry reviews.`,
-    'profession': `of self-employed individuals and freelancers encounter strict underwriting checks relative to corporate workers.`,
-    'bank-eligibility': `of direct applications to this bank are rejected instantly due to FOIR ratio thresholds exceeding 50%.`,
-    'bank-rejection': `of rejected applicants can salvage their credit limits within 90 days by restructuring existing EMIs.`,
-    'bank-analysis': `of this lender's underwriting decisions are now processed by algorithmic parsing engines.`,
-    'intent': `of borrowers with this credit issue can improve their approval probability using digital co-applicant matching.`,
-    'salary-profession': `is the average take-home multiplier used by prime lenders to calculate maximum loan approvals.`,
-    'bank-profession': `of professionals in this category qualify for interest rate waivers if their salary bank matches the lender.`,
-    'bank-salary': `of users with this income scale get pre-approved limits from partner NBFCs within 12 minutes.`,
-    'profession-city': `of applicants in this region secure approvals within 48 hours via local digital KYC checks.`,
-    'dataset': `of loan data patterns point to high debt consolidation needs among early-career professionals.`
-  };
 
-  return {
-    pct,
-    text: stats[category] || `of credit candidates optimize their approvals by checking their odds before applying.`
-  };
-}
 
 // ── Structured Data Table Engine ──
 function ComparisonTable({ category, slug }: { category: string; slug: string }) {
@@ -315,17 +289,7 @@ const DynamicSEOPage = () => {
   const data = getSEOPage(slug);
 
   if (!data) {
-    const cleanTitle = slug.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
-    const fallback: SEOPage = {
-      slug, title: `${cleanTitle} | Arera AI`, h1: cleanTitle,
-      description: `Learn about ${cleanTitle.toLowerCase()} and how it impacts your loan eligibility.`,
-      content: `This is a comprehensive guide for ${cleanTitle}. Use our AI predictor to check your exact approval odds.`,
-      category: 'dynamic', schema: 'Article',
-      faqs: [{ q: `What is ${cleanTitle}?`, a: `${cleanTitle} is a factor in loan eligibility. Use our tools for a personalized analysis.` }],
-      relatedTools: ['loan-approval-predictor'], relatedPages: [],
-      breadcrumbs: [{ label: 'Home', path: '/' }, { label: cleanTitle, path: '' }],
-    };
-    return renderPage(fallback);
+    return <NotFound />;
   }
 
   return renderPage(data);
@@ -362,7 +326,6 @@ function renderPage(data: SEOPage) {
   });
 
   const paragraphs = data.content.split('\n').filter(p => p.trim());
-  const stat = getContextualStat(data.category, data.slug);
 
   return (
     <div className="min-h-screen bg-[#050505] text-white flex flex-col font-sans selection:bg-orange-500/30">
@@ -401,18 +364,7 @@ function renderPage(data: SEOPage) {
           {/* E-E-A-T fresh metadata */}
           <FreshnessBanner />
 
-          {/* Dynamic Statistics Alert Callout */}
-          <div className="bg-orange-500/5 border border-orange-500/10 rounded-2xl p-6 mb-8 flex items-start gap-4">
-            <div className="bg-orange-500/10 p-3 rounded-xl shrink-0 text-orange-400 font-black text-xl flex items-center justify-center min-w-[50px]">
-              {stat.pct}%
-            </div>
-            <div>
-              <h4 className="font-semibold text-white mb-1 flex items-center gap-1.5 text-sm">
-                <AlertCircle className="w-4 h-4 text-orange-500" /> Underwriting Trend Insight
-              </h4>
-              <p className="text-gray-400 text-xs md:text-sm leading-relaxed">{stat.text}</p>
-            </div>
-          </div>
+
 
           {/* Main Content Article */}
           <article className="prose prose-invert prose-orange max-w-none mb-10">
