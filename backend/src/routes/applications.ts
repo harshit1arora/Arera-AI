@@ -1,17 +1,13 @@
 import { Router, Response } from 'express';
 import { AuthenticatedRequest, authenticateFirebaseToken } from '../middleware/auth';
 import { db, Timestamp } from '../config/firebase';
+import { sanitizeString } from '../utils/security';
 import crypto from 'crypto';
 
 const router = Router();
 
 function validateOrgId(orgId: string): boolean {
   return /^[a-zA-Z0-9_-]{1,128}$/.test(orgId);
-}
-
-function sanitizeString(str: unknown, maxLen = 200): string {
-  if (typeof str !== 'string') return '';
-  return str.substring(0, maxLen).replace(/[<>]/g, '');
 }
 
 function sanitizeEmail(email: string): string {

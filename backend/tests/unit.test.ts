@@ -7,21 +7,21 @@ describe('Auth Middleware', () => {
 
   describe('hashApiKey', () => {
     it('should hash a key to SHA-256 hex', async () => {
-      const { hashApiKey } = await import('../src/middleware/auth');
+      const { hashApiKey } = await import('../src/utils/security');
       const hash = hashApiKey('sk_live_test123');
       expect(hash).toHaveLength(64);
       expect(hash).toMatch(/^[a-f0-9]+$/);
     });
 
     it('should produce consistent hashes for same input', async () => {
-      const { hashApiKey } = await import('../src/middleware/auth');
+      const { hashApiKey } = await import('../src/utils/security');
       const hash1 = hashApiKey('sk_live_consistent');
       const hash2 = hashApiKey('sk_live_consistent');
       expect(hash1).toBe(hash2);
     });
 
     it('should produce different hashes for different inputs', async () => {
-      const { hashApiKey } = await import('../src/middleware/auth');
+      const { hashApiKey } = await import('../src/utils/security');
       const hash1 = hashApiKey('sk_live_key1');
       const hash2 = hashApiKey('sk_live_key2');
       expect(hash1).not.toBe(hash2);
@@ -94,19 +94,19 @@ describe('Input Validation', () => {
 
   describe('sanitizeString', () => {
     it('should strip dangerous HTML characters', async () => {
-      const { sanitizeString } = await import('../src/middleware/auth');
+      const { sanitizeString } = await import('../src/utils/security');
       expect(sanitizeString('<script>alert(1)</script>')).toBe('scriptalert(1)/script');
       expect(sanitizeString('Hello <b>World</b>')).toBe('Hello bWorld/b');
     });
 
     it('should truncate strings beyond max length', async () => {
-      const { sanitizeString } = await import('../src/middleware/auth');
+      const { sanitizeString } = await import('../src/utils/security');
       const long = 'a'.repeat(2000);
       expect(sanitizeString(long, 100)).toHaveLength(100);
     });
 
     it('should return empty string for non-string inputs', async () => {
-      const { sanitizeString } = await import('../src/middleware/auth');
+      const { sanitizeString } = await import('../src/utils/security');
       expect(sanitizeString(null)).toBe('');
       expect(sanitizeString(undefined)).toBe('');
       expect(sanitizeString(123 as any)).toBe('');
@@ -136,7 +136,8 @@ describe('EMI Calculation', () => {
     const r = 12 / 12 / 100;
     const n = 12;
     const emi = Math.round((P * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1));
-    expect(emi).toBe(88849);
+    // ₹1,00,000 @ 12% p.a. over 12 months → ₹8,885/mo.
+    expect(emi).toBe(8885);
   });
 
   it('should handle edge case of very short tenure', () => {
@@ -199,7 +200,8 @@ describe('Partner Service', () => {
     const pipelineValue = deals.reduce(
       (sum, d) => sum + d.dealValue * (d.winProbability / 100), 0
     );
-    expect(pipelineValue).toBe(230000);
+    // 100000*0.8 + 200000*0.5 + 500000*0.2 = 80000 + 100000 + 100000.
+    expect(pipelineValue).toBe(280000);
   });
 });
 

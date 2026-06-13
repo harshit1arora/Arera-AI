@@ -1,5 +1,5 @@
 import { Router, Response } from 'express';
-import { AuthenticatedRequest } from '../middleware/auth';
+import { AuthenticatedRequest, authenticateAnyToken } from '../middleware/auth';
 import { db } from '../config/firebase';
 import crypto from 'crypto';
 import fetch from 'node-fetch';
@@ -28,6 +28,17 @@ interface Payment {
 }
 
 const router = Router();
+
+// ── Auth gate ────────────────────────────────────────────────────────────────
+// Every payments route requires a valid API key / Firebase token EXCEPT the
+// Razorpay webhook, which is authenticated by HMAC signature instead (see the
+// `/webhook` handler — it verifies x-razorpay-signature). Mounting auth here,
+// rather than in index.ts, keeps the open-vs-closed routing decision colocated
+// with the routes themselves so it cannot silently regress.
+router.use((req, res, next) => {
+  if (req.path === '/webhook') return next();
+  return authenticateAnyToken(req as AuthenticatedRequest, res, next);
+});
 
 const isConfigured = () => RAZORPAY_KEY_ID && RAZORPAY_KEY_SECRET;
 
@@ -320,13 +331,21 @@ router.post('/verify', async (req: AuthenticatedRequest, res: Response) => {
 
 router.get('/:paymentId', async (req: AuthenticatedRequest, res: Response) => {
   try {
-    if (!isConfigured()) {
-      const doc = await db.collection('payments').doc(req.params.paymentId).get();
-      if (doc.exists) return res.status(200).json({ ...doc.data(), stub: true });
+    // Org-scoped: resolve our own record first so a payment owned by another
+    // org is indistinguishable from one that does not exist (404, no cross-org
+    // read or existence leak) — same pattern as the audit-log lookups.
+    const doc = await db.collection('payments').doc(req.params.paymentId).get();
+    if (!doc.exists || doc.data()!.orgId !== req.orgId) {
       return res.status(404).json({ error: 'Payment not found' });
     }
+    const data = doc.data()!;
 
-    const razorpayPayment = await razorpayRequest(`/payments/${req.params.paymentId}`);
+    if (!isConfigured()) {
+      return res.status(200).json({ ...data, stub: true });
+    }
+
+    const razorpayId = data.razorpayPaymentId || req.params.paymentId;
+    const razorpayPayment = await razorpayRequest(`/payments/${razorpayId}`);
     res.status(200).json({
       id: razorpayPayment.id,
       status: razorpayPayment.status,
@@ -416,6 +435,8 @@ router.post('/refund', async (req: AuthenticatedRequest, res: Response) => {
     if (!paymentDoc.exists) return res.status(404).json({ error: 'Payment not found' });
 
     const paymentData = paymentDoc.data()!;
+    // Org-scoped: never refund another org's payment (404, no existence leak).
+    if (paymentData.orgId !== req.orgId) return res.status(404).json({ error: 'Payment not found' });
     if (paymentData.status !== 'captured') return res.status(400).json({ error: 'Can only refund captured payments' });
     if (amount > paymentData.amount) return res.status(400).json({ error: 'Refund amount exceeds payment amount' });
 

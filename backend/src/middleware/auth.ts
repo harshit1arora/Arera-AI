@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import * as admin from 'firebase-admin';
-import crypto from 'crypto';
 import { db } from '../config/firebase';
+import { hashApiKey } from '../utils/security';
 
 export interface AuthenticatedRequest extends Request {
   orgId?: string;
@@ -11,13 +11,9 @@ export interface AuthenticatedRequest extends Request {
   userName?: string;
 }
 
-/**
- * Hash an API key using SHA-256 for secure comparison.
- * We NEVER store plaintext keys — only their hashes.
- */
-export const hashApiKey = (key: string): string => {
-  return crypto.createHash('sha256').update(key).digest('hex');
-};
+// Re-exported from the dependency-free security util so existing callers
+// (`import { hashApiKey } from '../middleware/auth'`) keep working.
+export { hashApiKey };
 
 /**
  * Middleware: Authenticate via API Key (for programmatic/SDK access).
