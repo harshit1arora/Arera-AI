@@ -102,9 +102,16 @@ describe('underwriting-engine — persona decisions', () => {
   }
 
   it('returns a deterministic result for the same input', () => {
-    const a = analyze(PAYLOADS.strong.input, policy, { now: 1000, startedAt: 1000 });
-    const b = analyze(PAYLOADS.strong.input, policy, { now: 1000, startedAt: 1000 });
-    expect({ ...a.result, audit_id: '' }).toEqual({ ...b.result, audit_id: '' });
+    // audit_id and processing_time_ms are intentionally non-deterministic
+    // (unique id + wall-clock); the decision content must be identical.
+    const norm = (r: ReturnType<typeof analyze>['result']) => ({
+      ...r,
+      audit_id: '',
+      processing_time_ms: 0,
+    });
+    const a = analyze(PAYLOADS.strong.input, policy);
+    const b = analyze(PAYLOADS.strong.input, policy);
+    expect(norm(a.result)).toEqual(norm(b.result));
   });
 });
 

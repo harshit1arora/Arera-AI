@@ -344,6 +344,10 @@ export const underwritingApi = {
       headers: idempotencyKey ? { 'Idempotency-Key': idempotencyKey } : undefined,
       body: JSON.stringify(payload),
     }),
+
+  /** Fetch the tamper-evident audit PDF for a past decision (authoritative). */
+  auditPdf: (auditId: string) =>
+    apiWithAuth(`/v1/underwriting/audit/${encodeURIComponent(auditId)}/pdf`),
 };
 
 // ==================== Enhanced Bureau API ====================

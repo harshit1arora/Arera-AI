@@ -95,9 +95,10 @@ beforeAll(async () => {
 
   const app = express();
   app.use(express.json());
-  // Stand in for authenticateAnyToken — a valid, authenticated org.
+  // Stand in for authenticateAnyToken — a valid, authenticated org. The org can
+  // be overridden per request via x-test-org to exercise cross-org isolation.
   app.use((req: any, _res, next) => {
-    req.orgId = 'org_test';
+    req.orgId = req.headers['x-test-org'] || 'org_test';
     req.apiKeyId = 'key_test';
     next();
   });
@@ -156,8 +157,11 @@ describe('POST /v1/underwriting/analyze — status contract', () => {
 });
 
 describe('POST /v1/underwriting/analyze — idempotency (Decision 11)', () => {
+  const countAuditRows = () =>
+    [...store.keys()].filter(k => k.startsWith('audit_logs/')).length;
+
   it('a retried Idempotency-Key replays the result with no new audit row or charge', async () => {
-    const auditBefore = addCounts['audit_logs'] || 0;
+    const auditBefore = countAuditRows();
     const usageRef = await fakeDb.collection('usage_stats').doc('org_test').get();
     const callsBefore = (usageRef.data()?.apiCalls as number) || 0;
 
@@ -173,10 +177,46 @@ describe('POST /v1/underwriting/analyze — idempotency (Decision 11)', () => {
     expect(secondJson.decision).toBe(firstJson.decision);
 
     // Exactly one audit row and one quota increment across both calls.
-    const auditAfter = addCounts['audit_logs'] || 0;
+    const auditAfter = countAuditRows();
     const callsAfter =
       ((await fakeDb.collection('usage_stats').doc('org_test').get()).data()?.apiCalls as number) || 0;
     expect(auditAfter - auditBefore).toBe(1);
     expect(callsAfter - callsBefore).toBe(1);
+  });
+});
+
+describe('GET /v1/underwriting/audit/:audit_id/pdf — leave-behind', () => {
+  it('streams the audit PDF for an existing decision', async () => {
+    const created = await (await post(STRONG_BODY)).json();
+    const auditId = created.audit_id;
+
+    const res = await fetch(`${baseUrl}/v1/underwriting/audit/${auditId}/pdf`);
+    expect(res.status).toBe(200);
+    expect(res.headers.get('content-type')).toBe('application/pdf');
+    expect(res.headers.get('content-disposition')).toContain(`arera-audit-${auditId}.pdf`);
+
+    const buf = Buffer.from(await res.arrayBuffer());
+    expect(buf.slice(0, 5).toString('latin1')).toBe('%PDF-');
+    expect(buf.includes(Buffer.from(auditId))).toBe(true);
+    // Full ledger present, raw PAN absent.
+    expect(buf.includes(Buffer.from('R024'))).toBe(true);
+    expect(buf.includes(Buffer.from('ABCPK1234D'))).toBe(false);
+  });
+
+  it('returns 404 for an unknown audit_id', async () => {
+    const res = await fetch(`${baseUrl}/v1/underwriting/audit/arera_does_not_exist/pdf`);
+    expect(res.status).toBe(404);
+  });
+
+  it("does not serve another org's audit record (404, no existence leak)", async () => {
+    const created = await (await post(STRONG_BODY)).json();
+    const auditId = created.audit_id;
+
+    const res = await fetch(`${baseUrl}/v1/underwriting/audit/${auditId}/pdf`, {
+      headers: { 'x-test-org': 'org_attacker' },
+    });
+    expect(res.status).toBe(404);
+    const ct = res.headers.get('content-type') || '';
+    expect(ct).not.toContain('application/pdf');
   });
 });

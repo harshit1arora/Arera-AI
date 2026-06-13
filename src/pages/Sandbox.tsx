@@ -136,10 +136,30 @@ const Sandbox = () => {
     }
   };
 
-  const downloadPDF = () => {
-    if (result) {
-      generateAnalysisPDF(result);
+  const downloadPDF = async () => {
+    if (!result) return;
+    // For a live decision, download the authoritative server-rendered audit PDF
+    // (full 24-rule ledger + tamper-evident footer). Fall back to the local
+    // client PDF for the demo / unauthenticated path.
+    if (source === 'live' && result.audit_id) {
+      try {
+        const res = await underwritingApi.auditPdf(result.audit_id);
+        if (!res.ok) throw new Error(`Audit PDF endpoint returned ${res.status}`);
+        const blob = await res.blob();
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `arera-audit-${result.audit_id}.pdf`;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(url);
+        return;
+      } catch (err) {
+        console.error('Live audit PDF download failed, using local fallback', err);
+      }
     }
+    generateAnalysisPDF(result);
   };
 
   const persona = PERSONAS.find(p => p.id === selectedPersona);
