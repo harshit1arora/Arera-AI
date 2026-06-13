@@ -1,15 +1,43 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Navbar from "@/components/Navbar";
-import { 
-  PERSONAS, 
-  PAYLOADS, 
-  runAnalysis, 
-  AnalysisResult, 
-  TERMINAL_LINES, 
-  PROCESSING_LINES 
+import {
+  PERSONAS,
+  PAYLOADS,
+  runAnalysis,
+  AnalysisResult,
+  TERMINAL_LINES,
+  PROCESSING_LINES
 } from '@/lib/mock-engine';
+import { underwritingApi } from '@/lib/api-client';
 import { generateAnalysisPDF } from '@/lib/pdf-generator';
+
+/**
+ * Run the analysis against the live /v1/underwriting/analyze endpoint, with a
+ * graceful fallback to the local mock engine. The Sandbox is a public page, so
+ * an unauthenticated visitor (or an unreachable backend) transparently sees the
+ * deterministic mock; a signed-in CRO in a white-glove session watches their
+ * own tuned rules decide a real statement live.
+ */
+async function runAnalysisLiveOrMock(
+  personaId: string,
+): Promise<{ result: AnalysisResult; live: boolean }> {
+  const payload = PAYLOADS[personaId as keyof typeof PAYLOADS];
+  try {
+    const idempotencyKey =
+      typeof crypto !== 'undefined' && 'randomUUID' in crypto
+        ? crypto.randomUUID()
+        : `${personaId}-${Date.now()}`;
+    const res = await underwritingApi.analyze(payload, idempotencyKey);
+    if (!res.ok) throw new Error(`Live endpoint returned ${res.status}`);
+    const data = (await res.json()) as AnalysisResult;
+    return { result: data, live: true };
+  } catch {
+    // Not signed in / backend unreachable → deterministic local demo.
+    const data = await runAnalysis(personaId);
+    return { result: data, live: false };
+  }
+}
 import {
   Play,
   Copy,
@@ -34,6 +62,7 @@ const Sandbox = () => {
   const [activeTab, setActiveTab] = useState<'statement' | 'details'>('statement');
   const [jsonExpanded, setJsonExpanded] = useState(false);
   const [copied, setCopied] = useState<'curl' | 'json' | 'result' | null>(null);
+  const [source, setSource] = useState<'live' | 'demo' | null>(null);
 
   // Terminal typewriter effect on mount
   useEffect(() => {
@@ -55,13 +84,15 @@ const Sandbox = () => {
     setResult(null);
     setStatus('idle');
     setProcessingLines([]);
+    setSource(null);
   };
 
   const handleRunAnalysis = async () => {
     setStatus('loading');
     setResult(null);
     setProcessingLines([]);
-    
+    setSource(null);
+
     // Stagger processing lines
     let currentLine = 0;
     const lineInterval = setInterval(() => {
@@ -75,15 +106,17 @@ const Sandbox = () => {
     }, 400);
 
     try {
-      const data = await runAnalysis(selectedPersona);
+      const { result: data, live } = await runAnalysisLiveOrMock(selectedPersona);
       const totalLinesTime = PROCESSING_LINES.length * 400;
       setTimeout(() => {
         clearInterval(lineInterval);
         setResult(data);
+        setSource(live ? 'live' : 'demo');
         setStatus('done');
       }, totalLinesTime + 400);
     } catch (error) {
       console.error('Analysis failed', error);
+      clearInterval(lineInterval);
       setStatus('idle');
     }
   };
@@ -234,6 +267,16 @@ const Sandbox = () => {
                 
                 {status === 'done' && result && (
                   <div className="flex items-center gap-2">
+                    {source === 'live' ? (
+                      <div className="flex items-center gap-1 bg-[rgba(0,255,148,0.1)] border border-border text-[#00FF94] font-['JetBrains_Mono'] text-[10px] px-2 py-0.5 rounded-[4px]">
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#00FF94] animate-pulse" />
+                        LIVE
+                      </div>
+                    ) : (
+                      <div className="bg-[rgba(245,158,11,0.1)] border border-border text-[#F59E0B] font-['JetBrains_Mono'] text-[10px] px-2 py-0.5 rounded-[4px]">
+                        DEMO
+                      </div>
+                    )}
                     <div className="bg-[rgba(0,255,148,0.1)] border border-border text-[#00FF94] font-['JetBrains_Mono'] text-[10px] px-2 py-0.5 rounded-[4px]">
                       200 OK
                     </div>
