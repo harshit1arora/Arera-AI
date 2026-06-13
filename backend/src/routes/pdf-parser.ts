@@ -51,8 +51,11 @@ interface ParsedStatement {
   transactions: ParsedTransaction[];
 }
 
+// Routes are relative to the `/v1/parse` mount point in index.ts.
+// (Previously these carried a redundant `/v1/parse` prefix, which produced the
+//  unreachable path `/v1/parse/v1/parse/bank-statement`.)
 router.post(
-  '/v1/parse/bank-statement',
+  '/bank-statement',
   upload.single('statement'),
   async (req: Request, res: Response) => {
     try {
@@ -103,7 +106,7 @@ router.post(
 );
 
 router.post(
-  '/v1/parse-and-analyze',
+  '/and-analyze',
   upload.single('statement'),
   async (req: Request, res: Response) => {
     try {
