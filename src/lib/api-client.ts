@@ -330,6 +330,22 @@ export const predictionApi = {
   }) => apiWithAuth('/v1/prediction/scenarios', { method: 'POST', body: JSON.stringify(data) }),
 };
 
+// ==================== Underwriting API ====================
+
+export const underwritingApi = {
+  /**
+   * Call the live deterministic underwriting engine.
+   * Pass an `idempotencyKey` so retries on timeout don't double-charge or
+   * double-log (Decision 11).
+   */
+  analyze: (payload: unknown, idempotencyKey?: string) =>
+    apiWithAuth('/v1/underwriting/analyze', {
+      method: 'POST',
+      headers: idempotencyKey ? { 'Idempotency-Key': idempotencyKey } : undefined,
+      body: JSON.stringify(payload),
+    }),
+};
+
 // ==================== Enhanced Bureau API ====================
 
 export const enhancedBureauApi = {

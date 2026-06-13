@@ -49,6 +49,7 @@ import enhancedBureauRouter from './routes/enhanced-bureau';
 import lenderMatchingRouter from './routes/lender-matching';
 import publicPredictionRouter from './routes/public-prediction';
 import originationRouter from './routes/origination';
+import underwritingRouter from './routes/underwriting';
 import { connectRedis } from './services/redis';
 import { runDailyCollectionCheck } from './services/collection-automation';
 import { runPortfolioClassification } from './services/compliance-engine';
@@ -141,6 +142,7 @@ app.use('/v1/apikeys', apikeysRouter);
 
 // ── Protected API Routes (Secured by API or Firebase Tokens) ────────
 app.use('/v1/evaluate', authenticateAnyToken, evaluateRouter);
+app.use('/v1/underwriting', authenticateAnyToken, underwritingRouter);
 app.use('/v1/policies', authenticateAnyToken, policiesRouter);
 app.use('/v1/billing', authenticateAnyToken, billingRouter);
 app.use('/v1/copilot', authenticateAnyToken, copilotRouter);

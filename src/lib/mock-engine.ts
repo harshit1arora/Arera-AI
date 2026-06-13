@@ -1,40 +1,14 @@
-export type DecisionType = 'APPROVE' | 'REJECT' | 'REVIEW';
+// Contract types are single-sourced in ./underwriting-types and re-exported
+// here so existing imports (`from '@/lib/mock-engine'`) keep working.
+import type {
+  DecisionType,
+  AnalysisResult,
+  Reason,
+  Rule,
+  ErrorResult,
+} from './underwriting-types';
 
-export interface AnalysisResult {
-  decision: DecisionType;
-  credit_limit: number;
-  risk_score: number;
-  confidence: number;
-  processing_time_ms: number;
-  engine_version: string;
-  audit_id: string;
-  reasons: Reason[];
-  rules_fired: Rule[];
-  flags: string[];
-  error?: ErrorResult;
-}
-
-export interface Reason {
-  code: string;
-  label: string;
-  weight: number;
-  detail: string;
-  sentiment: 'positive' | 'negative' | 'neutral';
-}
-
-export interface Rule {
-  id: string;
-  name: string;
-  condition: string;
-  result: boolean;
-  skipped: boolean;
-}
-
-export interface ErrorResult {
-  code: string;
-  message: string;
-  detail: string;
-}
+export type { DecisionType, AnalysisResult, Reason, Rule, ErrorResult };
 
 export interface Persona {
   id: string;
