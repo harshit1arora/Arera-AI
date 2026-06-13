@@ -6,6 +6,7 @@ import helmet from 'helmet';
 import swaggerUi from 'swagger-ui-express';
 import { swaggerSpec } from './swagger';
 import { authenticateApiToken, authenticateFirebaseToken, authenticateAnyToken } from './middleware/auth';
+import { enforceQuota } from './middleware/quota';
 import evaluateRouter from './routes/evaluate';
 import apikeysRouter from './routes/apikeys';
 import policiesRouter from './routes/policies';
@@ -175,8 +176,14 @@ app.use('/v1/workflow', authenticateAnyToken, workflowAutomationRouter);
 app.use('/v1/kyc', authenticateAnyToken, automatedKycRouter);
 app.use('/v1/disbursement', authenticateAnyToken, automatedDisbursementRouter);
 app.use('/v1/notifications', authenticateAnyToken, notificationsRouter);
+// Payments: the router authenticates every route itself (API key / Firebase
+// token) EXCEPT POST /v1/payments/webhook, which Razorpay calls and which is
+// authenticated by HMAC signature. See routes/payments.ts.
 app.use('/v1/payments', paymentsRouter);
-app.use('/v1/parse', pdfParserRouter);
+// Parse: the LLM-backed PDF parser is gated behind auth + quota so an anonymous
+// 10 MB upload can't drive unbounded third-party LLM spend. The public
+// playground demo uses the client-side mock fallback, not this endpoint.
+app.use('/v1/parse', authenticateAnyToken, enforceQuota, pdfParserRouter);
 app.use('/v1/sales', authenticateAnyToken, salesRouter);
 app.use('/v1/roi', authenticateAnyToken, roiRouter);
 app.use('/v1/bureau', authenticateAnyToken, bureauRouter);
