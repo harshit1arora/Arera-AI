@@ -227,7 +227,7 @@ See `.env.example` for all configurable variables. Critical for production:
 | `WEBHOOK_SIGNING_SECRET` | Yes | Min 32 chars. Used for webhook HMAC signing |
 | `RAZORPAY_WEBHOOK_SECRET` | Yes | Razorpay webhook signature verification |
 | `GEMINI_API_KEY` | Recommended | Gemini AI for underwriting copilot |
-| `NVIDIA_API_KEY` | Optional | Nvidia Llama for bank statement parsing |
+| `NVIDIA_API_KEY` | Optional | Nvidia Llama for bank statement parsing | - not used
 
 ---
 
