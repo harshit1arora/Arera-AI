@@ -1,4 +1,4 @@
-# Arera AI — Enterprise Lending Infrastructure Platform
+# Arera AI — Enterprise Lending Infrastructure Platform b2b + b2c
 
 > **API Gateway + React Dashboard** for NBFCs, fintechs, and lenders to automate the full lending lifecycle: origination, underwriting, disbursement, repayment, collections, compliance, and ROI reporting.
 
