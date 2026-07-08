@@ -1,8 +1,28 @@
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { LogoStatic } from "./LogoStatic";
+import { RequestDemoDialog } from "./RequestDemoDialog";
+import { FeedbackDialog } from "./FeedbackDialog";
+
+interface FooterLink {
+  name: string;
+  path?: string;
+  action?: "demo" | "feedback";
+}
+
+interface FooterLinks {
+  Product: FooterLink[];
+  Tools: FooterLink[];
+  Guides: FooterLink[];
+  Company: FooterLink[];
+  Legal: FooterLink[];
+}
 
 const Footer = () => {
-  const links = {
+  const [demoOpen, setDemoOpen] = useState(false);
+  const [feedbackOpen, setFeedbackOpen] = useState(false);
+
+  const links: FooterLinks = {
     Product: [
       { name: "Arera AI", path: "/" },
       { name: "Loan Predictor (B2C)", path: "/loan-approval-predictor" },
@@ -33,6 +53,8 @@ const Footer = () => {
       { name: "Careers", path: "/careers" },
       { name: "Blog", path: "/blog" },
       { name: "Contact", path: "/contact" },
+      { name: "Request a Demo", action: "demo" },
+      { name: "Share Feedback", action: "feedback" },
     ],
     Legal: [
       { name: "Privacy Policy", path: "/privacy-policy" },
@@ -73,9 +95,21 @@ const Footer = () => {
               <ul className="space-y-3">
                 {items.map((link) => (
                   <li key={link.name}>
-                    <Link to={link.path} className="font-['DM_Sans'] text-[14px] text-muted-foreground hover:text-primary transition-colors duration-150">
-                      {link.name}
-                    </Link>
+                    {link.path ? (
+                      <Link to={link.path} className="font-['DM_Sans'] text-[14px] text-muted-foreground hover:text-primary transition-colors duration-150">
+                        {link.name}
+                      </Link>
+                    ) : (
+                      <button
+                        onClick={() => {
+                          if (link.action === "demo") setDemoOpen(true);
+                          if (link.action === "feedback") setFeedbackOpen(true);
+                        }}
+                        className="font-['DM_Sans'] text-[14px] text-muted-foreground hover:text-primary transition-colors duration-150 text-left bg-transparent border-none p-0 cursor-pointer outline-none block"
+                      >
+                        {link.name}
+                      </button>
+                    )}
                   </li>
                 ))}
               </ul>
@@ -94,6 +128,9 @@ const Footer = () => {
           </div>
         </div>
       </div>
+
+      <RequestDemoDialog open={demoOpen} onOpenChange={setDemoOpen} />
+      <FeedbackDialog open={feedbackOpen} onOpenChange={setFeedbackOpen} />
     </footer>
   );
 };
