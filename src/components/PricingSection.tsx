@@ -174,7 +174,7 @@ const PricingSection = () => {
               View full feature comparison & annual plans <ArrowRight size={16} />
             </Link>
             <p className="font-['DM_Sans'] font-normal text-[12px] text-muted-foreground mt-3">
-              All plans include AI engine selection (Gemini Flash or Claude Haiku). Free Sandbox includes 100 free test decisions — no credit card required.
+              All plans include AI engine selection (Gemini Flash or Claude Haiku). Free Sandbox includes 25 applications / month — no credit card required.
             </p>
           </div>
         </FadeUp>
