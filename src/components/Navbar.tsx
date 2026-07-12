@@ -11,10 +11,18 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { RequestDemoDialog } from "./RequestDemoDialog";
 
-const products = [
+const lenderItems = [
   { name: "KYC Engine", path: "/kyc-engine" },
   { name: "Credit Scoring", path: "/credit-scoring" },
   { name: "Rules Engine", path: "/rules-engine" },
+  { name: "SaaS Pricing", path: "/pricing" },
+  { name: "Developer API Docs", path: "/api-docs" },
+];
+
+const borrowerItems = [
+  { name: "Loan Predictor", path: "/loan-approval-predictor" },
+  { name: "Financial Tools", path: "/tools" },
+  { name: "All Guides & Resources", path: "/all-guides" },
 ];
 
 const Navbar = () => {
@@ -30,19 +38,38 @@ const Navbar = () => {
 
         {/* CENTER: Nav Links */}
         <div className="hidden md:flex items-center gap-[32px]">
-          {/* Products Dropdown */}
+          {/* Lenders Dropdown */}
           <DropdownMenu>
             <DropdownMenuTrigger className="flex items-center gap-1 font-['DM_Sans'] text-[14px] text-muted-foreground hover:text-foreground transition-colors duration-200 outline-none">
-              Products <ChevronDown className="w-3.5 h-3.5 mt-0.5" />
+              For Lenders <ChevronDown className="w-3.5 h-3.5 mt-0.5" />
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="center" className="min-w-[160px]">
-              {products.map((p) => (
-                <DropdownMenuItem key={p.path} asChild>
+            <DropdownMenuContent align="center" className="min-w-[180px]">
+              {lenderItems.map((item) => (
+                <DropdownMenuItem key={item.path} asChild>
                   <Link
-                    to={p.path}
+                    to={item.path}
                     className="font-['DM_Sans'] text-[13px] cursor-pointer"
                   >
-                    {p.name}
+                    {item.name}
+                  </Link>
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+
+          {/* Borrowers Dropdown */}
+          <DropdownMenu>
+            <DropdownMenuTrigger className="flex items-center gap-1 font-['DM_Sans'] text-[14px] text-muted-foreground hover:text-foreground transition-colors duration-200 outline-none">
+              For Borrowers <ChevronDown className="w-3.5 h-3.5 mt-0.5" />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="center" className="min-w-[180px]">
+              {borrowerItems.map((item) => (
+                <DropdownMenuItem key={item.path} asChild>
+                  <Link
+                    to={item.path}
+                    className="font-['DM_Sans'] text-[13px] cursor-pointer"
+                  >
+                    {item.name}
                   </Link>
                 </DropdownMenuItem>
               ))}
@@ -56,38 +83,6 @@ const Navbar = () => {
           >
             Infra
           </a>
-
-          {/* Pricing — scrolls to section */}
-          <a
-            href="#pricing"
-            className="font-['DM_Sans'] text-[14px] text-muted-foreground hover:text-foreground transition-colors duration-200"
-          >
-            Pricing
-          </a>
-
-          {/* Loan Approval Predictor — B2C Product */}
-          <Link
-            to="/loan-approval-predictor"
-            className="font-['DM_Sans'] text-[14px] text-orange-500 hover:text-orange-400 transition-colors duration-200 font-medium"
-          >
-            Loan Predictor
-          </Link>
-
-          {/* Tools Directory — SEO Hub */}
-          <Link
-            to="/tools"
-            className="font-['DM_Sans'] text-[14px] text-muted-foreground hover:text-foreground transition-colors duration-200"
-          >
-            Tools
-          </Link>
-
-          {/* API Docs — routed page */}
-          <Link
-            to="/api-docs"
-            className="font-['DM_Sans'] text-[14px] text-muted-foreground hover:text-foreground transition-colors duration-200"
-          >
-            API Docs
-          </Link>
         </div>
 
         {/* RIGHT: Actions */}

@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { useNavigate, Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
-import { Calculator, Percent, TrendingDown, Home, Briefcase, Activity, ShieldCheck, Zap, CreditCard, PiggyBank, GraduationCap, Car, Building2, BarChart3, Wallet, Target, ArrowLeftRight, Clock, Heart, TrendingUp, ArrowRight, FileText } from 'lucide-react';
+import { Calculator, Percent, TrendingDown, Home, Briefcase, Activity, ShieldCheck, Zap, CreditCard, PiggyBank, GraduationCap, Car, Building2, BarChart3, Wallet, Target, ArrowLeftRight, Clock, Heart, TrendingUp, ArrowRight, FileText, Sparkles } from 'lucide-react';
 import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { SEO_CATEGORIES, getPagesByCategory } from '../data/seo-content';
 
@@ -90,6 +90,12 @@ const ToolsDirectory = () => {
               className="text-lg text-gray-400 leading-relaxed">
               Stop guessing what the banks think. Use our enterprise-grade underwriting tools to calculate your exact standing before you apply for credit.
             </motion.p>
+            <div className="max-w-2xl mx-auto mt-8 bg-white/[0.02] border border-white/[0.08] backdrop-blur-md rounded-xl p-4 flex items-start gap-3 text-left">
+              <Sparkles className="w-5 h-5 text-orange-400 shrink-0 mt-0.5 animate-pulse" />
+              <p className="text-xs text-gray-400 leading-relaxed">
+                <strong className="text-white">For Borrowers:</strong> These are free financial check utilities powered by <strong className="text-white">Arera AI</strong> — the digital underwriting engine used by India's top NBFCs and fintechs to automate credit decisions. Running these checks does not perform any hard bureau inquiry.
+              </p>
+            </div>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-24">

@@ -273,9 +273,15 @@ const LoanApprovalPredictor = () => {
               <h1 className="text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tight mb-6">
                 Know Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-orange-600">Loan Approval Odds</span>
               </h1>
-              <p className="text-lg md:text-xl text-gray-400 mb-10 max-w-2xl mx-auto leading-relaxed">
+              <p className="text-lg md:text-xl text-gray-400 mb-8 max-w-2xl mx-auto leading-relaxed">
                 Stop guessing. Discover your true loan eligibility instantly using our predictive model or deep AI bank statement analysis. 100% free. No credit score impact.
               </p>
+              <div className="max-w-2xl mx-auto mb-12 bg-white/[0.02] border border-white/[0.08] backdrop-blur-md rounded-xl p-4 flex items-start gap-3 text-left">
+                <Sparkles className="w-5 h-5 text-orange-400 shrink-0 mt-0.5 animate-pulse" />
+                <p className="text-xs text-gray-400 leading-relaxed">
+                  <strong className="text-white">For Borrowers:</strong> This is a free utility tool powered by <strong className="text-white">Arera AI</strong> — the digital underwriting engine used by India's top NBFCs and fintechs to automate credit decisions. Checking your odds does not perform a hard bureau inquiry or affect your credit score.
+                </p>
+              </div>
             </motion.div>
           </div>
         </section>

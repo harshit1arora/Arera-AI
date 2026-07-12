@@ -6,7 +6,7 @@ import { FadeUp } from "./arera/FadeUp";
 const HeroSection = () => {
   const navigate = useNavigate();
   const [showCursor, setShowCursor] = useState(true);
-  const words = ["60 Seconds", "Real-Time", "1 Minute"];
+  const words = ["Decisioning", "Bank Parsing", "KYC Checks", "Rule Auditing"];
   const [wordIndex, setWordIndex] = useState(0);
   const [text, setText] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
@@ -154,12 +154,12 @@ const HeroSection = () => {
               {/* Main Headline */}
               <h1 className="font-['DM_Sans'] font-bold text-[48px] md:text-[68px] leading-[1.08] text-white mb-6 tracking-tight relative">
                 <span className="bg-clip-text text-transparent bg-gradient-to-b from-white to-white/70">
-                  Check Your Loan <br className="hidden md:block"/>
-                  Approval Chances <br className="hidden md:block"/>
+                  The AI Underwriting <br className="hidden md:block"/>
+                  Layer for Lenders <br className="hidden md:block"/>
                   <span className="inline-flex items-center">
                     <span className="min-w-[240px] md:min-w-[340px]">
                       <span className="text-[#F97316]">
-                        in {text}
+                        with {text}
                       </span>
                       <span 
                         className="text-[#F97316] ml-1" 
@@ -174,7 +174,7 @@ const HeroSection = () => {
 
               {/* Sub-headline */}
               <p className="font-['DM_Sans'] font-normal text-[18px] leading-[1.6] text-gray-400 max-w-[500px] mb-9">
-                Free AI-powered predictor that analyzes your salary, credit score, and bank statements to tell you exactly which banks will approve your loan.
+                Automated rule-based underwriting, bank statement parsing, and RBI-compliant audit logs built for scaling NBFCs and fintechs.
               </p>
 
               {/* CTA row */}
@@ -189,36 +189,38 @@ const HeroSection = () => {
                   whileTap={{ scale: 0.95 }}
                 >
                   <button
-                    onClick={() => navigate('/loan-approval-predictor')}
+                    onClick={() => navigate('/playground')}
                     className="relative group bg-gradient-to-b from-[#F97316] to-[#E0610D] border border-[#FF8A3A]/50 text-white font-['DM_Sans'] font-semibold text-[15px] px-[28px] py-[14px] rounded-[6px] transition-all overflow-hidden shadow-[0_0_20px_rgba(249,115,22,0.3)] hover:shadow-[0_0_30px_rgba(249,115,22,0.5)]"
                   >
                     <div className="absolute inset-0 bg-white/20 translate-y-[-100%] group-hover:translate-y-[100%] transition-transform duration-500 ease-in-out"></div>
                     <span className="relative z-10 flex items-center gap-2">
-                      Check My Approval Chances <span className="group-hover:translate-x-1 transition-transform">→</span>
+                      Try Developer Sandbox <span className="group-hover:translate-x-1 transition-transform">→</span>
                     </span>
                   </button>
                 </motion.div>
 
                 <button
-                  onClick={() => navigate('/tools')}
+                  onClick={() => navigate('/contact-sales')}
                   className="bg-transparent border border-white/10 text-gray-300 font-['DM_Sans'] font-medium text-[15px] px-[28px] py-[14px] rounded-[6px] hover:bg-white/5 hover:text-white transition-all backdrop-blur-sm"
                 >
-                  Explore Free Tools
+                  Contact Sales
                 </button>
               </div>
 
               {/* Trust signals row */}
               <div className="flex flex-col sm:flex-row gap-6">
                 {[
-                  "100% Free & Secure",
-                  "No Impact on CIBIL Score",
-                  "Instant Analysis"
+                  "RBI Compliant Setup",
+                  "99.9% Uptime SLA Target",
+                  "Zero Data Lock-in"
                 ].map((text, i) => (
                   <div key={i} className="flex items-center gap-2">
                     <div className="w-4 h-4 rounded-full bg-[#00FF94]/10 flex items-center justify-center">
                       <span className="text-[#00FF94] text-[10px]">✓</span>
                     </div>
-                    <span className="font-['DM_Sans'] font-medium text-[13px] text-gray-400 whitespace-nowrap">{text}</span>
+                    <span className="font-['DM_Sans'] font-semibold text-[13px] text-gray-400">
+                      {text}
+                    </span>
                   </div>
                 ))}
               </div>
