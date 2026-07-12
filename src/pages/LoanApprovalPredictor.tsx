@@ -699,7 +699,7 @@ const LoanApprovalPredictor = () => {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
               {[
                 { icon: Lock, title: "100% Free & Safe", desc: "Checking your odds uses a 'soft logic' evaluation. It absolutely does not affect your actual CIBIL or Experian credit score." },
-                { icon: Brain, title: "AI-Driven Accuracy", desc: "Our model is calibrated on millions of approved and rejected loan data points from top Indian NBFCs and Banks." },
+                { icon: Brain, title: "Rule-Calibrated Engine", desc: "Our underwriting rules are calibrated against published lending policies from India's top NBFCs and banks, not a black-box ML model." },
                 { icon: Zap, title: "Instant Insights", desc: "No waiting days for a bank agent to call you. Know exactly where you stand and what rates to expect immediately." },
               ].map((feature, i) => (
                 <div key={i} className="bg-white/5 border border-white/10 p-8 rounded-2xl hover:bg-white/10 transition-colors">
