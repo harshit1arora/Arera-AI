@@ -83,6 +83,14 @@ const Navbar = () => {
           >
             Infra
           </a>
+
+          {/* Pricing — full page link */}
+          <Link
+            to="/pricing"
+            className="font-['DM_Sans'] text-[14px] text-muted-foreground hover:text-foreground transition-colors duration-200"
+          >
+            Pricing
+          </Link>
         </div>
 
         {/* RIGHT: Actions */}
