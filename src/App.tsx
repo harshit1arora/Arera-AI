@@ -42,6 +42,7 @@ const SalesPipelineDashboard = lazy(() => import("./pages/SalesPipelineDashboard
 const ModelComparison = lazy(() => import("./pages/ModelComparison.tsx"));
 const ComparePage = lazy(() => import("./pages/Compare.tsx"));
 const DashboardPage = lazy(() => import("./pages/UserDashboard.tsx"));
+const Pricing = lazy(() => import("./pages/Pricing.tsx"));
 import Apply from "./pages/Apply.tsx";
 import ContactSales from "./pages/ContactSales.tsx";
 import StartFreeTrial from "./pages/StartFreeTrial.tsx";
@@ -130,9 +131,9 @@ const App = () => (
               <Route path="/pay" element={<BorrowerPayment />} />
               <Route path="/loan-approval-predictor" element={<LoanApprovalPredictor />} />
               <Route path="/loan-approval-predictor/:slug" element={<LoanApprovalPredictor />} />
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-            <Route path="/contact-sales" element={<ContactSales />} />
-            <Route path="/start-free-trial" element={<StartFreeTrial />} />
+             <Route path="/pricing" element={<Pricing />} />
+             <Route path="/contact-sales" element={<ContactSales />} />
+             <Route path="/start-free-trial" element={<StartFreeTrial />} />
             <Route path="/kyc-engine" element={<KycEngine />} />
             <Route path="/credit-scoring" element={<CreditScoring />} />
             <Route path="/rules-engine" element={<RulesEngine />} />
