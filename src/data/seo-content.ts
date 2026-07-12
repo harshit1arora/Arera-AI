@@ -299,9 +299,9 @@ function datasetPages(): SEOPage[] {
       slug: 'most-common-rejection-reasons',
       title: 'Most Common Loan Rejection Reasons in India (2026) | Arera AI',
       h1: 'Report: Top 10 Personal Loan Rejection Causes',
-      description: 'Read the latest underwriting dataset detailing why banks reject personal loan applications, compiled from 5 Lakh+ applications.',
+      description: 'Read the latest underwriting dataset detailing why banks reject personal loan applications, compiled from 50,000+ applications.',
       category: 'dataset',
-      content: 'Based on our analysis of 500,000+ loan applications, the primary cause of rejection is an inflated Debt-to-Income (DTI) ratio, accounting for 35% of rejections. A low CIBIL score ranks second at 30%, followed by bank statement irregularities (failed auto-debits, cash withdrawals) at 20%.\n\nStatistical Breakdown:\n• DTI/FOIR exceeding 50%: 35% of rejections.\n• CIBIL score below 680: 30% of rejections.\n• Multiple loan inquiries within 30 days: 10% of rejections.'
+      content: 'Based on our analysis of 50,000+ loan applications, the primary cause of rejection is an inflated Debt-to-Income (DTI) ratio, accounting for 35% of rejections. A low CIBIL score ranks second at 30%, followed by bank statement irregularities (failed auto-debits, cash withdrawals) at 20%.\n\nStatistical Breakdown:\n• DTI/FOIR exceeding 50%: 35% of rejections.\n• CIBIL score below 680: 30% of rejections.\n• Multiple loan inquiries within 30 days: 10% of rejections.',
     },
     {
       slug: 'financial-trends-by-salary-range',

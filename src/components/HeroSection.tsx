@@ -290,7 +290,7 @@ const HeroSection = () => {
                     <span className="ml-4 text-gray-300">"decision"</span><span className="text-gray-500">: </span><span className="text-[#00FF94] font-bold">"APPROVE"</span><span className="text-gray-500">,</span><br />
                     <span className="ml-4 text-gray-300">"credit_limit"</span><span className="text-gray-500">: </span><span className="text-[#F97316]">240000</span><span className="text-gray-500">,</span><br />
                     <span className="ml-4 text-gray-300">"risk_score"</span><span className="text-gray-500">: </span><motion.span className="text-[#F97316] inline-block">{roundedRiskScore}</motion.span><span className="text-gray-500">,</span><br />
-                    <span className="ml-4 text-gray-300">"audit_id"</span><span className="text-gray-500">: </span><span className="text-[#00FF94]">"arera_20240103_abc123"</span><span className="text-gray-500">,</span><br />
+                    <span className="ml-4 text-gray-300">"audit_id"</span><span className="text-gray-500">: </span><span className="text-[#00FF94]">"arera_20260515_abc123"</span><span className="text-gray-500">,</span><br />
                     <span className="ml-4 text-gray-300">"reasons"</span><span className="text-gray-500">: [</span><br />
                     <span className="ml-8 text-gray-500">{`{`}</span><br />
                     <span className="ml-12 text-gray-300">"code"</span><span className="text-gray-500">: </span><span className="text-[#00FF94]">"STABLE_INCOME"</span><span className="text-gray-500">,</span><br />

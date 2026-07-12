@@ -194,9 +194,9 @@ const PricingSection = () => {
             </div>
 
             <div className="mt-6 pt-6 border-t border-primary/20">
-              <p className="font-['DM_Sans'] font-semibold text-[13px] text-foreground mb-2">💡 Choose your engine:</p>
-              <p className="font-['DM_Sans'] font-normal text-[13px] text-muted-foreground">
-                Select Gemini Flash for speed & cost, or Claude Haiku for accuracy. Switch anytime in your dashboard. All plans include 100 free test decisions—no credit card required.
+              <p className="font-['DM_Sans'] font-semibold text-[13px] text-foreground mb-2">💡 Pricing Models & Engine Cost:</p>
+              <p className="font-['DM_Sans'] font-normal text-[13px] text-muted-foreground leading-relaxed">
+                Our homepage displays B2B Developer API Pay-As-You-Go pricing. If you need team dashboards, rule editors, and SLA targets, check out our <Link to="/pricing" className="text-[#F97316] underline">Platform SaaS plans</Link>. Claude Haiku pricing is slightly higher than Gemini Flash due to its higher API token costs from Anthropic, but it offers advanced reasoning. Switch engines anytime dynamically.
               </p>
             </div>
           </div>

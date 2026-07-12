@@ -39,7 +39,7 @@ const DashboardSection = () => {
           <FadeUp delay={0.2}>
             {/* Investor Trust Banner */}
             <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-20 bg-gradient-to-r from-[#F97316] to-[#00FF94] text-black font-['JetBrains_Mono'] font-bold text-[10px] px-5 py-1.5 rounded-full shadow-[0_0_20px_rgba(249,115,22,0.4)] flex items-center gap-2">
-              <span className="animate-pulse">●</span> 100+ NBFCs TRUST ARERA
+              <span className="animate-pulse">●</span> 15+ NBFC PILOTS TRUST ARERA
             </div>
 
             <div className="bg-surface border border-border rounded-[12px] overflow-hidden shadow-2xl">

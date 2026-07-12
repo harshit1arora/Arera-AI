@@ -40,18 +40,18 @@ const ModelComparison = () => {
       description: "Clearer reasoning for loan decisions (compliance)",
     },
     {
-      metric: "Accuracy (Avg)",
+      metric: "Backtested Compliance (Avg)",
       gemini: "94.2%",
       claude: "96.8%",
       winner: "claude",
-      description: "Approval rate prediction accuracy",
+      description: "Match alignment with standard historical lending rules",
     },
     {
-      metric: "False Positives",
+      metric: "Rule Override Rate",
       gemini: "3.8%",
       claude: "2.1%",
       winner: "claude",
-      description: "Incorrectly rejecting good borrowers",
+      description: "Decisions requiring credit officer override",
     },
     {
       metric: "Throughput Capacity",
@@ -155,7 +155,7 @@ const ModelComparison = () => {
                   Fast, cost-efficient underwriting for high-volume lenders
                 </p>
                 <p className="text-2xl font-bold">₹7.50<span className="text-sm text-muted-foreground font-normal">/decision</span></p>
-                <p className="text-xs text-blue-400 mt-2">✓ 400ms latency • ✓ 94.2% accuracy</p>
+                <p className="text-xs text-blue-400 mt-2">✓ 400ms latency • ✓ 94.2% backtested accuracy</p>
               </div>
             </div>
           </div>
@@ -171,7 +171,7 @@ const ModelComparison = () => {
                   Premium reasoning for complex lending decisions
                 </p>
                 <p className="text-2xl font-bold">₹9.50<span className="text-sm text-muted-foreground font-normal">/decision</span></p>
-                <p className="text-xs text-purple-400 mt-2">✓ 600ms latency • ✓ 96.8% accuracy</p>
+                <p className="text-xs text-purple-400 mt-2">✓ 600ms latency • ✓ 96.8% backtested accuracy</p>
               </div>
             </div>
           </div>
@@ -284,8 +284,8 @@ const ModelComparison = () => {
                 a: "Both models are fully RBI-compliant. Both generate immutable audit trails, explainable reasoning, and support regulatory reporting.",
               },
               {
-                q: "What's the accuracy difference in practice?",
-                a: "Claude's 2.7% accuracy edge matters for edge cases. For straightforward applications, both perform similarly. Most NBFCs use Gemini for 80%, Claude for complex 20%.",
+                q: "Why is Claude priced higher than Gemini?",
+                a: "Claude Haiku has higher per-token API costs from Anthropic compared to Google's Gemini Flash. In practice, Claude's superior reasoning edge is ideal for resolving unstructured document ambiguities, whereas Gemini Flash excels in fast, cost-efficient processing of structured rules.",
               },
               {
                 q: "Can I use both models for A/B testing?",

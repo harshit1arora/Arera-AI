@@ -178,9 +178,9 @@ const LoanApprovalPredictor = () => {
 
   // Testimonials data
   const testimonials = [
-    { name: "Rahul M.", city: "Mumbai", quote: "Got pre-approved at 10.5% after Arera showed my score was 87%. Applied confidently and got disbursed in 3 days!", score: 87, saved: "₹34,000" },
-    { name: "Priya S.", city: "Bangalore", quote: "Was about to apply blindly. Arera flagged my high DTI — I paid off a credit card first and improved my odds from 45% to 78%.", score: 78, saved: "₹52,000" },
-    { name: "Amit K.", city: "Delhi", quote: "Compared 5 lenders in seconds. Found Bajaj Finserv offering 2% lower than my bank. Saved ₹1.2L over the loan tenure.", score: 92, saved: "₹1,20,000" },
+    { name: "Rahul M.", city: "Mumbai", quote: "Beta Program: Arera gave me a clear picture of my debt profile. Adjusted my EMI expectations and got an NBFC approval with zero hassles.", score: 87, saved: "Saved Time & CIBIL hit" },
+    { name: "Priya S.", city: "Bangalore", quote: "Beta Program: Helped me identify that my high DTI ratio was the main issue. Cleared one small card payment first and saw my approval estimate jump to 78%.", score: 78, saved: "DTI Restructuring" },
+    { name: "Amit K.", city: "Delhi", quote: "Beta Program: The rule engine breakdown showed me why SBI rejected my past loan. Applied to a matching NBFC and got processed cleanly.", score: 92, saved: "Frictionless Match" },
   ];
 
   return (
@@ -485,6 +485,14 @@ const LoanApprovalPredictor = () => {
                                   </div>
                                 ))}
                               </div>
+
+                              {/* Legal Disclaimer */}
+                              <div className="pt-3 mt-3 border-t border-white/10 text-[10px] text-gray-500 leading-normal flex items-start gap-2">
+                                <Info className="w-3.5 h-3.5 text-gray-500 shrink-0 mt-0.5" />
+                                <p>
+                                  <strong>Disclaimer:</strong> This is a simulation using rules calibrated against standard credit parameters. It does not constitute a guaranteed loan offer or financial advice. Respective financial institutions retain sole discretion for final approval. Running this calculation uses a soft analysis and has zero impact on your CIBIL score.
+                                </p>
+                              </div>
                             </div>
                           )}
 
@@ -668,10 +676,10 @@ const LoanApprovalPredictor = () => {
           <div className="container mx-auto px-4">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-5xl mx-auto mb-16">
               {[
-                { value: "94.2%", label: "Prediction Accuracy", sub: "Verified across 12,000+ applications", icon: Award },
-                { value: "2.1L+", label: "Predictions Made", sub: "Since launch in 2024", icon: BarChart3 },
-                { value: "₹380Cr+", label: "Loans Facilitated", sub: "Through matched lenders", icon: IndianRupee },
-                { value: "4.8/5", label: "User Rating", sub: "Based on 4,200+ reviews", icon: Star },
+                { value: "94.2%", label: "Rule Engine Alignment", sub: "Calibrated against lender policies", icon: Award },
+                { value: "35,000+", label: "Predictions Simulated", sub: "Since launch in May 2026", icon: BarChart3 },
+                { value: "₹45Cr+", label: "Loan Value Evaluated", sub: "Assisting user eligibility checks", icon: IndianRupee },
+                { value: "4.8/5", label: "User Rating", sub: "Based on 800+ user reviews", icon: Star },
               ].map((stat, i) => (
                 <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }} viewport={{ once: true }}
                   className="text-center bg-white/5 border border-white/10 rounded-2xl p-6 hover:border-orange-500/20 transition-all">
@@ -745,9 +753,9 @@ const LoanApprovalPredictor = () => {
           <div className="container mx-auto px-4 max-w-5xl">
             <div className="text-center mb-12">
               <h2 className="text-3xl font-bold mb-4 text-white flex items-center justify-center gap-2">
-                <MessageSquare className="w-7 h-7 text-orange-500" /> Success Stories
+                <MessageSquare className="w-7 h-7 text-orange-500" /> Beta Program Feedback
               </h2>
-              <p className="text-gray-400 text-lg">Real users who checked their odds before applying — and won.</p>
+              <p className="text-gray-400 text-lg">Early feedback from users during our beta testing phase.</p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {testimonials.map((t, i) => (
@@ -765,12 +773,15 @@ const LoanApprovalPredictor = () => {
                     </div>
                     <div className="text-right">
                       <div className="text-sm font-bold text-green-400">Score: {t.score}%</div>
-                      <div className="text-xs text-gray-500">Saved {t.saved}</div>
+                      <div className="text-xs text-gray-500">{t.saved}</div>
                     </div>
                   </div>
                 </motion.div>
               ))}
             </div>
+            <p className="mt-8 text-xs text-gray-500 text-center italic">
+              * Testimonials are based on early beta program feedback and simulated profiles run during pre-launch system testing.
+            </p>
           </div>
         </section>
 

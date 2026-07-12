@@ -2,13 +2,13 @@ import { FadeUp } from "./arera/FadeUp";
 
 const ComparisonSection = () => {
   const tableRows = [
-    { feature: "Per-decision audit log", arera: "✓", perfios: "✗", karza: "✗", inhouse: "✗" },
-    { feature: "Deterministic rule engine", arera: "✓", perfios: "✗", karza: "~", inhouse: "✗" },
-    { feature: "RBI-compliant output format", arera: "✓", perfios: "✗", karza: "✗", inhouse: "✗" },
-    { feature: "Explainability per decision", arera: "✓", perfios: "✗", karza: "✗", inhouse: "~" },
-    { feature: "API-first integration", arera: "✓", perfios: "✗", karza: "✗", inhouse: "✗" },
-    { feature: "No black-box ML", arera: "✓", perfios: "✗", karza: "✗", inhouse: "~" },
-    { feature: "Webhook delivery", arera: "✓", perfios: "~", karza: "~", inhouse: "✗" },
+    { feature: "Per-decision audit log", arera: "✓", perfios: "~", karza: "~", inhouse: "~" },
+    { feature: "Deterministic rule engine", arera: "✓", perfios: "~", karza: "~", inhouse: "~" },
+    { feature: "RBI-compliant output format", arera: "✓", perfios: "~", karza: "~", inhouse: "✗" },
+    { feature: "Explainability per decision", arera: "✓", perfios: "~", karza: "✗", inhouse: "~" },
+    { feature: "API-first integration", arera: "✓", perfios: "✓", karza: "✓", inhouse: "~" },
+    { feature: "No black-box ML", arera: "✓", perfios: "~", karza: "~", inhouse: "~" },
+    { feature: "Webhook delivery", arera: "✓", perfios: "✓", karza: "✓", inhouse: "~" },
   ];
 
   return (
@@ -75,7 +75,7 @@ const ComparisonSection = () => {
         {/* Footer text */}
         <FadeUp delay={0.4}>
           <p className="mt-[16px] font-['DM_Sans'] font-normal text-[12px] text-muted-foreground text-center">
-            ~ = partial support. Based on public documentation as of 2024. <br />
+            ~ = partial support. Based on public documentation as of June 2026. <br />
             Perfios and Karza are data analytics providers, not underwriting decision engines.
           </p>
         </FadeUp>

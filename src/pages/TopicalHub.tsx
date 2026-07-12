@@ -160,7 +160,7 @@ const HUB_MAP: Record<string, HubConfig> = {
     bgGradient: 'from-rose-500/5 to-transparent',
     filterFn: (p) => p.category === 'bank-rejection' || p.slug.includes('rejected'),
     visualTitle: 'Primary Rejection Heatmap',
-    visualDesc: 'Statistical breakdown of loan rejections compiled from 5 Lakh+ loan applications.',
+    visualDesc: 'Statistical breakdown of loan rejections compiled from 50,000+ loan applications.',
     visualComponent: RejectionHeatmap,
     faqs: [
       { q: "How long should I wait to apply after a loan rejection?", a: "We recommend waiting 3 to 6 months. Applying immediately flags you as credit-hungry and triggers automated rejection rules." },
