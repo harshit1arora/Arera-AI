@@ -231,15 +231,6 @@ const Pricing = () => {
         </div>
       </div>
 
-      {/* Pricing Clarification Note */}
-      <div className="max-w-4xl mx-auto px-6 pb-12">
-        <div className="bg-muted/50 border border-border/80 rounded-xl p-6 text-center">
-          <p className="font-['DM_Sans'] text-sm text-foreground/70 leading-relaxed">
-            <strong>💡 Pricing Models:</strong> We offer two ways to scale. You can choose our <strong>Platform SaaS Plans</strong> above (which bundle user dashboards, rule editors, compliance reports, and monthly request quotas), or integrate directly via our raw developer API with <strong>Pay-As-You-Go per-decision pricing</strong> (₹7.50 for Gemini Flash / ₹9.50 for Claude Haiku) through the dashboard.
-          </p>
-        </div>
-      </div>
-
       {/* Comparison Table */}
       <div className="bg-card/50 border-y border-border">
         <div className="max-w-7xl mx-auto px-6 py-16">
