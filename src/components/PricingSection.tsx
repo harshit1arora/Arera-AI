@@ -5,17 +5,34 @@ import { Link } from "react-router-dom";
 const PricingSection = () => {
   const plans = [
     {
+      name: "Free Sandbox",
+      icon: Zap,
+      price: "0",
+      target: "For developers and early-stage testing.",
+      volume: "25 applications / month",
+      highlights: [
+        "Core underwriting API",
+        "Document parsing (JSON + PDF)",
+        "Explainable decisions",
+        "1 team member",
+        "Developer Sandbox access",
+      ],
+      cta: "Get Sandbox Access",
+      color: "#3B82F6",
+      highlighted: false,
+    },
+    {
       name: "Starter",
       icon: Zap,
-      price: "25,000",
+      price: "9,999",
       target: "For early-stage fintechs and NBFCs.",
       volume: "100 applications / month",
       highlights: [
-        "AI underwriting engine",
-        "Document parsing (JSON + PDF)",
-        "Explainable decisions",
-        "Audit log access",
+        "Everything in Free Sandbox",
+        "Basic underwriting engine",
+        "Collections dashboard",
         "5 team members",
+        "Standard support",
       ],
       cta: "Start Free Trial",
       color: "#F97316",
@@ -24,7 +41,7 @@ const PricingSection = () => {
     {
       name: "Growth",
       icon: Building2,
-      price: "75,000",
+      price: "49,999",
       target: "For scaling NBFCs with production operations.",
       volume: "500 applications / month",
       highlights: [
@@ -41,7 +58,7 @@ const PricingSection = () => {
     {
       name: "Enterprise",
       icon: Landmark,
-      price: "Custom",
+      price: "1,49,999",
       target: "For large NBFCs needing full control.",
       volume: "Unlimited applications",
       highlights: [
@@ -75,11 +92,11 @@ const PricingSection = () => {
         </div>
 
         {/* Pricing Cards */}
-        <div className="grid md:grid-cols-3 gap-6 max-w-[900px] mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-[1200px] mx-auto">
           {plans.map((plan, i) => (
             <FadeUp key={plan.name} delay={i * 0.1}>
               <div 
-                className={`relative h-full flex flex-col bg-surface border rounded-[10px] p-[36px_32px] transition-all duration-150 ${
+                className={`relative h-full flex flex-col bg-surface border rounded-[10px] p-[36px_32px] justify-between transition-all duration-150 ${
                   plan.highlighted 
                     ? 'border-[#F97316] ring-1 ring-[#F97316]/50' 
                     : 'border-border'
@@ -133,7 +150,7 @@ const PricingSection = () => {
                 </div>
 
                 <Link
-                  to={plan.cta === "Contact Sales" ? "/contact-sales" : "/pricing"}
+                  to={plan.cta === "Contact Sales" || plan.cta === "Get Sandbox Access" ? "/contact-sales" : "/pricing"}
                   className={`w-full mt-8 py-[13px] rounded-[6px] font-['DM_Sans'] text-[14px] transition-all block text-center ${
                     plan.highlighted
                       ? 'bg-[#F97316] text-foreground font-bold hover:brightness-[1.08]'
@@ -157,7 +174,7 @@ const PricingSection = () => {
               View full feature comparison & annual plans <ArrowRight size={16} />
             </Link>
             <p className="font-['DM_Sans'] font-normal text-[12px] text-muted-foreground mt-3">
-              All plans include AI engine selection (Gemini Flash or Claude Haiku). 100 free test decisions included — no credit card required.
+              All plans include AI engine selection (Gemini Flash or Claude Haiku). Free Sandbox includes 100 free test decisions — no credit card required.
             </p>
           </div>
         </FadeUp>

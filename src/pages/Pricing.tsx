@@ -6,9 +6,33 @@ import { Button } from '@/components/ui/button';
 
 const PRICING_TIERS = [
   {
+    id: 'free',
+    name: 'Free Sandbox',
+    price: 0,
+    period: 'month',
+    description: 'For developers and early-stage sandbox testing',
+    icon: Zap,
+    color: '#3B82F6',
+    features: [
+      { name: '25 loan applications/month', included: true },
+      { name: 'AI Document Parsing', included: true },
+      { name: 'Basic Underwriting Engine', included: true },
+      { name: 'Collections Dashboard', included: false },
+      { name: '1 Team Member', included: true },
+      { name: 'Email Support', included: true },
+      { name: 'API Access', included: true },
+      { name: 'Custom Workflows', included: false },
+      { name: 'White-label', included: false },
+      { name: 'Dedicated Account Manager', included: false },
+      { name: 'SLA Guarantee', included: false },
+      { name: 'RBI Compliance Reports', included: false },
+    ],
+    limits: { applications: 25, teamMembers: 1, apiCalls: 250 }
+  },
+  {
     id: 'starter',
     name: 'Starter',
-    price: 25000,
+    price: 9999,
     period: 'month',
     description: 'For new NBFCs starting their AI journey',
     icon: Zap,
@@ -32,7 +56,7 @@ const PRICING_TIERS = [
   {
     id: 'growth',
     name: 'Growth',
-    price: 75000,
+    price: 49999,
     period: 'month',
     description: 'For scaling NBFCs processing 500+ loans monthly',
     icon: Building2,
@@ -57,7 +81,7 @@ const PRICING_TIERS = [
   {
     id: 'enterprise',
     name: 'Enterprise',
-    price: 200000,
+    price: 149999,
     period: 'month',
     description: 'For large NBFCs with custom requirements',
     icon: Landmark,
@@ -81,18 +105,18 @@ const PRICING_TIERS = [
 ];
 
 const COMPARISON_FEATURES = [
-  { key: 'applications', label: 'Monthly Applications', starter: '100', growth: '500', enterprise: 'Unlimited' },
-  { key: 'teamMembers', label: 'Team Members', starter: '5', growth: '20', enterprise: 'Unlimited' },
-  { key: 'apiCalls', label: 'API Calls/month', starter: '1,000', growth: '10,000', enterprise: 'Unlimited' },
-  { key: 'parsing', label: 'AI Document Parsing', starter: true, growth: true, enterprise: true },
-  { key: 'underwriting', label: 'Underwriting Engine', starter: 'Basic', growth: 'Advanced', enterprise: 'Full' },
-  { key: 'dashboards', label: 'Dashboards', starter: '3', growth: '6', enterprise: 'Custom' },
-  { key: 'workflows', label: 'Custom Workflows', starter: false, growth: true, enterprise: true },
-  { key: 'whitelabel', label: 'White-label', starter: false, growth: true, enterprise: true },
-  { key: 'sla', label: 'SLA Guarantee', starter: false, growth: '99.5%', enterprise: '99.9%' },
-  { key: 'compliance', label: 'RBI Compliance Reports', starter: false, growth: true, enterprise: true },
-  { key: 'support', label: 'Support', starter: 'Email', growth: 'Priority', enterprise: '24/7 Dedicated' },
-  { key: 'sdk', label: 'SDK + Integration', starter: false, growth: false, enterprise: true },
+  { key: 'applications', label: 'Monthly Applications', free: '25', starter: '100', growth: '500', enterprise: 'Unlimited' },
+  { key: 'teamMembers', label: 'Team Members', free: '1', starter: '5', growth: '20', enterprise: 'Unlimited' },
+  { key: 'apiCalls', label: 'API Calls/month', free: '250', starter: '1,000', growth: '10,000', enterprise: 'Unlimited' },
+  { key: 'parsing', label: 'AI Document Parsing', free: true, starter: true, growth: true, enterprise: true },
+  { key: 'underwriting', label: 'Underwriting Engine', free: 'Basic', starter: 'Basic', growth: 'Advanced', enterprise: 'Full' },
+  { key: 'dashboards', label: 'Dashboards', free: '—', starter: '3', growth: '6', enterprise: 'Custom' },
+  { key: 'workflows', label: 'Custom Workflows', free: false, starter: false, growth: true, enterprise: true },
+  { key: 'whitelabel', label: 'White-label', free: false, starter: false, growth: true, enterprise: true },
+  { key: 'sla', label: 'SLA Guarantee', free: false, starter: false, growth: '99.5%', enterprise: '99.9%' },
+  { key: 'compliance', label: 'RBI Compliance Reports', free: false, starter: false, growth: true, enterprise: true },
+  { key: 'support', label: 'Support', free: 'Email', starter: 'Email', growth: 'Priority', enterprise: '24/7 Dedicated' },
+  { key: 'sdk', label: 'SDK + Integration', free: false, starter: false, growth: false, enterprise: true },
 ];
 
 const Pricing = () => {
@@ -154,7 +178,7 @@ const Pricing = () => {
 
       {/* Pricing Cards */}
       <div className="max-w-7xl mx-auto px-6 pb-20">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {PRICING_TIERS.map((tier, index) => {
             const Icon = tier.icon;
             const price = billingCycle === 'annual' 
@@ -167,63 +191,67 @@ const Pricing = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
-                className={`relative bg-card border rounded-2xl p-6 ${
+                className={`relative bg-card border rounded-2xl p-6 flex flex-col justify-between ${
                   tier.popular 
                     ? 'border-[#00FF94] shadow-[0_0_30px_rgba(0,255,148,0.1)]' 
                     : 'border-border'
                 }`}
               >
-                {tier.popular && (
-                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#00FF94] text-black font-['DM_Sans'] text-xs font-bold px-3 py-1 rounded-full">
-                    MOST POPULAR
-                  </div>
-                )}
-                
-                <div className="flex items-center gap-3 mb-4">
-                  <div 
-                    className="w-10 h-10 rounded-lg flex items-center justify-center"
-                    style={{ backgroundColor: `${tier.color}20` }}
-                  >
-                    <Icon size={20} style={{ color: tier.color }} />
-                  </div>
-                  <div>
-                    <h3 className="font-['DM_Sans'] text-xl font-bold text-foreground">{tier.name}</h3>
-                    <p className="font-['DM_Sans'] text-xs text-foreground/50">{tier.limits.applications === -1 ? 'Unlimited' : tier.limits.applications} apps/mo</p>
-                  </div>
-                </div>
-
-                <div className="mb-6">
-                  <span className="font-['DM_Sans'] text-4xl font-bold text-foreground">₹{price.toLocaleString('en-IN')}</span>
-                  <span className="font-['DM_Sans'] text-foreground/50">/{billingCycle === 'annual' ? 'year' : 'month'}</span>
-                </div>
-
-                <p className="font-['DM_Sans'] text-sm text-foreground/60 mb-6">{tier.description}</p>
-
-                <Button
-                  onClick={() => handleSelectTier(tier.id)}
-                  className={`w-full mb-6 ${
-                    tier.popular 
-                      ? 'bg-[#00FF94] hover:bg-[#00CC77] text-black' 
-                      : 'bg-[rgba(255,255,255,0.05)] hover:bg-[rgba(255,255,255,0.1)] text-foreground border border-border'
-                  }`}
-                >
-                  {tier.id === 'enterprise' ? 'Contact Sales' : 'Get Started'}
-                  <ArrowRight size={16} className="ml-2" />
-                </Button>
-
-                <div className="space-y-3">
-                  {tier.features.map((feature, i) => (
-                    <div key={i} className="flex items-center gap-2">
-                      {feature.included ? (
-                        <Check size={16} className="text-[#00FF94]" />
-                      ) : (
-                        <X size={16} className="text-foreground/30" />
-                      )}
-                      <span className={`font-['DM_Sans'] text-sm ${feature.included ? 'text-foreground' : 'text-foreground/40'}`}>
-                        {feature.name}
-                      </span>
+                <div>
+                  {tier.popular && (
+                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#00FF94] text-black font-['DM_Sans'] text-xs font-bold px-3 py-1 rounded-full">
+                      MOST POPULAR
                     </div>
-                  ))}
+                  )}
+                  
+                  <div className="flex items-center gap-3 mb-4">
+                    <div 
+                      className="w-10 h-10 rounded-lg flex items-center justify-center"
+                      style={{ backgroundColor: `${tier.color}20` }}
+                    >
+                      <Icon size={20} style={{ color: tier.color }} />
+                    </div>
+                    <div>
+                      <h3 className="font-['DM_Sans'] text-xl font-bold text-foreground">{tier.name}</h3>
+                      <p className="font-['DM_Sans'] text-xs text-foreground/50">{tier.limits.applications === -1 ? 'Unlimited' : tier.limits.applications} apps/mo</p>
+                    </div>
+                  </div>
+
+                  <div className="mb-6">
+                    <span className="font-['DM_Sans'] text-4xl font-bold text-foreground">₹{price.toLocaleString('en-IN')}</span>
+                    <span className="font-['DM_Sans'] text-foreground/50">/{billingCycle === 'annual' ? 'year' : 'month'}</span>
+                  </div>
+
+                  <p className="font-['DM_Sans'] text-sm text-foreground/60 mb-6">{tier.description}</p>
+                </div>
+
+                <div>
+                  <Button
+                    onClick={() => handleSelectTier(tier.id)}
+                    className={`w-full mb-6 ${
+                      tier.popular 
+                        ? 'bg-[#00FF94] hover:bg-[#00CC77] text-black' 
+                        : 'bg-[rgba(255,255,255,0.05)] hover:bg-[rgba(255,255,255,0.1)] text-foreground border border-border'
+                    }`}
+                  >
+                    {tier.id === 'free' ? 'Get Sandbox Access' : tier.id === 'enterprise' ? 'Contact Sales' : 'Get Started'}
+                    <ArrowRight size={16} className="ml-2" />
+                  </Button>
+
+                  <div className="space-y-3">
+                    {tier.features.map((feature, i) => (
+                      <div key={i} className="flex items-center gap-2">
+                        {feature.included ? (
+                          <Check size={16} className="text-[#00FF94]" />
+                        ) : (
+                          <X size={16} className="text-foreground/30" />
+                        )}
+                        <span className={`font-['DM_Sans'] text-sm ${feature.included ? 'text-foreground' : 'text-foreground/40'}`}>
+                          {feature.name}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </motion.div>
             );
@@ -241,8 +269,9 @@ const Pricing = () => {
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className="border-b border-border">
+                <tr className="border-b border-border text-center">
                   <th className="text-left font-['DM_Sans'] text-sm text-foreground/60 py-4 pr-4">Feature</th>
+                  <th className="text-center font-['DM_Sans'] text-sm text-blue-400 py-4 px-4">Free Sandbox</th>
                   <th className="text-center font-['DM_Sans'] text-sm text-foreground py-4 px-4">Starter</th>
                   <th className="text-center font-['DM_Sans'] text-sm text-[#00FF94] py-4 px-4">Growth</th>
                   <th className="text-center font-['DM_Sans'] text-sm text-foreground py-4 pl-4">Enterprise</th>
@@ -252,6 +281,13 @@ const Pricing = () => {
                 {COMPARISON_FEATURES.map((row, i) => (
                   <tr key={i} className="border-b border-border/50">
                     <td className="py-3 pr-4 font-['DM_Sans'] text-sm text-foreground/70">{row.label}</td>
+                    <td className="text-center py-3 px-4">
+                      {typeof row.free === 'boolean' ? (
+                        row.free ? <Check size={16} className="mx-auto text-[#00FF94]" /> : <X size={16} className="mx-auto text-foreground/30" />
+                      ) : (
+                        <span className="font-['JetBrains_Mono'] text-sm text-blue-400">{row.free}</span>
+                      )}
+                    </td>
                     <td className="text-center py-3 px-4">
                       {typeof row.starter === 'boolean' ? (
                         row.starter ? <Check size={16} className="mx-auto text-[#00FF94]" /> : <X size={16} className="mx-auto text-foreground/30" />
@@ -352,7 +388,7 @@ const Pricing = () => {
             </div>
 
             <Button className="w-full bg-[#F97316] hover:bg-[#EA580C] text-white">
-              Proceed to Payment
+              {selectedTier === 'free' ? 'Get Free Sandbox Access' : selectedTier === 'enterprise' ? 'Request Enterprise Quote' : 'Proceed to Payment'}
             </Button>
             
             <button 
