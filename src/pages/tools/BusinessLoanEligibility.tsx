@@ -108,8 +108,8 @@ export default function BusinessLoanEligibility() {
   return (
     <div className="min-h-screen bg-black text-white flex flex-col font-sans selection:bg-orange-500/30 overflow-x-hidden">
       <Helmet>
-        <title>Business Loan Eligibility Calculator | Arera AI</title>
-        <meta name="description" content="Calculate your company\'s business loan eligibility. Check maximum borrowing limits using DSCR and net profit margins." />
+        <title>Business Loan Eligibility Calculator — Free Check for MSME &amp; Startups | Arera AI</title>
+        <meta name="description" content="Check business loan eligibility for MSMEs &amp; startups instantly. Estimate maximum loan limit based on turnover, GST receipts, and profit margins with no credit impact." />
         <link rel="canonical" href="https://www.tryarera.com/tools/business-loan-eligibility" />
         <script type="application/ld+json">{JSON.stringify({
           '@context': 'https://schema.org', '@type': 'WebApplication',

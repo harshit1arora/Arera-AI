@@ -1,3 +1,4 @@
+import { Helmet } from "react-helmet-async";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import LogoTickerSection from "@/components/LogoTickerSection";
@@ -17,6 +18,11 @@ import Footer from "@/components/Footer";
 
 const Index = () => (
   <div className="min-h-screen bg-background">
+    <Helmet>
+      <title>Arera AI — Loan Approval Predictor &amp; Financial Intelligence Platform</title>
+      <meta name="description" content="Check your loan approval chances instantly with Arera AI. Our consumer-first financial intelligence platform analyzes your eligibility, EMI capacity, and matches you with top lenders." />
+      <link rel="canonical" href="https://www.tryarera.com" />
+    </Helmet>
     <Navbar />
     <HeroSection />
     <LogoTickerSection />

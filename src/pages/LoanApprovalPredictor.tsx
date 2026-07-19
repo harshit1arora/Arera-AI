@@ -186,8 +186,8 @@ const LoanApprovalPredictor = () => {
   return (
     <div className="min-h-screen bg-black text-white flex flex-col font-sans selection:bg-orange-500/30 overflow-x-hidden">
       <Helmet>
-        <title>Free Loan Approval Predictor | AI Eligibility Checker – Arera AI</title>
-        <meta name="description" content="Use our AI-powered Loan Approval Predictor by Arera AI to check your personal loan eligibility instantly. Get your approval odds, credit insights, and tips to improve your chances without affecting your credit score." />
+        <title>Free Loan Approval Predictor — Check Your Approval Odds Instantly | Arera AI</title>
+        <meta name="description" content="Will your next loan get approved or rejected? Check your exact approval odds across 40+ Indian lenders in 60 seconds. Free, instant, and 100% safe for CIBIL." />
         <meta name="keywords" content="loan approval predictor, check loan eligibility, personal loan calculator, free credit score check, instant loan approval, loan approval odds, AI loan predictor, bank statement analyzer, Arera AI" />
         <link rel="canonical" href="https://www.tryarera.com/loan-approval-predictor" />
         <script type="application/ld+json">

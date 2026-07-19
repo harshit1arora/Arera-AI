@@ -62,9 +62,9 @@ function salaryPages() {
     const slug     = `loan-eligibility-${sl.toLowerCase()}-salary`;
     return {
       slug,
-      title:       `Personal Loan on ₹${sl} Salary – Eligibility, EMI & Best Banks | Arera AI`,
+      title:       `₹${sl} Salary Personal Loan Eligibility — Calculate Max Loan & EMIs | Arera AI`,
       h1:          `Personal Loan Eligibility on ₹${sl}/Month Salary`,
-      description: `Check maximum personal loan amount on ₹${sl} monthly salary. Eligibility up to ${fmtINR(maxLoan)}, EMI capacity ${fmtINR(maxEmi)}/month. Compare best banks and NBFCs.`,
+      description: `Earn ₹${sl}/month net salary? Calculate your maximum personal loan amount, eligible monthly EMIs, and compare matching banks. Free, fast & CIBIL safe.`,
       category:    'Salary Eligibility',
       content: [
         `If you earn a net take-home salary of ₹${sl} per month, your estimated maximum personal loan limit is approximately ${fmtINR(maxLoan)}. This is calculated based on standard Indian banking guidelines where your total monthly EMIs (FOIR) cannot exceed 40–50% of your income.`,
@@ -118,9 +118,9 @@ function loanAmountPages() {
     const slug      = `${al.toLowerCase()}-personal-loan`;
     return {
       slug,
-      title:       `₹${al} Personal Loan – Eligibility, EMI & Best Banks in India | Arera AI`,
+      title:       `₹${al} Personal Loan EMI & Eligibility — Compare Best Banks 2026 | Arera AI`,
       h1:          `₹${al} Personal Loan: Complete Eligibility & EMI Guide`,
-      description: `Everything to qualify for a ₹${al} personal loan. Minimum salary: ${fmtINR(minSalary)}/mo. Monthly EMI at 10.5%: ${fmtINR(emi10)}. Compare HDFC, SBI, Bajaj Finserv approval criteria.`,
+      description: `Need a ₹${al} personal loan? Calculate your monthly EMI starting at 10.5% interest, check minimum salary required, and find the best bank for fast approval.`,
       category:    'Loan Amount Guide',
       content: [
         `Securing a personal loan of ${fmtINR(amt)} requires meeting specific underwriting checks across income, credit, and documentation. For a loan of this size, banks generally expect a minimum net monthly income of ${fmtINR(minSalary)} with no other active debts.`,
@@ -171,9 +171,9 @@ function cityPages() {
 
     pages.push({
       slug: `personal-loan-in-${city}`,
-      title: `Personal Loan in ${cityName} – Compare Top Lenders & Rates 2026 | Arera AI`,
+      title: `Personal Loan in ${cityName} — Compare Lowest Rates & Fees 2026 | Arera AI`,
       h1: `Personal Loan in ${cityName}: Compare Rates & Eligibility`,
-      description: `Compare personal loan interest rates, processing fees, and eligibility from HDFC, SBI, ICICI, and Bajaj Finserv in ${cityName}. Apply with confidence — check odds first.`,
+      description: `Get the lowest personal loan rates in ${cityName}. Compare eligibility, EMIs, and fees across SBI, HDFC, ICICI, and NBFCs. Check your odds free.`,
       category: 'City Loan Guide',
       content: [
         `Personal loans in ${cityName} are available from all major banks and NBFCs, typically within 24–72 hours for salaried professionals. The city's lender network includes national banks, regional banks, and digital-first NBFCs.`,
@@ -223,9 +223,9 @@ function cityPages() {
 
     pages.push({
       slug: `home-loan-in-${city}`,
-      title: `Home Loan in ${cityName} – Best Mortgage Rates & Eligibility 2026 | Arera AI`,
+      title: `Home Loan in ${cityName} — Compare Best Mortgage Rates & Stamp Duty | Arera AI`,
       h1: `Home Loan in ${cityName}: Rates, Eligibility & How to Apply`,
-      description: `Compare home loan interest rates, stamp duty, and eligibility from HDFC, SBI, LIC Housing, and Axis Bank in ${cityName}. Find your maximum mortgage eligibility.`,
+      description: `Looking for a home loan in ${cityName}? Compare SBI, HDFC, and LIC mortgage rates, calculate stamp duty, and estimate maximum borrowing limit.`,
       category: 'City Home Loan Guide',
       content: [
         `Home loans in ${cityName} cover 80–90% of the property value (LTV ratio), with lenders offering competitive rates for both under-construction and ready-to-move properties.`,
@@ -281,9 +281,9 @@ function professionPages() {
     const slug     = `personal-loan-for-${prof}`;
     return {
       slug,
-      title:       `Personal Loan for ${profName}s – Eligibility & Best Lenders | Arera AI`,
+      title:       `Personal Loan for ${profName}s — Lowest Rates & Special Schemes | Arera AI`,
       h1:          `Personal Loan for ${profName}s: Exclusive Guide`,
-      description: `Compare special personal loan schemes, interest rates, and documentation requirements for ${profName}s in India. Predict your approval odds free.`,
+      description: `Compare special personal loan offers and CIBIL criteria for ${profName}s. Check minimum turnover, documentation, and calculate approval odds.`,
       category:    'Profession Guide',
       content: [
         `${profName}s have a distinct risk profile in the Indian lending ecosystem. ${isSelf
@@ -339,9 +339,9 @@ function bankPages() {
 
     pages.push({
       slug: `${bank}-personal-loan-eligibility`,
-      title: `${bankName} Personal Loan Eligibility 2026 – Rates & Criteria | Arera AI`,
+      title: `${bankName} Personal Loan Eligibility 2026 — Interest Rates & Fees | Arera AI`,
       h1: `${bankName} Personal Loan: Eligibility Criteria & Interest Rates`,
-      description: `${bankName} personal loan eligibility: minimum salary, CIBIL score, interest rates (10.5%–16%), processing fees, and documentation checklist. Check your approval odds free.`,
+      description: `Calculate your personal loan eligibility for ${bankName}. Check minimum salary required, current interest rates, required documents, and get approved fast.`,
       category: 'Bank Eligibility Guide',
       content: [
         `${bankName} personal loans offer flexible financing up to ₹40 Lakhs for eligible salaried and self-employed borrowers. With competitive interest rates starting from 10.5% p.a., it is one of the preferred lenders for personal financing in India.`,
@@ -391,9 +391,9 @@ function bankPages() {
 
     pages.push({
       slug: `${bank}-loan-rejection-reasons`,
-      title: `${bankName} Loan Rejection Reasons & How to Fix Them | Arera AI`,
+      title: `Why ${bankName} Rejected Your Loan & How to Get Approved | Arera AI`,
       h1: `Why ${bankName} Rejects Personal Loans: Reasons & Solutions`,
-      description: `Understand why ${bankName} rejects personal loan applications — FOIR violations, low CIBIL, statement bounces, employer blacklist. Fix your profile before reapplying.`,
+      description: `Got rejected by ${bankName}? Find the top reasons for rejection (high DTI, cheque bounce, CIBIL) and learn exactly how to fix it and reapply.`,
       category: 'Bank Rejection Guide',
       content: [
         `Receiving a personal loan rejection from ${bankName} is frustrating but fixable. Their automated underwriting engine flags specific risk triggers and rejects applications in milliseconds. Understanding these triggers helps you fix your profile.`,
@@ -439,9 +439,9 @@ function bankPages() {
 
     pages.push({
       slug: `${bank}-loan-analysis`,
-      title: `${bankName} Credit Policy Analysis – Underwriting Insights | Arera AI`,
+      title: `${bankName} Loan Credit Underwriting Policy Secrets | Arera AI`,
       h1: `${bankName} Loan Underwriting Policy: Deep Analysis`,
-      description: `How ${bankName} evaluates bank statements, salary, and credit for personal loans. Underwriting insights, employer tier scoring, and statement red flags.`,
+      description: `Unlock ${bankName}'s credit underwriting rules. Learn how their AI check parses your bank statements, salary stability, and credit score.`,
       category: 'Bank Analysis',
       content: [
         `Our research team has analyzed ${bankName}'s personal loan underwriting approach using publicly available policy disclosures, borrower feedback, and credit bureau data. This analysis helps you understand exactly how they evaluate your application.`,
@@ -452,7 +452,7 @@ function bankPages() {
         `• Bank Statement Analysis: Their system scans for: (a) salary credit regularity — same employer name, same date, consistent amount; (b) NACH bounce history in the last 6 months; (c) unusually high cash withdrawals or debit card spends; (d) existing EMI outflows not declared in the application.`,
         `• Loan-to-Income Cap: ${bankName} caps personal loan amounts at 18×–22× monthly salary depending on employer tier. High-tier employees get 22× multiples.`,
         `• Vintage Preference: ${bankName} favors long-standing account holders. Having a salary account with them for 2+ years significantly increases approval probability.`,
-        `Alternative lenders if ${bankName} isn't the right fit:`,
+        `• Alternative Lenders if ${bankName} isn't the right fit:`,
         `• IDFC First Bank: More flexible on employer tier, competitive rates.`,
         `• Bajaj Finserv: Accepts lower CIBIL scores; faster disbursals.`,
         `• MoneyTap: Fintech NBFC with alternate data scoring for gig workers and freelancers.`,

@@ -105,8 +105,8 @@ export default function LoanAffordabilityCalculator() {
   return (
     <div className="min-h-screen bg-black text-white flex flex-col font-sans selection:bg-orange-500/30 overflow-x-hidden">
       <Helmet>
-        <title>Loan Affordability Calculator – Estimate Maximum Borrowing | Arera AI</title>
-        <meta name="description" content="Calculate your maximum eligible loan amount for personal, business, car, or home loans. Real-time DTI limits and FOIR criteria checker." />
+        <title>Loan Affordability Calculator — Estimate Your Max Loan Amount &amp; EMIs | Arera AI</title>
+        <meta name="description" content="Avoid rejection. Calculate the maximum loan amount you can afford based on your net income and expenses. Estimate monthly EMIs and check eligibility for free." />
         <link rel="canonical" href="https://www.tryarera.com/tools/loan-affordability-calculator" />
         <script type="application/ld+json">{JSON.stringify({
           '@context': 'https://schema.org', '@type': 'WebApplication',

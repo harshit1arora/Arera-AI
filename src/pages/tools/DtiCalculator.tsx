@@ -86,8 +86,8 @@ export default function DtiCalculator() {
   return (
     <div className="min-h-screen bg-black text-white flex flex-col font-sans selection:bg-orange-500/30 overflow-x-hidden">
       <Helmet>
-        <title>Debt-to-Income (DTI) Ratio Calculator | Arera AI</title>
-        <meta name="description" content="Calculate your Debt-to-Income (DTI) ratio / FOIR limit. Estimate monthly debt burdens against income to check credit eligibility and loan approval risk." />
+        <title>Debt-to-Income (DTI) Calculator — Know Your FOIR &amp; Loan Eligibility | Arera AI</title>
+        <meta name="description" content="Find out if your debt-to-income (FOIR) ratio is too high for loan approval. Calculate your ratio in 30 seconds and learn how to lower it to unlock better loan offers." />
         <link rel="canonical" href="https://www.tryarera.com/tools/dti-calculator" />
         <script type="application/ld+json">{JSON.stringify({
           '@context': 'https://schema.org', '@type': 'WebApplication',

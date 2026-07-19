@@ -128,8 +128,8 @@ const EmiCalculator = () => {
   return (
     <div className="min-h-screen bg-black text-white flex flex-col font-sans selection:bg-orange-500/30 overflow-x-hidden">
       <Helmet>
-        <title>Personal Loan EMI Calculator – Calculate Monthly EMI Instantly | Arera AI</title>
-        <meta name="description" content="Free Personal Loan EMI Calculator. Calculate your monthly EMI, total interest, and view full amortization schedule. Compare rates across HDFC, SBI, ICICI, Bajaj Finserv." />
+        <title>Personal Loan EMI Calculator — Check Monthly EMIs &amp; Instant Eligibility | Arera AI</title>
+        <meta name="description" content="Calculate your personal loan monthly EMI and see your bank eligibility instantly. Adjust loan amount &amp; tenure to get the best interest rates from 40+ lenders." />
         <link rel="canonical" href="https://www.tryarera.com/tools/emi-calculator" />
         <script type="application/ld+json">{jsonLd}</script>
         <script type="application/ld+json">{faqSchema}</script>

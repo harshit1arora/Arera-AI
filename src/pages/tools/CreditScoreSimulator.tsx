@@ -96,8 +96,8 @@ export default function CreditScoreSimulator() {
   return (
     <div className="min-h-screen bg-black text-white flex flex-col font-sans selection:bg-orange-500/30 overflow-x-hidden">
       <Helmet>
-        <title>Credit Score Simulator – Forecast CIBIL Impact | Arera AI</title>
-        <meta name="description" content="Simulate how financial actions impact your credit score. Estimate CIBIL score additions or drops from late payments, credit inquiries, and utilization changes." />
+        <title>Free Credit Score Simulator — Check Your Loan Eligibility in 30 Seconds | Arera AI</title>
+        <meta name="description" content="Find out how credit inquiries, paying off cards, or missed payments will impact your CIBIL score. Free simulator helps you maximize your loan approval chances." />
         <link rel="canonical" href="https://www.tryarera.com/tools/credit-score-simulator" />
         <script type="application/ld+json">{JSON.stringify({
           '@context': 'https://schema.org', '@type': 'WebApplication',

@@ -136,8 +136,8 @@ export default function NbfcVsBankComparison() {
   return (
     <div className="min-h-screen bg-black text-white flex flex-col font-sans selection:bg-orange-500/30 overflow-x-hidden">
       <Helmet>
-        <title>NBFC vs Bank Loan Comparison Calculator | Arera AI</title>
-        <meta name="description" content="Compare home, personal, or property loans from commercial banks vs NBFCs. Evaluate rates, speed, and processing guidelines." />
+        <title>NBFC vs Bank Loan — Compare Rates, Fees &amp; Approval Odds | Arera AI</title>
+        <meta name="description" content="Should you get a loan from a bank or an NBFC? Compare interest rates, processing times, CIBIL requirements, and approval chances to make the right choice." />
         <link rel="canonical" href="https://www.tryarera.com/tools/nbfc-vs-bank-comparison" />
         <script type="application/ld+json">{JSON.stringify({
           '@context': 'https://schema.org', '@type': 'WebApplication',

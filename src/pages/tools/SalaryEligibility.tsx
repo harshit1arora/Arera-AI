@@ -114,8 +114,8 @@ export default function SalaryEligibility() {
   return (
     <div className="min-h-screen bg-black text-white flex flex-col font-sans selection:bg-orange-500/30 overflow-x-hidden">
       <Helmet>
-        <title>Salary-Based Personal Loan Eligibility Calculator | Arera AI</title>
-        <meta name="description" content="Calculate your maximum personal loan eligibility based on your net monthly salary, existing EMIs, and employer category. Dynamic calculations using actual banking FOIR guidelines." />
+        <title>Salary Personal Loan Eligibility Calculator — Max Loan Amount by Salary | Arera AI</title>
+        <meta name="description" content="Find the maximum personal loan amount you can get based on your take-home salary. Estimate your approval odds, EMI capacity, and minimum CIBIL score needed." />
         <link rel="canonical" href="https://www.tryarera.com/tools/salary-loan-eligibility" />
         <script type="application/ld+json">{JSON.stringify({
           '@context': 'https://schema.org', '@type': 'WebApplication',
