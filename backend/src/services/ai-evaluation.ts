@@ -1,6 +1,36 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
+import { z } from 'zod';
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY || '';
+
+// Define strict Zod Schemas for Gemini outputs
+export const EvaluationResultSchema = z.object({
+  decision: z.enum(['approved', 'rejected', 'review']),
+  score: z.number().min(0).max(100),
+  riskLevel: z.enum(['low', 'medium', 'high', 'critical']),
+  reasons: z.array(z.string()),
+  recommendations: z.array(z.string()),
+  factors: z.object({
+    positive: z.array(z.string()),
+    negative: z.array(z.string()),
+    neutral: z.array(z.string())
+  }),
+  nextSteps: z.array(z.string())
+});
+
+export const BankAnalysisSchema = z.object({
+  monthlyIncome: z.number(),
+  averageBalance: z.number(),
+  totalCredits: z.number(),
+  totalDebits: z.number(),
+  emiPayments: z.number(),
+  salaryCredits: z.number(),
+  analysis: z.string(),
+  redFlags: z.array(z.string()),
+  greenFlags: z.array(z.string())
+});
+
+export const LoanAgreementSchema = z.string().min(1);
 
 interface BorrowerData {
   applicantName: string;
@@ -78,8 +108,15 @@ Only respond with valid JSON, no other text.`;
     
     try {
       const parsed = JSON.parse(response);
-      return parsed;
+      const validated = EvaluationResultSchema.safeParse(parsed);
+      if (validated.success) {
+        return validated.data;
+      } else {
+        console.warn('[Zod Validation Failure] evaluateLoanApplication fields mismatch:', JSON.stringify(validated.error.format()));
+        return mockEvaluation(borrowerData);
+      }
     } catch {
+      console.warn('[JSON Parse Failure] evaluateLoanApplication could not parse response:', response);
       return mockEvaluation(borrowerData);
     }
   } catch (error) {
@@ -218,8 +255,16 @@ Respond only with valid JSON.`;
     const response = result.response.text();
     
     try {
-      return JSON.parse(response);
+      const parsed = JSON.parse(response);
+      const validated = BankAnalysisSchema.safeParse(parsed);
+      if (validated.success) {
+        return validated.data;
+      } else {
+        console.warn('[Zod Validation Failure] analyzeBankStatement fields mismatch:', JSON.stringify(validated.error.format()));
+        return mockBankAnalysis(statementText);
+      }
     } catch {
+      console.warn('[JSON Parse Failure] analyzeBankStatement could not parse response:', response);
       return mockBankAnalysis(statementText);
     }
   } catch (error) {
@@ -266,7 +311,14 @@ Include:
 Keep it brief and professional.`;
 
     const result = await model.generateContent(prompt);
-    return result.response.text();
+    const text = result.response.text();
+    const validated = LoanAgreementSchema.safeParse(text);
+    if (validated.success) {
+      return validated.data;
+    } else {
+      console.warn('[Zod Validation Failure] generateLoanAgreement schema mismatch');
+      return mockLoanAgreement(borrowerData, loanDetails);
+    }
   } catch (error) {
     return mockLoanAgreement(borrowerData, loanDetails);
   }

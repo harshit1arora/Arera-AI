@@ -64,8 +64,8 @@ const Footer = () => {
   };
 
   return (
-    <footer className="bg-surface border-t border-border py-[56px] pb-[32px]">
-      <div className="container mx-auto px-6">
+    <footer className="relative bg-surface border-t border-border py-[56px] pb-[32px] overflow-hidden">
+      <div className="container mx-auto px-6 relative z-10">
         <div className="grid md:grid-cols-2 lg:grid-cols-6 gap-12 lg:gap-8">
           
           {/* Column 1: Brand */}
@@ -129,6 +129,9 @@ const Footer = () => {
         </div>
       </div>
 
+      <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 text-[12vw] font-black text-white/[0.02] select-none pointer-events-none lowercase tracking-[0.1em]">
+        arera
+      </div>
       <RequestDemoDialog open={demoOpen} onOpenChange={setDemoOpen} />
       <FeedbackDialog open={feedbackOpen} onOpenChange={setFeedbackOpen} />
     </footer>

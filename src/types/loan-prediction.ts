@@ -3,6 +3,7 @@
  */
 
 export interface LoanPredictionResult {
+  applicationId?: string;
   approvalScore: number; // 0-100
   approvalProbability: number; // 0-1.0
   maxApprovableAmount: number;

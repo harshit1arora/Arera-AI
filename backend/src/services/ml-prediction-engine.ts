@@ -2,10 +2,9 @@ import admin from 'firebase-admin';
 import { ParsedBankStatement } from './bank-statement-parser';
 
 /**
- * ML-Based Loan Prediction Engine
+ * Loan Prediction Engine
  * 
- * Replaces mock algorithm with real ML predictions.
- * Uses feature engineering + XGBoost model (via ONNX) or calibrated rules.
+ * Uses feature engineering and rules-based scoring.
  * 
  * Features:
  * - Credit score analysis (bureau data)
@@ -80,7 +79,7 @@ export interface LoanPredictionResult {
 }
 
 class MLPredictionEngine {
-  private static readonly MODEL_VERSION = '1.0-beta';
+  private static readonly MODEL_VERSION = 'RuleEngine-1.0';
   private static readonly DEFAULT_BUREAU_SCORE = 700; // If no bureau data
   private static readonly REPO_RATE = 4.5; // Current RBI repo rate %
   
@@ -92,7 +91,7 @@ class MLPredictionEngine {
       // 1. Feature Engineering
       const features = await this.engineerFeatures(request);
       
-      // 2. Score Calculation (rule-based with ML calibration)
+      // 2. Score Calculation (rule-based)
       const scores = this.calculateScores(features);
       
       // 3. Generate Result
@@ -212,7 +211,7 @@ class MLPredictionEngine {
     const employmentStabilityScore = features.employmentStabilityScore * 5;
 
     // Total approval score (0-100)
-    const approvalScore = Math.round(
+    let approvalScore = Math.round(
       creditScoreFactor +
       incomeStabilityFactor +
       emiCapacityScore +
@@ -232,10 +231,28 @@ class MLPredictionEngine {
 
     riskScore = Math.min(100, Math.max(0, riskScore));
 
+    // Severe risk factors knock-out adjustments to approval score
+    if (features.creditScore < 600) {
+      approvalScore = Math.max(0, approvalScore - 25);
+    }
+    if (features.accountsDelinquent && features.accountsDelinquent > 0) {
+      approvalScore = Math.max(0, approvalScore - 20);
+    }
+    if (features.debtToIncomeRatio > 75) {
+      approvalScore = Math.max(0, approvalScore - 15);
+    }
+
     // Convert to probability (calibrated curve)
     // Use logistic function: 1 / (1 + e^(-k*(x-x0)))
     // Calibration parameters (k=0.1, x0=50)
-    const approvalProbability = 1 / (1 + Math.exp(-0.1 * (approvalScore - 50)));
+    let approvalProbability = 1 / (1 + Math.exp(-0.1 * (approvalScore - 50)));
+
+    // Capping probabilities for high-risk classifications to avoid false approvals
+    if (riskScore > 75) {
+      approvalProbability = Math.min(approvalProbability, 0.3);
+    } else if (riskScore > 60) {
+      approvalProbability = Math.min(approvalProbability, 0.45);
+    }
 
     return {
       approvalScore,
@@ -465,6 +482,8 @@ class MLPredictionEngine {
     if (age > 55) return 0.7;
     return 0.5; // Too young or invalid
   }
+
+
 }
 
 export default MLPredictionEngine;

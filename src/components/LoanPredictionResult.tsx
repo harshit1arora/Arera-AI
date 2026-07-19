@@ -21,6 +21,86 @@ interface PredictionResultProps {
 }
 
 const PredictionResult: React.FC<PredictionResultProps> = ({ prediction, loanAmount, onApply }) => {
+  const [explanations, setExplanations] = useState<any[]>([]);
+  const [loadingExplanations, setLoadingExplanations] = useState(false);
+  const [showExplanations, setShowExplanations] = useState(false);
+
+  useEffect(() => {
+    if (prediction.applicationId && !prediction.applicationId.startsWith('form-')) {
+      setLoadingExplanations(true);
+      const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080';
+      fetch(`${API_BASE}/api/loan/${prediction.applicationId}/explanation`)
+        .then(res => {
+          if (!res.ok) throw new Error('Failed to fetch explanations');
+          return res.json();
+        })
+        .then(data => {
+          if (data && data.explanations) {
+            setExplanations(data.explanations);
+          }
+        })
+        .catch(err => {
+          console.warn('Could not fetch explanations, falling back to local extraction:', err);
+          generateLocalExplanations();
+        })
+        .finally(() => {
+          setLoadingExplanations(false);
+        });
+    } else {
+      generateLocalExplanations();
+    }
+
+    function generateLocalExplanations() {
+      const positive = prediction.positiveFactors || [];
+      const negative = prediction.negativeFactors || [];
+      const localExps: any[] = [];
+      const isApproved = prediction.decision === 'approve';
+
+      const friendlyReasons: Record<string, string> = {
+        'Excellent credit score': 'Excellent credit score significantly lowered loan default risk.',
+        'Stable income sources': 'Stable income source verified from bank statement records.',
+        'Stable, salaried income': 'Stable income source verified from bank statement records.',
+        'Good EMI capacity': 'Optimal income-to-EMI headroom indicates comfortable repayment ability.',
+        'Healthy savings ratio': 'Consistent monthly savings ratio demonstrates strong financial discipline.',
+        'Good savings ratio': 'Consistent monthly savings ratio demonstrates strong financial discipline.',
+        'Consistent repayment history': 'Excellent repayment history verified on bureau database.',
+        'Optimal age profile': 'Age profile is within prime working and repayment demographic.',
+        'Stable employment status': 'Employment status matches high-repayment category.',
+        'High existing debt burden': 'High existing debt burden reduces monthly repayment capacity.',
+        'Elevated Debt-to-Income ratio': 'High existing debt burden reduces monthly repayment capacity.',
+        'Low credit score': 'Sub-optimal credit history indicates higher default risk.',
+        'Unstable income': 'Volatile monthly cash flows indicate potential payment risk.',
+        'Limited EMI capacity': 'Existing obligations leave narrow headroom for servicing new EMIs.',
+        'Low savings ratio': 'Low savings buffer increases vulnerability to missing payments.',
+        'Credit history parameters within bounds': 'Baseline credit parameters meet policy guidelines.',
+        'Existing obligation constraints': 'Debt obligations are at the standard policy limit.'
+      };
+
+      const mapFactor = (factor: string, impact: 'positive' | 'risk') => {
+        let cleanFactor = factor;
+        if (factor.startsWith('Sub-optimal')) {
+          cleanFactor = 'Low credit score';
+        }
+        return {
+          factor: cleanFactor,
+          impact,
+          direction: impact === 'positive' ? 'down' : 'up',
+          reason: friendlyReasons[cleanFactor] || `${factor} was a key driver in the loan decision.`
+        };
+      };
+
+      if (isApproved) {
+        positive.forEach(f => localExps.push(mapFactor(f, 'positive')));
+        negative.forEach(f => localExps.push(mapFactor(f, 'risk')));
+      } else {
+        negative.forEach(f => localExps.push(mapFactor(f, 'risk')));
+        positive.forEach(f => localExps.push(mapFactor(f, 'positive')));
+      }
+
+      setExplanations(localExps.slice(0, 3));
+    }
+  }, [prediction.applicationId, prediction.positiveFactors, prediction.negativeFactors]);
+
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat('en-IN', {
       style: 'currency',
@@ -107,6 +187,56 @@ const PredictionResult: React.FC<PredictionResultProps> = ({ prediction, loanAmo
           </div>
         </div>
       </div>
+
+      {/* Decision Explanations Panel */}
+      {explanations.length > 0 && (
+        <div className="border border-zinc-800 rounded-lg bg-zinc-950 overflow-hidden shadow-md">
+          <button
+            onClick={() => setShowExplanations(!showExplanations)}
+            className="w-full flex items-center justify-between p-4 text-left font-medium hover:bg-zinc-900 transition-colors"
+          >
+            <div className="flex items-center space-x-2">
+              <Lightbulb className="h-5 w-5 text-amber-500" />
+              <span className="text-zinc-100 text-sm font-semibold">Why was this decision made? (Model Explainability)</span>
+            </div>
+            <span className="text-zinc-400 text-xs">{showExplanations ? 'Hide details' : 'Show details'}</span>
+          </button>
+          
+          {showExplanations && (
+            <div className="p-4 border-t border-zinc-900 bg-zinc-950/80 space-y-3">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                {explanations.map((exp, i) => (
+                  <div 
+                    key={i} 
+                    className={`border rounded p-3 text-xs flex flex-col justify-between ${
+                      exp.impact === 'positive' 
+                        ? 'border-emerald-900/50 bg-emerald-950/10 text-emerald-200' 
+                        : 'border-rose-900/50 bg-rose-950/10 text-rose-200'
+                    }`}
+                  >
+                    <div>
+                      <div className="flex items-start justify-between mb-2">
+                        <span className="font-bold text-zinc-100">{exp.factor}</span>
+                        {exp.direction === 'up' ? (
+                          <TrendingUp className="h-3.5 w-3.5 text-rose-400 flex-shrink-0" />
+                        ) : (
+                          <span className="text-emerald-400 font-bold flex-shrink-0">↓</span>
+                        )}
+                      </div>
+                      <p className="text-zinc-400 text-[11px] leading-relaxed mb-3">{exp.reason}</p>
+                    </div>
+                    <div className={`text-[9px] uppercase font-semibold tracking-wider ${
+                      exp.impact === 'positive' ? 'text-emerald-400' : 'text-rose-400'
+                    }`}>
+                      {exp.impact === 'positive' ? 'Decreases Default Risk' : 'Increases Default Risk'}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      )}
 
       {/* Tabs for Detailed Analysis */}
       <Tabs defaultValue="overview" className="w-full">
