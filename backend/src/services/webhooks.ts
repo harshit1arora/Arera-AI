@@ -87,10 +87,10 @@ export const processWebhookQueue = async () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'X-Arera-Signature': `sha256=${signature}`,
-          'X-Arera-Event': task.eventType,
-          'X-Arera-Delivery': task.payload.eventId,
-          'X-Arera-Attempt': attemptNumber.toString(),
+          'X-Gavel-Signature': `sha256=${signature}`,
+          'X-Gavel-Event': task.eventType,
+          'X-Gavel-Delivery': task.payload.eventId,
+          'X-Gavel-Attempt': attemptNumber.toString(),
         },
         body: payloadString,
         // Short timeout for webhooks (10s) to prevent hanging

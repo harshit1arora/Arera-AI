@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { BLOG_POSTS } from "@/data/blog-posts";
-import { FadeUp } from "./arera/FadeUp";
+import { FadeUp } from "./gavel/FadeUp";
 
 const BlogSection = () => {
   const recentPosts = BLOG_POSTS.slice(0, 3);

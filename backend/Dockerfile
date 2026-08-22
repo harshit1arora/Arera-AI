@@ -10,7 +10,7 @@ RUN npm run build
 
 FROM node:20-alpine AS production
 
-RUN addgroup -g 1001 -S nodejs && adduser -S arera -u 1001
+RUN addgroup -g 1001 -S nodejs && adduser -S gavel -u 1001
 
 WORKDIR /app
 
@@ -24,7 +24,7 @@ COPY --from=builder /app/package.json ./
 ENV NODE_ENV=production
 ENV PORT=8080
 
-USER arera
+USER gavel
 
 EXPOSE 8080
 

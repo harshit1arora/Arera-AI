@@ -1,7 +1,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import CTASection from "@/components/CTASection";
-import { FadeUp } from "@/components/arera/FadeUp";
+import { FadeUp } from "@/components/gavel/FadeUp";
 import {
   Database, Network, Smartphone, LineChart, ArrowRight,
   TrendingUp, ShieldCheck, BarChart3, Zap
@@ -79,7 +79,7 @@ const integrationSteps = [
   {
     step: "02",
     title: "Define your scorecard",
-    desc: "Use our visual scorecard builder or upload a custom model — Arera wraps it in deterministic logic.",
+    desc: "Use our visual scorecard builder or upload a custom model — Gavel wraps it in deterministic logic.",
   },
   {
     step: "03",
@@ -283,7 +283,7 @@ const CreditScoring = () => {
                   <div className="font-['JetBrains_Mono'] text-[12px] leading-[1.9] relative z-10">
                     <div className="text-muted-foreground mb-2">// Score response</div>
                     <span className="text-muted-foreground">{"{"}</span><br />
-                    <span className="ml-4 text-[#00FF94]">"arera_score"</span>
+                    <span className="ml-4 text-[#00FF94]">"gavel_score"</span>
                     <span className="text-muted-foreground">: </span>
                     <span className="text-foreground">742</span>
                     <span className="text-muted-foreground">,</span><br />

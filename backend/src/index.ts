@@ -51,6 +51,7 @@ import lenderMatchingRouter from './routes/lender-matching';
 import publicPredictionRouter from './routes/public-prediction';
 import originationRouter from './routes/origination';
 import underwritingRouter from './routes/underwriting';
+import demoRequestRouter from './routes/demo-request';
 import { connectRedis } from './services/redis';
 import { runDailyCollectionCheck } from './services/collection-automation';
 import { runPortfolioClassification } from './services/compliance-engine';
@@ -81,7 +82,7 @@ app.use(helmet({
 }));
 
 // CORS: Locked to specific origins
-const ALLOWED_ORIGINS = (process.env.ALLOWED_ORIGINS || 'http://localhost:5173,http://localhost:3000,https://tryarera.com,https://www.tryarera.com').split(',');
+const ALLOWED_ORIGINS = (process.env.ALLOWED_ORIGINS || 'http://localhost:5173,http://localhost:3000,https://trygavel.com,https://www.trygavel.com').split(',');
 app.use(cors({
   origin: (origin, callback) => {
     // Allow requests with no origin (server-to-server, curl, mobile apps)
@@ -130,22 +131,24 @@ app.use('/v1/apikeys', authLimiter);
 app.get('/health', (req, res) => {
   res.status(200).json({ 
     status: 'healthy', 
-    service: 'arera-api-gateway',
+    service: 'gavel-api-gateway',
     timestamp: new Date().toISOString(),
     uptime: process.uptime(),
   });
 });
 
 // ── API Documentation (Public) ─────────────────────────────────────
-app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, { customSiteTitle: "Arera API Docs" }));
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, { customSiteTitle: "Gavel API Docs" }));
 
 const staticPath = path.join(process.cwd(), 'public');
 console.log(`[Static] Serving assets from absolute path: ${staticPath}`);
 app.use('/public', express.static(staticPath));
 
-// ── Public B2C Routes (No Auth Required) ────────────────────────────
+// ── Public B2C & Demo Routes (No Auth Required for Submission & Stream) ──
 app.use('/v1/public', publicPredictionRouter);
 app.use('/v1/public/lenders', lenderMatchingRouter);
+app.use('/v1/public/demo-request', demoRequestRouter);
+app.use('/v1/demo-request', demoRequestRouter);
 
 // ── Admin Routes (Secured by Firebase ID Tokens) ───────────────────
 // apikeys router handles its own auth internally (authenticateFirebaseToken)
@@ -321,7 +324,7 @@ app.get('/api/loan/:applicationId/explanation', async (req, res) => {
 // Admin Authentication Middleware (gated by simple env-var or fallback password)
 const checkAdminPassword = (req: express.Request, res: express.Response, next: express.NextFunction) => {
   const reqPassword = req.headers['x-admin-password'] || req.query.password;
-  const expectedPassword = process.env.ADMIN_PASSWORD || 'arera-admin-2026';
+  const expectedPassword = process.env.ADMIN_PASSWORD || 'gavel-admin-2026';
   if (reqPassword === expectedPassword) {
     return next();
   }
@@ -360,7 +363,7 @@ app.use((err: Error, req: express.Request, res: express.Response, next: express.
 
 // ── Graceful Shutdown ────────────────────────────────────────────
 const server = app.listen(PORT, () => {
-  console.log(`🚀 Arera AI API Gateway running on port ${PORT}`);
+  console.log(`🚀 Gavel AI API Gateway running on port ${PORT}`);
 
   setInterval(() => {
     processWebhookQueue().catch(err => console.error("Webhook processor error:", err));

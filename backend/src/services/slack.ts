@@ -59,7 +59,7 @@ export async function notifySlackLowUsage(
       type: 'section',
       text: {
         type: 'mrkdwn',
-        text: `*${orgName}* hasn't used Arera in *${daysSinceUsage} days*.`,
+        text: `*${orgName}* hasn't used Gavel in *${daysSinceUsage} days*.`,
       },
     },
     {
@@ -81,7 +81,7 @@ export async function notifySlackLowUsage(
             type: 'plain_text',
             text: 'View Dashboard',
           },
-          url: 'https://app.arera.ai/dashboard',
+          url: 'https://app.gavel.ai/dashboard',
           action_id: 'view_dashboard',
         },
         {
@@ -144,7 +144,7 @@ export async function notifySlackNewDeal(
             type: 'plain_text',
             text: 'View Pipeline',
           },
-          url: 'https://app.arera.ai/sales-pipeline',
+          url: 'https://app.gavel.ai/sales-pipeline',
           action_id: 'view_pipeline',
         },
       ],
@@ -208,7 +208,7 @@ export async function notifySlackCollectionsAlert(
             type: 'plain_text',
             text: 'View Collections Dashboard',
           },
-          url: 'https://app.arera.ai/collections',
+          url: 'https://app.gavel.ai/collections',
           action_id: 'view_collections',
         },
         {
@@ -290,7 +290,7 @@ export async function sendDailyDigest(
       type: 'section',
       text: {
         type: 'mrkdwn',
-        text: `Good morning! Here's what happened on Arera today:`,
+        text: `Good morning! Here's what happened on Gavel today:`,
       },
     },
     {
@@ -326,7 +326,7 @@ export async function sendDailyDigest(
             type: 'plain_text',
             text: 'View Dashboard',
           },
-          url: 'https://app.arera.ai/dashboard',
+          url: 'https://app.gavel.ai/dashboard',
           action_id: 'view_dashboard',
         },
       ],
@@ -335,3 +335,92 @@ export async function sendDailyDigest(
 
   return sendSlackMessage(webhookUrl, { blocks });
 }
+
+/**
+ * Send demo request alert to Slack
+ */
+export async function notifySlackDemoRequest(
+  webhookUrl: string,
+  request: {
+    fullName: string;
+    workEmail: string;
+    company: string;
+    phone?: string;
+    companySize?: string;
+    productInterest: string;
+    preferredDay?: string;
+    preferredTime?: string;
+    message?: string;
+  }
+): Promise<boolean> {
+  const blocks = [
+    {
+      type: 'header',
+      text: {
+        type: 'plain_text',
+        text: '🚀 New Demo Request Submitted!',
+      },
+    },
+    {
+      type: 'section',
+      fields: [
+        {
+          type: 'mrkdwn',
+          text: `*Name*\n${request.fullName}`,
+        },
+        {
+          type: 'mrkdwn',
+          text: `*Work Email*\n${request.workEmail}`,
+        },
+        {
+          type: 'mrkdwn',
+          text: `*Company*\n${request.company} ${request.companySize ? `(${request.companySize} employees)` : ''}`,
+        },
+        {
+          type: 'mrkdwn',
+          text: `*Product Interest*\n${request.productInterest}`,
+        },
+      ],
+    },
+    ...(request.preferredDay || request.preferredTime || request.phone ? [{
+      type: 'section',
+      fields: [
+        ...(request.phone ? [{
+          type: 'mrkdwn',
+          text: `*Phone*\n${request.phone}`,
+        }] : []),
+        ...(request.preferredDay || request.preferredTime ? [{
+          type: 'mrkdwn',
+          text: `*Preferred Time*\n${request.preferredDay || 'Flexible'} - ${request.preferredTime || 'Anytime'}`,
+        }] : []),
+      ],
+    }] : []),
+    ...(request.message ? [{
+      type: 'section',
+      text: {
+        type: 'mrkdwn',
+        text: `*Message / Use Case*\n_${request.message}_`,
+      },
+    }] : []),
+    {
+      type: 'divider',
+    },
+    {
+      type: 'actions',
+      elements: [
+        {
+          type: 'button',
+          text: {
+            type: 'plain_text',
+            text: 'View Sales Pipeline',
+          },
+          url: 'https://app.gavel.ai/sales-pipeline',
+          action_id: 'view_sales_pipeline',
+        },
+      ],
+    },
+  ];
+
+  return sendSlackMessage(webhookUrl, { blocks });
+}
+

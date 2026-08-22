@@ -134,7 +134,7 @@ export function UploadPage() {
           transition={{ delay: 0.6, duration: 0.6 }}
           className="bg-white/5 border border-white/10 rounded-2xl p-8 mb-12"
         >
-          <h3 className="text-lg font-semibold text-white mb-6">Why Upload With Arera?</h3>
+          <h3 className="text-lg font-semibold text-white mb-6">Why Upload With Gavel?</h3>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="flex gap-4">

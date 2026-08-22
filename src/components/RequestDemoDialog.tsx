@@ -51,6 +51,7 @@ export const RequestDemoDialog = ({ open, onOpenChange }: RequestDemoDialogProps
   const [form, setForm] = useState<FormState>(initialForm);
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const handleChange = (field: keyof FormState, value: string) => {
     setForm((prev) => ({ ...prev, [field]: value }));
@@ -66,10 +67,30 @@ export const RequestDemoDialog = ({ open, onOpenChange }: RequestDemoDialogProps
     e.preventDefault();
     if (!isValid) return;
     setSubmitting(true);
-    // Simulate network request — wire up to your backend/email service here
-    await new Promise((res) => setTimeout(res, 1400));
-    setSubmitting(false);
-    setSubmitted(true);
+    setErrorMessage(null);
+
+    try {
+      const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:8080';
+      const response = await fetch(`${baseUrl}/v1/public/demo-request/public`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(form),
+      });
+
+      if (!response.ok) {
+        const data = await response.json().catch(() => ({}));
+        throw new Error(data.error || 'Failed to submit demo request');
+      }
+
+      setSubmitted(true);
+    } catch (err: any) {
+      console.error('Demo request submission failed:', err);
+      setErrorMessage(err.message || 'Something went wrong. Please try again.');
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const handleClose = (open: boolean) => {
@@ -78,6 +99,7 @@ export const RequestDemoDialog = ({ open, onOpenChange }: RequestDemoDialogProps
       setTimeout(() => {
         setForm(initialForm);
         setSubmitted(false);
+        setErrorMessage(null);
       }, 300);
     }
     onOpenChange(open);
@@ -122,6 +144,11 @@ export const RequestDemoDialog = ({ open, onOpenChange }: RequestDemoDialogProps
 
             {/* Body */}
             <div className="px-8 py-6 space-y-5">
+              {errorMessage && (
+                <div className="p-3 bg-red-500/10 border border-red-500/20 text-red-500 text-xs rounded-md font-['DM_Sans']">
+                  {errorMessage}
+                </div>
+              )}
               {/* Row 1: Name + Email */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-1.5">

@@ -7,11 +7,11 @@ import {
 
 const faqs = [
   {
-    question: "How long does it take to integrate Arera APIs?",
+    question: "How long does it take to integrate Gavel APIs?",
     answer: "Most engineering teams are up and running in our sandbox environment within a few hours. A full production rollout typically takes under a week thanks to our deterministic API structure and comprehensive documentation.",
   },
   {
-    question: "Does Arera handle RBI compliance?",
+    question: "Does Gavel handle RBI compliance?",
     answer: "Yes. Our infrastructure is designed to be strictly aligned with RBI's 2022 Digital Lending Guidelines. We provide immutable audit trails and per-decision explainability required for regulatory filing.",
   },
   {
@@ -20,7 +20,7 @@ const faqs = [
   },
   {
     question: "What happens if a bureau is down?",
-    answer: "Arera features built-in fallback mechanisms. If a primary bureau times out, we can instantly pivot to a secondary bureau or lean on bank statement transaction patterns to ensure your flow doesn't hang.",
+    answer: "Gavel features built-in fallback mechanisms. If a primary bureau times out, we can instantly pivot to a secondary bureau or lean on bank statement transaction patterns to ensure your flow doesn't hang.",
   },
   {
     question: "How secure is user data?",

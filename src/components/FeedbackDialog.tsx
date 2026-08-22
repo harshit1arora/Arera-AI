@@ -90,7 +90,7 @@ export const FeedbackDialog = ({ open, onOpenChange }: FeedbackDialogProps) => {
               Feedback Submitted!
             </h2>
             <p className="font-['DM_Sans'] font-normal text-[15px] leading-[1.6] text-muted-foreground max-w-[380px]">
-              Thank you for sharing your experience. Your feedback helps us continuously improve the Arera AI platform for everyone.
+              Thank you for sharing your experience. Your feedback helps us continuously improve the Gavel AI platform for everyone.
             </p>
             <button
               onClick={() => handleClose(false)}
@@ -109,7 +109,7 @@ export const FeedbackDialog = ({ open, onOpenChange }: FeedbackDialogProps) => {
                   Customer Feedback
                 </DialogTitle>
                 <DialogDescription className="font-['DM_Sans'] font-normal text-[14px] text-muted-foreground text-left mt-1">
-                  We'd love to hear your thoughts. Let us know how we can make Arera AI even better for you.
+                  We'd love to hear your thoughts. Let us know how we can make Gavel AI even better for you.
                 </DialogDescription>
               </DialogHeader>
             </div>

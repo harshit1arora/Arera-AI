@@ -30,7 +30,7 @@ const ComparePage = () => {
       try {
         await navigator.share({
           title: 'Check My Loan Approval Score',
-          text: `I got ${score}% approval probability on Arera! Can you beat my score?`,
+          text: `I got ${score}% approval probability on Gavel! Can you beat my score?`,
           url: shareUrl,
         });
       } catch (err) {

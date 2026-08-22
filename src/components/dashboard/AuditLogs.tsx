@@ -6,10 +6,10 @@ import { apiWithAuth, parseResponse } from "@/lib/api-client";
 import AuditReportModal from "./AuditReportModal";
 
 const MOCK_AUDITS = [
-  { id: 'arera_audit_7c9e', timestamp: new Date(Date.now() - 1000 * 60 * 5).toISOString(), actor: 'api_key_live', action: 'Underwriting Analysis', detail: 'Decision: APPROVE | Score: 742', success: true },
-  { id: 'arera_audit_8f21', timestamp: new Date(Date.now() - 1000 * 60 * 12).toISOString(), actor: 'system', action: 'Policy Update', detail: 'Modified Rule R007: Threshold 0.50 -> 0.45', success: true },
-  { id: 'arera_audit_3301', timestamp: new Date(Date.now() - 1000 * 60 * 45).toISOString(), actor: 'admin@nbfc.com', action: 'Manual Review Override', detail: 'App ID: loan_9921 | Status: APPROVED', success: true },
-  { id: 'arera_audit_9901', timestamp: new Date(Date.now() - 1000 * 60 * 120).toISOString(), actor: 'api_key_live', action: 'Underwriting Analysis', detail: 'Decision: REJECT | Score: 210', success: true },
+  { id: 'gavel_audit_7c9e', timestamp: new Date(Date.now() - 1000 * 60 * 5).toISOString(), actor: 'api_key_live', action: 'Underwriting Analysis', detail: 'Decision: APPROVE | Score: 742', success: true },
+  { id: 'gavel_audit_8f21', timestamp: new Date(Date.now() - 1000 * 60 * 12).toISOString(), actor: 'system', action: 'Policy Update', detail: 'Modified Rule R007: Threshold 0.50 -> 0.45', success: true },
+  { id: 'gavel_audit_3301', timestamp: new Date(Date.now() - 1000 * 60 * 45).toISOString(), actor: 'admin@nbfc.com', action: 'Manual Review Override', detail: 'App ID: loan_9921 | Status: APPROVED', success: true },
+  { id: 'gavel_audit_9901', timestamp: new Date(Date.now() - 1000 * 60 * 120).toISOString(), actor: 'api_key_live', action: 'Underwriting Analysis', detail: 'Decision: REJECT | Score: 210', success: true },
 ];
 
 export default function AuditLogs() {

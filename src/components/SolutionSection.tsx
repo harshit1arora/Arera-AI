@@ -1,5 +1,5 @@
 import { ScanFace, Settings2, FileCheck, ShieldCheck } from "lucide-react";
-import { FadeUp } from "./arera/FadeUp";
+import { FadeUp } from "./gavel/FadeUp";
 
 const SolutionSection = () => {
   const features = [
@@ -41,7 +41,7 @@ const SolutionSection = () => {
 
           {/* Subhead */}
           <p className="font-['DM_Sans'] font-normal text-[17px] leading-[1.6] text-muted-foreground max-w-[520px] mx-auto mb-[56px]">
-            Arera provides the deterministic infrastructure required to run high-volume lending operations with 100% auditability.
+            Gavel provides the deterministic infrastructure required to run high-volume lending operations with 100% auditability.
           </p>
         </FadeUp>
 

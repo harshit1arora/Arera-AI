@@ -179,7 +179,7 @@ const Playground = () => {
   };
 
   const copyCurl = () => {
-    const curl = `curl -X POST https://api.arera.in/v1/underwriting/analyze \\
+    const curl = `curl -X POST https://api.gavel.in/v1/underwriting/analyze \\
   -H "Authorization: Bearer sk_live_xxxx" \\
   -H "Content-Type: application/json" \\
   -d '${jsonValue}'`;

@@ -5,13 +5,13 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    container_name: arera-backend
+    container_name: gavel-backend
     restart: unless-stopped
     environment:
       - NODE_ENV=${NODE_ENV:-production}
       - PORT=8080
       - FIREBASE_SERVICE_ACCOUNT=${FIREBASE_SERVICE_ACCOUNT}
-      - FIREBASE_PROJECT_ID=${FIREBASE_PROJECT_ID:-arera-demo}
+      - FIREBASE_PROJECT_ID=${FIREBASE_PROJECT_ID:-gavel-demo}
       - REDIS_URL=redis://redis:6379
       - GEMINI_API_KEY=${GEMINI_API_KEY}
       - NVIDIA_API_KEY=${NVIDIA_API_KEY}
@@ -20,7 +20,7 @@ services:
       - TWILIO_AUTH_TOKEN=${TWILIO_AUTH_TOKEN}
       - TWILIO_PHONE_NUMBER=${TWILIO_PHONE_NUMBER}
       - SENDGRID_API_KEY=${SENDGRID_API_KEY}
-      - SENDGRID_FROM_EMAIL=${SENDGRID_FROM_EMAIL:-noreply@arera.ai}
+      - SENDGRID_FROM_EMAIL=${SENDGRID_FROM_EMAIL:-noreply@gavel.ai}
       - RAZORPAY_KEY_ID=${RAZORPAY_KEY_ID}
       - RAZORPAY_KEY_SECRET=${RAZORPAY_KEY_SECRET}
       - RAZORPAY_WEBHOOK_SECRET=${RAZORPAY_WEBHOOK_SECRET}
@@ -43,34 +43,34 @@ services:
       retries: 3
       start_period: 10s
     networks:
-      - arera-net
+      - gavel-net
 
   redis:
     image: redis:7-alpine
-    container_name: arera-redis
+    container_name: gavel-redis
     restart: unless-stopped
     command: redis-server --appendonly yes --maxmemory 256mb --maxmemory-policy allkeys-lru
     volumes:
-      - arera-redis-data:/data
+      - gavel-redis-data:/data
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 10s
       timeout: 3s
       retries: 3
     networks:
-      - arera-net
+      - gavel-net
 
   frontend:
     build:
       context: .
       dockerfile: Dockerfile.frontend
-    container_name: arera-frontend
+    container_name: gavel-frontend
     restart: unless-stopped
     environment:
       - VITE_API_BASE_URL=http://backend:8080
       - VITE_FIREBASE_API_KEY=${VITE_FIREBASE_API_KEY}
       - VITE_FIREBASE_AUTH_DOMAIN=${VITE_FIREBASE_AUTH_DOMAIN}
-      - VITE_FIREBASE_PROJECT_ID=${VITE_FIREBASE_PROJECT_ID:-arera-demo}
+      - VITE_FIREBASE_PROJECT_ID=${VITE_FIREBASE_PROJECT_ID:-gavel-demo}
       - VITE_FIREBASE_STORAGE_BUCKET=${VITE_FIREBASE_STORAGE_BUCKET}
       - VITE_FIREBASE_MESSAGING_SENDER_ID=${VITE_FIREBASE_MESSAGING_SENDER_ID}
       - VITE_FIREBASE_APP_ID=${VITE_FIREBASE_APP_ID}
@@ -79,11 +79,11 @@ services:
     depends_on:
       - backend
     networks:
-      - arera-net
+      - gavel-net
 
 volumes:
-  arera-redis-data:
+  gavel-redis-data:
 
 networks:
-  arera-net:
+  gavel-net:
     driver: bridge

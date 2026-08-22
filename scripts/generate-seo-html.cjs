@@ -15,7 +15,7 @@ const fs   = require('fs');
 const path = require('path');
 const config = require('../src/data/seo-config.json');
 
-const DOMAIN  = 'https://www.tryarera.com';
+const DOMAIN  = 'https://www.trygavel.com';
 const TODAY   = new Date().toISOString().split('T')[0];
 const YEAR    = new Date().getFullYear();
 const DIST    = path.join(__dirname, '../dist');
@@ -62,7 +62,7 @@ function salaryPages() {
     const slug     = `loan-eligibility-${sl.toLowerCase()}-salary`;
     return {
       slug,
-      title:       `₹${sl} Salary Personal Loan Eligibility — Calculate Max Loan & EMIs | Arera AI`,
+      title:       `₹${sl} Salary Personal Loan Eligibility — Calculate Max Loan & EMIs | Gavel AI`,
       h1:          `Personal Loan Eligibility on ₹${sl}/Month Salary`,
       description: `Earn ₹${sl}/month net salary? Calculate your maximum personal loan amount, eligible monthly EMIs, and compare matching banks. Free, fast & CIBIL safe.`,
       category:    'Salary Eligibility',
@@ -118,7 +118,7 @@ function loanAmountPages() {
     const slug      = `${al.toLowerCase()}-personal-loan`;
     return {
       slug,
-      title:       `₹${al} Personal Loan EMI & Eligibility — Compare Best Banks 2026 | Arera AI`,
+      title:       `₹${al} Personal Loan EMI & Eligibility — Compare Best Banks 2026 | Gavel AI`,
       h1:          `₹${al} Personal Loan: Complete Eligibility & EMI Guide`,
       description: `Need a ₹${al} personal loan? Calculate your monthly EMI starting at 10.5% interest, check minimum salary required, and find the best bank for fast approval.`,
       category:    'Loan Amount Guide',
@@ -171,7 +171,7 @@ function cityPages() {
 
     pages.push({
       slug: `personal-loan-in-${city}`,
-      title: `Personal Loan in ${cityName} — Compare Lowest Rates & Fees 2026 | Arera AI`,
+      title: `Personal Loan in ${cityName} — Compare Lowest Rates & Fees 2026 | Gavel AI`,
       h1: `Personal Loan in ${cityName}: Compare Rates & Eligibility`,
       description: `Get the lowest personal loan rates in ${cityName}. Compare eligibility, EMIs, and fees across SBI, HDFC, ICICI, and NBFCs. Check your odds free.`,
       category: 'City Loan Guide',
@@ -223,7 +223,7 @@ function cityPages() {
 
     pages.push({
       slug: `home-loan-in-${city}`,
-      title: `Home Loan in ${cityName} — Compare Best Mortgage Rates & Stamp Duty | Arera AI`,
+      title: `Home Loan in ${cityName} — Compare Best Mortgage Rates & Stamp Duty | Gavel AI`,
       h1: `Home Loan in ${cityName}: Rates, Eligibility & How to Apply`,
       description: `Looking for a home loan in ${cityName}? Compare SBI, HDFC, and LIC mortgage rates, calculate stamp duty, and estimate maximum borrowing limit.`,
       category: 'City Home Loan Guide',
@@ -281,7 +281,7 @@ function professionPages() {
     const slug     = `personal-loan-for-${prof}`;
     return {
       slug,
-      title:       `Personal Loan for ${profName}s — Lowest Rates & Special Schemes | Arera AI`,
+      title:       `Personal Loan for ${profName}s — Lowest Rates & Special Schemes | Gavel AI`,
       h1:          `Personal Loan for ${profName}s: Exclusive Guide`,
       description: `Compare special personal loan offers and CIBIL criteria for ${profName}s. Check minimum turnover, documentation, and calculate approval odds.`,
       category:    'Profession Guide',
@@ -339,7 +339,7 @@ function bankPages() {
 
     pages.push({
       slug: `${bank}-personal-loan-eligibility`,
-      title: `${bankName} Personal Loan Eligibility 2026 — Interest Rates & Fees | Arera AI`,
+      title: `${bankName} Personal Loan Eligibility 2026 — Interest Rates & Fees | Gavel AI`,
       h1: `${bankName} Personal Loan: Eligibility Criteria & Interest Rates`,
       description: `Calculate your personal loan eligibility for ${bankName}. Check minimum salary required, current interest rates, required documents, and get approved fast.`,
       category: 'Bank Eligibility Guide',
@@ -391,7 +391,7 @@ function bankPages() {
 
     pages.push({
       slug: `${bank}-loan-rejection-reasons`,
-      title: `Why ${bankName} Rejected Your Loan & How to Get Approved | Arera AI`,
+      title: `Why ${bankName} Rejected Your Loan & How to Get Approved | Gavel AI`,
       h1: `Why ${bankName} Rejects Personal Loans: Reasons & Solutions`,
       description: `Got rejected by ${bankName}? Find the top reasons for rejection (high DTI, cheque bounce, CIBIL) and learn exactly how to fix it and reapply.`,
       category: 'Bank Rejection Guide',
@@ -439,7 +439,7 @@ function bankPages() {
 
     pages.push({
       slug: `${bank}-loan-analysis`,
-      title: `${bankName} Loan Credit Underwriting Policy Secrets | Arera AI`,
+      title: `${bankName} Loan Credit Underwriting Policy Secrets | Gavel AI`,
       h1: `${bankName} Loan Underwriting Policy: Deep Analysis`,
       description: `Unlock ${bankName}'s credit underwriting rules. Learn how their AI check parses your bank statements, salary stability, and credit score.`,
       category: 'Bank Analysis',
@@ -488,7 +488,7 @@ function bankPages() {
 function intentPages() {
   const custom = {
     'why-loans-get-rejected': {
-      title: 'Why Do Personal Loans Get Rejected? Top 10 Reasons | Arera AI',
+      title: 'Why Do Personal Loans Get Rejected? Top 10 Reasons | Gavel AI',
       h1: 'Why Personal Loans Get Rejected in India — Top Reasons',
       description: 'Nearly 40% of personal loan applications in India are rejected. Here are the top reasons banks reject loans and exactly how to fix each issue before reapplying.',
       content: [
@@ -526,7 +526,7 @@ function intentPages() {
       ],
     },
     'how-banks-check-bank-statements': {
-      title: 'How Banks Analyze Your Bank Statement for Loan Approval | Arera AI',
+      title: 'How Banks Analyze Your Bank Statement for Loan Approval | Gavel AI',
       h1: 'How Banks Read Your Bank Statement — What They Look For',
       description: 'Banks don\'t just see your salary. Learn what automated systems scan in your 6-month bank statement to decide loan approval, rejection, and interest rate.',
       content: [
@@ -560,7 +560,7 @@ function intentPages() {
       ],
     },
     'how-to-improve-loan-approval': {
-      title: 'How to Improve Loan Approval Chances in India — 12 Proven Steps | Arera AI',
+      title: 'How to Improve Loan Approval Chances in India — 12 Proven Steps | Gavel AI',
       h1: 'How to Maximize Your Personal Loan Approval Odds',
       description: 'Step-by-step checklist to optimize your CIBIL score, reduce FOIR, clean bank statements, and guarantee personal loan approval from top Indian banks.',
       content: [
@@ -620,7 +620,7 @@ function intentPages() {
     }
     return {
       slug: intent,
-      title: `${name} — Personal Loan Guide & Solutions | Arera AI`,
+      title: `${name} — Personal Loan Guide & Solutions | Gavel AI`,
       h1: name,
       description: `Complete guide on how ${name.toLowerCase()} impacts your loan eligibility in India and the exact steps to overcome it and get approved.`,
       category: 'Problem Solver',
@@ -664,7 +664,7 @@ function datasetPages() {
   return [
     {
       slug: 'average-approval-score-by-profession',
-      title: 'Average Credit Approval Score by Profession India 2026 | Arera AI',
+      title: 'Average Credit Approval Score by Profession India 2026 | Gavel AI',
       h1: 'Credit Approval Scores by Profession — AI Research Report',
       description: 'Data-driven report on average credit score requirements and approval rates across 25+ professions in India. Based on 5 lakh+ loan applications analyzed.',
       category: 'Research Report',
@@ -710,7 +710,7 @@ function datasetPages() {
     },
     {
       slug: 'most-common-rejection-reasons',
-      title: 'Most Common Personal Loan Rejection Reasons India 2026 | Arera AI',
+      title: 'Most Common Personal Loan Rejection Reasons India 2026 | Gavel AI',
       h1: 'Top Personal Loan Rejection Causes — 5 Lakh+ Applications Analyzed',
       description: 'Data report on why Indian banks reject personal loan applications. Based on 5 lakh+ applications — FOIR, CIBIL, statement bounces, and more.',
       category: 'Research Report',
@@ -754,7 +754,7 @@ function datasetPages() {
     },
     {
       slug: 'financial-trends-by-salary-range',
-      title: 'Personal Loan Eligibility & Trends by Salary Range India 2026 | Arera AI',
+      title: 'Personal Loan Eligibility & Trends by Salary Range India 2026 | Gavel AI',
       h1: 'Personal Loan Trends by Salary Bracket — ₹15K to ₹5L/Month',
       description: 'Average loan amounts, approval rates, interest rates, and repayment behavior across different salary brackets in India. Based on 2024–2026 data.',
       category: 'Research Report',
@@ -796,7 +796,7 @@ function datasetPages() {
     },
     {
       slug: 'emi-stress-trends',
-      title: 'EMI Burden & Over-Leverage Trends in Indian Cities 2026 | Arera AI',
+      title: 'EMI Burden & Over-Leverage Trends in Indian Cities 2026 | Gavel AI',
       h1: 'EMI Stress & Debt-to-Income Trends Across Indian Cities',
       description: 'Over-leveraging trends, average FOIR ratios, and EMI stress scores across metro, Tier-2, and Tier-3 Indian cities. Based on 2 lakh+ application data points.',
       category: 'Research Report',
@@ -936,19 +936,19 @@ function renderPage(page) {
     '@type': 'Article',
     headline: page.h1,
     description: page.description,
-    image: `${DOMAIN}/arera-og.png`,
+    image: `${DOMAIN}/gavel-og.png`,
     url: `${DOMAIN}/${page.slug}`,
     datePublished: '2026-01-15T08:00:00+05:30',
     dateModified: `${TODAY}T08:00:00+05:30`,
     author: {
       '@type': 'Organization',
-      name: 'Arera AI Financial Research Team',
+      name: 'Gavel AI Financial Research Team',
       url: `${DOMAIN}/about`,
     },
     publisher: {
       '@type': 'Organization',
-      name: 'Arera AI',
-      logo: { '@type': 'ImageObject', url: `${DOMAIN}/arera-logo.png` },
+      name: 'Gavel AI',
+      logo: { '@type': 'ImageObject', url: `${DOMAIN}/gavel-logo.png` },
     },
   });
 
@@ -1021,21 +1021,21 @@ function renderPage(page) {
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>${escHtml(page.title)}</title>
 <meta name="description" content="${escHtml(page.description)}">
-<meta name="author" content="Arera AI">
+<meta name="author" content="Gavel AI">
 <link rel="canonical" href="${DOMAIN}/${page.slug}">
 <meta property="og:title" content="${escHtml(page.title)}">
 <meta property="og:description" content="${escHtml(page.description)}">
 <meta property="og:url" content="${DOMAIN}/${page.slug}">
 <meta property="og:type" content="article">
-<meta property="og:image" content="${DOMAIN}/arera-og.png">
+<meta property="og:image" content="${DOMAIN}/gavel-og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:locale" content="en_IN">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="${escHtml(page.title)}">
 <meta name="twitter:description" content="${escHtml(page.description)}">
-<meta name="twitter:image" content="${DOMAIN}/arera-og.png">
-<meta name="twitter:site" content="@areraai">
+<meta name="twitter:image" content="${DOMAIN}/gavel-og.png">
+<meta name="twitter:site" content="@gavelai">
 <script type="application/ld+json">${articleSchema}</script>
 ${faqSchema ? `<script type="application/ld+json">${faqSchema}</script>` : ''}
 <script type="application/ld+json">${bcSchema}</script>
@@ -1045,7 +1045,7 @@ ${faqSchema ? `<script type="application/ld+json">${faqSchema}</script>` : ''}
 <body>
 
 <header class="hdr">
-  <a href="/" class="hdr-logo">Arera<span> AI</span></a>
+  <a href="/" class="hdr-logo">Gavel<span> AI</span></a>
   <nav class="hdr-nav">
     <a href="/loan-approval-predictor">Loan Predictor</a>
     <a href="/tools">Tools</a>
@@ -1065,7 +1065,7 @@ ${faqSchema ? `<script type="application/ld+json">${faqSchema}</script>` : ''}
 
     <div class="meta">
       <span>📅 Updated: ${TODAY}</span>
-      <span>✍️ Arera AI Financial Research Team</span>
+      <span>✍️ Gavel AI Financial Research Team</span>
       <span>⏱ 3 min read</span>
     </div>
 
@@ -1104,7 +1104,7 @@ ${faqSchema ? `<script type="application/ld+json">${faqSchema}</script>` : ''}
     </div>
     <div class="ftr-col">
       <h4>Company</h4>
-      <a href="/about">About Arera AI</a>
+      <a href="/about">About Gavel AI</a>
       <a href="/blog">Blog</a>
       <a href="/contact">Contact</a>
       <a href="/security">Security</a>
@@ -1116,7 +1116,7 @@ ${faqSchema ? `<script type="application/ld+json">${faqSchema}</script>` : ''}
     </div>
   </div>
   <div class="ftr-bottom">
-    <span class="ftr-copy">© ${YEAR} Arera AI. All rights reserved. Information provided is for educational purposes only.</span>
+    <span class="ftr-copy">© ${YEAR} Gavel AI. All rights reserved. Information provided is for educational purposes only.</span>
     <span class="ftr-copy">Rates shown are indicative. Actual terms depend on lender evaluation.</span>
   </div>
 </footer>

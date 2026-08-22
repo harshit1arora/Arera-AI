@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Code2, Terminal, Webhook, Zap } from "lucide-react";
-import { FadeUp } from "./arera/FadeUp";
+import { FadeUp } from "./gavel/FadeUp";
 
 const DeveloperSection = () => {
   const [activeTab, setActiveTab] = useState("node");
@@ -15,9 +15,9 @@ const DeveloperSection = () => {
   ];
 
   const codeBlocks: Record<string, string> = {
-    node: `import Arera from '@arera/node';
+    node: `import Gavel from '@gavel/node';
 
-const client = new Arera('sk_live_xxxx');
+const client = new Gavel('sk_live_xxxx');
 
 const result = await client.underwriting.analyze({
   applicant: { pan: 'ABCPK1234D' },
@@ -30,11 +30,11 @@ const result = await client.underwriting.analyze({
 
 console.log(result.decision);     // 'APPROVE'
 console.log(result.creditLimit);  // 240000
-console.log(result.auditId);      // 'arera_...'
+console.log(result.auditId);      // 'gavel_...'
 console.log(result.reasons);      // [{ code, weight }]`,
-    python: `import arera
+    python: `import gavel
 
-client = arera.Client(api_key="sk_live_xxxx")
+client = gavel.Client(api_key="sk_live_xxxx")
 
 result = client.underwriting.analyze(
     applicant={"pan": "ABCPK1234D"},
@@ -47,8 +47,8 @@ result = client.underwriting.analyze(
 
 print(result.decision)       # APPROVE
 print(result.credit_limit)   # 240000
-print(result.audit_id)       # arera_...`,
-    curl: `curl -X POST https://api.arera.in/v1/underwriting/analyze  \\
+print(result.audit_id)       # gavel_...`,
+    curl: `curl -X POST https://api.gavel.in/v1/underwriting/analyze  \\
   -H "Authorization: Bearer sk_live_xxxx" \\
   -H "Content-Type: application/json" \\
   -d '{

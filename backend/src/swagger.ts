@@ -4,9 +4,9 @@ const options: swaggerJsdoc.Options = {
   definition: {
     openapi: '3.0.0',
     info: {
-      title: 'Arera API',
+      title: 'Gavel API',
       version: '1.0.0',
-      description: 'API Documentation for Arera AI Enterprise Platform',
+      description: 'API Documentation for Gavel AI Enterprise Platform',
     },
     servers: [
       {

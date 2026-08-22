@@ -1,5 +1,5 @@
 /**
- * Canonical contract types for the Arera underwriting engine.
+ * Canonical contract types for the Gavel underwriting engine.
  *
  * These mirror the frontend `AnalysisResult` shape in
  * `src/lib/underwriting-types.ts` exactly — the two files are the single

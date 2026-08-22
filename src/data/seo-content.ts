@@ -47,7 +47,7 @@ function salaryPages(): SEOPage[] {
     const maxEmi = Math.round(s * 0.45);
     return {
       slug: `loan-eligibility-${sl.toLowerCase()}-salary`,
-      title: `₹${sl} Salary Personal Loan Eligibility — Calculate Max Loan & EMIs | Arera AI`,
+      title: `₹${sl} Salary Personal Loan Eligibility — Calculate Max Loan & EMIs | Gavel AI`,
       h1: `Personal Loan Eligibility on ₹${sl}/Month Salary`,
       description: `Earn ₹${sl}/month net salary? Calculate your maximum personal loan amount, eligible monthly EMIs, and compare matching banks. Free, fast & CIBIL safe.`,
       category: 'salary',
@@ -72,7 +72,7 @@ function loanAmountPages(): SEOPage[] {
     const emi10 = Math.round(amt * 0.0215); // for 5 yr
     return {
       slug: `${al.toLowerCase()}-personal-loan`,
-      title: `₹${al} Personal Loan EMI & Eligibility — Compare Best Banks 2026 | Arera AI`,
+      title: `₹${al} Personal Loan EMI & Eligibility — Compare Best Banks 2026 | Gavel AI`,
       h1: `₹${al} Personal Loan: Complete Eligibility Guide`,
       description: `Need a ₹${al} personal loan? Calculate your monthly EMI starting at 10.5% interest, check minimum salary required, and find the best bank for fast approval.`,
       category: 'loan-amount',
@@ -96,7 +96,7 @@ function cityPages(): SEOPage[] {
     const cityName = titleCase(city);
     pages.push({
       slug: `personal-loan-in-${city}`,
-      title: `Personal Loan in ${cityName} — Compare Lowest Rates & Fees 2026 | Arera AI`,
+      title: `Personal Loan in ${cityName} — Compare Lowest Rates & Fees 2026 | Gavel AI`,
       h1: `Personal Loan in ${cityName}: Compare Rates & Eligibility`,
       description: `Get the lowest personal loan rates in ${cityName}. Compare eligibility, EMIs, and fees across SBI, HDFC, ICICI, and NBFCs. Check your odds free.`,
       category: 'city-personal-loan',
@@ -114,7 +114,7 @@ function cityPages(): SEOPage[] {
 
     pages.push({
       slug: `home-loan-in-${city}`,
-      title: `Home Loan in ${cityName} — Compare Best Mortgage Rates & Stamp Duty | Arera AI`,
+      title: `Home Loan in ${cityName} — Compare Best Mortgage Rates & Stamp Duty | Gavel AI`,
       h1: `Home Loan in ${cityName}: Rates, Fees & Eligibility`,
       description: `Looking for a home loan in ${cityName}? Compare SBI, HDFC, and LIC mortgage rates, calculate stamp duty, and estimate maximum borrowing limit.`,
       category: 'city-home-loan',
@@ -139,7 +139,7 @@ function professionPages(): SEOPage[] {
     const isSelfEmployed = ['freelancer', 'startup-founder', 'business-owner', 'real-estate-agent', 'consultant'].includes(prof);
     return {
       slug: `personal-loan-for-${prof}`,
-      title: `Personal Loan for ${profName}s — Lowest Rates & Special Schemes | Arera AI`,
+      title: `Personal Loan for ${profName}s — Lowest Rates & Special Schemes | Gavel AI`,
       h1: `Personal Loan for ${profName}s: Exclusive Guidelines`,
       description: `Compare special personal loan offers and CIBIL criteria for ${profName}s. Check minimum turnover, documentation, and calculate approval odds.`,
       category: 'profession',
@@ -163,7 +163,7 @@ function bankPages(): SEOPage[] {
     
     pages.push({
       slug: `${bank}-personal-loan-eligibility`,
-      title: `${bankName} Personal Loan Eligibility 2026 — Interest Rates & Fees | Arera AI`,
+      title: `${bankName} Personal Loan Eligibility 2026 — Interest Rates & Fees | Gavel AI`,
       h1: `${bankName} Personal Loan: Criteria & Eligibility`,
       description: `Calculate your personal loan eligibility for ${bankName}. Check minimum salary required, current interest rates, required documents, and get approved fast.`,
       category: 'bank-eligibility',
@@ -180,7 +180,7 @@ function bankPages(): SEOPage[] {
 
     pages.push({
       slug: `${bank}-loan-rejection-reasons`,
-      title: `Why ${bankName} Rejected Your Loan & How to Get Approved | Arera AI`,
+      title: `Why ${bankName} Rejected Your Loan & How to Get Approved | Gavel AI`,
       h1: `Why ${bankName} Rejects Loans: Credit Rules Explained`,
       description: `Got rejected by ${bankName}? Find the top reasons for rejection (high DTI, cheque bounce, CIBIL) and learn exactly how to fix it and reapply.`,
       category: 'bank-rejection',
@@ -197,7 +197,7 @@ function bankPages(): SEOPage[] {
 
     pages.push({
       slug: `${bank}-loan-analysis`,
-      title: `${bankName} Loan Credit Underwriting Policy Secrets | Arera AI`,
+      title: `${bankName} Loan Credit Underwriting Policy Secrets | Gavel AI`,
       h1: `${bankName} Credit Underwriting Policy Analysis`,
       description: `Unlock ${bankName}'s credit underwriting rules. Learn how their AI check parses your bank statements, salary stability, and credit score.`,
       category: 'bank-analysis',
@@ -218,7 +218,7 @@ function bankPages(): SEOPage[] {
 function intentPages(): SEOPage[] {
   const customIntents: Record<string, { title: string; h1: string; description: string; content: string; faqs: { q: string; a: string }[] }> = {
     'why-loans-get-rejected': {
-      title: 'Why Do Loans Get Rejected? Top 10 Rejection Reasons | Arera AI',
+      title: 'Why Do Loans Get Rejected? Top 10 Rejection Reasons | Gavel AI',
       h1: 'Why Do Personal Loans Get Rejected? Top Credit Rules',
       description: 'Understand the primary reasons banks reject loan applications, from FOIR issues to CIBIL queries, and learn how to get approved next time.',
       content: 'Nearly 40% of personal loan applications in India are rejected. Lenders use automated underwriting systems to flag risks. Knowing these reasons is key to getting approved.\n\nPrimary Rejection Causes:\n• Debt-to-Income (DTI) Ratio: Your monthly EMIs exceed 50% of your income.\n• Low Credit Score: A CIBIL score under 680 is a major trigger for instant rejection.\n• Frequent Job Changes: Lenders look for 1+ year of continuous employment.\n• Bank Statement Anomaly: Check bounces, failed auto-debits, or negative balances in the last 6 months.\n• Employer Not Listed: Banks maintain list grids of approved employers; unlisted firms face strict caps.',
@@ -228,7 +228,7 @@ function intentPages(): SEOPage[] {
       ]
     },
     'how-banks-check-bank-statements': {
-      title: 'How Lenders Analyze Bank Statements dynamically | Arera AI',
+      title: 'How Lenders Analyze Bank Statements dynamically | Gavel AI',
       h1: 'How Banks Analyze Your Bank Statements For Loans',
       description: 'Lenders do not just look at your salary. Discover the hidden patterns, cash flows, and transactions that banks check in your statements.',
       content: 'Underwriting has evolved. Banks use automated parsing software to scan your 6-month bank statements for specific financial behaviors.\n\nWhat the AI scanners check:\n• Salary Credit Authenticity: Matches the employer name and salary slip details.\n• Transaction Bounces: Checks for failed auto-debits (NACH/ECS bounces) in your logs.\n• Average Monthly Balance (AMB): Verifies you have buffer funds remaining at the end of each month.\n• Negative Transactions: Flags gambling payouts, crypto purchases, or frequent cash withdrawals.',
@@ -238,7 +238,7 @@ function intentPages(): SEOPage[] {
       ]
     },
     'how-to-improve-loan-approval': {
-      title: 'How to Improve Personal Loan Approval Odds Instantly | Arera AI',
+      title: 'How to Improve Personal Loan Approval Odds Instantly | Gavel AI',
       h1: 'How to Maximize Your Loan Approval Chances',
       description: 'Step-by-step checklist to optimize your credit profile, lower your debt ratios, clean your statements, and guarantee loan approval.',
       content: 'Improving your loan approval odds requires strategic planning. Follow this quick checklist to optimize your profile before applying.\n\nOptimization checklist:\n• Drop Your DTI: Close small credit card balances to lower your debt-to-income ratio.\n• Consolidate EMIs: Merge multiple small loans into a single long-interest personal loan.\n• Salary Account Advantage: Apply directly with the bank where your salary is credited for better rates.\n• Check for Errors: Download your CIBIL report and fix any incorrect active loan markings.',
@@ -267,7 +267,7 @@ function intentPages(): SEOPage[] {
 
     return {
       slug: intent,
-      title: `${name} – Expert Financial Guide & Solutions | Arera AI`,
+      title: `${name} – Expert Financial Guide & Solutions | Gavel AI`,
       h1: name,
       description: `Complete guide on how ${name.toLowerCase()} impacts your loan eligibility and the exact steps to overcome it.`,
       category: 'intent',
@@ -289,7 +289,7 @@ function datasetPages(): SEOPage[] {
   const dataList = [
     {
       slug: 'average-approval-score-by-profession',
-      title: 'Average Credit Approval Score by Profession (2026) | Arera AI',
+      title: 'Average Credit Approval Score by Profession (2026) | Gavel AI',
       h1: 'AI Research: Credit Approval Scores by Profession',
       description: 'Explore our comprehensive dataset of average credit score requirements and approval rates across 25+ professions in India.',
       category: 'dataset',
@@ -297,7 +297,7 @@ function datasetPages(): SEOPage[] {
     },
     {
       slug: 'most-common-rejection-reasons',
-      title: 'Most Common Loan Rejection Reasons in India (2026) | Arera AI',
+      title: 'Most Common Loan Rejection Reasons in India (2026) | Gavel AI',
       h1: 'Report: Top 10 Personal Loan Rejection Causes',
       description: 'Read the latest underwriting dataset detailing why banks reject personal loan applications, compiled from 50,000+ applications.',
       category: 'dataset',
@@ -305,7 +305,7 @@ function datasetPages(): SEOPage[] {
     },
     {
       slug: 'financial-trends-by-salary-range',
-      title: 'Credit Eligibility & Loan Trends by Salary Range | Arera AI',
+      title: 'Credit Eligibility & Loan Trends by Salary Range | Gavel AI',
       h1: 'Report: Personal Loan Eligibility by Salary Bracket',
       description: 'Analyze average loan approval amounts, repayment tenures, and interest rates matching different salary ranges (₹15K to ₹5L/month).',
       category: 'dataset',
@@ -313,7 +313,7 @@ function datasetPages(): SEOPage[] {
     },
     {
       slug: 'emi-stress-trends',
-      title: 'EMI Burden & Over-Leverage Trends in Indian Cities | Arera AI',
+      title: 'EMI Burden & Over-Leverage Trends in Indian Cities | Gavel AI',
       h1: 'Report: Monthly EMI Stress & Debt-to-Income Trends',
       description: 'Explore the monthly EMI burden statistics and over-leveraging alerts across major metro and Tier-2 Indian cities.',
       category: 'dataset',
@@ -331,7 +331,7 @@ function datasetPages(): SEOPage[] {
     content: item.content,
     faqs: [
       { q: 'How is this credit dataset compiled?', a: 'This data is compiled using anonymized, aggregated application metrics processed through our underwriting sandbox.' },
-      { q: 'Can I use this data for research?', a: 'Yes, this data is free to use for academic or research purposes with attribution to Arera AI.' }
+      { q: 'Can I use this data for research?', a: 'Yes, this data is free to use for academic or research purposes with attribution to Gavel AI.' }
     ],
     relatedTools: ['loan-approval-predictor', 'financial-health-check'],
     relatedPages: [],

@@ -1,5 +1,5 @@
 /**
- * Arera deterministic underwriting engine.
+ * Gavel deterministic underwriting engine.
  *
  * Pure & synchronous: given normalized bank-statement transactions and a
  * hand-tuned policy config, it derives auditable signals, runs the policy's
@@ -212,7 +212,7 @@ export function hashPolicy(policy: PolicyConfig): string {
 }
 
 function newAuditId(now: number): string {
-  return `arera_${now}_${crypto.randomBytes(3).toString('hex')}`;
+  return `gavel_${now}_${crypto.randomBytes(3).toString('hex')}`;
 }
 
 export interface EngineOptions {

@@ -1,5 +1,5 @@
 import { Clock, UserX, AlertTriangle } from "lucide-react";
-import { FadeUp } from "./arera/FadeUp";
+import { FadeUp } from "./gavel/FadeUp";
 
 const ProblemSection = () => {
   return (

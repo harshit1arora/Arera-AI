@@ -137,14 +137,14 @@ export default function CreditUtilization() {
   return (
     <div className="min-h-screen bg-black text-white flex flex-col font-sans selection:bg-orange-500/30 overflow-x-hidden">
       <Helmet>
-        <title>Credit Card Utilization Ratio Checker | Arera AI</title>
+        <title>Credit Card Utilization Ratio Checker | Gavel AI</title>
         <meta name="description" content="Check your Credit Card Utilization Ratio (CUR). Calculate total available credit limit versus current outstanding balances to estimate the impact on your CIBIL score." />
-        <link rel="canonical" href="https://www.tryarera.com/tools/credit-utilization" />
+        <link rel="canonical" href="https://www.trygavel.com/tools/credit-utilization" />
         <script type="application/ld+json">{JSON.stringify({
           '@context': 'https://schema.org', '@type': 'WebApplication',
           name: 'Credit Card Utilization Ratio Checker', applicationCategory: 'FinanceApplication',
           operatingSystem: 'All', offers: { '@type': 'Offer', price: '0', priceCurrency: 'INR' },
-          publisher: { '@type': 'Organization', name: 'Arera AI' },
+          publisher: { '@type': 'Organization', name: 'Gavel AI' },
         })}</script>
       </Helmet>
 

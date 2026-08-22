@@ -10,7 +10,7 @@ import { getSEOPage, getPagesByCategory, SEO_CATEGORIES, type SEOPage } from '..
 import { trackFAQInteraction } from '../../utils/analytics';
 import NotFound from '../../pages/NotFound';
 
-const DOMAIN = 'https://www.tryarera.com';
+const DOMAIN = 'https://www.trygavel.com';
 
 const toolRoutes: Record<string, string> = {
   'loan-approval-predictor': '/loan-approval-predictor',
@@ -31,7 +31,7 @@ function FreshnessBanner() {
       </div>
       <div className="flex items-center gap-1.5">
         <UserCheck className="w-3.5 h-3.5 text-emerald-500" />
-        <span>Reviewed by: <strong className="text-gray-300">Arera AI Financial Research Team</strong></span>
+        <span>Reviewed by: <strong className="text-gray-300">Gavel AI Financial Research Team</strong></span>
       </div>
       <div className="flex items-center gap-1.5">
         <Clock className="w-3.5 h-3.5 text-blue-400" />
@@ -307,15 +307,15 @@ function renderPage(data: SEOPage) {
   const articleSchema = JSON.stringify({
     '@context': 'https://schema.org', '@type': 'NewsArticle',
     headline: data.h1, description: data.description,
-    image: `${DOMAIN}/arera-og.png`,
+    image: `${DOMAIN}/gavel-og.png`,
     author: {
       '@type': 'Organization',
-      name: 'Arera AI Financial Research Team',
+      name: 'Gavel AI Financial Research Team',
       url: `${DOMAIN}/about`
     },
     publisher: {
       '@type': 'Organization',
-      name: 'Arera AI',
+      name: 'Gavel AI',
       logo: {
         '@type': 'ImageObject',
         url: `${DOMAIN}/favicon.ico`

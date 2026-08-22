@@ -1,4 +1,4 @@
-import { FadeUp } from "./arera/FadeUp";
+import { FadeUp } from "./gavel/FadeUp";
 
 const HowItWorksSection = () => {
   const steps = [
@@ -23,7 +23,7 @@ const HowItWorksSection = () => {
       id: "03",
       title: "Decision + Full Audit Trail",
       body: "APPROVE / REJECT / REVIEW returned with credit limit, risk score, per-rule explanation, and immutable audit ID. Printable for RBI filing.",
-      snippet: '{ "decision": "APPROVE",\n  "audit_id": "arera_...",\n  "rules_fired": 24 }'
+      snippet: '{ "decision": "APPROVE",\n  "audit_id": "gavel_...",\n  "rules_fired": 24 }'
     }
   ];
 

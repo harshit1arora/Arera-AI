@@ -163,7 +163,7 @@ export default function DeveloperPortal() {
             </div>
 
             <div className="space-y-4">
-              <p className="text-xs text-muted-foreground">Arera AI pushes HMAC-signed JSON payloads to this URL on every verified decision event.</p>
+              <p className="text-xs text-muted-foreground">Gavel AI pushes HMAC-signed JSON payloads to this URL on every verified decision event.</p>
               
               <div className="flex gap-2">
                 <input 
@@ -171,7 +171,7 @@ export default function DeveloperPortal() {
                   value={webhookUrl}
                   onChange={(e) => setWebhookUrl(e.target.value)}
                   className="flex-1 bg-background/40 border border-border rounded-xl px-4 py-3 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-primary/50 transition-all"
-                  placeholder="https://your-api.com/webhooks/arera"
+                  placeholder="https://your-api.com/webhooks/gavel"
                 />
                 <button 
                   onClick={async () => {
@@ -240,11 +240,11 @@ export default function DeveloperPortal() {
             
             <div className="bg-background/60 rounded-2xl p-4 font-mono text-[10px] leading-relaxed border border-white/5 overflow-x-auto custom-scrollbar">
               <div className="text-blue-400"># Install SDK</div>
-              <div className="text-foreground">npm install @arera/sdk</div>
+              <div className="text-foreground">npm install @gavel/sdk</div>
               <div className="text-blue-400 mt-3"># Execute Underwriting</div>
               <div className="text-foreground">
-                <span className="text-pink-400">const</span> arera = <span className="text-yellow-400">require</span>(<span className="text-green-400">'@arera/sdk'</span>);<br/>
-                <span className="text-pink-400">const</span> client = <span className="text-pink-400">new</span> arera.Client(<span className="text-green-400">'sk_live_••••••'</span>);<br/>
+                <span className="text-pink-400">const</span> gavel = <span className="text-yellow-400">require</span>(<span className="text-green-400">'@gavel/sdk'</span>);<br/>
+                <span className="text-pink-400">const</span> client = <span className="text-pink-400">new</span> gavel.Client(<span className="text-green-400">'sk_live_••••••'</span>);<br/>
                 <br/>
                 <span className="text-pink-400">const</span> res = <span className="text-pink-400">await</span> client.underwrite({'{'}<br/>
                 &nbsp;&nbsp;pan: <span className="text-green-400">'ABCDE1234F'</span>,<br/>

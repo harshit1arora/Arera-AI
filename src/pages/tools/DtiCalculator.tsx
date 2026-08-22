@@ -86,14 +86,14 @@ export default function DtiCalculator() {
   return (
     <div className="min-h-screen bg-black text-white flex flex-col font-sans selection:bg-orange-500/30 overflow-x-hidden">
       <Helmet>
-        <title>Debt-to-Income (DTI) Calculator — Know Your FOIR &amp; Loan Eligibility | Arera AI</title>
+        <title>Debt-to-Income (DTI) Calculator — Know Your FOIR &amp; Loan Eligibility | Gavel AI</title>
         <meta name="description" content="Find out if your debt-to-income (FOIR) ratio is too high for loan approval. Calculate your ratio in 30 seconds and learn how to lower it to unlock better loan offers." />
-        <link rel="canonical" href="https://www.tryarera.com/tools/dti-calculator" />
+        <link rel="canonical" href="https://www.trygavel.com/tools/dti-calculator" />
         <script type="application/ld+json">{JSON.stringify({
           '@context': 'https://schema.org', '@type': 'WebApplication',
           name: 'Debt-to-Income Calculator', applicationCategory: 'FinanceApplication',
           operatingSystem: 'All', offers: { '@type': 'Offer', price: '0', priceCurrency: 'INR' },
-          publisher: { '@type': 'Organization', name: 'Arera AI' },
+          publisher: { '@type': 'Organization', name: 'Gavel AI' },
         })}</script>
       </Helmet>
 

@@ -178,7 +178,7 @@ const LoanApprovalPredictor = () => {
 
   // Testimonials data
   const testimonials = [
-    { name: "Rahul M.", city: "Mumbai", quote: "Beta Program: Arera gave me a clear picture of my debt profile. Adjusted my EMI expectations and got an NBFC approval with zero hassles.", score: 87, saved: "Saved Time & CIBIL hit" },
+    { name: "Rahul M.", city: "Mumbai", quote: "Beta Program: Gavel gave me a clear picture of my debt profile. Adjusted my EMI expectations and got an NBFC approval with zero hassles.", score: 87, saved: "Saved Time & CIBIL hit" },
     { name: "Priya S.", city: "Bangalore", quote: "Beta Program: Helped me identify that my high DTI ratio was the main issue. Cleared one small card payment first and saw my approval estimate jump to 78%.", score: 78, saved: "DTI Restructuring" },
     { name: "Amit K.", city: "Delhi", quote: "Beta Program: The rule engine breakdown showed me why SBI rejected my past loan. Applied to a matching NBFC and got processed cleanly.", score: 92, saved: "Frictionless Match" },
   ];
@@ -186,18 +186,18 @@ const LoanApprovalPredictor = () => {
   return (
     <div className="min-h-screen bg-black text-white flex flex-col font-sans selection:bg-orange-500/30 overflow-x-hidden">
       <Helmet>
-        <title>Free Loan Approval Predictor — Check Your Approval Odds Instantly | Arera AI</title>
+        <title>Free Loan Approval Predictor — Check Your Approval Odds Instantly | Gavel AI</title>
         <meta name="description" content="Will your next loan get approved or rejected? Check your exact approval odds across 40+ Indian lenders in 60 seconds. Free, instant, and 100% safe for CIBIL." />
-        <meta name="keywords" content="loan approval predictor, check loan eligibility, personal loan calculator, free credit score check, instant loan approval, loan approval odds, AI loan predictor, bank statement analyzer, Arera AI" />
-        <link rel="canonical" href="https://www.tryarera.com/loan-approval-predictor" />
+        <meta name="keywords" content="loan approval predictor, check loan eligibility, personal loan calculator, free credit score check, instant loan approval, loan approval odds, AI loan predictor, bank statement analyzer, Gavel AI" />
+        <link rel="canonical" href="https://www.trygavel.com/loan-approval-predictor" />
         <script type="application/ld+json">
           {`
             {
               "@context": "https://schema.org",
               "@type": "WebApplication",
-              "name": "Arera AI Loan Approval Predictor",
-              "url": "https://www.tryarera.com/loan-approval-predictor",
-              "description": "AI-powered loan approval predictor and eligibility calculator by Arera AI. Check your personal loan approval odds instantly.",
+              "name": "Gavel AI Loan Approval Predictor",
+              "url": "https://www.trygavel.com/loan-approval-predictor",
+              "description": "AI-powered loan approval predictor and eligibility calculator by Gavel AI. Check your personal loan approval odds instantly.",
               "applicationCategory": "FinanceApplication",
               "operatingSystem": "All",
               "offers": {
@@ -279,7 +279,7 @@ const LoanApprovalPredictor = () => {
               <div className="max-w-2xl mx-auto mb-12 bg-white/[0.02] border border-white/[0.08] backdrop-blur-md rounded-xl p-4 flex items-start gap-3 text-left">
                 <Sparkles className="w-5 h-5 text-orange-400 shrink-0 mt-0.5 animate-pulse" />
                 <p className="text-xs text-gray-400 leading-relaxed">
-                  <strong className="text-white">For Borrowers:</strong> This is a free utility tool powered by <strong className="text-white">Arera AI</strong> — the digital underwriting engine used by India's top NBFCs and fintechs to automate credit decisions. Checking your odds does not perform a hard bureau inquiry or affect your credit score.
+                  <strong className="text-white">For Borrowers:</strong> This is a free utility tool powered by <strong className="text-white">Gavel AI</strong> — the digital underwriting engine used by India's top NBFCs and fintechs to automate credit decisions. Checking your odds does not perform a hard bureau inquiry or affect your credit score.
                 </p>
               </div>
             </motion.div>

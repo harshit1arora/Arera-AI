@@ -128,7 +128,7 @@ describe('POST /v1/underwriting/analyze — status contract', () => {
     expect(res.status).toBe(200);
     const json = await res.json();
     expect(json.decision).toBe('APPROVE');
-    expect(json.audit_id).toMatch(/^arera_/);
+    expect(json.audit_id).toMatch(/^gavel_/);
   });
 
   it('returns 200 (not an HTTP error) for an E001 thin-file reject', async () => {
@@ -193,7 +193,7 @@ describe('GET /v1/underwriting/audit/:audit_id/pdf — leave-behind', () => {
     const res = await fetch(`${baseUrl}/v1/underwriting/audit/${auditId}/pdf`);
     expect(res.status).toBe(200);
     expect(res.headers.get('content-type')).toBe('application/pdf');
-    expect(res.headers.get('content-disposition')).toContain(`arera-audit-${auditId}.pdf`);
+    expect(res.headers.get('content-disposition')).toContain(`gavel-audit-${auditId}.pdf`);
 
     const buf = Buffer.from(await res.arrayBuffer());
     expect(buf.slice(0, 5).toString('latin1')).toBe('%PDF-');
@@ -204,7 +204,7 @@ describe('GET /v1/underwriting/audit/:audit_id/pdf — leave-behind', () => {
   });
 
   it('returns 404 for an unknown audit_id', async () => {
-    const res = await fetch(`${baseUrl}/v1/underwriting/audit/arera_does_not_exist/pdf`);
+    const res = await fetch(`${baseUrl}/v1/underwriting/audit/gavel_does_not_exist/pdf`);
     expect(res.status).toBe(404);
   });
 

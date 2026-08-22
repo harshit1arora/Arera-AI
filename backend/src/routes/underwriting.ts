@@ -228,7 +228,7 @@ router.get('/audit/:audit_id/pdf', async (req: AuthenticatedRequest, res: Respon
 
     const pdf = renderAuditPdf(record);
     res.setHeader('Content-Type', 'application/pdf');
-    res.setHeader('Content-Disposition', `attachment; filename="arera-audit-${auditId}.pdf"`);
+    res.setHeader('Content-Disposition', `attachment; filename="gavel-audit-${auditId}.pdf"`);
     res.setHeader('Content-Length', String(pdf.length));
     return res.status(200).send(pdf);
   } catch (err) {

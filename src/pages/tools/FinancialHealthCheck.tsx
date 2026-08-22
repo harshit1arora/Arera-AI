@@ -90,14 +90,14 @@ export default function FinancialHealthCheck() {
   return (
     <div className="min-h-screen bg-black text-white flex flex-col font-sans selection:bg-orange-500/30 overflow-x-hidden">
       <Helmet>
-        <title>Financial Health Check Tool – Score Card | Arera AI</title>
+        <title>Financial Health Check Tool – Score Card | Gavel AI</title>
         <meta name="description" content="Audit your personal financial health. Calculate DTI margins, emergency savings ratios, and insurance coverage points." />
-        <link rel="canonical" href="https://www.tryarera.com/tools/financial-health-check" />
+        <link rel="canonical" href="https://www.trygavel.com/tools/financial-health-check" />
         <script type="application/ld+json">{JSON.stringify({
           '@context': 'https://schema.org', '@type': 'WebApplication',
           name: 'Financial Health Check Tool', applicationCategory: 'FinanceApplication',
           operatingSystem: 'All', offers: { '@type': 'Offer', price: '0', priceCurrency: 'INR' },
-          publisher: { '@type': 'Organization', name: 'Arera AI' },
+          publisher: { '@type': 'Organization', name: 'Gavel AI' },
         })}</script>
       </Helmet>
 

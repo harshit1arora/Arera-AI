@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const config = require('../src/data/seo-config.json');
 
-const DOMAIN = 'https://www.tryarera.com';
+const DOMAIN = 'https://www.trygavel.com';
 
 // ── Only pages with real, indexable content ────────────────────────────────
 // NOTE: /upload, /apply, /analyzing are EXCLUDED — they are auth-gated and

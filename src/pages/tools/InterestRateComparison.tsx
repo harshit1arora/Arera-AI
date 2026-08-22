@@ -139,14 +139,14 @@ export default function InterestRateComparison() {
   return (
     <div className="min-h-screen bg-black text-white flex flex-col font-sans selection:bg-orange-500/30 overflow-x-hidden">
       <Helmet>
-        <title>Compare Personal Loan Interest Rates 2026 — SBI, HDFC, ICICI | Arera AI</title>
+        <title>Compare Personal Loan Interest Rates 2026 — SBI, HDFC, ICICI | Gavel AI</title>
         <meta name="description" content="Compare the lowest personal loan interest rates and fees across SBI, HDFC, ICICI, and 40+ lenders. Find the cheapest loan option in seconds." />
-        <link rel="canonical" href="https://www.tryarera.com/tools/interest-rate-comparison" />
+        <link rel="canonical" href="https://www.trygavel.com/tools/interest-rate-comparison" />
         <script type="application/ld+json">{JSON.stringify({
           '@context': 'https://schema.org', '@type': 'WebApplication',
           name: 'Interest Rate Comparison Tool', applicationCategory: 'FinanceApplication',
           operatingSystem: 'All', offers: { '@type': 'Offer', price: '0', priceCurrency: 'INR' },
-          publisher: { '@type': 'Organization', name: 'Arera AI' },
+          publisher: { '@type': 'Organization', name: 'Gavel AI' },
         })}</script>
       </Helmet>
 

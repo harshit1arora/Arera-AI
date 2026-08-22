@@ -1,7 +1,7 @@
 {
-  "name": "arera-backend",
+  "name": "gavel-backend",
   "version": "1.0.0",
-  "description": "API Gateway for Arera AI Enterprise",
+  "description": "API Gateway for Gavel AI Enterprise",
   "main": "dist/index.js",
   "scripts": {
     "start": "node dist/index.js",

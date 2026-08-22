@@ -67,14 +67,14 @@ export default function MonthlyBudgetPlanner() {
   return (
     <div className="min-h-screen bg-black text-white flex flex-col font-sans selection:bg-orange-500/30 overflow-x-hidden">
       <Helmet>
-        <title>Monthly Budget Planner – 50/30/20 Rule | Arera AI</title>
+        <title>Monthly Budget Planner – 50/30/20 Rule | Gavel AI</title>
         <meta name="description" content="Plan your monthly expenses using the 50/30/20 rule. Calculate needs, wants, savings, and debt limits to optimize your financial surplus." />
-        <link rel="canonical" href="https://www.tryarera.com/tools/monthly-budget-planner" />
+        <link rel="canonical" href="https://www.trygavel.com/tools/monthly-budget-planner" />
         <script type="application/ld+json">{JSON.stringify({
           '@context': 'https://schema.org', '@type': 'WebApplication',
           name: 'Monthly Budget Planner', applicationCategory: 'FinanceApplication',
           operatingSystem: 'All', offers: { '@type': 'Offer', price: '0', priceCurrency: 'INR' },
-          publisher: { '@type': 'Organization', name: 'Arera AI' },
+          publisher: { '@type': 'Organization', name: 'Gavel AI' },
         })}</script>
       </Helmet>
 

@@ -1,5 +1,5 @@
 import { Check, ArrowRight, Zap, Building2, Landmark } from "lucide-react";
-import { FadeUp } from "./arera/FadeUp";
+import { FadeUp } from "./gavel/FadeUp";
 import { Link } from "react-router-dom";
 
 const PricingSection = () => {

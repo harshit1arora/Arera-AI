@@ -80,7 +80,7 @@ describe('renderAuditPdf', () => {
     expect(rec.config_hash.length).toBe(16);
     expect(buf.includes(Buffer.from(rec.config_hash))).toBe(true);
     expect(buf.includes(Buffer.from('immutable audit record'))).toBe(true);
-    expect(buf.includes(Buffer.from(`api.tryarera.com/v1/underwriting/audit/${rec.audit_id}`))).toBe(true);
+    expect(buf.includes(Buffer.from(`api.trygavel.com/v1/underwriting/audit/${rec.audit_id}`))).toBe(true);
   });
 
   it('renders the decision verdict', () => {

@@ -7,9 +7,9 @@ const Contact = () => {
   return (
     <div className="min-h-screen bg-background flex flex-col">
       <Helmet>
-        <title>Contact Arera AI — Get in Touch</title>
-        <meta name="description" content="Get in touch with Arera AI. Reach out for partnerships, support, or general inquiries." />
-        <link rel="canonical" href="https://www.tryarera.com/contact" />
+        <title>Contact Gavel AI — Get in Touch</title>
+        <meta name="description" content="Get in touch with Gavel AI. Reach out for partnerships, support, or general inquiries." />
+        <link rel="canonical" href="https://www.trygavel.com/contact" />
       </Helmet>
       <Navbar />
       <main className="flex-1 pt-32 pb-20">
@@ -20,7 +20,7 @@ const Contact = () => {
               Get in Touch
             </h1>
             <p className="text-xl text-muted-foreground">
-              Whether you're looking for a custom enterprise deployment or need technical support, our team is ready to help integrate Arera into your pipeline.
+              Whether you're looking for a custom enterprise deployment or need technical support, our team is ready to help integrate Gavel into your pipeline.
             </p>
           </div>
 
@@ -85,7 +85,7 @@ const Contact = () => {
                     </div>
                     <div>
                       <p className="text-sm font-medium text-muted-foreground">General Enquiries</p>
-                      <p className="font-semibold text-foreground">hello@tryarera.com</p>
+                      <p className="font-semibold text-foreground">hello@trygavel.com</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-4 group">

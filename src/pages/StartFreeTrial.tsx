@@ -36,7 +36,7 @@ const StartFreeTrial = () => {
     e.preventDefault();
     console.log("Trial signup submitted:", formData);
     alert(
-      "Welcome to Arera! Check your email for account setup instructions."
+      "Welcome to Gavel! Check your email for account setup instructions."
     );
     setStep(4);
   };
@@ -111,7 +111,7 @@ const StartFreeTrial = () => {
                   <Check className="w-8 h-8 text-green-500" />
                 </div>
                 <h2 className="font-['DM_Sans'] font-bold text-[32px] text-foreground mb-3">
-                  Welcome to Arera!
+                  Welcome to Gavel!
                 </h2>
                 <p className="font-['DM_Sans'] font-normal text-[16px] text-muted-foreground mb-8 max-w-[400px] mx-auto">
                   Check your email for setup instructions and API documentation. Your 100 free analyses are ready to use.

@@ -105,14 +105,14 @@ export default function LoanAffordabilityCalculator() {
   return (
     <div className="min-h-screen bg-black text-white flex flex-col font-sans selection:bg-orange-500/30 overflow-x-hidden">
       <Helmet>
-        <title>Loan Affordability Calculator — Estimate Your Max Loan Amount &amp; EMIs | Arera AI</title>
+        <title>Loan Affordability Calculator — Estimate Your Max Loan Amount &amp; EMIs | Gavel AI</title>
         <meta name="description" content="Avoid rejection. Calculate the maximum loan amount you can afford based on your net income and expenses. Estimate monthly EMIs and check eligibility for free." />
-        <link rel="canonical" href="https://www.tryarera.com/tools/loan-affordability-calculator" />
+        <link rel="canonical" href="https://www.trygavel.com/tools/loan-affordability-calculator" />
         <script type="application/ld+json">{JSON.stringify({
           '@context': 'https://schema.org', '@type': 'WebApplication',
           name: 'Loan Affordability Calculator', applicationCategory: 'FinanceApplication',
           operatingSystem: 'All', offers: { '@type': 'Offer', price: '0', priceCurrency: 'INR' },
-          publisher: { '@type': 'Organization', name: 'Arera AI' },
+          publisher: { '@type': 'Organization', name: 'Gavel AI' },
         })}</script>
       </Helmet>
 

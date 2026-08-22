@@ -1,8 +1,8 @@
-# Arera AI — Enterprise Lending Infrastructure Platform b2b + b2c
+# Gavel AI — Enterprise Lending Infrastructure Platform b2b + b2c
 
 > **API Gateway + React Dashboard** for NBFCs, fintechs, and lenders to automate the full lending lifecycle: origination, underwriting, disbursement, repayment, collections, compliance, and ROI reporting.
 
-[![CI](https://github.com/arera-ai/arera-ai/actions/workflows/ci.yml/badge.svg)](https://github.com/arera-ai/arera-ai/actions/workflows/ci.yml)
+[![CI](https://github.com/gavel-ai/gavel-ai/actions/workflows/ci.yml/badge.svg)](https://github.com/gavel-ai/gavel-ai/actions/workflows/ci.yml)
 [![Node](https://img.shields.io/badge/node-20+-blue.svg)](https://nodejs.org)
 [![TypeScript](https://img.shields.io/badge/typescript-5.9-blue.svg)](https://www.typescriptlang.org)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
@@ -11,7 +11,7 @@
 
 ## What is it?
 
-Arera AI is a **composable lending infrastructure platform** — not a monolithic LMS. Lenders plug in only the modules they need via REST APIs, while the dashboard provides end-to-end operational visibility.
+Gavel AI is a **composable lending infrastructure platform** — not a monolithic LMS. Lenders plug in only the modules they need via REST APIs, while the dashboard provides end-to-end operational visibility.
 
 **Core modules:**
 - Loan origination & application workflow automation
@@ -64,8 +64,8 @@ Frontend (React + Vite + shadcn/ui)      Backend (Express + TypeScript)
 ### 1. Clone & install
 
 ```bash
-git clone https://github.com/arera-ai/arera-ai.git
-cd arera-ai
+git clone https://github.com/gavel-ai/gavel-ai.git
+cd gavel-ai
 
 # Backend
 cd backend && npm install
@@ -156,7 +156,7 @@ Authorization: Bearer sk_live_<your_api_key>
 ## Project Structure
 
 ```
-arera-ai/
+gavel-ai/
 ├── backend/
 │   └── src/
 │       ├── config/          Firebase Admin SDK
@@ -207,7 +207,7 @@ docker compose up -d
 kubectl apply -f k8s/base/
 
 # Set secrets (replace values)
-kubectl create secret generic arera-backend-secrets \
+kubectl create secret generic gavel-backend-secrets \
   --from-literal=JWT_SECRET=your-secret \
   --from-literal=WEBHOOK_SIGNING_SECRET=your-secret \
   --from-literal=FIREBASE_SERVICE_ACCOUNT="$(cat service-account.json | base64)" \

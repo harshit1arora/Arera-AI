@@ -114,14 +114,14 @@ export default function SalaryEligibility() {
   return (
     <div className="min-h-screen bg-black text-white flex flex-col font-sans selection:bg-orange-500/30 overflow-x-hidden">
       <Helmet>
-        <title>Salary Personal Loan Eligibility Calculator — Max Loan Amount by Salary | Arera AI</title>
+        <title>Salary Personal Loan Eligibility Calculator — Max Loan Amount by Salary | Gavel AI</title>
         <meta name="description" content="Find the maximum personal loan amount you can get based on your take-home salary. Estimate your approval odds, EMI capacity, and minimum CIBIL score needed." />
-        <link rel="canonical" href="https://www.tryarera.com/tools/salary-loan-eligibility" />
+        <link rel="canonical" href="https://www.trygavel.com/tools/salary-loan-eligibility" />
         <script type="application/ld+json">{JSON.stringify({
           '@context': 'https://schema.org', '@type': 'WebApplication',
           name: 'Salary-Based Loan Eligibility Calculator', applicationCategory: 'FinanceApplication',
           operatingSystem: 'All', offers: { '@type': 'Offer', price: '0', priceCurrency: 'INR' },
-          publisher: { '@type': 'Organization', name: 'Arera AI' },
+          publisher: { '@type': 'Organization', name: 'Gavel AI' },
         })}</script>
       </Helmet>
 

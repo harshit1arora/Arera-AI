@@ -112,7 +112,7 @@ export default function Console() {
               </div>
               <div className="overflow-hidden">
                 <div className="text-[10px] text-primary font-black uppercase tracking-[0.2em] leading-none mb-1.5 italic">Enterprise</div>
-                <div className="text-base font-black tracking-tight truncate">Arera Console</div>
+                <div className="text-base font-black tracking-tight truncate">Gavel Console</div>
               </div>
             </div>
 

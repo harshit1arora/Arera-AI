@@ -26,7 +26,7 @@ export interface LoanInfo {
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: process.env.EMAIL_USER || 'noreply@arera.ai',
+    user: process.env.EMAIL_USER || 'noreply@gavel.ai',
     pass: process.env.EMAIL_PASSWORD || '',
   },
 });
@@ -149,20 +149,20 @@ async function sendLenderAlertEmail(
           </div>
           `}
 
-          <a href="${process.env.APP_URL || 'https://app.arera.ai'}/collections/loan/${loan.id}"
+          <a href="${process.env.APP_URL || 'https://app.gavel.ai'}/collections/loan/${loan.id}"
              style="display: inline-block; background: #667eea; color: white; padding: 12px 30px; border-radius: 6px; text-decoration: none; font-weight: 600; margin-top: 20px;">
             View Collection Case →
           </a>
         </div>
 
         <div style="text-align: center; padding: 15px; border-top: 1px solid #e5e7eb; color: #9ca3af; font-size: 12px;">
-          Arera AI Collections Automation • ${new Date().toLocaleString()}
+          Gavel AI Collections Automation • ${new Date().toLocaleString()}
         </div>
       </div>
     `;
 
     await transporter.sendMail({
-      from: 'Arera Collections <collections@arera.ai>',
+      from: 'Gavel Collections <collections@gavel.ai>',
       to: org.email,
       subject: `${isEscalated ? '🚨 URGENT' : '⚠️ Alert'}: ${loan.borrowerName} - ${missedEmis} EMI(s) overdue by ${daysOverdue} days`,
       html,

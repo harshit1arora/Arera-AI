@@ -56,9 +56,9 @@ const getMockLoanData = (): LoanDetails => ({
   nextEmiDate: "2026-06-15",
   emisCompleted: 14,
   emisPending: 22,
-  lenderName: "Arera Finance",
+  lenderName: "Gavel Finance",
   lenderPhone: "+91 9876543210",
-  lenderEmail: "support@arerafinance.com",
+  lenderEmail: "support@gavelfinance.com",
   documents: [
     { name: "Loan Agreement", type: "PDF", url: "#", uploadedAt: "2024-03-15" },
     { name: "Sanction Letter", type: "PDF", url: "#", uploadedAt: "2024-03-15" },

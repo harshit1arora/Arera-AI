@@ -49,7 +49,7 @@ export default function OnboardingWizard() {
         createdAt: new Date().toISOString(),
         isSetupComplete: true,
       }, { merge: true });
-      toast.success("Welcome to Arera AI!");
+      toast.success("Welcome to Gavel AI!");
       setNeedsSetup(false);
     } catch (err) {
       console.error("Failed to save org details", err);
@@ -75,7 +75,7 @@ export default function OnboardingWizard() {
             <Building2 size={32} className="text-primary" />
           </div>
           <div>
-            <h2 className="text-3xl font-display font-bold">Welcome to Arera</h2>
+            <h2 className="text-3xl font-display font-bold">Welcome to Gavel</h2>
             <p className="text-muted-foreground">Let's set up your NBFC workspace.</p>
           </div>
         </div>

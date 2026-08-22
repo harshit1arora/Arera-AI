@@ -1,6 +1,6 @@
 import { getAllSlugs } from '../../data/seo-content';
 
-const DOMAIN = 'https://www.tryarera.com';
+const DOMAIN = 'https://www.trygavel.com';
 
 const staticPages = [
   { path: '/', priority: 1.0, changefreq: 'daily' },

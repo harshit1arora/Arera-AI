@@ -132,14 +132,14 @@ export default function PrepaymentImpactCalculator() {
   return (
     <div className="min-h-screen bg-black text-white flex flex-col font-sans selection:bg-orange-500/30 overflow-x-hidden">
       <Helmet>
-        <title>Loan Prepayment Impact Calculator | Arera AI</title>
+        <title>Loan Prepayment Impact Calculator | Gavel AI</title>
         <meta name="description" content="Calculate interest savings and tenure reduction by making lump-sum or part prepayments on your home, personal, or car loans." />
-        <link rel="canonical" href="https://www.tryarera.com/tools/prepayment-impact-calculator" />
+        <link rel="canonical" href="https://www.trygavel.com/tools/prepayment-impact-calculator" />
         <script type="application/ld+json">{JSON.stringify({
           '@context': 'https://schema.org', '@type': 'WebApplication',
           name: 'Loan Prepayment Impact Calculator', applicationCategory: 'FinanceApplication',
           operatingSystem: 'All', offers: { '@type': 'Offer', price: '0', priceCurrency: 'INR' },
-          publisher: { '@type': 'Organization', name: 'Arera AI' },
+          publisher: { '@type': 'Organization', name: 'Gavel AI' },
         })}</script>
       </Helmet>
 

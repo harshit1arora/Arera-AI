@@ -1,9 +1,9 @@
 /**
- * Arera AI — API Service Layer
+ * Gavel AI — API Service Layer
  * Centralizes all B2C API calls to the backend
  */
 
-const API_BASE = import.meta.env.VITE_API_URL || 'https://api.tryarera.com';
+const API_BASE = import.meta.env.VITE_API_URL || 'https://api.trygavel.com';
 const PUBLIC_BASE = `${API_BASE}/v1/public`;
 
 interface PredictionRequest {
@@ -464,7 +464,7 @@ function getLocalRates(data: any): InterestRateResult {
 
 // ── Save & Resume Utilities ──
 
-const STORAGE_KEY = 'arera_loan_application';
+const STORAGE_KEY = 'gavel_loan_application';
 
 export interface SavedApplication {
   income: number;

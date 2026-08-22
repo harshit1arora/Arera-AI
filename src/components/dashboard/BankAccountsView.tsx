@@ -46,7 +46,7 @@ export default function BankAccountsView({ orgId }: { orgId: string | null }) {
           bankName: "HDFC Bank",
           accountNumber: "50100" + Math.floor(Math.random()*10000000),
           ifscCode: "HDFC0001234",
-          accountHolderName: "Arera Enterprise"
+          accountHolderName: "Gavel Enterprise"
         })
       });
       if (res.ok) {

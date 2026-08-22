@@ -1,17 +1,17 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: arera-backend-config
+  name: gavel-backend-config
   namespace: default
 data:
   NODE_ENV: "production"
   PORT: "8080"
-  ALLOWED_ORIGINS: "https://tryarera.com,https://www.tryarera.com"
+  ALLOWED_ORIGINS: "https://trygavel.com,https://www.trygavel.com"
 ---
 apiVersion: v1
 kind: Secret
 metadata:
-  name: arera-backend-secrets
+  name: gavel-backend-secrets
   namespace: default
 type: Opaque
 stringData:
@@ -30,16 +30,16 @@ stringData:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: arera-backend
+  name: gavel-backend
   namespace: default
   labels:
-    app: arera-backend
+    app: gavel-backend
     tier: api
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: arera-backend
+      app: gavel-backend
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -48,29 +48,29 @@ spec:
   template:
     metadata:
       labels:
-        app: arera-backend
+        app: gavel-backend
         tier: api
       annotations:
         prometheus.io/scrape: "true"
         prometheus.io/port: "8080"
     spec:
-      serviceAccountName: arera-sa
+      serviceAccountName: gavel-sa
       securityContext:
         runAsNonRoot: true
         runAsUser: 1001
         fsGroup: 1001
       containers:
         - name: backend
-          image: arera-backend:latest
+          image: gavel-backend:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
               name: http
           envFrom:
             - configMapRef:
-                name: arera-backend-config
+                name: gavel-backend-config
             - secretRef:
-                name: arera-backend-secrets
+                name: gavel-backend-secrets
           resources:
             requests:
               cpu: 250m
@@ -111,10 +111,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: arera-backend-svc
+  name: gavel-backend-svc
   namespace: default
   labels:
-    app: arera-backend
+    app: gavel-backend
 spec:
   type: ClusterIP
   ports:
@@ -122,12 +122,12 @@ spec:
       targetPort: 8080
       name: http
   selector:
-    app: arera-backend
+    app: gavel-backend
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: arera-backend-ingress
+  name: gavel-backend-ingress
   namespace: default
   annotations:
     nginx.ingress.kubernetes.io/proxy-body-size: "10m"
@@ -138,37 +138,37 @@ spec:
   ingressClassName: nginx
   tls:
     - hosts:
-        - api.tryarera.com
-        - "*.tryarera.com"
-      secretName: arera-tls-cert
+        - api.trygavel.com
+        - "*.trygavel.com"
+      secretName: gavel-tls-cert
   rules:
-    - host: api.tryarera.com
+    - host: api.trygavel.com
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: arera-backend-svc
+                name: gavel-backend-svc
                 port:
                   number: 8080
 ---
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: arera-sa
+  name: gavel-sa
   namespace: default
 ---
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: arera-backend-hpa
+  name: gavel-backend-hpa
   namespace: default
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: arera-backend
+    name: gavel-backend
   minReplicas: 2
   maxReplicas: 10
   metrics:
@@ -188,10 +188,10 @@ spec:
 apiVersion: policy/v1
 kind: PodDisruptionBudget
 metadata:
-  name: arera-backend-pdb
+  name: gavel-backend-pdb
   namespace: default
 spec:
   minAvailable: 1
   selector:
     matchLabels:
-      app: arera-backend
+      app: gavel-backend

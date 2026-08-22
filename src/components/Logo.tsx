@@ -36,7 +36,7 @@ export const Logo = () => {
         </motion.svg>
       </div>
       <span className="font-['DM_Sans'] font-semibold text-[15px] tracking-[0.1em] text-foreground transition-colors duration-300 group-hover:text-[#F97316]">
-        ARERA AI
+        GAVEL AI
       </span>
     </Link>
   );

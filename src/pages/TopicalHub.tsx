@@ -151,10 +151,10 @@ function EMIOptimizationGrid() {
 // Hub configurations mapping
 const HUB_MAP: Record<string, HubConfig> = {
   'rejection': {
-    title: 'Loan Rejection Resource Center – Recovery Manuals | Arera AI',
+    title: 'Loan Rejection Resource Center – Recovery Manuals | Gavel AI',
     h1: 'Loan Rejection Manuals & Recovery Hub',
     description: 'Understand the primary reasons lenders reject applications. Compare rules across SBI, HDFC, ICICI, and learn how to salvage rejected files.',
-    canonical: 'https://www.tryarera.com/loan-rejection-guides',
+    canonical: 'https://www.trygavel.com/loan-rejection-guides',
     icon: ShieldAlert,
     themeColor: 'text-rose-500',
     bgGradient: 'from-rose-500/5 to-transparent',
@@ -168,10 +168,10 @@ const HUB_MAP: Record<string, HubConfig> = {
     ]
   },
   'cibil': {
-    title: 'CIBIL Score Optimization & Repair Guides | Arera AI',
+    title: 'CIBIL Score Optimization & Repair Guides | Gavel AI',
     h1: 'CIBIL Score Guides & Repair Hub',
     description: 'Get approved with low CIBIL. Learn how banks verify your credit history, fix active disputes, and boost your credit score fast.',
-    canonical: 'https://www.tryarera.com/cibil-score-guides',
+    canonical: 'https://www.trygavel.com/cibil-score-guides',
     icon: CreditCard,
     themeColor: 'text-orange-500',
     bgGradient: 'from-orange-500/5 to-transparent',
@@ -185,10 +185,10 @@ const HUB_MAP: Record<string, HubConfig> = {
     ]
   },
   'statements': {
-    title: 'Algorithmic Bank Statement Analysis Guidelines | Arera AI',
+    title: 'Algorithmic Bank Statement Analysis Guidelines | Gavel AI',
     h1: 'Bank Statement Analysis Hub',
     description: 'How do lenders parse your statements? Learn how UPI credits, average balances, and mandate bounces impact underwriting checks.',
-    canonical: 'https://www.tryarera.com/bank-statement-analysis',
+    canonical: 'https://www.trygavel.com/bank-statement-analysis',
     icon: FileText,
     themeColor: 'text-blue-500',
     bgGradient: 'from-blue-500/5 to-transparent',
@@ -202,10 +202,10 @@ const HUB_MAP: Record<string, HubConfig> = {
     ]
   },
   'eligibility': {
-    title: 'Salary & Profession Loan Eligibility Hub | Arera AI',
+    title: 'Salary & Profession Loan Eligibility Hub | Gavel AI',
     h1: 'Salary & Career Eligibility Center',
     description: 'Check pre-approved loan limits. Browse eligibility rules across 30+ salaries and 25+ professions in India.',
-    canonical: 'https://www.tryarera.com/loan-eligibility-center',
+    canonical: 'https://www.trygavel.com/loan-eligibility-center',
     icon: Landmark,
     themeColor: 'text-emerald-500',
     bgGradient: 'from-emerald-500/5 to-transparent',
@@ -219,10 +219,10 @@ const HUB_MAP: Record<string, HubConfig> = {
     ]
   },
   'emi': {
-    title: 'EMI Optimization & Debt Management Hub | Arera AI',
+    title: 'EMI Optimization & Debt Management Hub | Gavel AI',
     h1: 'EMI Stress & Debt Management Center',
     description: 'Calculate and minimize your borrowing costs. Learn about prepayment impact, loan tenure optimization, and balance transfers.',
-    canonical: 'https://www.tryarera.com/emi-education-hub',
+    canonical: 'https://www.trygavel.com/emi-education-hub',
     icon: Calculator,
     themeColor: 'text-purple-500',
     bgGradient: 'from-purple-500/5 to-transparent',
@@ -271,7 +271,7 @@ const TopicalHub = ({ topic }: { topic: string }) => {
           name: config.h1,
           description: config.description,
           url: config.canonical,
-          publisher: { '@type': 'Organization', name: 'Arera AI' }
+          publisher: { '@type': 'Organization', name: 'Gavel AI' }
         })}</script>
       </Helmet>
 

@@ -52,7 +52,7 @@ export default function Dashboard() {
       target: '.tour-live-pulse',
       // @ts-ignore
       disableBeacon: true,
-      content: 'Welcome to the Arera Engine. Everything you see here streams in real-time without page reloads. Watch for pipeline updates instantly.',
+      content: 'Welcome to the Gavel Engine. Everything you see here streams in real-time without page reloads. Watch for pipeline updates instantly.',
       title: 'Real-Time Telemetry'
     },
     {
@@ -183,7 +183,7 @@ export default function Dashboard() {
                 <div className="flex items-end justify-between">
                   <div>
                     <h1 className="text-3xl font-display font-bold">Operations Hub</h1>
-                    <p className="text-muted-foreground mt-1">Real-time status of the Arera underwriting pipeline.</p>
+                    <p className="text-muted-foreground mt-1">Real-time status of the Gavel underwriting pipeline.</p>
                   </div>
                   <div className="tour-live-pulse flex items-center gap-2 px-4 py-2 bg-secondary/50 border border-white/5 rounded-xl text-xs font-bold text-primary">
                     <Activity size={14} className="animate-pulse" /> LIVE STREAMING
@@ -383,7 +383,7 @@ export default function Dashboard() {
                     </div>
                  </div>
 
-                 {/* Arera AI Block */}
+                 {/* Gavel AI Block */}
                  <div className="relative group">
                     <div className="absolute -inset-0.5 hero-gradient rounded-3xl blur opacity-20 group-hover:opacity-40 transition-opacity" />
                     <div className="relative rounded-3xl border border-border bg-background p-8 overflow-hidden">

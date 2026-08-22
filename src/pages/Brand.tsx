@@ -22,22 +22,22 @@ const Brand = () => {
     });
   };
 
-  const domain = "https://www.tryarera.com";
+  const domain = "https://www.trygavel.com";
 
   return (
     <div className="min-h-screen bg-black text-white flex flex-col font-sans selection:bg-orange-500/30 overflow-x-hidden">
       <Helmet>
-        <title>Brand Assets & Guidelines | Arera AI</title>
-        <meta name="description" content="Official brand guidelines, logos, assets, and color codes for Arera AI. Explore our identity and design system." />
-        <link rel="canonical" href="https://www.tryarera.com/brand" />
+        <title>Brand Assets & Guidelines | Gavel AI</title>
+        <meta name="description" content="Official brand guidelines, logos, assets, and color codes for Gavel AI. Explore our identity and design system." />
+        <link rel="canonical" href="https://www.trygavel.com/brand" />
         <script type="application/ld+json">
           {`
             {
               "@context": "https://schema.org",
               "@type": "WebPage",
-              "name": "Arera AI Brand Guidelines",
-              "url": "https://www.tryarera.com/brand",
-              "description": "Official brand guidelines and visual assets for Arera AI."
+              "name": "Gavel AI Brand Guidelines",
+              "url": "https://www.trygavel.com/brand",
+              "description": "Official brand guidelines and visual assets for Gavel AI."
             }
           `}
         </script>
@@ -54,7 +54,7 @@ const Brand = () => {
               <span className="text-xs font-semibold tracking-wide uppercase">Brand Center</span>
             </div>
             <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight text-white mb-6">
-              Arera AI <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-orange-600">Guidelines</span>
+              Gavel AI <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-orange-600">Guidelines</span>
             </h1>
             <p className="text-lg text-gray-400 max-w-2xl mx-auto">
               Our brand guidelines represent our commitment to clarity, accessibility, and consumer-first AI financial intelligence. Find our logo, color palettes, and assets below.
@@ -77,7 +77,7 @@ const Brand = () => {
                       <polygon points="50,15 80.3,68 19.7,68" fill="#1A1C1E" />
                       <polygon points="16.9,73 83.1,73 90,85 10,85" fill="#1A1C1E" />
                     </svg>
-                    <span className="font-['DM_Sans'] font-bold text-2xl tracking-[0.05em] text-white">ARERA AI</span>
+                    <span className="font-['DM_Sans'] font-bold text-2xl tracking-[0.05em] text-white">GAVEL AI</span>
                   </div>
                   <span className="text-xs text-gray-500 mb-4">Logo for Dark Backgrounds</span>
                   <a href="/logo.png" download className="text-xs font-semibold text-orange-400 hover:text-orange-300 flex items-center gap-1.5">
@@ -93,7 +93,7 @@ const Brand = () => {
                       <polygon points="50,15 80.3,68 19.7,68" fill="#1A1C1E" />
                       <polygon points="16.9,73 83.1,73 90,85 10,85" fill="#1A1C1E" />
                     </svg>
-                    <span className="font-['DM_Sans'] font-bold text-2xl tracking-[0.05em] text-black">ARERA AI</span>
+                    <span className="font-['DM_Sans'] font-bold text-2xl tracking-[0.05em] text-black">GAVEL AI</span>
                   </div>
                   <span className="text-xs text-gray-500 mb-4">Logo for Light Backgrounds</span>
                   <a href="/logo.png" download className="text-xs font-semibold text-orange-600 hover:text-orange-500 flex items-center gap-1.5">
@@ -135,7 +135,7 @@ const Brand = () => {
               <ul className="space-y-3 text-sm text-gray-300">
                 <li className="flex items-start gap-2">
                   <Check className="w-4 h-4 text-green-500 shrink-0 mt-0.5" />
-                  <span>Always write as <strong>Arera AI</strong> or <strong>Arera</strong>.</span>
+                  <span>Always write as <strong>Gavel AI</strong> or <strong>Gavel</strong>.</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <Check className="w-4 h-4 text-green-500 shrink-0 mt-0.5" />
@@ -143,7 +143,7 @@ const Brand = () => {
                 </li>
                 <li className="flex items-start gap-2">
                   <Check className="w-4 h-4 text-green-500 shrink-0 mt-0.5" />
-                  <span>Always link to our canonical website domain: <strong>tryarera.com</strong>.</span>
+                  <span>Always link to our canonical website domain: <strong>trygavel.com</strong>.</span>
                 </li>
               </ul>
             </div>
@@ -153,7 +153,7 @@ const Brand = () => {
                 <Heart className="w-5 h-5 text-red-400" /> Entity Identity
               </h3>
               <p className="text-sm text-gray-300 leading-relaxed">
-                Arera AI is a financial technology brand. We are registered as an AI-powered consumer financial intelligence entity, providing transparent eligibility scoring, EMI calculators, and credit guidance. We do not provide loans directly, but act as a decision-support and lender matching layer.
+                Gavel AI is a financial technology brand. We are registered as an AI-powered consumer financial intelligence entity, providing transparent eligibility scoring, EMI calculators, and credit guidance. We do not provide loans directly, but act as a decision-support and lender matching layer.
               </p>
             </div>
           </section>

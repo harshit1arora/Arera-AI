@@ -1,7 +1,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import CTASection from "@/components/CTASection";
-import { FadeUp } from "@/components/arera/FadeUp";
+import { FadeUp } from "@/components/gavel/FadeUp";
 import {
   Layers, GitMerge, Search, ChevronRight, PlayCircle,
   ShieldCheck, Zap, RotateCcw, Lock, Code2

@@ -1,6 +1,6 @@
 import React from "react";
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
-import { FadeUp } from "./arera/FadeUp";
+import { FadeUp } from "./gavel/FadeUp";
 
 const DashboardSection = () => {
   // Pre-populated mock data for the homepage preview
@@ -39,7 +39,7 @@ const DashboardSection = () => {
           <FadeUp delay={0.2}>
             {/* Investor Trust Banner */}
             <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-20 bg-gradient-to-r from-[#F97316] to-[#00FF94] text-black font-['JetBrains_Mono'] font-bold text-[10px] px-5 py-1.5 rounded-full shadow-[0_0_20px_rgba(249,115,22,0.4)] flex items-center gap-2">
-              <span className="animate-pulse">●</span> 15+ NBFC PILOTS TRUST ARERA
+              <span className="animate-pulse">●</span> 15+ NBFC PILOTS TRUST GAVEL
             </div>
 
             <div className="bg-surface border border-border rounded-[12px] overflow-hidden shadow-2xl">
@@ -47,7 +47,7 @@ const DashboardSection = () => {
               <div className="flex items-center justify-between px-6 py-4 border-b border-border bg-muted">
                 <div className="flex items-center gap-3">
                   <div className="w-5 h-5 bg-[#F97316] flex items-center justify-center" style={{ clipPath: 'polygon(50% 0%, 0% 100%, 100% 100%)' }}></div>
-                  <span className="font-['DM_Sans'] font-semibold text-[14px] text-foreground">Arera Developer Arena</span>
+                  <span className="font-['DM_Sans'] font-semibold text-[14px] text-foreground">Gavel Developer Arena</span>
                 </div>
                 <div className="flex gap-2">
                   <div className="w-2 h-2 rounded-full bg-background animate-pulse"></div>

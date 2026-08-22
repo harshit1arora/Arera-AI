@@ -91,7 +91,7 @@ export function renderAuditPdf(rec: AuditPdfRecord): Buffer {
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(22);
   setColor(ORANGE);
-  doc.text('ARERA', M, y);
+  doc.text('GAVEL', M, y);
 
   const dc = decisionColor(rec.decision);
   doc.setFontSize(18);
@@ -259,7 +259,7 @@ export function renderAuditPdf(rec: AuditPdfRecord): Buffer {
   y += 4.2;
   doc.text(`Config Hash: sha256:${rec.config_hash}`, M, y);
   y += 4.2;
-  doc.text(`Engine: Arera v${rec.engine_version}`, M, y);
+  doc.text(`Engine: Gavel v${rec.engine_version}`, M, y);
 
   // ── Tamper-evident footer (pinned to bottom of last page) ──────────────────
   const footY = H - 22;
@@ -282,11 +282,11 @@ export function renderAuditPdf(rec: AuditPdfRecord): Buffer {
   );
   doc.setFont('helvetica', 'normal');
   doc.text(
-    `Verify at: api.tryarera.com/v1/underwriting/audit/${rec.audit_id}`,
+    `Verify at: api.trygavel.com/v1/underwriting/audit/${rec.audit_id}`,
     M,
     footY + 8,
   );
-  doc.text('RBI/2022-23/111 compliant   |   (c) 2026 Arera AI', M, footY + 12);
+  doc.text('RBI/2022-23/111 compliant   |   (c) 2026 Gavel AI', M, footY + 12);
 
   const ab = doc.output('arraybuffer');
   return Buffer.from(ab);

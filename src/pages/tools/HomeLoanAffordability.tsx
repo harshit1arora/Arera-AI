@@ -113,14 +113,14 @@ export default function HomeLoanAffordability() {
   return (
     <div className="min-h-screen bg-black text-white flex flex-col font-sans selection:bg-orange-500/30 overflow-x-hidden">
       <Helmet>
-        <title>Home Loan Affordability Calculator — How Much Home Loan Can You Get? | Arera AI</title>
+        <title>Home Loan Affordability Calculator — How Much Home Loan Can You Get? | Gavel AI</title>
         <meta name="description" content="Calculate exactly how much home loan you can afford based on your take-home salary. Calculate target home budget, EMIs, downpayment, and check lender eligibility." />
-        <link rel="canonical" href="https://www.tryarera.com/tools/home-loan-affordability" />
+        <link rel="canonical" href="https://www.trygavel.com/tools/home-loan-affordability" />
         <script type="application/ld+json">{JSON.stringify({
           '@context': 'https://schema.org', '@type': 'WebApplication',
           name: 'Home Loan Affordability Calculator', applicationCategory: 'FinanceApplication',
           operatingSystem: 'All', offers: { '@type': 'Offer', price: '0', priceCurrency: 'INR' },
-          publisher: { '@type': 'Organization', name: 'Arera AI' },
+          publisher: { '@type': 'Organization', name: 'Gavel AI' },
         })}</script>
       </Helmet>
 

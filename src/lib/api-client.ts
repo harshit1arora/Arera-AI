@@ -1,7 +1,7 @@
 import { auth } from './firebase';
 
 /**
- * Centralized API client for Arera backend.
+ * Centralized API client for Gavel backend.
  * - Uses environment variable for base URL (no hardcoded localhost)
  * - Automatically attaches Firebase ID Token for authenticated requests
  * - Handles error responses consistently

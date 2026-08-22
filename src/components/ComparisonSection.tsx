@@ -1,14 +1,14 @@
-import { FadeUp } from "./arera/FadeUp";
+import { FadeUp } from "./gavel/FadeUp";
 
 const ComparisonSection = () => {
   const tableRows = [
-    { feature: "Per-decision audit log", arera: "✓", perfios: "~", karza: "~", inhouse: "~" },
-    { feature: "Deterministic rule engine", arera: "✓", perfios: "~", karza: "~", inhouse: "~" },
-    { feature: "RBI-compliant output format", arera: "✓", perfios: "~", karza: "~", inhouse: "✗" },
-    { feature: "Explainability per decision", arera: "✓", perfios: "~", karza: "✗", inhouse: "~" },
-    { feature: "API-first integration", arera: "✓", perfios: "✓", karza: "✓", inhouse: "~" },
-    { feature: "No black-box ML", arera: "✓", perfios: "~", karza: "~", inhouse: "~" },
-    { feature: "Webhook delivery", arera: "✓", perfios: "✓", karza: "✓", inhouse: "~" },
+    { feature: "Per-decision audit log", gavel: "✓", perfios: "~", karza: "~", inhouse: "~" },
+    { feature: "Deterministic rule engine", gavel: "✓", perfios: "~", karza: "~", inhouse: "~" },
+    { feature: "RBI-compliant output format", gavel: "✓", perfios: "~", karza: "~", inhouse: "✗" },
+    { feature: "Explainability per decision", gavel: "✓", perfios: "~", karza: "✗", inhouse: "~" },
+    { feature: "API-first integration", gavel: "✓", perfios: "✓", karza: "✓", inhouse: "~" },
+    { feature: "No black-box ML", gavel: "✓", perfios: "~", karza: "~", inhouse: "~" },
+    { feature: "Webhook delivery", gavel: "✓", perfios: "✓", karza: "✓", inhouse: "~" },
   ];
 
   return (
@@ -22,7 +22,7 @@ const ComparisonSection = () => {
 
           {/* Headline */}
           <h2 className="font-['DM_Sans'] font-bold text-[46px] text-foreground mb-4">
-            Why lenders are switching to Arera.
+            Why lenders are switching to Gavel.
           </h2>
 
           {/* Subhead */}
@@ -38,7 +38,7 @@ const ComparisonSection = () => {
               <thead>
                 <tr className="bg-muted border-b border-border">
                   <th className="text-left px-6 py-4 font-['DM_Sans'] font-semibold text-[13px] text-muted-foreground">Capability</th>
-                  <th className="text-center px-6 py-4 font-['DM_Sans'] font-semibold text-[13px] text-foreground">Arera</th>
+                  <th className="text-center px-6 py-4 font-['DM_Sans'] font-semibold text-[13px] text-foreground">Gavel</th>
                   <th className="text-center px-6 py-4 font-['DM_Sans'] font-semibold text-[13px] text-muted-foreground">Perfios</th>
                   <th className="text-center px-6 py-4 font-['DM_Sans'] font-semibold text-[13px] text-muted-foreground">Karza</th>
                   <th className="text-center px-6 py-4 font-['DM_Sans'] font-semibold text-[13px] text-muted-foreground">In-house</th>
@@ -54,7 +54,7 @@ const ComparisonSection = () => {
                       {row.feature}
                     </td>
                     <td className="text-center px-6 py-[14px] bg-[rgba(249,115,22,0.03)] font-bold text-[16px] text-[#00FF94]">
-                      {row.arera}
+                      {row.gavel}
                     </td>
                     <td className={`text-center px-6 py-[14px] text-[16px] ${row.perfios === '✓' ? 'text-[#00FF94] font-bold' : row.perfios === '~' ? 'text-foreground' : 'text-muted-foreground'}`}>
                       {row.perfios}

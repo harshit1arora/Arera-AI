@@ -492,7 +492,7 @@ function NewDisbursementModal({ onClose, onCreated }: { onClose: () => void; onC
         borrowerPhone: form.borrowerPhone,
         borrowerEmail: form.borrowerEmail,
         bankAccount: form.bankAccount,
-        borrowerUPI: `${form.borrowerName.toLowerCase().replace(/\s+/g, '.')}@arera`,
+        borrowerUPI: `${form.borrowerName.toLowerCase().replace(/\s+/g, '.')}@gavel`,
         tranches: tranches.filter(t => t.amount && t.dueDate).map((t, idx) => ({
           amount: parseFloat(t.amount),
           dueDate: t.dueDate,

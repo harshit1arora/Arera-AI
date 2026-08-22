@@ -19,7 +19,7 @@ RUN npm run build
 
 FROM nginx:1.27-alpine AS production
 
-RUN addgroup -g 1001 -S nginx && adduser -S arera -u 1001
+RUN addgroup -g 1001 -S nginx && adduser -S gavel -u 1001
 
 COPY --from=builder /app/dist /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/conf.d/default.conf

@@ -11,7 +11,7 @@ interface BreadcrumbsProps {
   items: BreadcrumbItem[];
 }
 
-const DOMAIN = 'https://www.tryarera.com';
+const DOMAIN = 'https://www.trygavel.com';
 
 export function Breadcrumbs({ items }: BreadcrumbsProps) {
   const jsonLd = JSON.stringify({

@@ -110,13 +110,13 @@ export default function BorrowerPayment() {
               <Building2 className="w-6 h-6 text-white" />
             </div>
             <div>
-              <h1 className="font-bold text-xl">Arera AI</h1>
+              <h1 className="font-bold text-xl">Gavel AI</h1>
               <p className="text-xs text-muted-foreground">Borrower Portal</p>
             </div>
           </div>
           <div className="text-right">
             <p className="text-sm font-medium">Need help?</p>
-            <p className="text-xs text-muted-foreground">support@arera.ai • 1800-XXX-XXXX</p>
+            <p className="text-xs text-muted-foreground">support@gavel.ai • 1800-XXX-XXXX</p>
           </div>
         </div>
       </header>
@@ -157,7 +157,7 @@ export default function BorrowerPayment() {
           </div>
           
           <p className="text-center text-sm text-muted-foreground mt-4">
-            Don't know your Loan ID? Contact us at support@arera.ai or call 1800-XXX-XXXX
+            Don't know your Loan ID? Contact us at support@gavel.ai or call 1800-XXX-XXXX
           </p>
         </div>
 
@@ -257,7 +257,7 @@ export default function BorrowerPayment() {
                 </div>
                 <div className="bg-foreground/5 rounded-xl p-4">
                   <p className="text-sm text-muted-foreground">IFSC Code</p>
-                  <p className="font-bold text-lg font-mono">ARERA{loanData.ifscCode}XXXX</p>
+                  <p className="font-bold text-lg font-mono">GAVEL{loanData.ifscCode}XXXX</p>
                 </div>
               </div>
               <p className="text-sm text-muted-foreground mt-4 flex items-center gap-2">
@@ -285,7 +285,7 @@ export default function BorrowerPayment() {
                   </div>
                   <div>
                     <p className="font-medium">Email Support</p>
-                    <p className="text-sm text-muted-foreground">support@arera.ai</p>
+                    <p className="text-sm text-muted-foreground">support@gavel.ai</p>
                   </div>
                 </div>
               </div>

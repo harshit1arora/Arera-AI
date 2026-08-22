@@ -31,4 +31,4 @@ Disallow: /api-reference
 Disallow: /brand
 
 # Sitemap
-Sitemap: https://www.tryarera.com/sitemap.xml
+Sitemap: https://www.trygavel.com/sitemap.xml

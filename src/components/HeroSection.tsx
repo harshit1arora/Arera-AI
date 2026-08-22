@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, useMotionTemplate, useMotionValue, useScroll, useTransform, animate } from "framer-motion";
-import { FadeUp } from "./arera/FadeUp";
+import { FadeUp } from "./gavel/FadeUp";
 
 const HeroSection = () => {
   const navigate = useNavigate();
@@ -292,7 +292,7 @@ const HeroSection = () => {
                     <span className="ml-4 text-gray-300">"decision"</span><span className="text-gray-500">: </span><span className="text-[#00FF94] font-bold">"APPROVE"</span><span className="text-gray-500">,</span><br />
                     <span className="ml-4 text-gray-300">"credit_limit"</span><span className="text-gray-500">: </span><span className="text-[#F97316]">240000</span><span className="text-gray-500">,</span><br />
                     <span className="ml-4 text-gray-300">"risk_score"</span><span className="text-gray-500">: </span><motion.span className="text-[#F97316] inline-block">{roundedRiskScore}</motion.span><span className="text-gray-500">,</span><br />
-                    <span className="ml-4 text-gray-300">"audit_id"</span><span className="text-gray-500">: </span><span className="text-[#00FF94]">"arera_20260515_abc123"</span><span className="text-gray-500">,</span><br />
+                    <span className="ml-4 text-gray-300">"audit_id"</span><span className="text-gray-500">: </span><span className="text-[#00FF94]">"gavel_20260515_abc123"</span><span className="text-gray-500">,</span><br />
                     <span className="ml-4 text-gray-300">"reasons"</span><span className="text-gray-500">: [</span><br />
                     <span className="ml-8 text-gray-500">{`{`}</span><br />
                     <span className="ml-12 text-gray-300">"code"</span><span className="text-gray-500">: </span><span className="text-[#00FF94]">"STABLE_INCOME"</span><span className="text-gray-500">,</span><br />

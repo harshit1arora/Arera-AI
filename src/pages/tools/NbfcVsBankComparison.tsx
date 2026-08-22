@@ -136,14 +136,14 @@ export default function NbfcVsBankComparison() {
   return (
     <div className="min-h-screen bg-black text-white flex flex-col font-sans selection:bg-orange-500/30 overflow-x-hidden">
       <Helmet>
-        <title>NBFC vs Bank Loan — Compare Rates, Fees &amp; Approval Odds | Arera AI</title>
+        <title>NBFC vs Bank Loan — Compare Rates, Fees &amp; Approval Odds | Gavel AI</title>
         <meta name="description" content="Should you get a loan from a bank or an NBFC? Compare interest rates, processing times, CIBIL requirements, and approval chances to make the right choice." />
-        <link rel="canonical" href="https://www.tryarera.com/tools/nbfc-vs-bank-comparison" />
+        <link rel="canonical" href="https://www.trygavel.com/tools/nbfc-vs-bank-comparison" />
         <script type="application/ld+json">{JSON.stringify({
           '@context': 'https://schema.org', '@type': 'WebApplication',
           name: 'NBFC vs Bank Comparison Calculator', applicationCategory: 'FinanceApplication',
           operatingSystem: 'All', offers: { '@type': 'Offer', price: '0', priceCurrency: 'INR' },
-          publisher: { '@type': 'Organization', name: 'Arera AI' },
+          publisher: { '@type': 'Organization', name: 'Gavel AI' },
         })}</script>
       </Helmet>
 

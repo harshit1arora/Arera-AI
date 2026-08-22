@@ -60,6 +60,41 @@ const SalesPipelineDashboard: React.FC = () => {
     fetchPipeline();
   }, [user]);
 
+  // Real-Time Demo Request Listener via SSE
+  const [liveDemoRequests, setLiveDemoRequests] = useState<any[]>([]);
+
+  useEffect(() => {
+    const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:8080';
+    const eventSource = new EventSource(`${baseUrl}/v1/demo-request/stream`);
+
+    eventSource.addEventListener('initial_data', (e: any) => {
+      try {
+        const data = JSON.parse(e.data);
+        setLiveDemoRequests(data);
+      } catch (err) {
+        console.error('Failed to parse SSE initial_data:', err);
+      }
+    });
+
+    eventSource.addEventListener('demo_request_created', (e: any) => {
+      try {
+        const newDemo = JSON.parse(e.data);
+        toast.success(`🚀 Real-Time Demo Request: ${newDemo.fullName} (${newDemo.company})`, {
+          description: `Product: ${newDemo.productInterest} | Email: ${newDemo.workEmail}`,
+          duration: 7000,
+        });
+        setLiveDemoRequests((prev) => [newDemo, ...prev.filter((r) => r.id !== newDemo.id)]);
+        fetchPipeline(); // Auto refresh pipeline since sales deal was created
+      } catch (err) {
+        console.error('Failed to parse SSE demo_request_created:', err);
+      }
+    });
+
+    return () => {
+      eventSource.close();
+    };
+  }, []);
+
   const fetchPipeline = async () => {
     try {
       setLoading(true);
@@ -206,6 +241,53 @@ const SalesPipelineDashboard: React.FC = () => {
           </DialogContent>
         </Dialog>
       </div>
+
+      {/* Real-Time Live Demo Requests Stream */}
+      {liveDemoRequests.length > 0 && (
+        <Card className="border-orange-500/30 bg-gradient-to-r from-orange-500/5 to-transparent">
+          <CardHeader className="pb-3">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <span className="relative flex h-3 w-3">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-3 w-3 bg-orange-500"></span>
+                </span>
+                <CardTitle className="text-base font-bold text-foreground">Real-Time Demo Requests</CardTitle>
+              </div>
+              <span className="text-xs bg-orange-500/10 text-orange-600 font-medium px-2.5 py-0.5 rounded-full border border-orange-500/20">
+                Live SSE Stream Connected
+              </span>
+            </div>
+            <CardDescription className="text-xs">
+              Incoming website requests automatically create sales leads and trigger real-time alerts.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+              {liveDemoRequests.slice(0, 6).map((req) => (
+                <div
+                  key={req.id}
+                  className="p-3.5 rounded-lg border border-border bg-card/60 hover:bg-card transition-all space-y-1.5"
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="font-semibold text-sm text-foreground truncate">{req.fullName}</span>
+                    <span className="text-[10px] font-mono uppercase bg-primary/10 text-primary px-1.5 py-0.5 rounded">
+                      {req.productInterest}
+                    </span>
+                  </div>
+                  <p className="text-xs text-muted-foreground truncate">{req.company} {req.companySize ? `(${req.companySize})` : ''}</p>
+                  <div className="flex items-center justify-between pt-1 text-[11px] text-muted-foreground border-t border-border/50">
+                    <span className="truncate">{req.workEmail}</span>
+                    <span className="shrink-0 text-[10px] opacity-75">
+                      {new Date(req.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Key Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">

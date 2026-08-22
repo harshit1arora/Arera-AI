@@ -108,14 +108,14 @@ export default function BusinessLoanEligibility() {
   return (
     <div className="min-h-screen bg-black text-white flex flex-col font-sans selection:bg-orange-500/30 overflow-x-hidden">
       <Helmet>
-        <title>Business Loan Eligibility Calculator — Free Check for MSME &amp; Startups | Arera AI</title>
+        <title>Business Loan Eligibility Calculator — Free Check for MSME &amp; Startups | Gavel AI</title>
         <meta name="description" content="Check business loan eligibility for MSMEs &amp; startups instantly. Estimate maximum loan limit based on turnover, GST receipts, and profit margins with no credit impact." />
-        <link rel="canonical" href="https://www.tryarera.com/tools/business-loan-eligibility" />
+        <link rel="canonical" href="https://www.trygavel.com/tools/business-loan-eligibility" />
         <script type="application/ld+json">{JSON.stringify({
           '@context': 'https://schema.org', '@type': 'WebApplication',
           name: 'Business Loan Eligibility Calculator', applicationCategory: 'FinanceApplication',
           operatingSystem: 'All', offers: { '@type': 'Offer', price: '0', priceCurrency: 'INR' },
-          publisher: { '@type': 'Organization', name: 'Arera AI' },
+          publisher: { '@type': 'Organization', name: 'Gavel AI' },
         })}</script>
       </Helmet>
 

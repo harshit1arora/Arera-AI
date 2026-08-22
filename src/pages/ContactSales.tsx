@@ -39,7 +39,7 @@ const ContactSales = () => {
                 Contact Our Sales Team
               </h1>
               <p className="font-['DM_Sans'] font-normal text-[18px] text-muted-foreground max-w-[600px] mx-auto">
-                Let's discuss how Arera can transform your lending operations with deterministic underwriting.
+                Let's discuss how Gavel can transform your lending operations with deterministic underwriting.
               </p>
             </div>
 
@@ -59,10 +59,10 @@ const ContactSales = () => {
                         Email
                       </h3>
                       <a
-                        href="mailto:sales@arera.ai"
+                        href="mailto:sales@gavel.ai"
                         className="font-['DM_Sans'] text-[14px] text-muted-foreground hover:text-primary transition-colors"
                       >
-                        sales@arera.ai
+                        sales@gavel.ai
                       </a>
                     </div>
                   </div>

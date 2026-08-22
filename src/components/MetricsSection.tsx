@@ -1,4 +1,4 @@
-import { FadeUp } from "./arera/FadeUp";
+import { FadeUp } from "./gavel/FadeUp";
 
 const MetricsSection = () => {
   return (

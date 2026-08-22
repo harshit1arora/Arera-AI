@@ -22,7 +22,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
-      // In Arera, orgId === user's Firebase UID
+      // In Gavel, orgId === user's Firebase UID
       setOrgId(currentUser?.uid || null);
       setLoading(false);
     });

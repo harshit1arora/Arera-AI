@@ -118,7 +118,7 @@ export default function Integrations() {
         <div>
           <h4 className="font-bold text-foreground mb-1">RBI Account Aggregator Mandate</h4>
           <p className="text-xs text-muted-foreground leading-relaxed">
-            Connecting to Sahamati AA requires explicit user consent architecture. Ensure your frontend application triggers the Arera Consent UI flow before requesting alternative data pulls.
+            Connecting to Sahamati AA requires explicit user consent architecture. Ensure your frontend application triggers the Gavel Consent UI flow before requesting alternative data pulls.
           </p>
         </div>
       </div>

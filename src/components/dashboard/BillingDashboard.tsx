@@ -65,7 +65,7 @@ export default function BillingDashboard() {
         key: import.meta.env.VITE_RAZORPAY_KEY_ID || 'rzp_test_mockkey12345',
         amount: order.amount,
         currency: order.currency,
-        name: "Arera AI Enterprise",
+        name: "Gavel AI Enterprise",
         description: "Unlimited AI Analysis Calls & Priority Support",
         order_id: order.orderId,
         handler: async function (response: any) {

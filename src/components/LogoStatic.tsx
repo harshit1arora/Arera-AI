@@ -13,7 +13,7 @@ export const LogoStatic = () => {
         <polygon points="50,15 80.3,68 19.7,68" fill="#1A1C1E" />
         <polygon points="16.9,73 83.1,73 90,85 10,85" fill="#1A1C1E" />
       </svg>
-      <span className="font-['DM_Sans'] font-semibold text-[17px] tracking-normal text-indigo-400 transition-colors group-hover:text-indigo-300">Arera</span>
+      <span className="font-['DM_Sans'] font-semibold text-[17px] tracking-normal text-indigo-400 transition-colors group-hover:text-indigo-300">Gavel</span>
     </Link>
   );
 };

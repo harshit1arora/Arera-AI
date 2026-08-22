@@ -40,7 +40,7 @@ router.post('/config', authenticateFirebaseToken, async (req: AuthenticatedReque
 
     if (webhookUrl) {
       const test = await sendSlackMessage(webhookUrl, {
-        text: '✅ Arera AI has been connected to your Slack workspace! You will now receive real-time alerts for deals, collections, and compliance events.',
+        text: '✅ Gavel AI has been connected to your Slack workspace! You will now receive real-time alerts for deals, collections, and compliance events.',
       });
       if (!test) {
         return res.status(400).json({ error: 'Failed to send test message. Please check the webhook URL.' });
@@ -232,7 +232,7 @@ router.post('/alerts/npa', async (req: AuthenticatedRequest, res: Response) => {
             elements: [{
               type: 'button',
               text: { type: 'plain_text', text: 'View Loan' },
-              url: `https://app.arera.ai/loans/${loanId}`,
+              url: `https://app.gavel.ai/loans/${loanId}`,
               action_id: 'view_loan',
             }],
           },

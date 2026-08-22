@@ -15,7 +15,7 @@ import {
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: process.env.EMAIL_USER || 'noreply@arera.ai',
+    user: process.env.EMAIL_USER || 'noreply@gavel.ai',
     pass: process.env.EMAIL_PASSWORD || '',
   },
 });
@@ -44,7 +44,7 @@ export async function sendWeeklyUsageEmail(
     const html = `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
         <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 30px; border-radius: 8px 8px 0 0; color: white;">
-          <h1 style="margin: 0; font-size: 28px;">Arera Weekly Usage Report</h1>
+          <h1 style="margin: 0; font-size: 28px;">Gavel Weekly Usage Report</h1>
           <p style="margin: 10px 0 0 0; opacity: 0.9;">Week of ${new Date().toLocaleDateString()}</p>
         </div>
 
@@ -89,7 +89,7 @@ export async function sendWeeklyUsageEmail(
 
           <!-- All-Time Stats -->
           <div style="background: #f0f9ff; padding: 20px; border-radius: 8px; margin-bottom: 30px;">
-            <h3 style="color: #111827; margin: 0 0 15px 0; font-size: 16px;">📈 All-Time Stats with Arera</h3>
+            <h3 style="color: #111827; margin: 0 0 15px 0; font-size: 16px;">📈 All-Time Stats with Gavel</h3>
             <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px;">
               <div style="text-align: center;">
                 <p style="color: #6b7280; margin: 0; font-size: 12px;">Total Decisions</p>
@@ -109,7 +109,7 @@ export async function sendWeeklyUsageEmail(
           <!-- CTA -->
           <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 20px; border-radius: 8px; text-align: center; margin-bottom: 30px;">
             <p style="color: white; margin: 0 0 15px 0; font-weight: 600;">Ready to see more insights?</p>
-            <a href="https://app.arera.ai/usage-billing" style="display: inline-block; background: white; color: #667eea; padding: 12px 30px; border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 14px;">
+            <a href="https://app.gavel.ai/usage-billing" style="display: inline-block; background: white; color: #667eea; padding: 12px 30px; border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 14px;">
               View Full Dashboard →
             </a>
           </div>
@@ -117,8 +117,8 @@ export async function sendWeeklyUsageEmail(
           <!-- Footer -->
           <div style="text-align: center; padding-top: 20px; border-top: 1px solid #e5e7eb;">
             <p style="color: #9ca3af; margin: 0; font-size: 12px;">
-              Arera AI • Intelligent Underwriting Platform<br/>
-              Questions? Contact us at support@arera.ai
+              Gavel AI • Intelligent Underwriting Platform<br/>
+              Questions? Contact us at support@gavel.ai
             </p>
           </div>
         </div>
@@ -126,9 +126,9 @@ export async function sendWeeklyUsageEmail(
     `;
 
     const result = await transporter.sendMail({
-      from: 'Arera Weekly Report <noreply@arera.ai>',
+      from: 'Gavel Weekly Report <noreply@gavel.ai>',
       to: organization.email,
-      subject: `📊 Arera Weekly Report: ₹${roi.thisMonth.costSaved.toLocaleString('en-IN')} Saved This Week`,
+      subject: `📊 Gavel Weekly Report: ₹${roi.thisMonth.costSaved.toLocaleString('en-IN')} Saved This Week`,
       html,
     });
 
@@ -160,11 +160,11 @@ export async function sendLowUsageAlert(
         <p style="color: #374151; margin: 0 0 15px 0;">Hi ${organization.name},</p>
 
         <p style="color: #374151; margin: 0 0 15px 0;">
-          We noticed that your Arera integration hasn't been used in a while. We'd love to help you get the most out of the platform.
+          We noticed that your Gavel integration hasn't been used in a while. We'd love to help you get the most out of the platform.
         </p>
 
         <p style="color: #374151; margin: 0 0 15px 0;">
-          Common ways to use Arera:
+          Common ways to use Gavel:
         </p>
 
         <ul style="color: #374151; margin: 0 0 15px 0; padding-left: 20px;">
@@ -173,18 +173,18 @@ export async function sendLowUsageAlert(
           <li>Generate compliance reports for your next RBI audit</li>
         </ul>
 
-        <a href="https://app.arera.ai/console" style="display: inline-block; background: #667eea; color: white; padding: 12px 30px; border-radius: 6px; text-decoration: none; font-weight: 600;">
+        <a href="https://app.gavel.ai/console" style="display: inline-block; background: #667eea; color: white; padding: 12px 30px; border-radius: 6px; text-decoration: none; font-weight: 600;">
           Get Started →
         </a>
 
         <p style="color: #9ca3af; margin: 30px 0 0 0; font-size: 12px;">
-          Still need help? Reply to this email or contact support@arera.ai
+          Still need help? Reply to this email or contact support@gavel.ai
         </p>
       </div>
     `;
 
     await transporter.sendMail({
-      from: 'Arera Support <support@arera.ai>',
+      from: 'Gavel Support <support@gavel.ai>',
       to: organization.email,
       subject: `We miss you! 🎯 Get back to ${organization.name}`,
       html,

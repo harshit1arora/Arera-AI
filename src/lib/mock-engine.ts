@@ -184,7 +184,7 @@ export const PAYLOADS: Record<string, object> = {
 };
 
 export const TERMINAL_LINES = [
-  '> Arera Engine v2.1.0 initialized',
+  '> Gavel Engine v2.1.0 initialized',
   '> 24 underwriting policies loaded',
   '> RBI compliance mode: active',
   '> Sandbox environment ready',
@@ -201,7 +201,7 @@ export const PROCESSING_LINES = [
 ];
 
 export async function runAnalysis(personaId: string): Promise<AnalysisResult> {
-  const auditId = `arera_${Date.now()}_${Math.random().toString(36).substr(2, 6)}`;
+  const auditId = `gavel_${Date.now()}_${Math.random().toString(36).substr(2, 6)}`;
 
   await delay(jitter(1400, 400));
 

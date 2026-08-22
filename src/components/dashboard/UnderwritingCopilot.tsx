@@ -14,7 +14,7 @@ export function UnderwritingCopilot({ borrower }: { borrower: MonitoredBorrower 
   const [messages, setMessages] = useState<Message[]>([
     {
       role: "model",
-      content: `Hello. I am the Arera Underwriting Copilot. I have loaded the profile for **${borrower.applicantName}** (Current Score: ${borrower.currentScore}). How can I assist you with this application?`
+      content: `Hello. I am the Gavel Underwriting Copilot. I have loaded the profile for **${borrower.applicantName}** (Current Score: ${borrower.currentScore}). How can I assist you with this application?`
     }
   ]);
   const [input, setInput] = useState("");

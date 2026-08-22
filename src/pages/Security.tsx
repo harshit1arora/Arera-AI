@@ -84,9 +84,9 @@ const Security = () => {
               <div>
                 <h3 className="text-xl font-bold mb-3">Penetration Testing & Bug Bounty</h3>
                 <p className="text-muted-foreground leading-relaxed">
-                  Arera undergoes continuous external penetration testing by accredited CERT-In empaneled security firms. We also operate a private Bug Bounty program on HackerOne for continuous vulnerability disclosure.
+                  Gavel undergoes continuous external penetration testing by accredited CERT-In empaneled security firms. We also operate a private Bug Bounty program on HackerOne for continuous vulnerability disclosure.
                 </p>
-                <a href="mailto:security@arera.ai" className="inline-block mt-4 text-sm font-semibold text-primary hover:underline">Report a vulnerability &rarr;</a>
+                <a href="mailto:security@gavel.ai" className="inline-block mt-4 text-sm font-semibold text-primary hover:underline">Report a vulnerability &rarr;</a>
               </div>
             </div>
 

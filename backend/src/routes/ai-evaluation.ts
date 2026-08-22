@@ -128,7 +128,7 @@ router.post('/chat', async (req: AuthenticatedRequest, res: Response) => {
     const genAI = new GoogleGenerativeAI(apiKey);
     const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
 
-    const systemPrompt = `You are AreraBot, an expert AI Underwriting Analyst for NBFCs in India. 
+    const systemPrompt = `You are GavelBot, an expert AI Underwriting Analyst for NBFCs in India. 
 Help the user with:
 - Loan application evaluation
 - Credit risk analysis

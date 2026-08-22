@@ -117,7 +117,7 @@ const EmiCalculator = () => {
     '@context': 'https://schema.org', '@type': 'WebApplication',
     name: 'Personal Loan EMI Calculator', applicationCategory: 'FinanceApplication',
     operatingSystem: 'All', offers: { '@type': 'Offer', price: '0', priceCurrency: 'INR' },
-    publisher: { '@type': 'Organization', name: 'Arera AI' },
+    publisher: { '@type': 'Organization', name: 'Gavel AI' },
   });
 
   const faqSchema = JSON.stringify({
@@ -128,9 +128,9 @@ const EmiCalculator = () => {
   return (
     <div className="min-h-screen bg-black text-white flex flex-col font-sans selection:bg-orange-500/30 overflow-x-hidden">
       <Helmet>
-        <title>Personal Loan EMI Calculator — Check Monthly EMIs &amp; Instant Eligibility | Arera AI</title>
+        <title>Personal Loan EMI Calculator — Check Monthly EMIs &amp; Instant Eligibility | Gavel AI</title>
         <meta name="description" content="Calculate your personal loan monthly EMI and see your bank eligibility instantly. Adjust loan amount &amp; tenure to get the best interest rates from 40+ lenders." />
-        <link rel="canonical" href="https://www.tryarera.com/tools/emi-calculator" />
+        <link rel="canonical" href="https://www.trygavel.com/tools/emi-calculator" />
         <script type="application/ld+json">{jsonLd}</script>
         <script type="application/ld+json">{faqSchema}</script>
       </Helmet>

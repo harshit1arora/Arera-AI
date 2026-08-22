@@ -64,7 +64,7 @@ const AuditReportModal: React.FC<AuditReportModalProps> = ({ isOpen, onClose, lo
               {/* Report Header Logo/Metadata */}
               <div className="flex justify-between items-start border-b-2 border-black pb-8 mb-8">
                 <div>
-                   <h1 className="text-3xl font-black uppercase tracking-tighter mb-1 font-sans">ARERA ENGINE</h1>
+                   <h1 className="text-3xl font-black uppercase tracking-tighter mb-1 font-sans">GAVEL ENGINE</h1>
                    <p className="text-xs uppercase tracking-widest font-bold text-muted-foreground">Regulator Export Generator (RBI Sub-Clause 11B)</p>
                 </div>
                 <div className="text-right text-xs">
@@ -141,7 +141,7 @@ const AuditReportModal: React.FC<AuditReportModalProps> = ({ isOpen, onClose, lo
             {/* Modal Footer (Ambient) */}
             <div className="p-6 bg-foreground/5 border-t border-white/5 flex items-center justify-center gap-3">
               <Lock size={12} className="text-muted-foreground" />
-              <span className="text-[9px] font-black uppercase tracking-[0.3em] text-muted-foreground">End of Compliance Record — Arera Deterministic Engine v2.1.0</span>
+              <span className="text-[9px] font-black uppercase tracking-[0.3em] text-muted-foreground">End of Compliance Record — Gavel Deterministic Engine v2.1.0</span>
             </div>
           </motion.div>
         </div>

@@ -35,7 +35,7 @@ const GEMINI_API_KEY = process.env.GEMINI_API_KEY || '';
 const NVIDIA_API_KEY = process.env.NVIDIA_API_KEY || '';
 const NVIDIA_API_URL = process.env.NVIDIA_API_URL || 'https://integrate.api.nvidia.com/v1/chat/completions';
 
-const SYSTEM_INSTRUCTION = `You are AreraBot, an expert AI Underwriting Analyst Copilot built into the Arera AI platform.
+const SYSTEM_INSTRUCTION = `You are GavelBot, an expert AI Underwriting Analyst Copilot built into the Gavel AI platform.
 You are assisting a Credit Manager in evaluating complex loan applications.
 Be highly professional, analytical, concise, and deterministic. Avoid fluff.
 Always cite specific data points from the borrower profile when answering.`;
@@ -362,7 +362,7 @@ async function queryGeminiCopilot(prompt: string, history: ConversationMessage[]
   const chat = model.startChat({
     history: [
       { role: 'user', parts: [{ text: `${SYSTEM_INSTRUCTION}\n\n${contextBlock}` }] },
-      { role: 'model', parts: [{ text: 'Understood. I am AreraBot, ready to assist with underwriting analysis.' }] },
+      { role: 'model', parts: [{ text: 'Understood. I am GavelBot, ready to assist with underwriting analysis.' }] },
       ...formattedHistory,
     ],
     generationConfig: {
@@ -450,7 +450,7 @@ async function queryNvidiaAnalyze(prompt: string): Promise<string> {
     body: JSON.stringify({
       model: 'meta/llama-3.1-70b-instruct',
       messages: [
-        { role: 'system', content: 'You are AreraBot, an expert underwriting analyst. Always respond with valid JSON.' },
+        { role: 'system', content: 'You are GavelBot, an expert underwriting analyst. Always respond with valid JSON.' },
         { role: 'user', content: prompt },
       ],
       max_tokens: 2000,

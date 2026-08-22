@@ -401,7 +401,7 @@ const Pricing = () => {
               <p className="text-sm text-gray-400 mb-6 leading-relaxed">
                 {selectedTier === 'free' 
                   ? 'Get instant sandbox keys to run mock decisions.' 
-                  : 'Start your enterprise-ready underwriting journey with Arera AI.'}
+                  : 'Start your enterprise-ready underwriting journey with Gavel AI.'}
               </p>
               
               <div className="bg-white/5 border border-white/10 rounded-xl p-4 mb-6">

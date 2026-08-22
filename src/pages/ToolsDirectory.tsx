@@ -37,21 +37,21 @@ const ToolsDirectory = () => {
   return (
     <div className="min-h-screen bg-black text-white flex flex-col font-sans selection:bg-orange-500/30 overflow-x-hidden">
       <Helmet>
-        <title>Financial Tools & Loan Calculators – Arera AI</title>
+        <title>Financial Tools & Loan Calculators – Gavel AI</title>
         <meta name="description" content="20+ free AI-powered financial tools. Calculate EMI, check loan eligibility, simulate credit score changes, compare lenders, and plan your finances." />
-        <link rel="canonical" href="https://www.tryarera.com/tools" />
+        <link rel="canonical" href="https://www.trygavel.com/tools" />
         <script type="application/ld+json">{JSON.stringify({
           '@context': 'https://schema.org', '@type': 'CollectionPage',
           name: 'Financial Tools & Calculators', description: '20+ free AI-powered financial tools',
-          publisher: { '@type': 'Organization', name: 'Arera AI' },
+          publisher: { '@type': 'Organization', name: 'Gavel AI' },
           numberOfItems: tools.length,
         })}</script>
         <script type="application/ld+json">{JSON.stringify({
           '@context': 'https://schema.org',
           '@type': 'BreadcrumbList',
           'itemListElement': [
-            { '@type': 'ListItem', 'position': 1, 'name': 'Home', 'item': 'https://www.tryarera.com' },
-            { '@type': 'ListItem', 'position': 2, 'name': 'Tools', 'item': 'https://www.tryarera.com/tools' }
+            { '@type': 'ListItem', 'position': 1, 'name': 'Home', 'item': 'https://www.trygavel.com' },
+            { '@type': 'ListItem', 'position': 2, 'name': 'Tools', 'item': 'https://www.trygavel.com/tools' }
           ]
         })}</script>
       </Helmet>
@@ -93,7 +93,7 @@ const ToolsDirectory = () => {
             <div className="max-w-2xl mx-auto mt-8 bg-white/[0.02] border border-white/[0.08] backdrop-blur-md rounded-xl p-4 flex items-start gap-3 text-left">
               <Sparkles className="w-5 h-5 text-orange-400 shrink-0 mt-0.5 animate-pulse" />
               <p className="text-xs text-gray-400 leading-relaxed">
-                <strong className="text-white">For Borrowers:</strong> These are free financial check utilities powered by <strong className="text-white">Arera AI</strong> — the digital underwriting engine used by India's top NBFCs and fintechs to automate credit decisions. Running these checks does not perform any hard bureau inquiry.
+                <strong className="text-white">For Borrowers:</strong> These are free financial check utilities powered by <strong className="text-white">Gavel AI</strong> — the digital underwriting engine used by India's top NBFCs and fintechs to automate credit decisions. Running these checks does not perform any hard bureau inquiry.
               </p>
             </div>
           </div>

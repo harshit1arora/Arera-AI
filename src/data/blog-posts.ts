@@ -14,7 +14,7 @@ export const BLOG_POSTS: BlogPost[] = [
     title: "How NBFCs Can Reduce Loan TAT with Automated Underwriting",
     date: "2025-05-01",
     excerpt: "Manual underwriting is the #1 reason NBFCs lose borrowers to fintechs. Here's how automated underwriting infrastructure cuts loan TAT from days to seconds.",
-    author: "Arera",
+    author: "Gavel",
     tags: ["underwriting", "NBFC", "loan TAT", "credit decisioning", "automation"],
     content: `
 Loan turnaround time (TAT) is the single most visible metric in the NBFC lending experience. A borrower who waits 4 days for a credit decision has already applied elsewhere. In a market where fintech lenders promise approvals in minutes, manual underwriting is not just inefficient — it is a direct revenue leak.
@@ -96,7 +96,7 @@ Loan TAT is a product problem, not just an ops problem. Borrowers today benchmar
 
 Automated underwriting infrastructure closes that gap. The NBFCs winning market share in 2025 are not the ones with the most underwriters. They're the ones with the best infrastructure.
 
-*Arera builds deterministic, rules-based underwriting infrastructure for NBFCs. From bank statement to credit decision in seconds. [See how it works](/sandbox)*
+*Gavel builds deterministic, rules-based underwriting infrastructure for NBFCs. From bank statement to credit decision in seconds. [See how it works](/sandbox)*
     `
   },
   {
@@ -104,7 +104,7 @@ Automated underwriting infrastructure closes that gap. The NBFCs winning market 
     title: "RBI-Compliant Underwriting: What NBFCs Need to Know in 2025",
     date: "2025-05-08",
     excerpt: "As RBI tightens oversight on NBFC credit practices, explainability and audit readiness are no longer optional. Here's what compliant underwriting infrastructure looks like.",
-    author: "Arera",
+    author: "Gavel",
     tags: ["RBI compliance", "NBFC", "underwriting", "audit", "credit policy"],
     content: `
 The RBI's focus on NBFC credit practices has intensified significantly. From the Scale Based Regulation (SBR) framework to the increased scrutiny on fair lending practices, regulators are no longer just asking what decision was made — they're asking why.
@@ -185,7 +185,7 @@ RBI compliance in underwriting is not a one-time audit exercise. It's an ongoing
 
 Deterministic, rules-based underwriting infrastructure makes compliance the default — not a manual overlay on top of a discretionary process.
 
-*Arera builds RBI-compliant, explainable underwriting infrastructure for NBFCs. Audit-ready by design. [Learn more](/sandbox)*
+*Gavel builds RBI-compliant, explainable underwriting infrastructure for NBFCs. Audit-ready by design. [Learn more](/sandbox)*
     `
   },
   {
@@ -193,7 +193,7 @@ Deterministic, rules-based underwriting infrastructure makes compliance the defa
     title: "Bank Statement Analysis API for NBFCs: What to Look For",
     date: "2025-05-15",
     excerpt: "Choosing a bank statement analysis API is one of the most consequential infrastructure decisions an NBFC can make. Here's the complete evaluation framework.",
-    author: "Arera",
+    author: "Gavel",
     tags: ["bank statement analysis", "API", "NBFC", "underwriting", "fintech"],
     content: `
 Bank statement analysis is the foundation of NBFC underwriting. For most borrower segments — MSMEs, self-employed individuals, gig workers — the bank statement is the single most reliable source of truth about income, obligations, and financial behaviour.
@@ -283,7 +283,7 @@ Evaluate on parser coverage, signal quality, fraud detection, integration speed,
 
 The NBFCs that get this right process applications in minutes, not days — and their underwriters spend their time on judgment calls, not data entry.
 
-*Arera combines bank statement analysis and rules-based underwriting in a single API — from raw statement to credit decision in seconds. [See how it works](/sandbox)*
+*Gavel combines bank statement analysis and rules-based underwriting in a single API — from raw statement to credit decision in seconds. [See how it works](/sandbox)*
     `
   }
 ];

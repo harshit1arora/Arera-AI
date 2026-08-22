@@ -6,9 +6,9 @@ const PrivacyPolicy = () => {
   return (
     <div className="min-h-screen bg-background flex flex-col">
       <Helmet>
-        <title>Privacy Policy – Arera AI</title>
-        <meta name="description" content="Read the official Privacy Policy of Arera AI. Learn how we handle personal data and comply with DPDP Act and RBI guidelines." />
-        <link rel="canonical" href="https://www.tryarera.com/privacy-policy" />
+        <title>Privacy Policy – Gavel AI</title>
+        <meta name="description" content="Read the official Privacy Policy of Gavel AI. Learn how we handle personal data and comply with DPDP Act and RBI guidelines." />
+        <link rel="canonical" href="https://www.trygavel.com/privacy-policy" />
       </Helmet>
       <Navbar />
       <main className="flex-1 pt-32 pb-20">
@@ -22,12 +22,12 @@ const PrivacyPolicy = () => {
 
           <div className="prose prose-invert prose-lg max-w-none prose-headings:font-display prose-headings:font-bold prose-a:text-primary">
             <p className="lead text-xl text-muted-foreground mb-12">
-              At Arera AI Technologies Pvt. Ltd., we respect your privacy and are committed to protecting the personal data we process. This policy explains how we collect, use, and safeguard data in the course of providing our API infrastructure.
+              At Gavel AI Technologies Pvt. Ltd., we respect your privacy and are committed to protecting the personal data we process. This policy explains how we collect, use, and safeguard data in the course of providing our API infrastructure.
             </p>
 
             <h2 className="text-2xl mt-12 mb-6 text-foreground border-b border-border/50 pb-4">1. Data Processor Relationship</h2>
             <p className="text-muted-foreground leading-relaxed">
-              In almost all instances, Arera AI acts as a <strong>Data Processor</strong> under the Digital Personal Data Protection (DPDP) Act, 2023. We process data completely on behalf of our enterprise clients (NBFCs, Banks, FinTechs), who act as the <strong>Data Fiduciaries</strong>. The Fiduciaries are responsible for obtaining explicit, informed consent from the end-user (Data Principal) before transmitting data to the Arera API.
+              In almost all instances, Gavel AI acts as a <strong>Data Processor</strong> under the Digital Personal Data Protection (DPDP) Act, 2023. We process data completely on behalf of our enterprise clients (NBFCs, Banks, FinTechs), who act as the <strong>Data Fiduciaries</strong>. The Fiduciaries are responsible for obtaining explicit, informed consent from the end-user (Data Principal) before transmitting data to the Gavel API.
             </p>
 
             <h2 className="text-2xl mt-12 mb-6 text-foreground border-b border-border/50 pb-4">2. Types of Data We Process</h2>
@@ -42,7 +42,7 @@ const PrivacyPolicy = () => {
 
             <h2 className="text-2xl mt-12 mb-6 text-foreground border-b border-border/50 pb-4">3. Data Localization & Retention</h2>
             <p className="text-muted-foreground leading-relaxed">
-              Arera AI strictly conforms to RBI's data localization circulars. <strong>100% of the data processed by Arera AI resides on servers geographically located within the Republic of India.</strong>
+              Gavel AI strictly conforms to RBI's data localization circulars. <strong>100% of the data processed by Gavel AI resides on servers geographically located within the Republic of India.</strong>
             </p>
             <p className="text-muted-foreground leading-relaxed mt-4">
               We employ a strict ephemeral processing model. By default, Personally Identifiable Information (PII) is securely wiped from our hot-storage instances within 72 hours of a final underwriting decision being transmitted back via webhook, unless specific audit-logging retention relies on cryptographic hashing devoid of raw identifiers.
@@ -56,7 +56,7 @@ const PrivacyPolicy = () => {
             <div className="mt-16 p-8 bg-secondary/30 rounded-2xl border border-border/60">
               <h3 className="text-lg font-bold mb-2">Contact our Data Protection Officer</h3>
               <p className="text-sm text-muted-foreground mb-4">For any inquiries regarding data rights, compliance, or this policy, our DPO can be reached directly.</p>
-              <a href="mailto:dpo@tryarera.com" className="font-mono text-primary hover:underline">dpo@tryarera.com</a>
+              <a href="mailto:dpo@trygavel.com" className="font-mono text-primary hover:underline">dpo@trygavel.com</a>
             </div>
           </div>
         </section>

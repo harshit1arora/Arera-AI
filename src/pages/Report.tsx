@@ -159,7 +159,7 @@ export function ReportPage() {
             useCORS: true
           }).then(canvas => {
             const link = document.createElement('a');
-            link.download = `arera_financial_identity_${shareId.substring(0, 8)}.png`;
+            link.download = `gavel_financial_identity_${shareId.substring(0, 8)}.png`;
             link.href = canvas.toDataURL('image/png');
             link.click();
             setIsGeneratingCard(false);
@@ -1225,7 +1225,7 @@ export function ReportPage() {
                         A
                       </div>
                       <div>
-                        <div className="font-bold text-white text-base tracking-tight">Arera AI Underwriting</div>
+                        <div className="font-bold text-white text-base tracking-tight">Gavel AI Underwriting</div>
                         <div className="text-xs text-gray-500 font-mono">Verified Algorithmic Identity</div>
                       </div>
                     </div>
@@ -1251,7 +1251,7 @@ export function ReportPage() {
                   </div>
 
                   <div className="flex items-center justify-between pt-4 border-t border-white/5 text-xs text-gray-500 font-mono">
-                    <span>tryarera.com/report/{currentAnalysis.id.substring(0, 14)}...</span>
+                    <span>trygavel.com/report/{currentAnalysis.id.substring(0, 14)}...</span>
                     <span className="text-white font-bold">Top {100 - currentAnalysis.percentileRank}% Rank</span>
                   </div>
                 </div>
@@ -1337,7 +1337,7 @@ export function ReportPage() {
                 ))}
               </div>
               <div className="flex items-center justify-between text-xs text-gray-500 font-mono">
-                <span>ARERA WRAPPED // SLIDE 0{wrappedStep + 1} OF 06</span>
+                <span>GAVEL WRAPPED // SLIDE 0{wrappedStep + 1} OF 06</span>
                 <button 
                   onClick={() => setShowWrappedOverlay(false)} 
                   className="hover:text-white transition-colors flex items-center gap-1.5 uppercase font-bold text-orange-400"
@@ -1379,7 +1379,7 @@ export function ReportPage() {
                       {wrappedStep === 5 && "Interactive Report Unlocked."}
                     </h1>
                     <p className="text-lg md:text-xl text-gray-400 font-medium">
-                      {wrappedStep === 0 && "Arera AI parsed 142 ledger items to build your behavioural risk portrait."}
+                      {wrappedStep === 0 && "Gavel AI parsed 142 ledger items to build your behavioural risk portrait."}
                       {wrappedStep === 1 && "Lenders look for behavioral consistency. You are classified as:"}
                       {wrappedStep === 2 && "Every user profile triggers unique flags in shadow systems."}
                       {wrappedStep === 3 && "How your net credits compare to other loan applicants."}

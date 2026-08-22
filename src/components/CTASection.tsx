@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { FadeUp } from "./arera/FadeUp";
+import { FadeUp } from "./gavel/FadeUp";
 
 const CTASection = () => {
   const navigate = useNavigate();

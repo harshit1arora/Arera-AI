@@ -78,7 +78,7 @@ export default function AaConsentModal({ isOpen, onClose, onConsentSuccess }: Aa
                   </div>
 
                   <p className="text-sm text-muted-foreground leading-relaxed">
-                    You are enabling a real-time data pipe to RBI-regulated Account Aggregators (AAs). Arera AI operates as an authorized FIU node.
+                    You are enabling a real-time data pipe to RBI-regulated Account Aggregators (AAs). Gavel AI operates as an authorized FIU node.
                   </p>
                   
                   <div className="bg-foreground/5 border border-border p-4 rounded-2xl space-y-3">
@@ -105,7 +105,7 @@ export default function AaConsentModal({ isOpen, onClose, onConsentSuccess }: Aa
               ) : (
                 <div className="space-y-6">
                   <div className="h-40 overflow-y-auto custom-scrollbar bg-background/40 p-4 rounded-xl border border-white/5 text-[10px] text-muted-foreground font-mono leading-relaxed">
-                    <p className="mb-2">1. DATA MINIMIZATION: Arera AI engine will only extract transactional risk vectors. Raw strings are scrubbed instantly.</p>
+                    <p className="mb-2">1. DATA MINIMIZATION: Gavel AI engine will only extract transactional risk vectors. Raw strings are scrubbed instantly.</p>
                     <p className="mb-2">2. REVOCATION: The user holds irrevocable rights to pause the pipeline via their Sahamati app interfaces.</p>
                     <p className="mb-2">3. PURPOSE: Primary risk alignment. Data will strictly NOT be used for marketing cross-sells.</p>
                     <p className="mb-8">By proceeding, you attest to owning the DPDP-compliant consent workflows before routing your applicants to this vector.</p>

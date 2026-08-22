@@ -21,7 +21,7 @@ const ApiReference = () => {
   };
 
   const codeSnippets = {
-    curl: `curl -X POST https://api.arera.in/v1/underwriting/analyze \\
+    curl: `curl -X POST https://api.gavel.in/v1/underwriting/analyze \\
   -H "Authorization: Bearer sk_live_xxxx" \\
   -H "Content-Type: application/json" \\
   -d '{
@@ -29,8 +29,8 @@ const ApiReference = () => {
     "product_id": "unsecured_personal_v2",
     "bank_statement_id": "stmt_0041"
   }'`,
-    nodejs: `const Arera = require('@arera/sdk');
-const client = new Arera('sk_live_xxxx');
+    nodejs: `const Gavel = require('@gavel/sdk');
+const client = new Gavel('sk_live_xxxx');
 
 const result = await client.underwriting.analyze({
   applicant_id: 'cust_9921',
@@ -39,9 +39,9 @@ const result = await client.underwriting.analyze({
 });
 
 console.log(result.decision); // 'APPROVE'`,
-    python: `import arera
+    python: `import gavel
 
-client = arera.Client(api_key="sk_live_xxxx")
+client = gavel.Client(api_key="sk_live_xxxx")
 
 analysis = client.underwriting.analyze(
     applicant_id="cust_9921",
@@ -89,7 +89,7 @@ print(analysis.decision) # 'APPROVE'`
               </div>
               <h1 className="text-5xl font-display font-black tracking-tighter mb-6">API Reference</h1>
               <p className="text-xl text-muted-foreground leading-relaxed">
-                Integrate Arera's deterministic underwriting engine into your existing loan origination system (LOS) in minutes.
+                Integrate Gavel's deterministic underwriting engine into your existing loan origination system (LOS) in minutes.
               </p>
             </header>
 
@@ -99,7 +99,7 @@ print(analysis.decision) # 'APPROVE'`
               </h2>
               <div className="prose prose-invert prose-sm max-w-none text-muted-foreground space-y-4">
                 <p>
-                  The Arera API uses Secret Keys to authenticate requests. You can manage your keys in the <a href="/console" className="text-primary hover:underline">Console</a>.
+                  The Gavel API uses Secret Keys to authenticate requests. You can manage your keys in the <a href="/console" className="text-primary hover:underline">Console</a>.
                 </p>
                 <p>
                   Your API keys carry significant privileges. Keep them secure and never expose them in client-side code or public repositories.
@@ -118,7 +118,7 @@ print(analysis.decision) # 'APPROVE'`
                 <Zap className="text-primary" /> Run Analysis
               </h2>
               <p className="text-muted-foreground mb-8">
-                The core endpoint for Arera. Submit an applicant's ID and bank statement to receive a deterministic underwriting decision in &lt;2 seconds.
+                The core endpoint for Gavel. Submit an applicant's ID and bank statement to receive a deterministic underwriting decision in &lt;2 seconds.
               </p>
 
               <div className="space-y-8">
@@ -148,7 +148,7 @@ print(analysis.decision) # 'APPROVE'`
                 <Webhook className="text-primary" /> Webhooks
               </h2>
               <p className="text-muted-foreground mb-8">
-                Webhooks allow you to build event-driven systems. Arera sends real-time notifications when analysis completes or errors occur.
+                Webhooks allow you to build event-driven systems. Gavel sends real-time notifications when analysis completes or errors occur.
               </p>
               <div className="bg-blue-500/10 border border-blue-500/20 p-4 rounded-xl flex gap-4 items-start">
                 <FileJson size={18} className="text-blue-400 mt-0.5 flex-shrink-0" />
@@ -227,7 +227,7 @@ print(analysis.decision) # 'APPROVE'`
   "credit_limit": 240000,
   "risk_score": 74,
   "confidence": 0.98,
-  "audit_id": "arera_1714...x"
+  "audit_id": "gavel_1714...x"
 }`}</pre>
               </div>
             </div>

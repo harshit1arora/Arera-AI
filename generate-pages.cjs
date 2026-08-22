@@ -8,7 +8,7 @@ const pages = [
   { name: 'CreditScoring', title: 'Credit Scoring' },
   { name: 'RulesEngine', title: 'Rules Engine' },
   { name: 'ApiDocs', title: 'API Docs' },
-  { name: 'About', title: 'About Arera' },
+  { name: 'About', title: 'About Gavel' },
   { name: 'Careers', title: 'Careers' },
   { name: 'Blog', title: 'Blog' },
   { name: 'Contact', title: 'Contact Us' },

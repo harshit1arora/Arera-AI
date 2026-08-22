@@ -74,15 +74,15 @@ export interface WorkflowStage {
 
 async function fetchWebhook(url: string, event: string, payload: any, attempt: number) {
   const payloadStr = JSON.stringify(payload);
-  const signature = crypto.createHmac('sha256', process.env.WEBHOOK_SIGNING_SECRET || 'arera-webhook-secret').update(payloadStr).digest('hex');
+  const signature = crypto.createHmac('sha256', process.env.WEBHOOK_SIGNING_SECRET || 'gavel-webhook-secret').update(payloadStr).digest('hex');
 
   const response = await fetch(url, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'X-Arera-Signature': `sha256=${signature}`,
-      'X-Arera-Event': event,
-      'X-Arera-Attempt': String(attempt),
+      'X-Gavel-Signature': `sha256=${signature}`,
+      'X-Gavel-Event': event,
+      'X-Gavel-Attempt': String(attempt),
     },
     body: payloadStr,
     signal: AbortSignal.timeout(10000),

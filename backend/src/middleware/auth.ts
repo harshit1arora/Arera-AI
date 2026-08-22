@@ -85,7 +85,7 @@ export const authenticateFirebaseToken = async (req: AuthenticatedRequest, res: 
   try {
     const decodedToken = await admin.auth().verifyIdToken(idToken);
     req.uid = decodedToken.uid;
-    req.orgId = decodedToken.uid; // In Arera, orgId === user's Firebase UID
+    req.orgId = decodedToken.uid; // In Gavel, orgId === user's Firebase UID
     req.userId = decodedToken.uid;
     req.userName = decodedToken.email || decodedToken.name || 'User';
     next();

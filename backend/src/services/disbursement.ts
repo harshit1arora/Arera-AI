@@ -288,7 +288,7 @@ export const sendDisbursementConfirmation = async (
     let templates = await listCommunicationTemplates(orgId, 'disbursement.completed');
     if (templates.length === 0) {
       // Use default template body
-      const defaultBody = `Dear {borrowerName}, Rs.{amount} has been disbursed to your account. Ref: {referenceNumber}. Thank you for choosing Arera Financial.`;
+      const defaultBody = `Dear {borrowerName}, Rs.{amount} has been disbursed to your account. Ref: {referenceNumber}. Thank you for choosing Gavel Financial.`;
       // For MVP, we'll just log the message
       console.log(`[DISBURSEMENT_CONFIRMATION] To: ${disbursement.borrowerPhone || disbursement.borrowerEmail}, Message: ${defaultBody}`);
       return { success: true };

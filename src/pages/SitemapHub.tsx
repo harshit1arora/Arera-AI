@@ -66,16 +66,16 @@ const SitemapHub = () => {
   return (
     <div className="min-h-screen bg-black text-white flex flex-col font-sans selection:bg-orange-500/30 overflow-x-hidden">
       <Helmet>
-        <title>Financial Intelligence Directory & Guides Hub | Arera AI</title>
+        <title>Financial Intelligence Directory & Guides Hub | Gavel AI</title>
         <meta name="description" content="Explore our directory of 1,000+ programmatic loan eligibility guides, credit risk parameters, bank-specific rules, and financial tools." />
-        <link rel="canonical" href="https://www.tryarera.com/all-guides" />
+        <link rel="canonical" href="https://www.trygavel.com/all-guides" />
         <script type="application/ld+json">{JSON.stringify({
           '@context': 'https://schema.org',
           '@type': 'CollectionPage',
-          name: 'Arera AI Financial Directory Hub',
+          name: 'Gavel AI Financial Directory Hub',
           description: 'Alphabetical directory of all loan guides, salaries, cities, and banks.',
-          url: 'https://www.tryarera.com/all-guides',
-          publisher: { '@type': 'Organization', name: 'Arera AI' }
+          url: 'https://www.trygavel.com/all-guides',
+          publisher: { '@type': 'Organization', name: 'Gavel AI' }
         })}</script>
       </Helmet>
 
@@ -100,7 +100,7 @@ const SitemapHub = () => {
             </motion.div>
             <motion.h1 initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
               className="text-4xl md:text-5xl font-extrabold mb-6 tracking-tight text-white leading-tight">
-              Arera AI <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-orange-600">Knowledge Directory</span>
+              Gavel AI <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-orange-600">Knowledge Directory</span>
             </motion.h1>
             <motion.p initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
               className="text-base md:text-lg text-gray-400 leading-relaxed">

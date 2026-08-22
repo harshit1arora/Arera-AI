@@ -15,7 +15,7 @@ const router = Router();
  * @openapi
  * /evaluate:
  *   post:
- *     summary: Evaluate a loan application using the Arera AI Engine
+ *     summary: Evaluate a loan application using the Gavel AI Engine
  *     tags: [Origination]
  *     requestBody:
  *       required: true
@@ -202,7 +202,7 @@ router.post('/', enforceQuota, async (req: AuthenticatedRequest, res: Response) 
  * @openapi
  * /evaluate/bank-statement:
  *   post:
- *     summary: Parse raw bank statements using Arera ML
+ *     summary: Parse raw bank statements using Gavel ML
  *     description: Ingests raw PDF data and returns a structured cash flow analysis and risk score.
  *     tags: [Machine Learning]
  *     responses:
@@ -220,7 +220,7 @@ router.post('/bank-statement', enforceQuota, upload.single('statement'), async (
     if (!geminiKey) {
       // Fallback to mock if no key
       return res.status(200).json({
-        areraRiskScore: Math.floor(Math.random() * (850 - 500) + 500),
+        gavelRiskScore: Math.floor(Math.random() * (850 - 500) + 500),
         extractedData: {
           averageMonthlyBalance: 450000,
           inwardBounces: 0,
@@ -251,7 +251,7 @@ router.post('/bank-statement', enforceQuota, upload.single('statement'), async (
       
       Structure:
       {
-        "areraRiskScore": number (500-850),
+        "gavelRiskScore": number (500-850),
         "extractedData": {
           "averageMonthlyBalance": number,
           "inwardBounces": number,
@@ -292,7 +292,7 @@ router.post('/account-aggregator', async (req: Request, res: Response) => {
   // For the demo, we return structured AA payload
   setTimeout(() => {
     res.status(200).json({
-      areraRiskScore: 780,
+      gavelRiskScore: 780,
       extractedData: {
         averageMonthlyBalance: 850000,
         outwardBounces: 0,

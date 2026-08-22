@@ -93,14 +93,14 @@ export default function CarLoanEmiCalculator() {
   return (
     <div className="min-h-screen bg-black text-white flex flex-col font-sans selection:bg-orange-500/30 overflow-x-hidden">
       <Helmet>
-        <title>Car Loan EMI Calculator – Calculate Monthly Auto EMIs | Arera AI</title>
+        <title>Car Loan EMI Calculator – Calculate Monthly Auto EMIs | Gavel AI</title>
         <meta name="description" content="Calculate your monthly car loan EMI, interest component, and view the full amortization schedule. Compare auto interest rates across SBI, HDFC, and ICICI." />
-        <link rel="canonical" href="https://www.tryarera.com/tools/car-loan-emi-calculator" />
+        <link rel="canonical" href="https://www.trygavel.com/tools/car-loan-emi-calculator" />
         <script type="application/ld+json">{JSON.stringify({
           '@context': 'https://schema.org', '@type': 'WebApplication',
           name: 'Car Loan EMI Calculator', applicationCategory: 'FinanceApplication',
           operatingSystem: 'All', offers: { '@type': 'Offer', price: '0', priceCurrency: 'INR' },
-          publisher: { '@type': 'Organization', name: 'Arera AI' },
+          publisher: { '@type': 'Organization', name: 'Gavel AI' },
         })}</script>
       </Helmet>
 

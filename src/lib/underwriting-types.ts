@@ -1,5 +1,5 @@
 /**
- * Single-sourced contract types for the Arera underwriting decision.
+ * Single-sourced contract types for the Gavel underwriting decision.
  *
  * These mirror the backend engine's `AnalysisResult` shape in
  * `backend/src/types/underwriting.ts` exactly. The mock engine and the live

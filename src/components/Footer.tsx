@@ -24,7 +24,7 @@ const Footer = () => {
 
   const links: FooterLinks = {
     Product: [
-      { name: "Arera AI", path: "/" },
+      { name: "Gavel AI", path: "/" },
       { name: "Loan Predictor (B2C)", path: "/loan-approval-predictor" },
       { name: "KYC Engine", path: "/kyc-engine" },
       { name: "Credit Scoring", path: "/credit-scoring" },
@@ -121,7 +121,7 @@ const Footer = () => {
 
         <div className="mt-5 flex flex-col sm:flex-row justify-between items-center gap-4">
           <div className="font-['DM_Sans'] font-normal text-[12px] text-muted-foreground">
-            © 2026 Arera AI. All rights reserved.
+            © 2026 Gavel AI. All rights reserved.
           </div>
           <div className="font-['DM_Sans'] font-normal text-[12px] text-muted-foreground">
             The decision layer for India's lending infrastructure.
@@ -130,7 +130,7 @@ const Footer = () => {
       </div>
 
       <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 text-[12vw] font-black text-white/[0.02] select-none pointer-events-none lowercase tracking-[0.1em]">
-        arera
+        gavel
       </div>
       <RequestDemoDialog open={demoOpen} onOpenChange={setDemoOpen} />
       <FeedbackDialog open={feedbackOpen} onOpenChange={setFeedbackOpen} />

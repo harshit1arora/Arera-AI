@@ -149,7 +149,7 @@ const Sandbox = () => {
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = `arera-audit-${result.audit_id}.pdf`;
+        a.download = `gavel-audit-${result.audit_id}.pdf`;
         document.body.appendChild(a);
         a.click();
         a.remove();
@@ -191,7 +191,7 @@ const Sandbox = () => {
               {/* TERMINAL BOOT SEQUENCE */}
               <div className="bg-surface border border-border rounded-lg overflow-hidden flex flex-col h-[140px]">
                 <div className="h-[36px] border-b border-border flex items-center px-3 shrink-0 bg-foreground/5">
-                  <span className="font-['JetBrains_Mono'] text-[11px] text-foreground/70">Arera Sandbox v2.1.0</span>
+                  <span className="font-['JetBrains_Mono'] text-[11px] text-foreground/70">Gavel Sandbox v2.1.0</span>
                 </div>
                 <div className="flex-1 overflow-y-auto p-3 font-['JetBrains_Mono'] text-[11px]">
                   {terminalLines.map((line, i) => (

@@ -8,10 +8,10 @@
       "has": [
         {
           "type": "host",
-          "value": "tryarera.com"
+          "value": "trygavel.com"
         }
       ],
-      "destination": "https://www.tryarera.com/:path*",
+      "destination": "https://www.trygavel.com/:path*",
       "permanent": true
     }
   ],

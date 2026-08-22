@@ -7,9 +7,9 @@ const About = () => {
   return (
     <div className="min-h-screen bg-background flex flex-col">
       <Helmet>
-        <title>About Arera AI — Our Mission and Vision</title>
-        <meta name="description" content="Discover the mission, values, and team behind Arera AI, a consumer-first AI financial intelligence platform." />
-        <link rel="canonical" href="https://www.tryarera.com/about" />
+        <title>About Gavel AI — Our Mission and Vision</title>
+        <meta name="description" content="Discover the mission, values, and team behind Gavel AI, a consumer-first AI financial intelligence platform." />
+        <link rel="canonical" href="https://www.trygavel.com/about" />
       </Helmet>
       <Navbar />
       <main className="flex-1 pt-32 pb-20">

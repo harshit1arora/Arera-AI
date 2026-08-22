@@ -73,14 +73,14 @@ export default function SalaryLoanMapping() {
   return (
     <div className="min-h-screen bg-black text-white flex flex-col font-sans selection:bg-orange-500/30 overflow-x-hidden">
       <Helmet>
-        <title>Salary Loan Mapping Calculator – Check Credit Eligibility | Arera AI</title>
+        <title>Salary Loan Mapping Calculator – Check Credit Eligibility | Gavel AI</title>
         <meta name="description" content="Map your net monthly salary and employer category to eligible personal, home, and auto loan limits from premium lenders." />
-        <link rel="canonical" href="https://www.tryarera.com/tools/salary-loan-mapping" />
+        <link rel="canonical" href="https://www.trygavel.com/tools/salary-loan-mapping" />
         <script type="application/ld+json">{JSON.stringify({
           '@context': 'https://schema.org', '@type': 'WebApplication',
           name: 'Salary Loan Mapping Calculator', applicationCategory: 'FinanceApplication',
           operatingSystem: 'All', offers: { '@type': 'Offer', price: '0', priceCurrency: 'INR' },
-          publisher: { '@type': 'Organization', name: 'Arera AI' },
+          publisher: { '@type': 'Organization', name: 'Gavel AI' },
         })}</script>
       </Helmet>
 
